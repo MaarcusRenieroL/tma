@@ -5,11 +5,11 @@ import jakarta.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Component;
 
-@Component
-public class ResponseUtil<T> {
-  public <T> ResponseEntity<StandardResponse<T>> buildSuccessMessage(
+public final class ResponseUtil<T> {
+  public ResponseUtil() {}
+
+  public static <T> ResponseEntity<StandardResponse<T>> buildSuccessMessage(
       HttpStatus httpStatus,
       String message,
       T data,
@@ -25,9 +25,8 @@ public class ResponseUtil<T> {
                 httpServletRequest.getRequestURI(),
                 data));
   }
-  ;
 
-  public <T> ResponseEntity<StandardResponse<T>> buildErrorMessage(
+  public static <T> ResponseEntity<StandardResponse<T>> buildErrorMessage(
       HttpStatus httpStatus,
       String message,
       HttpServletRequest httpServletRequest,

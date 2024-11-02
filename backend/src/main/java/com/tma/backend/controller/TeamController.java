@@ -18,9 +18,9 @@ import org.springframework.web.bind.annotation.*;
 public class TeamController {
 
   @Autowired private TeamService teamService;
-  @Autowired private ResponseUtil<Team> responseUtil;
+  private ResponseUtil responseUtil;
 
-  @GetMapping("/")
+  @GetMapping
   public ResponseEntity<StandardResponse<List<Team>>> getAllTeams(HttpServletRequest request) {
     List<Team> teams = teamService.getAllTeams();
 
@@ -50,15 +50,32 @@ public class TeamController {
   @PostMapping
   public ResponseEntity<StandardResponse<Team>> createTeam(
       @RequestBody Team team, HttpServletRequest request) {
-    Team createdTeam = teamService.createTeam(team);
+    try {
+      if (team.getTeamName() == null || team.getTeamDescription() == null) {
+        return responseUtil.buildErrorMessage(
+            HttpStatus.BAD_REQUEST, "Missing required fields", request, LocalDateTime.now());
+      }
+      Team createdTeam = teamService.createTeam(team);
 
-    return responseUtil.buildSuccessMessage(
-        HttpStatus.CREATED, "Team created successfully", createdTeam, request, LocalDateTime.now());
+      return responseUtil.buildSuccessMessage(
+          HttpStatus.CREATED,
+          "Team created successfully",
+          createdTeam,
+          request,
+          LocalDateTime.now());
+    } catch (Exception e) {
+      return responseUtil.buildErrorMessage(
+          HttpStatus.INTERNAL_SERVER_ERROR,
+          "An error occurred while creating the project",
+          request,
+          LocalDateTime.now());
+    }
   }
 
   @PutMapping("/{id}")
   public ResponseEntity<StandardResponse<Team>> updateTeam(
       @PathVariable UUID id, @RequestBody Team team, HttpServletRequest request) {
+
     Team updatedTeam = teamService.updateTeam(id, team);
 
     if (updatedTeam == null) {
