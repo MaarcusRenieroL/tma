@@ -27,7 +27,6 @@ public class UserController {
     if (users.isEmpty()) {
       return responseUtil.buildErrorMessage(
           HttpStatus.NOT_FOUND, "No users found", request, LocalDateTime.now());
-      //      return ResponseEntity.notFound().build();
     }
 
     return responseUtil.buildSuccessMessage(
