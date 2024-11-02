@@ -14,13 +14,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/tasks")
+@RequestMapping("api/tasks")
 public class TaskController {
 
   @Autowired private TaskService taskService;
-  @Autowired private ResponseUtil<Task> responseUtil;
+  private ResponseUtil responseUtil;
 
-  @GetMapping("/")
+  @GetMapping
   public ResponseEntity<StandardResponse<List<Task>>> getAllTasks(HttpServletRequest request) {
     List<Task> tasks = taskService.getAllTasks();
 
