@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
 
   @Autowired private UserService userService;
-  @Autowired private ResponseUtil<User> responseUtil;
+  @Autowired private ResponseUtil responseUtil;
 
   @GetMapping
   public ResponseEntity<StandardResponse<List<User>>> getAllUsers(HttpServletRequest request) {
@@ -27,6 +27,7 @@ public class UserController {
     if (users.isEmpty()) {
       return responseUtil.buildErrorMessage(
           HttpStatus.NOT_FOUND, "No users found", request, LocalDateTime.now());
+//      return ResponseEntity.notFound().build();
     }
 
     return responseUtil.buildSuccessMessage(
