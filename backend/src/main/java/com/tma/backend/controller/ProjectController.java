@@ -14,12 +14,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/project")
+@RequestMapping("api/project")
 public class ProjectController {
   @Autowired private ProjectService projectService;
-  @Autowired private ResponseUtil<Project> responseUtil;
+  private ResponseUtil responseUtil;
 
-  @GetMapping("/")
+  @GetMapping
   public ResponseEntity<StandardResponse<List<Project>>> getAllTasks(HttpServletRequest request) {
     List<Project> projects = projectService.getAllProjects();
 
@@ -49,32 +49,51 @@ public class ProjectController {
   @PostMapping
   public ResponseEntity<StandardResponse<Project>> createProject(
       @RequestBody Project project, HttpServletRequest request) {
-    Project createdProject = projectService.createProject(project);
+    try {
+      if (project.getProjectTitle() == null) {
+        return responseUtil.buildErrorMessage(
+            HttpStatus.BAD_REQUEST, "Missing required fields", request, LocalDateTime.now());
+      }
+      Project createdProject = projectService.createProject(project);
 
-    return responseUtil.buildSuccessMessage(
-        HttpStatus.CREATED,
-        "Project created successfully",
-        createdProject,
-        request,
-        LocalDateTime.now());
+      return responseUtil.buildSuccessMessage(
+          HttpStatus.CREATED,
+          "Project created successfully",
+          createdProject,
+          request,
+          LocalDateTime.now());
+    } catch (Exception e) {
+      return responseUtil.buildErrorMessage(
+          HttpStatus.INTERNAL_SERVER_ERROR,
+          "An error occurred while creating the project",
+          request,
+          LocalDateTime.now());
+    }
   }
 
   @PutMapping("/{id}")
   public ResponseEntity<StandardResponse<Project>> updateProject(
       @PathVariable UUID id, @RequestBody Project project, HttpServletRequest request) {
-    Project updatedProject = projectService.updateProject(id, project);
+    try {
+      if (projectService.getProjectById(id) == null) {
+        return responseUtil.buildErrorMessage(
+            HttpStatus.NOT_FOUND, "Project not found for update", request, LocalDateTime.now());
+      }
+      Project updatedProject = projectService.updateProject(id, project);
 
-    if (updatedProject == null) {
+      return responseUtil.buildSuccessMessage(
+          HttpStatus.OK,
+          "Project updated successfully",
+          updatedProject,
+          request,
+          LocalDateTime.now());
+    } catch (Exception e) {
       return responseUtil.buildErrorMessage(
-          HttpStatus.NOT_FOUND, "Project not found for update", request, LocalDateTime.now());
+          HttpStatus.INTERNAL_SERVER_ERROR,
+          "An error occurred while updating the project",
+          request,
+          LocalDateTime.now());
     }
-
-    return responseUtil.buildSuccessMessage(
-        HttpStatus.OK,
-        "Project updated successfully",
-        updatedProject,
-        request,
-        LocalDateTime.now());
   }
 
   @DeleteMapping("/{id}")
