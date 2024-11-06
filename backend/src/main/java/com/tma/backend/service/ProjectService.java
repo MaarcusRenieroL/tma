@@ -2,17 +2,22 @@ package com.tma.backend.service;
 
 import com.tma.backend.model.Project;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 public interface ProjectService {
 
-  Project createProject(Project project);
+  Project createProject(Project project, UUID teamId);
 
-  Project getProjectById(UUID projectId);
+  Optional<Project> getProjectById(UUID projectId);
 
   List<Project> getAllProjects();
 
   Project updateProject(UUID projectId, Project project);
 
   void deleteProject(UUID projectId);
+
+  List<Project> getProjectsByTeam(UUID teamId);
+
+  Project assignTeamToProject(UUID projectId, UUID teamId);
 }

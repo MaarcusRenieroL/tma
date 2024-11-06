@@ -47,8 +47,8 @@ public class TeamServiceImplementation implements TeamService {
   }
 
   @Override
-  public Team getTeamById(UUID teamId) {
-    return teamRepository.findById(teamId).orElse(null);
+  public Optional<Team> getTeamById(UUID teamId) {
+    return teamRepository.findById(teamId);
   }
 
   @Override

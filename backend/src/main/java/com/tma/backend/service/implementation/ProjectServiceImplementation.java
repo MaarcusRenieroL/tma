@@ -1,6 +1,7 @@
 package com.tma.backend.service.implementation;
 
 import com.tma.backend.model.Project;
+import com.tma.backend.model.Team;
 import com.tma.backend.repository.ProjectRepository;
 import com.tma.backend.service.ProjectService;
 import java.util.List;
@@ -11,16 +12,27 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class ProjectServiceImplementation implements ProjectService {
-  @Autowired ProjectRepository projectRepository;
+  @Autowired private ProjectRepository projectRepository;
+  @Autowired private TeamServiceImplementation teamServiceImplementation;
 
   @Override
-  public Project createProject(Project project) {
+  public Project createProject(Project project, UUID teamId) {
+    Optional<Team> optionalTeam = teamServiceImplementation.getTeamById(teamId);
+
+    if (optionalTeam.isEmpty()) {
+      return null;
+    }
+
+    Team team = optionalTeam.get();
+
+    project.setTeam(team);
+
     return projectRepository.save(project);
   }
 
   @Override
-  public Project getProjectById(UUID projectId) {
-    return projectRepository.findById(projectId).orElse(null);
+  public Optional<Project> getProjectById(UUID projectId) {
+    return projectRepository.findById(projectId);
   }
 
   @Override
@@ -51,5 +63,23 @@ public class ProjectServiceImplementation implements ProjectService {
   @Override
   public void deleteProject(UUID projectId) {
     projectRepository.deleteById(projectId);
+  }
+
+  @Override
+  public List<Project> getProjectsByTeam(UUID teamId) {
+    return projectRepository.findProjectsByTeamId(teamId);
+  }
+
+  @Override
+  public Project assignTeamToProject(UUID projectId, UUID teamId) {
+    Optional<Project> optionalProject = projectRepository.findById(projectId);
+    Optional<Team> optionalTeam = teamServiceImplementation.getTeamById(teamId);
+    if (optionalProject.isEmpty() || optionalTeam.isEmpty()) {
+      return null;
+    }
+    Project project = optionalProject.get();
+    Team team = optionalTeam.get();
+    project.setTeam(team);
+    return projectRepository.save(project);
   }
 }

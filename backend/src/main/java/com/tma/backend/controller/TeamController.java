@@ -8,6 +8,7 @@ import com.tma.backend.util.ResponseUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -36,15 +37,19 @@ public class TeamController {
   @GetMapping("/{teamId}")
   public ResponseEntity<StandardResponse<Team>> getTeamById(
       @PathVariable UUID teamId, HttpServletRequest request) {
-    Team team = teamService.getTeamById(teamId);
+    Optional<Team> optionalTeam = teamService.getTeamById(teamId);
 
-    if (team == null) {
+    if (optionalTeam == null) {
       return ResponseUtil.buildErrorMessage(
           HttpStatus.NOT_FOUND, "Team not found", request, LocalDateTime.now());
     }
 
     return ResponseUtil.buildSuccessMessage(
-        HttpStatus.OK, "Team retrieved successfully", team, request, LocalDateTime.now());
+        HttpStatus.OK,
+        "Team retrieved successfully",
+        optionalTeam.get(),
+        request,
+        LocalDateTime.now());
   }
 
   @PostMapping
