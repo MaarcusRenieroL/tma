@@ -1,5 +1,6 @@
 package com.tma.backend.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.util.UUID;
@@ -28,4 +29,9 @@ public class Task {
   private LocalDate dueDate;
 
   private Priority priority;
+
+  @ManyToOne
+  @JoinColumn(name = "teamId")
+  @JsonIgnore
+  private Team team;
 }

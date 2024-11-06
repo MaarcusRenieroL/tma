@@ -7,6 +7,7 @@ import com.tma.backend.util.ResponseUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,37 +19,37 @@ import org.springframework.web.bind.annotation.*;
 public class TaskController {
 
   @Autowired private TaskService taskService;
-  private ResponseUtil responseUtil;
 
   @GetMapping
   public ResponseEntity<StandardResponse<List<Task>>> getAllTasks(HttpServletRequest request) {
     List<Task> tasks = taskService.getAllTasks();
 
     if (tasks.isEmpty()) {
-      return responseUtil.buildErrorMessage(
+      return ResponseUtil.buildErrorMessage(
           HttpStatus.NOT_FOUND, "No tasks found", request, LocalDateTime.now());
     }
 
-    return responseUtil.buildSuccessMessage(
+    return ResponseUtil.buildSuccessMessage(
         HttpStatus.OK, "Tasks retrieved successfully", tasks, request, LocalDateTime.now());
   }
 
-  @PostMapping
+  @PostMapping("/team/{teamId}")
   public ResponseEntity<StandardResponse<Task>> createTask(
-      @RequestBody Task task, HttpServletRequest request) {
+      @PathVariable UUID teamId, @RequestBody Task task, HttpServletRequest request) {
     try {
 
       if (task.getTitle() == null
           || task.getDescription() == null
           || task.getDueDate() == null
-          || task.getPriority() == null) {
-        return responseUtil.buildErrorMessage(
+          || task.getPriority() == null
+          || teamId == null) {
+        return ResponseUtil.buildErrorMessage(
             HttpStatus.BAD_REQUEST, "Missing required fields", request, LocalDateTime.now());
       }
 
-      Task createdTask = taskService.createTask(task);
+      Task createdTask = taskService.createTask(task, teamId);
 
-      return responseUtil.buildSuccessMessage(
+      return ResponseUtil.buildSuccessMessage(
           HttpStatus.CREATED,
           "Task created successfully",
           createdTask,
@@ -56,7 +57,7 @@ public class TaskController {
           LocalDateTime.now());
     } catch (Exception e) {
 
-      return responseUtil.buildErrorMessage(
+      return ResponseUtil.buildErrorMessage(
           HttpStatus.INTERNAL_SERVER_ERROR,
           "An error occurred while creating the task",
           request,
@@ -70,7 +71,7 @@ public class TaskController {
     try {
 
       if (taskService.getTaskById(taskId) == null) {
-        return responseUtil.buildErrorMessage(
+        return ResponseUtil.buildErrorMessage(
             HttpStatus.NOT_FOUND,
             "Task not found with ID: " + taskId,
             request,
@@ -79,12 +80,12 @@ public class TaskController {
 
       Task updatedTask = taskService.updateTask(taskId, task);
 
-      return responseUtil.buildSuccessMessage(
+      return ResponseUtil.buildSuccessMessage(
           HttpStatus.OK, "Task updated successfully", updatedTask, request, LocalDateTime.now());
 
     } catch (Exception e) {
 
-      return responseUtil.buildErrorMessage(
+      return ResponseUtil.buildErrorMessage(
           HttpStatus.INTERNAL_SERVER_ERROR,
           "An error occurred while updating the task",
           request,
@@ -98,7 +99,7 @@ public class TaskController {
     try {
 
       if (taskService.getTaskById(taskId) == null) {
-        return responseUtil.buildErrorMessage(
+        return ResponseUtil.buildErrorMessage(
             HttpStatus.NOT_FOUND,
             "Task not found with ID: " + taskId,
             request,
@@ -107,12 +108,12 @@ public class TaskController {
 
       taskService.deleteTask(taskId);
 
-      return responseUtil.buildSuccessMessage(
+      return ResponseUtil.buildSuccessMessage(
           HttpStatus.NO_CONTENT, "Task deleted successfully", null, request, LocalDateTime.now());
 
     } catch (Exception e) {
 
-      return responseUtil.buildErrorMessage(
+      return ResponseUtil.buildErrorMessage(
           HttpStatus.INTERNAL_SERVER_ERROR,
           "An error occurred while deleting the task",
           request,
@@ -123,14 +124,40 @@ public class TaskController {
   @GetMapping("/{taskId}")
   public ResponseEntity<StandardResponse<Task>> getTaskById(
       @PathVariable UUID taskId, HttpServletRequest request) {
-    Task task = taskService.getTaskById(taskId);
+    Optional<Task> optionalTask = taskService.getTaskById(taskId);
 
-    if (task == null) {
-      return responseUtil.buildErrorMessage(
+    if (optionalTask.isEmpty()) {
+      return ResponseUtil.buildErrorMessage(
           HttpStatus.NOT_FOUND, "Task not found with ID: " + taskId, request, LocalDateTime.now());
     }
 
-    return responseUtil.buildSuccessMessage(
-        HttpStatus.OK, "Task retrieved successfully", task, request, LocalDateTime.now());
+    return ResponseUtil.buildSuccessMessage(
+        HttpStatus.OK,
+        "Task retrieved successfully",
+        optionalTask.get(),
+        request,
+        LocalDateTime.now());
+  }
+
+  @GetMapping("/tasks/team/{teamId}")
+  public ResponseEntity<StandardResponse<List<Task>>> getTasksByTeam(
+      @PathVariable UUID teamId, HttpServletRequest request) {
+
+    List<Task> tasks = taskService.getTasksByTeam(teamId);
+
+    if (!tasks.isEmpty()) {
+      return ResponseUtil.buildSuccessMessage(
+          HttpStatus.OK,
+          "Tasks retrieved successfully for team",
+          tasks,
+          request,
+          LocalDateTime.now());
+    }
+
+    return ResponseUtil.buildErrorMessage(
+        HttpStatus.NOT_FOUND,
+        "No tasks found for the specified team",
+        request,
+        LocalDateTime.now());
   }
 }
