@@ -3,8 +3,10 @@ package com.tma.backend.service.implementation;
 import com.tma.backend.model.Project;
 import com.tma.backend.model.Task;
 import com.tma.backend.model.Team;
+import com.tma.backend.model.User;
 import com.tma.backend.repository.TaskRepository;
 import com.tma.backend.service.TaskService;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -16,6 +18,7 @@ public class TaskServiceImplementation implements TaskService {
   @Autowired TaskRepository taskRepo;
   @Autowired private TeamServiceImplementation teamService;
   @Autowired private ProjectServiceImplementation projectService;
+  @Autowired private UserServiceImplementation userService;
 
   @Override
   public List<Task> getAllTasks() {
@@ -76,5 +79,40 @@ public class TaskServiceImplementation implements TaskService {
   @Override
   public List<Task> getTasksByTeam(UUID teamId) {
     return taskRepo.findTaskByTeamId(teamId);
+  }
+
+  @Override
+  public Task assignUsersToTask(UUID taskId, List<UUID> userIds) {
+    Optional<Task> optionalTask = taskRepo.findById(taskId);
+
+    if (optionalTask.isEmpty()) {
+
+      return null;
+    }
+
+    Task task = optionalTask.get();
+
+    if (task.getUsers() == null) {
+      task.setUsers(new ArrayList<>());
+    }
+    for (UUID userId : userIds) {
+      User user = userService.getUserById(userId);
+      if (!task.getUsers().contains(user)) {
+        task.getUsers().add(user);
+
+        if (user.getTasks() == null) {
+          user.setTasks(new ArrayList<>());
+        }
+        if (!user.getTasks().contains(task)) {
+          user.getTasks().add(task);
+        }
+      }
+    }
+    return taskRepo.save(task);
+  }
+
+  @Override
+  public List<Task> getTasksByUser(UUID userId) {
+    return taskRepo.findTaskByUserId(userId);
   }
 }

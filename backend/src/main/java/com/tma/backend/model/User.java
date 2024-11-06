@@ -1,7 +1,9 @@
 package com.tma.backend.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import java.util.List;
 import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -28,4 +30,8 @@ public class User {
   @JoinColumn(name = "teamId")
   @JsonBackReference
   private Team team;
+
+  @ManyToMany(mappedBy = "users")
+  @JsonIgnore
+  private List<Task> tasks;
 }

@@ -3,6 +3,7 @@ package com.tma.backend.controller;
 import com.tma.backend.model.Project;
 import com.tma.backend.model.Task;
 import com.tma.backend.model.Team;
+import com.tma.backend.payload.request.AssignUserToTaskRequest;
 import com.tma.backend.payload.response.StandardResponse;
 import com.tma.backend.service.ProjectService;
 import com.tma.backend.service.TaskService;
@@ -10,6 +11,7 @@ import com.tma.backend.service.TeamService;
 import com.tma.backend.util.ResponseUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -190,6 +192,52 @@ public class TaskController {
     return ResponseUtil.buildErrorMessage(
         HttpStatus.NOT_FOUND,
         "No tasks found for the specified team",
+        request,
+        LocalDateTime.now());
+  }
+
+  @PutMapping("/{taskId}/assign-users")
+  public ResponseEntity<StandardResponse<Task>> assignUsersToTask(
+      @PathVariable UUID taskId,
+      @RequestBody AssignUserToTaskRequest users,
+      HttpServletRequest request) {
+    ArrayList<UUID> uuids = new ArrayList<>();
+
+    for (String userId : users.getUserIds()) {
+      uuids.add(UUID.fromString(userId));
+    }
+
+    Task updatedTask = taskService.assignUsersToTask(taskId, uuids);
+    if (updatedTask != null) {
+      return ResponseUtil.buildSuccessMessage(
+          HttpStatus.OK,
+          "Users assigned to task successfully",
+          updatedTask,
+          request,
+          LocalDateTime.now());
+    }
+    return ResponseUtil.buildErrorMessage(
+        HttpStatus.NOT_FOUND, "Error in assigning Tasks to User", request, LocalDateTime.now());
+  }
+
+  @GetMapping("/tasks/user/{userId}")
+  public ResponseEntity<StandardResponse<List<Task>>> getTasksByUser(
+      @PathVariable UUID userId, HttpServletRequest request) {
+
+    List<Task> tasks = taskService.getTasksByUser(userId);
+
+    if (!tasks.isEmpty()) {
+      return ResponseUtil.buildSuccessMessage(
+          HttpStatus.OK,
+          "Tasks retrieved successfully for user",
+          tasks,
+          request,
+          LocalDateTime.now());
+    }
+
+    return ResponseUtil.buildErrorMessage(
+        HttpStatus.NOT_FOUND,
+        "No tasks found for the specified user",
         request,
         LocalDateTime.now());
   }

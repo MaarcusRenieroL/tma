@@ -18,4 +18,8 @@ public interface TaskService {
   Optional<Task> getTaskById(UUID taskId);
 
   List<Task> getTasksByTeam(UUID teamId);
+
+  Task assignUsersToTask(UUID taskId, List<UUID> userIds);
+
+  List<Task> getTasksByUser(UUID userId);
 }
