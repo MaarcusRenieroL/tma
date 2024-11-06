@@ -1,7 +1,8 @@
-package com.tma.backend.service;
+package com.tma.backend.service.implementation;
 
 import com.tma.backend.model.User;
 import com.tma.backend.repository.UserRepository;
+import com.tma.backend.service.UserService;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -9,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class UserServiceImpl implements UserService {
+public class UserServiceImplementation implements UserService {
   @Autowired UserRepository userRepo;
 
   @Override

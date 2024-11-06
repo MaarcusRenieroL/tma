@@ -1,1 +1,1 @@
-cd frontend && npm run build && cd ../backend && ./mvnw spotless:apply && ./mvnw clean test && ./mvnw clean package && cd ../
+cd frontend && npm run build && cd ../backend && mvn spotless:apply && mvn clean test && mvn clean package && cd ../

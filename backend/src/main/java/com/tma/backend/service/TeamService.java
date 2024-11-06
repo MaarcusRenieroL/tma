@@ -1,11 +1,12 @@
 package com.tma.backend.service;
 
 import com.tma.backend.model.Team;
+import com.tma.backend.model.User;
 import java.util.List;
 import java.util.UUID;
 
 public interface TeamService {
-  Team createTeam(Team team);
+  Team createTeam(UUID userId, Team team);
 
   Team getTeamById(UUID teamId);
 
@@ -14,4 +15,8 @@ public interface TeamService {
   Team updateTeam(UUID teamId, Team team);
 
   void deleteTeam(UUID teamId);
+
+  User addUserToTeam(UUID teamId, UUID userId);
+
+  User removeUserFromTeam(UUID teamId, UUID userId);
 }

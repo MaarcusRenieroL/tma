@@ -1,5 +1,6 @@
 package com.tma.backend.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import java.util.UUID;
 import lombok.AllArgsConstructor;
@@ -22,4 +23,9 @@ public class User {
   private String email;
   private String password;
   private String location;
+
+  @ManyToOne
+  @JoinColumn(name = "teamId")
+  @JsonBackReference
+  private Team team;
 }

@@ -1,7 +1,8 @@
-package com.tma.backend.service;
+package com.tma.backend.service.implementation;
 
 import com.tma.backend.model.Project;
 import com.tma.backend.repository.ProjectRepository;
+import com.tma.backend.service.ProjectService;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -9,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class ProjectServiceImpl implements ProjectService {
+public class ProjectServiceImplementation implements ProjectService {
   @Autowired ProjectRepository projectRepository;
 
   @Override

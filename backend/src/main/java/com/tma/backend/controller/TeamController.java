@@ -1,6 +1,7 @@
 package com.tma.backend.controller;
 
 import com.tma.backend.model.Team;
+import com.tma.backend.model.User;
 import com.tma.backend.payload.response.StandardResponse;
 import com.tma.backend.service.TeamService;
 import com.tma.backend.util.ResponseUtil;
@@ -14,57 +15,57 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/team") // Adjusted to match the project structure
+@RequestMapping("/api/team")
 public class TeamController {
 
   @Autowired private TeamService teamService;
-  private ResponseUtil responseUtil;
 
   @GetMapping
   public ResponseEntity<StandardResponse<List<Team>>> getAllTeams(HttpServletRequest request) {
     List<Team> teams = teamService.getAllTeams();
 
     if (teams.isEmpty()) {
-      return responseUtil.buildErrorMessage(
+      return ResponseUtil.buildErrorMessage(
           HttpStatus.NOT_FOUND, "No teams found", request, LocalDateTime.now());
     }
 
-    return responseUtil.buildSuccessMessage(
+    return ResponseUtil.buildSuccessMessage(
         HttpStatus.OK, "Teams retrieved successfully", teams, request, LocalDateTime.now());
   }
 
-  @GetMapping("/{id}")
+  @GetMapping("/{teamId}")
   public ResponseEntity<StandardResponse<Team>> getTeamById(
-      @PathVariable UUID id, HttpServletRequest request) {
-    Team team = teamService.getTeamById(id);
+      @PathVariable UUID teamId, HttpServletRequest request) {
+    Team team = teamService.getTeamById(teamId);
 
     if (team == null) {
-      return responseUtil.buildErrorMessage(
+      return ResponseUtil.buildErrorMessage(
           HttpStatus.NOT_FOUND, "Team not found", request, LocalDateTime.now());
     }
 
-    return responseUtil.buildSuccessMessage(
+    return ResponseUtil.buildSuccessMessage(
         HttpStatus.OK, "Team retrieved successfully", team, request, LocalDateTime.now());
   }
 
   @PostMapping
   public ResponseEntity<StandardResponse<Team>> createTeam(
-      @RequestBody Team team, HttpServletRequest request) {
+      @RequestParam UUID userId, @RequestBody Team team, HttpServletRequest request) {
     try {
-      if (team.getTeamName() == null || team.getTeamDescription() == null) {
-        return responseUtil.buildErrorMessage(
+      if (team.getTeamName() == null || team.getTeamDescription() == null || userId == null) {
+        return ResponseUtil.buildErrorMessage(
             HttpStatus.BAD_REQUEST, "Missing required fields", request, LocalDateTime.now());
       }
-      Team createdTeam = teamService.createTeam(team);
 
-      return responseUtil.buildSuccessMessage(
+      Team createdTeam = teamService.createTeam(userId, team);
+
+      return ResponseUtil.buildSuccessMessage(
           HttpStatus.CREATED,
           "Team created successfully",
           createdTeam,
           request,
           LocalDateTime.now());
     } catch (Exception e) {
-      return responseUtil.buildErrorMessage(
+      return ResponseUtil.buildErrorMessage(
           HttpStatus.INTERNAL_SERVER_ERROR,
           "An error occurred while creating the project",
           request,
@@ -72,41 +73,87 @@ public class TeamController {
     }
   }
 
-  @PutMapping("/{id}")
+  @PutMapping("/{teamId}")
   public ResponseEntity<StandardResponse<Team>> updateTeam(
-      @PathVariable UUID id, @RequestBody Team team, HttpServletRequest request) {
+      @PathVariable UUID teamId, @RequestBody Team team, HttpServletRequest request) {
 
-    Team updatedTeam = teamService.updateTeam(id, team);
+    Team updatedTeam = teamService.updateTeam(teamId, team);
 
     if (updatedTeam == null) {
-      return responseUtil.buildErrorMessage(
+      return ResponseUtil.buildErrorMessage(
           HttpStatus.NOT_FOUND, "Team not found for update", request, LocalDateTime.now());
     }
 
-    return responseUtil.buildSuccessMessage(
+    return ResponseUtil.buildSuccessMessage(
         HttpStatus.OK, "Team updated successfully", updatedTeam, request, LocalDateTime.now());
   }
 
-  @DeleteMapping("/{id}")
+  @DeleteMapping("/{teamId}")
   public ResponseEntity<StandardResponse<Team>> deleteTeam(
-      @PathVariable UUID id, HttpServletRequest request) {
+      @PathVariable UUID teamId, HttpServletRequest request) {
     try {
-      if (teamService.getTeamById(id) == null) {
-        return responseUtil.buildErrorMessage(
-            HttpStatus.NOT_FOUND, "Team not found with ID: " + id, request, LocalDateTime.now());
+      if (teamService.getTeamById(teamId) == null) {
+        return ResponseUtil.buildErrorMessage(
+            HttpStatus.NOT_FOUND,
+            "Team not found with ID: " + teamId,
+            request,
+            LocalDateTime.now());
       }
 
-      teamService.deleteTeam(id);
+      teamService.deleteTeam(teamId);
 
-      return responseUtil.buildSuccessMessage(
+      return ResponseUtil.buildSuccessMessage(
           HttpStatus.NO_CONTENT, "Team deleted successfully", null, request, LocalDateTime.now());
 
     } catch (Exception e) {
-      return responseUtil.buildErrorMessage(
+      return ResponseUtil.buildErrorMessage(
           HttpStatus.INTERNAL_SERVER_ERROR,
           "An error occurred while deleting the team",
           request,
           LocalDateTime.now());
     }
+  }
+
+  @PostMapping("/{teamId}/users/{userId}")
+  public ResponseEntity<StandardResponse<User>> addUserToTeam(
+      @PathVariable UUID teamId, @PathVariable UUID userId, HttpServletRequest request) {
+
+    User updatedUser = teamService.addUserToTeam(teamId, userId);
+
+    if (updatedUser != null) {
+      return ResponseUtil.buildSuccessMessage(
+          HttpStatus.OK,
+          "User added to team successfully",
+          updatedUser,
+          request,
+          LocalDateTime.now());
+    }
+
+    return ResponseUtil.buildErrorMessage(
+        HttpStatus.NOT_FOUND,
+        "Failed to add user to team. Team or User not found",
+        request,
+        LocalDateTime.now());
+  }
+
+  @DeleteMapping("/{teamId}/users/{userId}")
+  public ResponseEntity<StandardResponse<User>> removeUserFromTeam(
+      @PathVariable UUID teamId, @PathVariable UUID userId, HttpServletRequest request) {
+
+    User updatedUser = teamService.removeUserFromTeam(teamId, userId);
+
+    if (updatedUser != null) {
+      return ResponseUtil.buildSuccessMessage(
+          HttpStatus.OK,
+          "User removed from team successfully",
+          updatedUser,
+          request,
+          LocalDateTime.now());
+    }
+    return ResponseUtil.buildErrorMessage(
+        HttpStatus.NOT_FOUND,
+        "Failed to remove user from team. Team or User not found",
+        request,
+        LocalDateTime.now());
   }
 }

@@ -1,7 +1,8 @@
-package com.tma.backend.service;
+package com.tma.backend.service.implementation;
 
 import com.tma.backend.model.Task;
 import com.tma.backend.repository.TaskRepository;
+import com.tma.backend.service.TaskService;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -9,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class TaskServiceImpl implements TaskService {
+public class TaskServiceImplementation implements TaskService {
   @Autowired TaskRepository taskRepo;
 
   @Override
