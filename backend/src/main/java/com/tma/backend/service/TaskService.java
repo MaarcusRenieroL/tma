@@ -9,7 +9,7 @@ public interface TaskService {
 
   List<Task> getAllTasks();
 
-  Task createTask(Task task, UUID teamId);
+  Task createTask(Task task, UUID teamId, UUID projectId);
 
   Task updateTask(UUID taskId, Task task);
 

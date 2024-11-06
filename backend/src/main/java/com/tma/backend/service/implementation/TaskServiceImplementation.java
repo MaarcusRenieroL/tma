@@ -1,5 +1,6 @@
 package com.tma.backend.service.implementation;
 
+import com.tma.backend.model.Project;
 import com.tma.backend.model.Task;
 import com.tma.backend.model.Team;
 import com.tma.backend.repository.TaskRepository;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 public class TaskServiceImplementation implements TaskService {
   @Autowired TaskRepository taskRepo;
   @Autowired private TeamServiceImplementation teamService;
+  @Autowired private ProjectServiceImplementation projectService;
 
   @Override
   public List<Task> getAllTasks() {
@@ -21,16 +23,19 @@ public class TaskServiceImplementation implements TaskService {
   }
 
   @Override
-  public Task createTask(Task task, UUID teamId) {
+  public Task createTask(Task task, UUID teamId, UUID projectId) {
     Optional<Team> optionalTeam = teamService.getTeamById(teamId);
+    Optional<Project> optionalProject = projectService.getProjectById(projectId);
 
-    if (optionalTeam.isEmpty()) {
+    if (optionalTeam.isEmpty() || optionalProject.isEmpty()) {
       return null;
     }
 
     Team team = optionalTeam.get();
+    Project project = optionalProject.get();
 
     task.setTeam(team);
+    task.setProject(project);
 
     return taskRepo.save(task);
   }

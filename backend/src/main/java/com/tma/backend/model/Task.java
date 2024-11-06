@@ -34,4 +34,9 @@ public class Task {
   @JoinColumn(name = "teamId")
   @JsonIgnore
   private Team team;
+
+  @ManyToOne
+  @JoinColumn(name = "projectId")
+  @JsonIgnore
+  private Project project;
 }

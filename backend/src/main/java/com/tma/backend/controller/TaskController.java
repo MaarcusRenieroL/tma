@@ -1,8 +1,12 @@
 package com.tma.backend.controller;
 
+import com.tma.backend.model.Project;
 import com.tma.backend.model.Task;
+import com.tma.backend.model.Team;
 import com.tma.backend.payload.response.StandardResponse;
+import com.tma.backend.service.ProjectService;
 import com.tma.backend.service.TaskService;
+import com.tma.backend.service.TeamService;
 import com.tma.backend.util.ResponseUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
@@ -18,6 +22,8 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("api/tasks")
 public class TaskController {
 
+  @Autowired private TeamService teamService;
+  @Autowired private ProjectService projectService;
   @Autowired private TaskService taskService;
 
   @GetMapping
@@ -33,21 +39,48 @@ public class TaskController {
         HttpStatus.OK, "Tasks retrieved successfully", tasks, request, LocalDateTime.now());
   }
 
-  @PostMapping("/team/{teamId}")
+  @PostMapping("/team/{teamId}/project/{projectId}")
   public ResponseEntity<StandardResponse<Task>> createTask(
-      @PathVariable UUID teamId, @RequestBody Task task, HttpServletRequest request) {
+      @PathVariable UUID teamId,
+      @PathVariable UUID projectId,
+      @RequestBody Task task,
+      HttpServletRequest request) {
     try {
 
       if (task.getTitle() == null
           || task.getDescription() == null
           || task.getDueDate() == null
           || task.getPriority() == null
-          || teamId == null) {
+          || teamId == null
+          || projectId == null) {
         return ResponseUtil.buildErrorMessage(
             HttpStatus.BAD_REQUEST, "Missing required fields", request, LocalDateTime.now());
       }
 
-      Task createdTask = taskService.createTask(task, teamId);
+      Optional<Team> optionalTeam = teamService.getTeamById(teamId);
+      Optional<Project> optionalProject = projectService.getProjectById(projectId);
+
+      if (optionalTeam.isEmpty()) {
+        return ResponseUtil.buildErrorMessage(
+            HttpStatus.BAD_REQUEST, "Team was not found", request, LocalDateTime.now());
+      }
+
+      if (optionalProject.isEmpty()) {
+        return ResponseUtil.buildErrorMessage(
+            HttpStatus.BAD_REQUEST, "Project was not found", request, LocalDateTime.now());
+      }
+
+      Team team = optionalTeam.get();
+
+      if (!team.getProjects().contains(optionalProject.get())) {
+        return ResponseUtil.buildErrorMessage(
+            HttpStatus.BAD_REQUEST,
+            "Team is not linked to this project",
+            request,
+            LocalDateTime.now());
+      }
+
+      Task createdTask = taskService.createTask(task, teamId, projectId);
 
       return ResponseUtil.buildSuccessMessage(
           HttpStatus.CREATED,
