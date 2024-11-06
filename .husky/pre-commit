@@ -1,1 +1,1 @@
-cd frontend && npx lint-staged && cd ../backend && ./mvnw spotless:apply && ./mvnw clean test && cd ../
+cd frontend && npx lint-staged && cd ../backend && mvn spotless:apply && mvn clean test && cd ../
