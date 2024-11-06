@@ -6,9 +6,8 @@ import java.time.LocalDateTime;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-public final class ResponseUtil {
-
-  private ResponseUtil() {}
+public final class ResponseUtil<T> {
+  public ResponseUtil() {}
 
   public static <T> ResponseEntity<StandardResponse<T>> buildSuccessMessage(
       HttpStatus httpStatus,
