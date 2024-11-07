@@ -15,6 +15,7 @@ import { FeaturesSectionComponent } from "./features-section/features-section.co
 import { CardModule } from "primeng/card";
 import { TestimonialSectionComponent } from "./testimonial-section/testimonial-section.component";
 import { CarouselModule } from "primeng/carousel";
+import { CtaSectionComponent } from "./cta-section/cta-section.component";
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { CarouselModule } from "primeng/carousel";
     HeroSectionComponent,
     FeaturesSectionComponent,
     TestimonialSectionComponent,
+    CtaSectionComponent,
   ],
   imports: [
     CommonModule,

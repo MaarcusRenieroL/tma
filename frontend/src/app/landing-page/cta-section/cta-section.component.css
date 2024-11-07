@@ -1,0 +1,43 @@
+.cta-section {
+  width: 100%;
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+  background-color: black;
+  color: white;
+}
+
+@media (min-width: 768px) {
+  .cta-section {
+    padding-top: 6rem;
+    padding-bottom: 6rem;
+  }
+}
+
+.container {
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+.cta-content {
+  text-align: center;
+}
+
+.cta-title {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.cta-description {
+  margin: 0 auto;
+  max-width: 600px;
+  font-size: 1.125rem;
+  margin-bottom: 2rem;
+}
+
+.cta-button {
+  font-size: 1rem;
+  padding: 0.75rem 1.5rem;
+  background-color: white;
+  color: black;
+}
