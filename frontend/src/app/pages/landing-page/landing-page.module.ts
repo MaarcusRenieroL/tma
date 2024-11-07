@@ -1,7 +1,7 @@
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { LandingPageComponent } from "./landing-page.component";
-import { HeaderComponent } from "./header/header.component";
+import { HeaderComponent } from "./components/header/header.component";
 
 import { ButtonModule } from "primeng/button";
 import { IconFieldModule } from "primeng/iconfield";
@@ -10,13 +10,13 @@ import { InputTextModule } from "primeng/inputtext";
 import { SidebarModule } from "primeng/sidebar";
 import { SplitButtonModule } from "primeng/splitbutton";
 import { ToolbarModule } from "primeng/toolbar";
-import { HeroSectionComponent } from "./hero-section/hero-section.component";
-import { FeaturesSectionComponent } from "./features-section/features-section.component";
+import { HeroSectionComponent } from "./sections/hero-section/hero-section.component";
+import { FeaturesSectionComponent } from "./sections/features-section/features-section.component";
 import { CardModule } from "primeng/card";
-import { TestimonialSectionComponent } from "./testimonial-section/testimonial-section.component";
+import { TestimonialSectionComponent } from "./sections/testimonial-section/testimonial-section.component";
 import { CarouselModule } from "primeng/carousel";
-import { CtaSectionComponent } from "./cta-section/cta-section.component";
-import { FooterComponent } from "./footer/footer.component";
+import { CtaSectionComponent } from "./sections/cta-section/cta-section.component";
+import { FooterComponent } from "./components/footer/footer.component";
 
 @NgModule({
   declarations: [

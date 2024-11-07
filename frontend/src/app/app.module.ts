@@ -6,7 +6,7 @@ import {
 
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
-import { LandingPageModule } from "./landing-page/landing-page.module";
+import { LandingPageModule } from "./pages/landing-page/landing-page.module";
 import { provideAnimationsAsync } from "@angular/platform-browser/animations/async";
 
 @NgModule({
