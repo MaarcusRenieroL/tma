@@ -11,9 +11,16 @@ import { SidebarModule } from "primeng/sidebar";
 import { SplitButtonModule } from "primeng/splitbutton";
 import { ToolbarModule } from "primeng/toolbar";
 import { HeroSectionComponent } from "./hero-section/hero-section.component";
+import { FeaturesSectionComponent } from "./features-section/features-section.component";
+import { CardModule } from "primeng/card";
 
 @NgModule({
-  declarations: [LandingPageComponent, HeaderComponent, HeroSectionComponent],
+  declarations: [
+    LandingPageComponent,
+    HeaderComponent,
+    HeroSectionComponent,
+    FeaturesSectionComponent,
+  ],
   imports: [
     CommonModule,
     ToolbarModule,
@@ -23,6 +30,7 @@ import { HeroSectionComponent } from "./hero-section/hero-section.component";
     IconFieldModule,
     InputIconModule,
     SidebarModule,
+    CardModule,
   ],
 })
 export class LandingPageModule {}
