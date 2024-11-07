@@ -1,23 +1,52 @@
 <p-toolbar>
-  <div class="p-toolbar-group-start">
-      <p-button (onClick)="sidebarVisible = true" icon="pi pi-bars" class="mr-2"/>
-      <p-button icon="pi pi-print" class="mr-2"/>
-      <p-button icon="pi pi-upload" />
+  <div class="toolbar-group-start">
+    <button
+      pButton
+      size="small"
+      outlined="true"
+      class="menu-icon"
+      (click)="onMenuClick()">
+      <i class="pi pi-bars" style="font-size: 1rem"></i>
+    </button>
+    <div class="logo">
+      <i class="pi pi-briefcase logo-icon"></i>
+      <h2>SyncTeam</h2>
+    </div>
   </div>
-  <div class="p-toolbar-group-center">
-      <span class="p-input-icon-left">
-          <i class="pi pi-search"></i>
-          <input pInputText placeholder="Search" />
-      </span>
+
+  <div class="toolbar-group-center">
+    <h2>SyncTeam</h2>
   </div>
-  <div class="p-toolbar-group-end">
-      <p-splitButton label="Save" icon="pi pi-check" [model]="items" />
+
+  <div class="toolbar-group-end">
+    <button pButton size="small" class="sign-in-button">Sign In</button>
   </div>
+  
+  <nav class="toolbar-nav">
+    <a>Home</a>
+    <a>Features</a>
+    <a>Testimonials</a>
+    <a>Pricing</a>
+    <a href="/auth/sign-in">
+      <button pButton size="small">Sign In</button>
+    </a>
+    <a href="/auth/sign-up">
+      <button pButton outlined="true" size="small">Sign Up</button>
+    </a>
+  </nav>
 </p-toolbar>
+
 <p-sidebar [(visible)]="sidebarVisible">
-  <h3>Rxjs</h3>
-  <h3>Bootstrap</h3>
-  <h3>Event Binding</h3>
-  <h3>Two way binding</h3>
-  <h3>Animations</h3>
+  <nav class="sidebar-nav">
+    <a class="sidebar-link">Home</a>
+    <a class="sidebar-link">Features</a>
+    <a class="sidebar-link">Testimonials</a>
+    <a class="sidebar-link">Pricing</a>
+    <a href="/auth/sign-in">
+      <button pButton size="small">Sign In</button>
+    </a>
+    <a href="/auth/sign-up">
+      <button pButton outlined="true" size="small">Sign Up</button>
+    </a>
+  </nav>
 </p-sidebar>

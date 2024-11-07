@@ -1,0 +1,160 @@
+::ng-deep .p-toolbar {
+  padding: 0.5rem 1.5rem;
+  height: fit-content;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+::ng-deep .menu-icon {
+  height: 40px;
+  width: 40px;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+}
+
+@media (min-width: 1024px) {
+  .menu-icon {
+    display: none;
+  }
+}
+
+.logo {
+  display: none;
+  align-items: center;
+  gap: 1rem;
+}
+
+.logo-icon {
+  font-size: 1.5rem;
+}
+
+@media (min-width: 1024px) {
+  .logo {
+    display: flex;
+  }
+}
+
+.toolbar-group-start,
+.toolbar-group-end {
+  display: flex;
+  align-items: center;
+}
+
+.toolbar-group-center {
+  display: none;
+}
+
+@media (max-width: 1023px) {
+  .toolbar-group-start {
+    order: 1;
+  }
+  
+  .toolbar-group-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-grow: 1;
+    order: 2;
+  }
+
+  .toolbar-group-end {
+    order: 3;
+  }
+}
+
+.sign-in-button {
+  display: none;
+}
+
+@media (max-width: 1023px) {
+  .sign-in-button {
+    display: block;
+  }
+}
+
+.toolbar-nav {
+  display: none;
+  gap: 2rem;
+  align-items: center;
+}
+
+@media (min-width: 1024px) {
+  .toolbar-nav {
+    display: flex;
+  }
+}
+
+::ng-deep .p-toolbar a {
+  text-decoration: none;
+  color: black;
+}
+
+::ng-deep .p-toolbar a:hover {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+::ng-deep .p-sidebar-content .sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  gap: 2rem;
+  padding: 1rem;
+  width: 100%;
+}
+
+.sidebar-link {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.5rem 1rem;
+  border-radius: 0.375rem;
+  border: 1px solid transparent;
+  transition: all 200ms ease-in-out;
+  width: 100%;
+}
+
+.sidebar-link:hover {
+  background-color: hsl(0, 0%, 96.1%);
+  border-color: hsl(0, 0%, 89.8%);
+}
+
+.sidebar-link.active {
+  color: hsl(348.62, 89.69%, 61.96%);
+  font-weight: 600;
+  background-color: hsl(0, 0%, 96.1%);
+  border-color: hsl(0, 0%, 89.8%);
+}
+
+.sidebar-link.hide-on-mobile {
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .sidebar-link.hide-on-mobile {
+    display: flex;
+  }
+}
+
+.sidebar-link.collapsed {
+  padding-left: 0.25rem;
+  padding-right: 0.25rem;
+  justify-content: center;
+}
+
+.sidebar-link.show-label {
+  justify-content: start !important;
+}
+
+::ng-deep .p-sidebar-content a {
+  width: 100%;
+}
+
+::ng-deep .p-sidebar-content button {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
