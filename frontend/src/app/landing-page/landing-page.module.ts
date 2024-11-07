@@ -13,6 +13,8 @@ import { ToolbarModule } from "primeng/toolbar";
 import { HeroSectionComponent } from "./hero-section/hero-section.component";
 import { FeaturesSectionComponent } from "./features-section/features-section.component";
 import { CardModule } from "primeng/card";
+import { TestimonialSectionComponent } from "./testimonial-section/testimonial-section.component";
+import { CarouselModule } from "primeng/carousel";
 
 @NgModule({
   declarations: [
@@ -20,6 +22,7 @@ import { CardModule } from "primeng/card";
     HeaderComponent,
     HeroSectionComponent,
     FeaturesSectionComponent,
+    TestimonialSectionComponent,
   ],
   imports: [
     CommonModule,
@@ -30,6 +33,7 @@ import { CardModule } from "primeng/card";
     IconFieldModule,
     InputIconModule,
     SidebarModule,
+    CarouselModule,
     CardModule,
   ],
 })

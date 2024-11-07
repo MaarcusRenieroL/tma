@@ -1,0 +1,23 @@
+<section id="testimonials" class="testimonials-section">
+  <div class="container">
+    <h2 class="section-title">What Our Users Say</h2>
+    <p-carousel
+      [value]="testimonials"
+      [numVisible]="3"
+      [numScroll]="1"
+      [circular]="true"
+      [responsiveOptions]="responsiveOptions"
+    >
+      <ng-template let-testimonial pTemplate="item">
+        <p-card class="testimonial-card">
+          <div class="testimonial-description">
+            {{ testimonial.text }}
+          </div>
+          <div class="testimonial-name">
+            {{ testimonial.author }}
+          </div>
+        </p-card>
+      </ng-template>
+    </p-carousel>
+  </div>
+</section>

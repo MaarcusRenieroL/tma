@@ -1,0 +1,46 @@
+.testimonials-section {
+  width: 100%;
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+}
+/* 
+@media (min-width: 768px) {
+  .testimonials-section {
+    padding-top: 6rem;
+    padding-bottom: 6rem;
+  }
+} */
+
+
+.section-title {
+  font-size: 2rem;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+::ng-deep .p-card {
+  margin: 1rem;
+}
+
+::ng-deep .p-carousel-items-content {
+  height: 100px;
+  margin: 1rem;
+}
+
+::ng-deep .p-carousel-indicators {
+  margin-top: 1rem;
+}
+.card {
+  text-align: center;
+  margin: 1rem;
+}
+
+.testimonial-text {
+  color: #6b7280;
+  margin-bottom: 1rem;
+}
+
+.testimonial-author {
+  font-weight: 600;
+}
