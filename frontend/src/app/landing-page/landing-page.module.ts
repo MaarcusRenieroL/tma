@@ -16,6 +16,7 @@ import { CardModule } from "primeng/card";
 import { TestimonialSectionComponent } from "./testimonial-section/testimonial-section.component";
 import { CarouselModule } from "primeng/carousel";
 import { CtaSectionComponent } from "./cta-section/cta-section.component";
+import { FooterComponent } from "./footer/footer.component";
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { CtaSectionComponent } from "./cta-section/cta-section.component";
     FeaturesSectionComponent,
     TestimonialSectionComponent,
     CtaSectionComponent,
+    FooterComponent,
   ],
   imports: [
     CommonModule,
