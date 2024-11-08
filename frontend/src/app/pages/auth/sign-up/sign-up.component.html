@@ -1,0 +1,116 @@
+<section class="sign-in-section">
+  <div class="sign-in-container">
+    <p-card class="sign-in-card">
+      <div class="sign-in-header">
+        <h2 class="sign-in-title">Sign Up</h2>
+        <p class="sign-in-description">Create your account to get started</p>
+      </div>
+
+      <div class="sign-in-content">
+        <form>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input
+                pInputText
+                id="email"
+                type="email"
+                name="email"
+                placeholder="Enter your email"
+                required
+                class="form-input"
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="name">Name</label>
+              <input
+                pInputText
+                id="name"
+                type="text"
+                name="name"
+                placeholder="Enter your name"
+                required
+                class="form-input"
+              />
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="username">Username</label>
+              <input
+                pInputText
+                id="username"
+                type="text"
+                name="username"
+                placeholder="Enter your username"
+                required
+                class="form-input"
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="location">Location</label>
+              <p-autoComplete
+                [(ngModel)]="selectedCountryAdvanced"
+                [suggestions]="filteredCountries"
+                (completeMethod)="filterCountry($event)"
+                optionLabel="name"
+                class="form-input"
+                showClear="true"
+                placeholder="Enter your location"
+              >
+                <ng-template let-country pTemplate="item">
+                  <div class="country">
+                    <div>{{ country.name }}</div>
+                  </div>
+                </ng-template>
+              </p-autoComplete>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="password">Password</label>
+              <input
+                pInputText
+                id="password"
+                type="password"
+                name="password"
+                placeholder="Enter your password"
+                required
+                class="form-input"
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="confirm-password">Confirm Password</label>
+              <input
+                pInputText
+                id="confirm-password"
+                type="password"
+                name="confirmPassword"
+                placeholder="Confirm your password"
+                required
+                class="form-input"
+              />
+            </div>
+          </div>
+
+          <button
+            pButton
+            label="Sign Up"
+            type="submit"
+            class="sign-in-button"
+          ></button>
+        </form>
+      </div>
+
+      <div class="sign-in-footer">
+        Already have an account?
+        <a href="/auth/sign-in" class="sign-up">Sign In</a>
+      </div>
+    </p-card>
+  </div>
+</section>
