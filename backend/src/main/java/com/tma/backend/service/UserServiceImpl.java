@@ -53,4 +53,12 @@ public class UserServiceImpl implements UserService {
   public User getUserById(UUID userId) {
     return userRepo.findById(userId).orElse(null);
   }
+
+  public Optional<User> findByUsername(String username) {
+    return userRepo.findByUserName(username);
+  }
+
+  public Optional<User> findByEmail(String email) {
+    return userRepo.findByEmail(email);
+  }
 }
