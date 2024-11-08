@@ -1,0 +1,24 @@
+<section class="email-verification-section">
+  <div class="email-verification-container">
+    <p-card class="email-verification-card">
+      <div class="email-verification-header">
+        <h2 class="email-verification-title">Verify Email</h2>
+        <p class="email-verification-description">
+          Enter the 6-digit code sent to your email
+        </p>
+      </div>
+
+      <div class="email-verification-content">
+        <p-inputOtp [mask]="true" [length]="6" />
+      </div>
+
+      <div class="email-verification-footer">
+        <button pButton class="verify-button">Verify</button>
+        <div class="resend">
+          <p>Didn&apos;t receive an email&quest;</p>
+          <span>Resend</span>
+        </div>
+      </div>
+    </p-card>
+  </div>
+</section>
