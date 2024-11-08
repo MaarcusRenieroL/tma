@@ -11,6 +11,7 @@ import { AutoCompleteModule } from "primeng/autocomplete";
 import { FormsModule } from "@angular/forms";
 import { EmailVerificationComponent } from "./email-verification/email-verification.component";
 import { ResetPasswordComponent } from "./reset-password/reset-password.component";
+import { ForgotPasswordComponent } from "./forgot-password/forgot-password.component";
 
 @NgModule({
   declarations: [
@@ -18,6 +19,7 @@ import { ResetPasswordComponent } from "./reset-password/reset-password.componen
     SignUpComponent,
     EmailVerificationComponent,
     ResetPasswordComponent,
+    ForgotPasswordComponent,
   ],
   imports: [
     CommonModule,
