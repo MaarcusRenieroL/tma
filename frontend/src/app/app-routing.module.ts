@@ -4,12 +4,14 @@ import { LandingPageComponent } from "./pages/landing-page/landing-page.componen
 import { SignInComponent } from "./pages/auth/sign-in/sign-in.component";
 import { SignUpComponent } from "./pages/auth/sign-up/sign-up.component";
 import { EmailVerificationComponent } from "./pages/auth/email-verification/email-verification.component";
+import { ResetPasswordComponent } from "./pages/auth/reset-password/reset-password.component";
 
 const routes: Routes = [
   { path: "", component: LandingPageComponent },
   { path: "auth/sign-in", component: SignInComponent },
   { path: "auth/sign-up", component: SignUpComponent },
   { path: "auth/verify-email", component: EmailVerificationComponent },
+  { path: "auth/reset-password", component: ResetPasswordComponent },
 ];
 
 @NgModule({

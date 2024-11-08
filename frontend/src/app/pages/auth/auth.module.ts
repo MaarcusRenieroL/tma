@@ -10,9 +10,15 @@ import { SignUpComponent } from "./sign-up/sign-up.component";
 import { AutoCompleteModule } from "primeng/autocomplete";
 import { FormsModule } from "@angular/forms";
 import { EmailVerificationComponent } from "./email-verification/email-verification.component";
+import { ResetPasswordComponent } from "./reset-password/reset-password.component";
 
 @NgModule({
-  declarations: [SignInComponent, SignUpComponent, EmailVerificationComponent],
+  declarations: [
+    SignInComponent,
+    SignUpComponent,
+    EmailVerificationComponent,
+    ResetPasswordComponent,
+  ],
   imports: [
     CommonModule,
     CardModule,
