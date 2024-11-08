@@ -18,18 +18,17 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
 
   @Autowired private UserService userService;
-  private ResponseUtil responseUtil;
 
   @GetMapping
   public ResponseEntity<StandardResponse<List<User>>> getAllUsers(HttpServletRequest request) {
     List<User> users = userService.getAllUsers();
 
     if (users.isEmpty()) {
-      return responseUtil.buildErrorMessage(
+      return ResponseUtil.buildErrorMessage(
           HttpStatus.NOT_FOUND, "No users found", request, LocalDateTime.now());
     }
 
-    return responseUtil.buildSuccessMessage(
+    return ResponseUtil.buildSuccessMessage(
         HttpStatus.OK, "Users retrieved successfully", users, request, LocalDateTime.now());
   }
 
@@ -38,14 +37,14 @@ public class UserController {
       @RequestBody User user, HttpServletRequest request) {
     try {
 
-      if (user.getName() == null || user.getEmail() == null || user.getLocation() == null) {
-        return responseUtil.buildErrorMessage(
+      if (user.getUsername() == null || user.getEmail() == null || user.getLocation() == null) {
+        return ResponseUtil.buildErrorMessage(
             HttpStatus.BAD_REQUEST, "Missing required fields", request, LocalDateTime.now());
       }
 
       User createdUser = userService.createUser(user);
 
-      return responseUtil.buildSuccessMessage(
+      return ResponseUtil.buildSuccessMessage(
           HttpStatus.CREATED,
           "User created successfully",
           createdUser,
@@ -53,7 +52,7 @@ public class UserController {
           LocalDateTime.now());
     } catch (Exception e) {
 
-      return responseUtil.buildErrorMessage(
+      return ResponseUtil.buildErrorMessage(
           HttpStatus.INTERNAL_SERVER_ERROR,
           "An error occurred while creating the user",
           request,
@@ -67,7 +66,7 @@ public class UserController {
     try {
 
       if (userService.getUserById(userId) == null) {
-        return responseUtil.buildErrorMessage(
+        return ResponseUtil.buildErrorMessage(
             HttpStatus.NOT_FOUND,
             "User not found with ID: " + userId,
             request,
@@ -76,12 +75,12 @@ public class UserController {
 
       User updatedUser = userService.updateUser(userId, user);
 
-      return responseUtil.buildSuccessMessage(
+      return ResponseUtil.buildSuccessMessage(
           HttpStatus.OK, "User updated successfully", updatedUser, request, LocalDateTime.now());
 
     } catch (Exception e) {
 
-      return responseUtil.buildErrorMessage(
+      return ResponseUtil.buildErrorMessage(
           HttpStatus.INTERNAL_SERVER_ERROR,
           "An error occurred while updating the user",
           request,
@@ -95,7 +94,7 @@ public class UserController {
     try {
 
       if (userService.getUserById(userId) == null) {
-        return responseUtil.buildErrorMessage(
+        return ResponseUtil.buildErrorMessage(
             HttpStatus.NOT_FOUND,
             "User not found with ID: " + userId,
             request,
@@ -104,12 +103,12 @@ public class UserController {
 
       userService.deleteUser(userId);
 
-      return responseUtil.buildSuccessMessage(
+      return ResponseUtil.buildSuccessMessage(
           HttpStatus.NO_CONTENT, "User deleted successfully", null, request, LocalDateTime.now());
 
     } catch (Exception e) {
 
-      return responseUtil.buildErrorMessage(
+      return ResponseUtil.buildErrorMessage(
           HttpStatus.INTERNAL_SERVER_ERROR,
           "An error occurred while deleting the user",
           request,
@@ -123,11 +122,11 @@ public class UserController {
     User user = userService.getUserById(userId);
 
     if (user == null) {
-      return responseUtil.buildErrorMessage(
+      return ResponseUtil.buildErrorMessage(
           HttpStatus.NOT_FOUND, "User not found with ID: " + userId, request, LocalDateTime.now());
     }
 
-    return responseUtil.buildSuccessMessage(
+    return ResponseUtil.buildSuccessMessage(
         HttpStatus.OK, "User retrieved successfully", user, request, LocalDateTime.now());
   }
 }

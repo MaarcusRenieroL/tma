@@ -32,7 +32,7 @@ public class UserServiceImpl implements UserService {
 
     if (optionalUser.isPresent()) {
       User user1 = optionalUser.get();
-      user1.setName(user.getName());
+      user1.setUsername(user.getUsername());
       user1.setRole(user.getRole());
       user1.setEmail(user.getEmail());
       user1.setLocation(user.getLocation());
