@@ -11,14 +11,18 @@ import java.time.LocalDate;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 @EnableWebSecurity
+@EnableMethodSecurity(prePostEnabled = true, securedEnabled = true, jsr250Enabled = true)
 public class SecurityConfig {
 
   @Bean
@@ -26,6 +30,8 @@ public class SecurityConfig {
     http.authorizeHttpRequests(
         (requests) ->
             requests
+                .requestMatchers("/api/admin/**")
+                .hasAnyRole("ADMIN")
                 .requestMatchers("/contact")
                 .permitAll()
                 .requestMatchers("/hi")
@@ -41,19 +47,22 @@ public class SecurityConfig {
   }
 
   @Bean
-  public CommandLineRunner initData(RoleRepository roleRepository, UserRepository userRepository) {
+  CommandLineRunner initData(
+      RoleRepository roleRepository,
+      UserRepository userRepository,
+      PasswordEncoder passwordEncoder) {
     return args -> {
       Role userRole =
           roleRepository
-              .findByRoleName(AppRole.USER)
-              .orElseGet(() -> roleRepository.save(new Role(AppRole.USER)));
+              .findByRoleName(AppRole.ROLE_USER)
+              .orElseGet(() -> roleRepository.save(new Role(AppRole.ROLE_USER)));
       Role adminRole =
           roleRepository
-              .findByRoleName(AppRole.ADMIN)
-              .orElseGet(() -> roleRepository.save(new Role(AppRole.ADMIN)));
+              .findByRoleName(AppRole.ROLE_ADMIN)
+              .orElseGet(() -> roleRepository.save(new Role(AppRole.ROLE_ADMIN)));
 
       if (userRepository.findByUserName("user1").isEmpty()) {
-        User user1 = new User("user1", "{noop}password1", "user1@example.com");
+        User user1 = new User("user1", passwordEncoder.encode("password1"), "user1@example.com");
         user1.setAccountNonLocked(false);
         user1.setAccountNonExpired(true);
         user1.setCredentialsNonExpired(true);
@@ -66,7 +75,7 @@ public class SecurityConfig {
         userRepository.save(user1);
       }
       if (userRepository.findByUserName("admin").isEmpty()) {
-        User admin = new User("admin", "{noop}adminPass", "admin@example.com");
+        User admin = new User("admin", passwordEncoder.encode("adminPass"), "admin@example.com");
         admin.setAccountNonLocked(true);
         admin.setAccountNonExpired(true);
         admin.setCredentialsNonExpired(true);
@@ -79,5 +88,10 @@ public class SecurityConfig {
         userRepository.save(admin);
       }
     };
+  }
+
+  @Bean
+  PasswordEncoder passwordEncoder() {
+    return new BCryptPasswordEncoder();
   }
 }

@@ -1,6 +1,6 @@
 package com.tma.backend.model;
 
 public enum AppRole {
-  USER,
-  ADMIN
+  ROLE_USER,
+  ROLE_ADMIN
 }
