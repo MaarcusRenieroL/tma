@@ -33,17 +33,17 @@ public class JwtUtils {
   }
 
   public String generateTokenFromUsername(UserDetails userDetails) {
-    String username = userDetails.getUsername();
+    String userName = userDetails.getUsername();
 
     return Jwts.builder()
-        .subject(username)
+        .subject(userName)
         .issuedAt(new Date())
         .expiration(new Date((new Date()).getTime() + jwtExpirationMs))
         .signWith(key())
         .compact();
   }
 
-  public String getUsernameFromJWTToken(String token) {
+  public String getUserNameFromJWTToken(String token) {
     return Jwts.parser()
         .verifyWith((SecretKey) key())
         .build()

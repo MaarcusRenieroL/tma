@@ -18,6 +18,7 @@ public class RequestValidationFilter extends OncePerRequestFilter {
     String header = request.getHeader("X-Valid-Request");
 
     if (header == null || !header.equals("true")) {
+
       response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid Request");
       return;
     }

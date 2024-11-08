@@ -37,14 +37,14 @@ public class AuthController {
   @PostMapping("/sign-up")
   public ResponseEntity<StandardResponse<User>> registerUser(
       @Valid @RequestBody SignUpRequest signUpRequest, HttpServletRequest request) {
-    if (signUpRequest.getUsername() == null
+    if (signUpRequest.getUserName() == null
         || signUpRequest.getPassword() == null
         || signUpRequest.getEmail() == null) {
       return ResponseUtil.buildErrorMessage(
           HttpStatus.BAD_REQUEST, "Missing required fields", request, LocalDateTime.now());
     }
 
-    if (userService.findByUsername(signUpRequest.getUsername()).isPresent()) {
+    if (userService.findByUsername(signUpRequest.getUserName()).isPresent()) {
       return ResponseUtil.buildErrorMessage(
           HttpStatus.BAD_REQUEST, "Username already exists", request, LocalDateTime.now());
     }

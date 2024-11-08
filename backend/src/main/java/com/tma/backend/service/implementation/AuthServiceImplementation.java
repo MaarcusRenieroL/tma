@@ -20,7 +20,9 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
 
+@Service
 public class AuthServiceImplementation implements AuthService {
 
   @Autowired private AuthenticationManager authenticationManager;
@@ -30,10 +32,11 @@ public class AuthServiceImplementation implements AuthService {
   @Autowired private PasswordEncoder passwordEncoder;
 
   public LoginResponse authenticateUser(LoginRequest loginRequest) {
+
     Authentication authentication =
         authenticationManager.authenticate(
             new UsernamePasswordAuthenticationToken(
-                loginRequest.getUsername(), loginRequest.getPassword()));
+                loginRequest.getUserName(), loginRequest.getPassword()));
 
     UserDetails userDetails = (UserDetails) authentication.getPrincipal();
     String jwtToken = jwtUtils.generateTokenFromUsername(userDetails);
@@ -48,9 +51,9 @@ public class AuthServiceImplementation implements AuthService {
   public User registerUser(SignUpRequest signUpRequest) {
     User user =
         new User(
-            signUpRequest.getUsername(),
-            passwordEncoder.encode(signUpRequest.getPassword()),
-            signUpRequest.getEmail());
+            signUpRequest.getUserName(),
+            signUpRequest.getEmail(),
+            passwordEncoder.encode(signUpRequest.getPassword()));
     Set<String> strRoles = signUpRequest.getRole();
     Role role;
     if (strRoles == null || strRoles.isEmpty()) {

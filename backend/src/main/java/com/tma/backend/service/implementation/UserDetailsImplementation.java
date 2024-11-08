@@ -62,7 +62,7 @@ public class UserDetailsImplementation implements UserDetails {
 
     return new UserDetailsImplementation(
         user.getUserId(),
-        user.getUsername(),
+        user.getUserName(),
         user.getEmail(),
         user.getPassword(),
         List.of(authority),

@@ -22,7 +22,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 @Table(
     name = "users",
     uniqueConstraints = {
-      @UniqueConstraint(columnNames = "username"),
+      @UniqueConstraint(columnNames = "userName"),
       @UniqueConstraint(columnNames = "email")
     })
 public class User {
@@ -32,8 +32,8 @@ public class User {
 
   @NotBlank
   @Size(max = 20)
-  @Column(name = "username")
-  private String username;
+  @Column(name = "userName")
+  private String userName;
 
   @NotBlank
   @Size(max = 50)
@@ -72,8 +72,8 @@ public class User {
 
   @UpdateTimestamp private LocalDateTime updatedDate;
 
-  public User(String username, String email, String password) {
-    this.username = username;
+  public User(String userName, String email, String password) {
+    this.userName = userName;
     this.password = password;
     this.email = email;
   }

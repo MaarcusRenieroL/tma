@@ -37,7 +37,7 @@ public class UserController {
       @RequestBody User user, HttpServletRequest request) {
     try {
 
-      if (user.getUsername() == null || user.getEmail() == null || user.getLocation() == null) {
+      if (user.getUserName() == null || user.getEmail() == null || user.getLocation() == null) {
         return ResponseUtil.buildErrorMessage(
             HttpStatus.BAD_REQUEST, "Missing required fields", request, LocalDateTime.now());
       }

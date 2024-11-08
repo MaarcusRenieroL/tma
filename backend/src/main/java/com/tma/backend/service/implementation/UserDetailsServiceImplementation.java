@@ -15,13 +15,13 @@ public class UserDetailsServiceImplementation implements UserDetailsService {
   @Autowired private UserRepository userRepository;
 
   @Override
-  public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-    Optional<User> optionalUser = userRepository.findByUserName(username);
+  public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
+    Optional<User> optionalUser = userRepository.findByUserName(userName);
 
     if (optionalUser.isPresent()) {
       return UserDetailsImplementation.build(optionalUser.get());
     }
 
-    throw new UsernameNotFoundException("User not found with the username " + username);
+    throw new UsernameNotFoundException("User not found with the userName " + userName);
   }
 }

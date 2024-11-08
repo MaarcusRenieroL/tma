@@ -6,11 +6,13 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
 public class UserServiceImpl implements UserService {
   @Autowired UserRepository userRepo;
+  @Autowired private PasswordEncoder passwordEncoder;
 
   @Override
   public List<User> getAllUsers() {
@@ -19,6 +21,7 @@ public class UserServiceImpl implements UserService {
 
   @Override
   public User createUser(User user) {
+    user.setPassword(passwordEncoder.encode(user.getPassword()));
     return userRepo.save(user);
   }
 
@@ -32,7 +35,8 @@ public class UserServiceImpl implements UserService {
 
     if (optionalUser.isPresent()) {
       User user1 = optionalUser.get();
-      user1.setUsername(user.getUsername());
+      user1.setPassword(passwordEncoder.encode(user1.getPassword()));
+      user1.setUserName(user.getUserName());
       user1.setRole(user.getRole());
       user1.setEmail(user.getEmail());
       user1.setLocation(user.getLocation());
@@ -54,8 +58,8 @@ public class UserServiceImpl implements UserService {
     return userRepo.findById(userId).orElse(null);
   }
 
-  public Optional<User> findByUsername(String username) {
-    return userRepo.findByUserName(username);
+  public Optional<User> findByUsername(String userName) {
+    return userRepo.findByUserName(userName);
   }
 
   public Optional<User> findByEmail(String email) {

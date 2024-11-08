@@ -2,11 +2,14 @@ package com.tma.backend.config;
 
 import static org.springframework.security.config.Customizer.withDefaults;
 
+import com.tma.backend.filter.AuthTokenFilter;
 import com.tma.backend.filter.RequestValidationFilter;
+import com.tma.backend.jwt.AuthEntryPoint;
 import com.tma.backend.model.AppRole;
 import com.tma.backend.model.Role;
 import com.tma.backend.repository.RoleRepository;
 import com.tma.backend.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -27,6 +30,13 @@ import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 @EnableMethodSecurity(prePostEnabled = true, securedEnabled = true, jsr250Enabled = true)
 public class SecurityConfig {
 
+  @Autowired private AuthEntryPoint unauthorizedHandler;
+
+  @Bean
+  AuthTokenFilter authenticationTokenFilter() {
+    return new AuthTokenFilter();
+  }
+
   @Bean
   AuthenticationManager authenticationManager(
       AuthenticationConfiguration authenticationConfiguration) throws Exception {
@@ -45,7 +55,9 @@ public class SecurityConfig {
         csrf ->
             csrf.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
                 .ignoringRequestMatchers("/api/auth"));
-    http.addFilterAfter(new RequestValidationFilter(), UsernamePasswordAuthenticationFilter.class);
+
+    http.addFilterBefore(authenticationTokenFilter(), UsernamePasswordAuthenticationFilter.class);
+    http.addFilterBefore(new RequestValidationFilter(), UsernamePasswordAuthenticationFilter.class);
     // http.sessionManagement(
     //     session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
     http.httpBasic(withDefaults());
