@@ -4,9 +4,9 @@ pnpm run build
 cd ../
 
 cd backend/eureka-server
-
 mvn spotless:apply
 
-cd ../../
+cd ../api-gateway
+mvn spotless:apply
 
 git add .
