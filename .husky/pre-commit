@@ -2,3 +2,11 @@ cd frontend
 pnpm run build
 
 cd ../
+
+cd backend/eureka-server
+
+mvn spotless:apply
+
+cd ../../
+
+git add .
