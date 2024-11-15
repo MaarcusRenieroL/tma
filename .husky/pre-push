@@ -9,4 +9,9 @@ mvn spotless:apply
 cd ../api-gateway
 mvn spotless:apply
 
+cd ../team-micro-service
+mvn spotless:apply
+
+cd ../../
+
 git add .

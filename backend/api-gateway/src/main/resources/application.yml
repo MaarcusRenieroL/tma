@@ -9,3 +9,11 @@ server:
 spring:
   application:
     name: api-gateway-server
+  cloud:
+    gateway:
+      routes:
+        - id: team-micro-service
+          uri:
+            lb://team-micro-service
+          predicates:
+            - Path=/api/teams/**
