@@ -6,12 +6,14 @@ import { NgIconsModule } from "@ng-icons/core";
 import { bootstrapGlobe } from "@ng-icons/bootstrap-icons";
 import { ionMenuOutline, ionHomeOutline } from "@ng-icons/ionicons";
 import { ComponentsModule } from "../../components/components.module";
+import { HeroSectionComponent } from './hero-section/hero-section.component';
 
 
 @NgModule({
   declarations: [
     LandingPageComponent,
-    NavbarComponent
+    NavbarComponent,
+    HeroSectionComponent
   ],
   imports: [
     CommonModule,

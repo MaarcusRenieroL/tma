@@ -33,21 +33,15 @@
         >
           Pricing
         </a>
-        <ui-button
-          ngpButton
-          class="h-10 px-4 py-2 text-sm font-medium transition bg-primary text-primary-foreground hover:bg-primary/90 rounded-lg ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
-        >
+        <ui-button>
           Sign In
         </ui-button>
-        <ui-button
-          ngpButton
-          class="h-10 px-4 py-2 text-sm font-medium transition border rounded-lg bg-background border-input hover:bg-accent hover:text-accent-foreground ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
-        >
+        <ui-button variant="outline">
           Sign Up
         </ui-button>
       </nav>
 
-      <div>
+      <div class="lg:hidden">
         <!-- Mobile Menu Button -->
         <ui-sheet-trigger class="lg:hidden flex" (open)="isSheetOpen = true">
           <ng-icon class="w-6 h-6 text-primary" name="ionMenuOutline"></ng-icon>
