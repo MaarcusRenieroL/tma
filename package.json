@@ -22,5 +22,8 @@
       "prettier --write"
     ]
   },
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "@ng-icons/heroicons": "^29.9.0"
+  }
 }
