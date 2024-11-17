@@ -5,8 +5,7 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { NgIconsModule } from "@ng-icons/core";
 import { bootstrapGlobe } from "@ng-icons/bootstrap-icons";
 import { ionMenuOutline, ionHomeOutline } from "@ng-icons/ionicons";
-import { NgpButton } from 'ng-primitives/button';
-import { SheetModule } from "../../components/sheet/sheet.module";
+import { ComponentsModule } from "../../components/components.module";
 
 
 @NgModule({
@@ -17,8 +16,7 @@ import { SheetModule } from "../../components/sheet/sheet.module";
   imports: [
     CommonModule,
     NgIconsModule.withIcons({ bootstrapGlobe, ionMenuOutline, ionHomeOutline }),
-    NgpButton,
-    SheetModule
+    ComponentsModule
   ],
   exports: [
     NavbarComponent
