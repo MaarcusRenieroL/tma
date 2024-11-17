@@ -9,6 +9,7 @@ import { heroUsers } from "@ng-icons/heroicons/outline"
 import { ComponentsModule } from "../../components/components.module";
 import { HeroSectionComponent } from './hero-section/hero-section.component';
 import { FeaturesSectionComponent } from './features-section/features-section.component';
+import { TestimonialSectionComponent } from './testimonial-section/testimonial-section.component';
 
 
 @NgModule({
@@ -16,7 +17,8 @@ import { FeaturesSectionComponent } from './features-section/features-section.co
     LandingPageComponent,
     NavbarComponent,
     HeroSectionComponent,
-    FeaturesSectionComponent
+    FeaturesSectionComponent,
+    TestimonialSectionComponent
   ],
   imports: [
     CommonModule,
