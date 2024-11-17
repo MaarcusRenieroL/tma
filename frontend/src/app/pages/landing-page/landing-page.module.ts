@@ -10,6 +10,7 @@ import { ComponentsModule } from "../../components/components.module";
 import { HeroSectionComponent } from './hero-section/hero-section.component';
 import { FeaturesSectionComponent } from './features-section/features-section.component';
 import { TestimonialSectionComponent } from './testimonial-section/testimonial-section.component';
+import { CtaSectionComponent } from './cta-section/cta-section.component';
 
 
 @NgModule({
@@ -18,7 +19,8 @@ import { TestimonialSectionComponent } from './testimonial-section/testimonial-s
     NavbarComponent,
     HeroSectionComponent,
     FeaturesSectionComponent,
-    TestimonialSectionComponent
+    TestimonialSectionComponent,
+    CtaSectionComponent
   ],
   imports: [
     CommonModule,
