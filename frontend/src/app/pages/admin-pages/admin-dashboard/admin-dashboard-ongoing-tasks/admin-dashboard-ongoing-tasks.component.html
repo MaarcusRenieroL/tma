@@ -1,46 +1,46 @@
-<ui-card class="hover:shadow-xl duration-500 transition-all">
-	<ui-card-header>
-		<ui-card-title class="text-2xl font-bold">Ongoing Tasks</ui-card-title>
-		<ui-card-description>List of all ongoing tasks</ui-card-description>
-	</ui-card-header>
-	<ui-card-content>
+<div hlmCard class="hover:shadow-xl duration-500 transition-all">
+	<div hlmCardHeader>
+		<h3 hlmCardTitle class="text-2xl font-bold">Ongoing Tasks</h3>
+		<p hlmCardDescription>List of all ongoing tasks</p>
+	</div>
+	<div hlmCardContent>
 		<div class="h-96 overflow-y-scroll custom-scrollbar flex flex-col items-start gap-5 p-4 w-full">
-			<ui-card *ngFor="let task of tasks" class="w-full">
-				<ui-card-header class="w-full">
+			<div hlmCard *ngFor="let task of tasks" class="w-full">
+				<div hlmCardHeader class="w-full">
 					<div class="w-full md:flex items-center justify-between">
 						<div class="w-full flex flex-col gap-2">
-							<ui-card-title class="text-xl font-semibold">{{ task.title }}</ui-card-title>
-							<ui-card-description class="text-sm text-muted-foreground">{{ task.description }}</ui-card-description>
+							<h3 hlmCardTitle class="text-xl font-semibold">{{ task.title }}</h3>
+							<p hlmCardDescription class="text-sm text-muted-foreground">{{ task.description }}</p>
 						</div>
 						<div class="flex md:items-end items-center md:justify-end justify-between gap-5 w-full md:w-fit md:mt-0 mt-5">
-							<ui-button variant="outline" class="block md:hidden">
+							<button hlmBtn variant="outline" class="block md:hidden">
 								View
-							</ui-button>
+							</button>
 							
-							<ui-button class="block md:hidden">
+							<button hlmBtn class="block md:hidden">
 								Edit
-							</ui-button>
+							</button>
 							
-							<ui-button variant="destructive" class="block md:hidden">
+							<button hlmBtn variant="destructive" class="block md:hidden">
 								Delete
-							</ui-button>
+							</button>
 							
-							<ui-button variant="outline" size="icon" class="hidden md:block">
+							<button hlmBtn variant="outline" size="icon" class="hidden md:block">
 								<ng-icon name="bootstrapEye" />
-							</ui-button>
+							</button>
 							
-							<ui-button size="icon" class="hidden md:block">
+							<button hlmBtn size="icon" class="hidden md:block">
 								<ng-icon name="bootstrapPen" />
-							</ui-button>
+							</button>
 							
-							<ui-button variant="destructive" size="icon" class="hidden md:block">
+							<button hlmBtn variant="destructive" size="icon" class="hidden md:block">
 								<ng-icon name="bootstrapTrash" />
-							</ui-button>
+							</button>
 						</div>
 					
 					</div>
-				</ui-card-header>
-				<ui-card-content class="md:flex space-y-5 md:space-y-0 items-center justify-between w-full">
+				</div>
+				<div hlmCardContent class="md:flex space-y-5 md:space-y-0 items-center justify-between w-full">
 					<div>
 						<h6 class="text-lg font-bold">Status</h6>
 						<p class="text-sm text-muted-foreground">{{ task.status }}</p>
@@ -49,10 +49,9 @@
 						<h6 class="text-lg font-bold">Due Date</h6>
 						<p class="text-sm text-muted-foreground">{{ task.dueDate }}</p>
 					</div>
-				</ui-card-content>
-			</ui-card>
+				</div>
+			</div>
 		
 		</div>
-	</ui-card-content>
-	<ui-card-footer></ui-card-footer>
-</ui-card>
+	</div>
+</div>

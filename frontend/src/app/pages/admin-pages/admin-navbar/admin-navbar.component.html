@@ -1,78 +1,58 @@
 <header class="border-b bg-white/90">
-	<div class="px-10 py-4 bg-white">
-		<div class="flex items-center justify-between h-16">
-			<!-- Brand/Logo -->
-			<a class="flex items-center gap-3 sm:gap-5" href="#">
-				<ng-icon name="bootstrapGlobe" class="text-primary"></ng-icon>
-				<span class="ml-2 text-lg font-bold sm:text-2xl">SyncTeam</span>
-			</a>
-			
-			<!-- Navigation Menu -->
-			<nav class="hidden 2xl:flex items-center gap-5">
-				<a
-					*ngFor="let link of links"
-					[href]="link.href"
-					class="flex items-center gap-3 py-2 px-4 rounded-md border-transparent hover:underline hover:underline-offset-4 transition-all duration-200 ease-in-out"
-					[ngClass]="{
+    <div class="px-10 py-4 bg-white">
+        <div class="flex items-center justify-between h-16">
+            <!-- Brand/Logo -->
+            <a class="flex items-center gap-3 sm:gap-5" href="#">
+                <ng-icon name="bootstrapGlobe" class="text-primary"></ng-icon>
+                <span class="ml-2 text-lg font-bold sm:text-2xl">SyncTeam</span>
+            </a>
+
+            <!-- Navigation Menu -->
+            <nav class="hidden 2xl:flex items-center gap-5">
+                <a
+                        *ngFor="let link of links"
+                        [href]="link.href"
+                        class="flex items-center gap-3 py-2 px-4 rounded-md border-transparent hover:underline hover:underline-offset-4 transition-all duration-200 ease-in-out"
+                        [ngClass]="{
         'text-primary font-semibold underline underline-offset-4': isActive(link.href)
       }"
-				>
-					<p class="transition-all duration-200">
-						{{ link.name }}
-					</p>
-				</a>
-			</nav>
-			
-			<div class="2xl:hidden">
-				<!-- Mobile Menu Button -->
-				<ui-sheet-trigger class="2xl:hidden flex" (open)="isSheetOpen = true">
-					<ng-icon class="w-6 h-6 text-primary" name="ionMenuOutline"></ng-icon>
-				</ui-sheet-trigger>
-				
-				<!-- Mobile Navigation Sheet -->
-				<ui-sheet
-					[isOpen]="isSheetOpen"
-					side="right"
-					(close)="isSheetOpen = false"
-				>
-					<ui-sheet-header>
-						<a class="flex items-center gap-3 sm:gap-5" href="#">
-							<ng-icon name="bootstrapGlobe" class="text-primary"></ng-icon>
-							<span class="ml-2 text-lg font-bold sm:text-2xl">SyncTeam</span>
-						</a>
-					</ui-sheet-header>
-					
-					<div class="flex flex-col p-4 space-y-5 mt-5">
-						<!-- Dynamic Navigation Links -->
-						<a
-							*ngFor="let link of links"
-							[href]="link.href"
-							class="flex items-center gap-3 py-2 px-4 rounded-md border-transparent hover:bg-secondary hover:border-border hover:border transition-all duration-200 ease-in-out"
-							[ngClass]="{
+                >
+                    <p class="transition-all duration-200">
+                        {{ link.name }}
+                    </p>
+                </a>
+            </nav>
+
+            <div class="2xl:hidden">
+                <hlm-sheet>
+                    <button brnSheetTrigger hlmBtn variant="outline" size="icon" side="right">
+                        <ng-icon name="ionMenuOutline" />
+                    </button>
+                    <hlm-sheet-content *brnSheetContent='let ctx'>
+                        <hlm-sheet-header>
+                            <a class="flex items-center gap-3 sm:gap-5" href="#">
+                                <ng-icon name="bootstrapGlobe" class="text-primary"></ng-icon>
+                                <span class="ml-2 text-lg font-bold sm:text-2xl">SyncTeam</span>
+                            </a>
+                        </hlm-sheet-header>
+                        <div class="flex flex-col p-4 space-y-5 mt-5">
+                            <a
+                                    *ngFor="let link of links"
+                                    [href]="link.href"
+                                    class="flex items-center gap-3 py-2 px-4 rounded-md border-transparent hover:bg-secondary hover:border-border hover:border transition-all duration-200 ease-in-out"
+                                    [ngClass]="{
         'text-primary font-semibold border-border bg-secondary': isActive(link.href)
       }"
-						>
-							<!-- Link Name -->
-							<p class="text-sm transition-all duration-200">
-								{{ link.name }}
-							</p>
-						</a>
-					
-					</div>
-					
-					<ui-sheet-footer class="flex flex-col items-center justify-center w-full p-4">
-						<!-- Sign In and Sign Up buttons -->
-						<ui-button fullWidth>
-							Sign In
-						</ui-button>
-						<ui-button fullWidth variant="outline" extraClasses="w-full mt-5">
-							Sign Up
-						</ui-button>
-					</ui-sheet-footer>
-				</ui-sheet>
-			
-			</div>
-		</div>
-	</div>
+                            >
+                                <p class="text-sm transition-all duration-200">
+                                    {{ link.name }}
+                                </p>
+                            </a>
+                        </div>
+                    </hlm-sheet-content>
+                </hlm-sheet>
+            </div>
+        </div>
+    </div>
 </header>
 
