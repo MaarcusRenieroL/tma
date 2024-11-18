@@ -1,0 +1,25 @@
+<ui-card class="hover:shadow-xl duration-500 transition-all w-full h-full">
+	<ui-card-header>
+		<ui-card-title class="text-2xl font-bold">Top performers</ui-card-title>
+		<ui-card-description>Best performing employees</ui-card-description>
+	</ui-card-header>
+	
+	<ui-card-content class="w-full">
+		<div class="h-96 overflow-y-scroll custom-scrollbar flex flex-col items-start gap-5 p-4 w-full">
+			<!-- Loop over the users -->
+			<ng-container *ngFor="let user of users; let i = index">
+				<ui-card class="w-full">
+					<ui-card-content class="md:flex space-y-5 md:space-y-0 items-center justify-between w-full">
+						<div class="flex items-center justify-evenly gap-5">
+							<p>{{ i + 1 }}</p> <!-- Displaying the index for task number -->
+							<div class="w-full flex flex-col gap-2">
+								<ui-card-title class="text-xl font-semibold">{{ user.name }}</ui-card-title>
+								<ui-card-description class="text-sm text-muted-foreground">{{ user.percentage }}%</ui-card-description>
+							</div>
+						</div>
+					</ui-card-content>
+				</ui-card>
+			</ng-container>
+		</div>
+	</ui-card-content>
+</ui-card>
