@@ -1,9 +1,9 @@
 <div class="flex items-center justify-center w-full h-full">
 	<ui-card class="w-full max-w-md mx-auto">
 		<ui-card-header class="flex flex-col items-center justify-center w-full text-center gap-3">
-			<ui-card-title>Sign In</ui-card-title>
+			<ui-card-title>Sign Up</ui-card-title>
 			<ui-card-description>
-				Please enter your email and password to sign in.
+				Create a new account with your email address and password
 			</ui-card-description>
 		</ui-card-header>
 		<ui-card-content>
@@ -19,18 +19,23 @@
 					<ui-input placeholder="Enter your password" type="password" class="w-full" />
 				</div>
 				
+				<div class="flex flex-col items-start w-full gap-3">
+					<label>Confirm Password</label>
+					<ui-input placeholder="Re enter your password" type="password" class="w-full" />
+				</div>
+				
 				<div class="w-full">
 					<ui-button type="submit" extraClasses="w-full">
-						Sign In
+						Sign Up
 					</ui-button>
 				</div>
 			</form>
 		</ui-card-content>
 		<ui-card-footer class="flex justify-center">
 			<p class="text-sm text-gray-500">
-				Don&apos;t have an account?
+				Already have an account?
 				<a href="#" class="text-primary hover:underline hover:underline-offset-4">
-					Sign Up
+					Sign In
 				</a>
 			</p>
 		</ui-card-footer>

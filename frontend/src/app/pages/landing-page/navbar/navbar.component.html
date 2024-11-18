@@ -38,9 +38,11 @@
 		        Sign In
 	        </ui-button>
         </a>
-        <ui-button variant="outline">
-          Sign Up
-        </ui-button>
+        <a [routerLink]="['auth/sign-up']">
+	        <ui-button variant="outline">
+		        Sign Up
+	        </ui-button>
+        </a>
       </nav>
 
       <div class="lg:hidden">
@@ -83,12 +85,16 @@
 
           <ui-sheet-footer class="flex flex-col items-center justify-center w-full p-4">
             <!-- Sign In and Sign Up buttons -->
-            <ui-button fullWidth>
-              Sign In
-            </ui-button>
-            <ui-button fullWidth variant="outline" extraClasses="w-full mt-5">
-              Sign Up
-            </ui-button>
+	          <a [routerLink]="['auth/sign-in']">
+		          <ui-button fullWidth>
+			          Sign In
+		          </ui-button>
+	          </a>
+	          <a [routerLink]="['auth/sign-up']">
+		          <ui-button fullWidth variant="outline" extraClasses="w-full mt-5">
+			          Sign Up
+		          </ui-button>
+	          </a>
           </ui-sheet-footer>
         </ui-sheet>
 
