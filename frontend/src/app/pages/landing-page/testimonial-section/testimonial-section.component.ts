@@ -1,9 +1,7 @@
-import { Component } from '@angular/core';
+import { Component } from "@angular/core";
 
 @Component({
-  selector: 'landing-page-testimonial-section',
-  templateUrl: './testimonial-section.component.html',
+  selector: "landing-page-testimonial-section",
+  templateUrl: "./testimonial-section.component.html",
 })
-export class TestimonialSectionComponent {
-
-}
+export class TestimonialSectionComponent {}

@@ -1,23 +1,31 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { LandingPageComponent } from './landing-page.component';
-import { NavbarComponent } from './navbar/navbar.component';
+import { NgModule } from "@angular/core";
+import { CommonModule } from "@angular/common";
+import { LandingPageComponent } from "./landing-page.component";
+import { NavbarComponent } from "./navbar/navbar.component";
 import { NgIconsModule } from "@ng-icons/core";
-import { bootstrapGlobe, bootstrapClock, bootstrapMessenger } from "@ng-icons/bootstrap-icons";
+import {
+  bootstrapGlobe,
+  bootstrapClock,
+  bootstrapMessenger,
+} from "@ng-icons/bootstrap-icons";
 import { ionMenuOutline, ionHomeOutline } from "@ng-icons/ionicons";
-import { heroUsers } from "@ng-icons/heroicons/outline"
-import { HeroSectionComponent } from './hero-section/hero-section.component';
-import { FeaturesSectionComponent } from './features-section/features-section.component';
-import { TestimonialSectionComponent } from './testimonial-section/testimonial-section.component';
-import { CtaSectionComponent } from './cta-section/cta-section.component';
-import { hlmBtnDirective } from '@spartan-ng/ui-button-helm';
+import { heroUsers } from "@ng-icons/heroicons/outline";
+import { HeroSectionComponent } from "./hero-section/hero-section.component";
+import { FeaturesSectionComponent } from "./features-section/features-section.component";
+import { TestimonialSectionComponent } from "./testimonial-section/testimonial-section.component";
+import { CtaSectionComponent } from "./cta-section/cta-section.component";
+import { hlmBtnDirective } from "@spartan-ng/ui-button-helm";
 import {
   HlmSheetComponent,
-  HlmSheetContentComponent, HlmSheetDescriptionDirective,
+  HlmSheetContentComponent,
+  HlmSheetDescriptionDirective,
   HlmSheetHeaderComponent,
-  HlmSheetTitleDirective
+  HlmSheetTitleDirective,
 } from "@spartan-ng/ui-sheet-helm";
-import { BrnSheetContentDirective, BrnSheetTriggerDirective } from "@spartan-ng/ui-sheet-brain";
+import {
+  BrnSheetContentDirective,
+  BrnSheetTriggerDirective,
+} from "@spartan-ng/ui-sheet-brain";
 import {
   HlmCardContentDirective,
   HlmCardDescriptionDirective,
@@ -25,10 +33,7 @@ import {
   HlmCardFooterDirective,
   HlmCardHeaderDirective,
   HlmCardTitleDirective,
-} from '@spartan-ng/ui-card-helm';
-
-
-
+} from "@spartan-ng/ui-card-helm";
 
 @NgModule({
   declarations: [
@@ -37,7 +42,7 @@ import {
     HeroSectionComponent,
     FeaturesSectionComponent,
     TestimonialSectionComponent,
-    CtaSectionComponent
+    CtaSectionComponent,
   ],
   imports: [
     CommonModule,
@@ -47,7 +52,7 @@ import {
       ionHomeOutline,
       bootstrapClock,
       bootstrapMessenger,
-      heroUsers
+      heroUsers,
     }),
     hlmBtnDirective,
     HlmSheetComponent,
@@ -64,9 +69,6 @@ import {
     HlmCardHeaderDirective,
     HlmCardTitleDirective,
   ],
-  exports: [
-    NavbarComponent
-  ]
+  exports: [NavbarComponent],
 })
-export class LandingPageModule {
-}
+export class LandingPageModule {}
