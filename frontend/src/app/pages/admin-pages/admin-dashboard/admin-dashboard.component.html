@@ -6,12 +6,15 @@
 	</div>
 	<div class="space-y-5 w-full h-full mt-5">
 		<admin-dashboard-stats />
-		<div class="w-full grid grid-cols-1 md:grid-cols-2 gap-5 h-full">
-			<div>ongoing tasks</div>
+		<div class="w-full grid grid-cols-1 lg:grid-cols-2 gap-5 h-full">
+			<div class="w-full h-full">
+				<admin-dashboard-ongoing-tasks />
+			</div>
 			<div class="flex flex-col items-start justify-between gap-5 h-full">
 				<div class="h-full">graph</div>
 				<div class="h-full">top performers</div>
 			</div>
 		</div>
+	
 	</div>
 </main>
