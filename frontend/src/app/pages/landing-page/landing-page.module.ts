@@ -11,6 +11,7 @@ import { HeroSectionComponent } from './hero-section/hero-section.component';
 import { FeaturesSectionComponent } from './features-section/features-section.component';
 import { TestimonialSectionComponent } from './testimonial-section/testimonial-section.component';
 import { CtaSectionComponent } from './cta-section/cta-section.component';
+import { RouterLink } from "@angular/router";
 
 
 @NgModule({
@@ -22,11 +23,19 @@ import { CtaSectionComponent } from './cta-section/cta-section.component';
     TestimonialSectionComponent,
     CtaSectionComponent
   ],
-  imports: [
-    CommonModule,
-    NgIconsModule.withIcons({ bootstrapGlobe, ionMenuOutline, ionHomeOutline, bootstrapClock, bootstrapMessenger, heroUsers }),
-    ComponentsModule
-  ],
+	imports: [
+		CommonModule,
+		NgIconsModule.withIcons({
+			bootstrapGlobe,
+			ionMenuOutline,
+			ionHomeOutline,
+			bootstrapClock,
+			bootstrapMessenger,
+			heroUsers
+		}),
+		ComponentsModule,
+		RouterLink
+	],
   exports: [
     NavbarComponent
   ]

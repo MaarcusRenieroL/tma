@@ -33,9 +33,11 @@
         >
           Pricing
         </a>
-        <ui-button>
-          Sign In
-        </ui-button>
+        <a [routerLink]="['auth/sign-in']">
+	        <ui-button>
+		        Sign In
+	        </ui-button>
+        </a>
         <ui-button variant="outline">
           Sign Up
         </ui-button>

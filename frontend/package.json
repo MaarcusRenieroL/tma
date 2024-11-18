@@ -20,6 +20,7 @@
     "@angular/router": "^18.2.0",
     "@ng-icons/bootstrap-icons": "^29.9.0",
     "@ng-icons/core": "^29.9.0",
+    "@ng-icons/heroicons": "^29.9.0",
     "@ng-icons/ionicons": "^29.9.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",

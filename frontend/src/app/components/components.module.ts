@@ -11,11 +11,12 @@ import { CardTitleComponent } from "./card/card-title/card-title.component";
 import { CardDescriptionComponent } from "./card/card-description/card-description.component";
 import { CardContentComponent } from "./card/card-content/card-content.component";
 import { CardFooterComponent } from "./card/card-footer/card-footer.component";
+import { InputComponent } from './input/input.component';
 
 
 @NgModule({
-  declarations: [ ButtonComponent, SheetComponent, SheetTriggerComponent, SheetHeaderComponent, SheetFooterComponent, CardComponent, CardHeaderComponent, CardTitleComponent, CardDescriptionComponent, CardContentComponent, CardFooterComponent ],
-  exports: [ ButtonComponent, SheetComponent, SheetTriggerComponent, SheetHeaderComponent, SheetFooterComponent, CardComponent, CardHeaderComponent, CardTitleComponent, CardDescriptionComponent, CardContentComponent, CardFooterComponent ],
+  declarations: [ ButtonComponent, SheetComponent, SheetTriggerComponent, SheetHeaderComponent, SheetFooterComponent, CardComponent, CardHeaderComponent, CardTitleComponent, CardDescriptionComponent, CardContentComponent, CardFooterComponent, InputComponent ],
+  exports: [ ButtonComponent, SheetComponent, SheetTriggerComponent, SheetHeaderComponent, SheetFooterComponent, CardComponent, CardHeaderComponent, CardTitleComponent, CardDescriptionComponent, CardContentComponent, CardFooterComponent, InputComponent ],
   imports: [
     CommonModule
   ]

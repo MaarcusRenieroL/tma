@@ -1,0 +1,38 @@
+<div class="flex items-center justify-center w-full h-full">
+	<ui-card class="w-full max-w-md mx-auto">
+		<ui-card-header class="flex flex-col items-center justify-center w-full text-center gap-3">
+			<ui-card-title>Sign In</ui-card-title>
+			<ui-card-description>
+				Please enter your email and password to sign in.
+			</ui-card-description>
+		</ui-card-header>
+		<ui-card-content>
+			<form class="flex flex-col items-start justify-evenly gap-5 w-full">
+				
+				<div class="flex flex-col items-start w-full gap-3">
+					<label>Email</label>
+					<ui-input placeholder="Enter your email" class="w-full" />
+				</div>
+				
+				<div class="flex flex-col items-start w-full gap-3">
+					<label>Password</label>
+					<ui-input placeholder="Enter your email" type="password" class="w-full" />
+				</div>
+				
+				<div class="w-full">
+					<ui-button type="submit" extraClasses="w-full">
+						Sign In
+					</ui-button>
+				</div>
+			</form>
+		</ui-card-content>
+		<ui-card-footer class="flex justify-center">
+			<p class="text-sm text-gray-500">
+				Don&apos;t have an account?
+				<a href="#" class="text-primary hover:underline hover:underline-offset-4">
+					Sign Up
+				</a>
+			</p>
+		</ui-card-footer>
+	</ui-card>
+</div>
