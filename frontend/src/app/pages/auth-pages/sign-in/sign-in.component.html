@@ -15,8 +15,13 @@
 				</div>
 				
 				<div class="flex flex-col items-start w-full gap-3">
-					<label>Password</label>
-					<ui-input placeholder="Enter your password" type="password" class="w-full" />
+					<div class="w-full">
+						<label>Password</label>
+						<ui-input placeholder="Enter your password" type="password" class="w-full" />
+					</div>
+					<a [routerLink]="['auth/forgot-password']" class="text-xs text-right w-full hover:underline hover:underline-offset-4">
+						Forgot Password?
+					</a>
 				</div>
 				
 				<div class="w-full">
