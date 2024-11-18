@@ -6,6 +6,7 @@ import { SignUpComponent } from './sign-up/sign-up.component';
 import { PasswordResetComponent } from './password-reset/password-reset.component';
 import { RouterLink } from "@angular/router";
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
+import { VerifyEmailComponent } from "./verify-email/verify-email.component";
 
 
 
@@ -14,7 +15,8 @@ import { ForgotPasswordComponent } from './forgot-password/forgot-password.compo
     SignInComponent,
     SignUpComponent,
     PasswordResetComponent,
-    ForgotPasswordComponent
+    ForgotPasswordComponent,
+		VerifyEmailComponent
   ],
 	imports: [
 		CommonModule,

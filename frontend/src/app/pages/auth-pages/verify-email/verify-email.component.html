@@ -1,21 +1,20 @@
 <div class="flex items-center justify-center w-full h-full">
 	<ui-card class="w-full max-w-md mx-auto">
 		<ui-card-header class="flex flex-col items-center justify-center gap-3 text-center">
-			<ui-card-title>Reset Password</ui-card-title>
+			<ui-card-title>Email Verification</ui-card-title>
 			<ui-card-description>
-				Enter your email address to send the reset password mail
+				Enter the 6-digit code sent to your email
 			</ui-card-description>
 		</ui-card-header>
 		<ui-card-content>
 			<form class="flex flex-col items-start justify-evenly gap-5 w-full">
 				<div class="flex flex-col items-start w-full gap-3">
-					<label>Email</label>
-					<ui-input placeholder="Enter your email" type="email" class="w-full"/>
+					<ui-input placeholder="Enter your verification code" class="w-full"/>
 				</div>
 				
 				<div class="w-full">
 					<ui-button type="submit" extraClasses="w-full">
-						Send Reset Password Link
+						Verify Email
 					</ui-button>
 				</div>
 			</form>

@@ -19,7 +19,7 @@
 						<label>Password</label>
 						<ui-input placeholder="Enter your password" type="password" class="w-full" />
 					</div>
-					<a [routerLink]="['auth/forgot-password']" class="text-xs text-right w-full hover:underline hover:underline-offset-4">
+					<a [routerLink]="['/auth/forgot-password']" class="text-xs text-right w-full hover:underline hover:underline-offset-4">
 						Forgot Password?
 					</a>
 				</div>
@@ -34,7 +34,7 @@
 		<ui-card-footer class="flex justify-center">
 			<p class="text-sm text-gray-500">
 				Don&apos;t have an account?
-				<a href="#" class="text-primary hover:underline hover:underline-offset-4">
+				<a [routerLink]="['/auth/sign-up']" class="text-primary hover:underline hover:underline-offset-4">
 					Sign Up
 				</a>
 			</p>
