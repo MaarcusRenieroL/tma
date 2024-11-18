@@ -14,11 +14,9 @@ import { CardFooterComponent } from "./card/card-footer/card-footer.component";
 
 
 @NgModule({
-  declarations: [ ButtonComponent, SheetComponent, SheetTriggerComponent, SheetHeaderComponent, SheetFooterComponent, CardComponent, CardHeaderComponent, CardTitleComponent, CardDescriptionComponent, CardContentComponent, CardFooterComponent ],
-  exports: [ ButtonComponent, SheetComponent, SheetTriggerComponent, SheetHeaderComponent, SheetFooterComponent, CardComponent, CardHeaderComponent, CardTitleComponent, CardDescriptionComponent, CardContentComponent, CardFooterComponent ],
-  imports: [
-    CommonModule
-  ]
+	declarations: [ ButtonComponent, SheetComponent, SheetTriggerComponent, SheetHeaderComponent, SheetFooterComponent, CardComponent, CardHeaderComponent, CardTitleComponent, CardDescriptionComponent, CardContentComponent, CardFooterComponent ],
+	exports: [ ButtonComponent, SheetComponent, SheetTriggerComponent, SheetHeaderComponent, SheetFooterComponent, CardComponent, CardHeaderComponent, CardTitleComponent, CardDescriptionComponent, CardContentComponent, CardFooterComponent ],
+	imports: [ CommonModule ]
 })
 export class ComponentsModule {
 }
