@@ -6,11 +6,28 @@ import { NgIconsModule } from "@ng-icons/core";
 import { bootstrapGlobe, bootstrapClock, bootstrapMessenger } from "@ng-icons/bootstrap-icons";
 import { ionMenuOutline, ionHomeOutline } from "@ng-icons/ionicons";
 import { heroUsers } from "@ng-icons/heroicons/outline"
-import { ComponentsModule } from "../../components/components.module";
 import { HeroSectionComponent } from './hero-section/hero-section.component';
 import { FeaturesSectionComponent } from './features-section/features-section.component';
 import { TestimonialSectionComponent } from './testimonial-section/testimonial-section.component';
 import { CtaSectionComponent } from './cta-section/cta-section.component';
+import { HlmButtonDirective } from '@spartan-ng/ui-button-helm';
+import {
+  HlmSheetComponent,
+  HlmSheetContentComponent, HlmSheetDescriptionDirective,
+  HlmSheetHeaderComponent,
+  HlmSheetTitleDirective
+} from "@spartan-ng/ui-sheet-helm";
+import { BrnSheetContentDirective, BrnSheetTriggerDirective } from "@spartan-ng/ui-sheet-brain";
+import {
+  HlmCardContentDirective,
+  HlmCardDescriptionDirective,
+  HlmCardDirective,
+  HlmCardFooterDirective,
+  HlmCardHeaderDirective,
+  HlmCardTitleDirective,
+} from '@spartan-ng/ui-card-helm';
+
+
 
 
 @NgModule({
@@ -24,8 +41,28 @@ import { CtaSectionComponent } from './cta-section/cta-section.component';
   ],
   imports: [
     CommonModule,
-    NgIconsModule.withIcons({ bootstrapGlobe, ionMenuOutline, ionHomeOutline, bootstrapClock, bootstrapMessenger, heroUsers }),
-    ComponentsModule
+    NgIconsModule.withIcons({
+      bootstrapGlobe,
+      ionMenuOutline,
+      ionHomeOutline,
+      bootstrapClock,
+      bootstrapMessenger,
+      heroUsers
+    }),
+    HlmButtonDirective,
+    HlmSheetComponent,
+    HlmSheetContentComponent,
+    HlmSheetHeaderComponent,
+    HlmSheetTitleDirective,
+    HlmSheetDescriptionDirective,
+    BrnSheetTriggerDirective,
+    BrnSheetContentDirective,
+    HlmCardContentDirective,
+    HlmCardDescriptionDirective,
+    HlmCardDirective,
+    HlmCardFooterDirective,
+    HlmCardHeaderDirective,
+    HlmCardTitleDirective,
   ],
   exports: [
     NavbarComponent
