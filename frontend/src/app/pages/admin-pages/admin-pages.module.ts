@@ -16,7 +16,6 @@ import {
   BrnSheetContentDirective,
   BrnSheetTriggerDirective,
 } from "@spartan-ng/ui-sheet-brain";
-import { hlmBtnDirective } from "@spartan-ng/ui-button-helm";
 import {
   HlmSheetComponent,
   HlmSheetContentComponent,
@@ -82,6 +81,8 @@ import {
 	HlmSelectTriggerComponent
 } from "@spartan-ng/ui-select-helm";
 import { FormsModule } from "@angular/forms";
+import { HlmButtonDirective } from "@spartan-ng/ui-button-helm";
+import { AdminSettingsPasswordTabComponent } from './admin-settings/admin-settings-password-tab/admin-settings-password-tab.component';
 
 @NgModule({
   declarations: [
@@ -105,6 +106,7 @@ import { FormsModule } from "@angular/forms";
     AdminNotificationsComponent,
     AdminSettingsComponent,
     AdminSettingsProfileTabComponent,
+    AdminSettingsPasswordTabComponent,
   ],
 	imports: [
 		CommonModule,
@@ -116,7 +118,6 @@ import { FormsModule } from "@angular/forms";
 		}),
 		BrnSheetContentDirective,
 		BrnSheetTriggerDirective,
-		hlmBtnDirective,
 		HlmSheetComponent,
 		HlmSheetContentComponent,
 		HlmSheetHeaderComponent,
@@ -162,6 +163,7 @@ import { FormsModule } from "@angular/forms";
 		HlmSelectOptionComponent,
 		HlmSelectTriggerComponent,
 		FormsModule,
+		HlmButtonDirective,
 	],
   exports: [AdminDashboardComponent, AdminNavbarComponent],
 })

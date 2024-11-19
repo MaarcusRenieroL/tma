@@ -14,7 +14,6 @@ import { HeroSectionComponent } from "./hero-section/hero-section.component";
 import { FeaturesSectionComponent } from "./features-section/features-section.component";
 import { TestimonialSectionComponent } from "./testimonial-section/testimonial-section.component";
 import { CtaSectionComponent } from "./cta-section/cta-section.component";
-import { hlmBtnDirective } from "@spartan-ng/ui-button-helm";
 import {
   HlmSheetComponent,
   HlmSheetContentComponent,
@@ -34,6 +33,7 @@ import {
   HlmCardHeaderDirective,
   HlmCardTitleDirective,
 } from "@spartan-ng/ui-card-helm";
+import { HlmButtonDirective } from "@spartan-ng/ui-button-helm";
 
 @NgModule({
   declarations: [
@@ -54,7 +54,6 @@ import {
       bootstrapMessenger,
       heroUsers,
     }),
-    hlmBtnDirective,
     HlmSheetComponent,
     HlmSheetContentComponent,
     HlmSheetHeaderComponent,
@@ -68,6 +67,7 @@ import {
     HlmCardFooterDirective,
     HlmCardHeaderDirective,
     HlmCardTitleDirective,
+    HlmButtonDirective,
   ],
   exports: [NavbarComponent],
 })
