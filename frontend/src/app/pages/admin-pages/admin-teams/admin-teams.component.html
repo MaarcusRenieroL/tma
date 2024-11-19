@@ -1,0 +1,13 @@
+<admin-navbar />
+<main class="p-10">
+	<div class="flex flex-col gap-5">
+		<h1 class="text-2xl font-bold">Teams</h1>
+		<hr />
+	</div>
+	<div class="flex flex-col gap-5 mt-5">
+		<admin-team-toolbar />
+		<div class="grid grid-cols-1 lg:grid-cols-3 gap-5">
+			<admin-team-card *ngFor="let team of teams" [team]="team" />
+		</div>
+	</div>
+</main>

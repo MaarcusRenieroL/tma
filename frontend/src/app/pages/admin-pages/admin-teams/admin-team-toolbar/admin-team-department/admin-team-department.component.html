@@ -1,0 +1,11 @@
+<button hlmBtn [brnMenuTriggerFor]="menu" variant="outline">Department</button>
+
+<ng-template #menu>
+	<hlm-menu>
+		<hlm-menu-label>Select Department</hlm-menu-label>
+		<hlm-menu-separator />
+		<button hlmMenuItem *ngFor="let department of departments">
+			{{ department.name }}
+		</button>
+	</hlm-menu>
+</ng-template>

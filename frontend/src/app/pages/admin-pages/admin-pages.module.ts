@@ -57,6 +57,12 @@ import {
 	BrnDialogTitleDirective,
 	BrnDialogTriggerDirective
 } from "@spartan-ng/ui-dialog-brain";
+import { AdminTeamsComponent } from './admin-teams/admin-teams.component';
+import { AdminTeamCardComponent } from './admin-teams/admin-team-card/admin-team-card.component';
+import { AdminTeamToolbarComponent } from './admin-teams/admin-team-toolbar/admin-team-toolbar.component';
+import { AdminTeamDepartmentComponent } from './admin-teams/admin-team-toolbar/admin-team-department/admin-team-department.component';
+import { AdminTeamSortByComponent } from './admin-teams/admin-team-toolbar/admin-team-sort-by/admin-team-sort-by.component';
+import { HlmAvatarComponent, HlmAvatarFallbackDirective, HlmAvatarImageDirective } from "@spartan-ng/ui-avatar-helm";
 
 @NgModule({
   declarations: [
@@ -72,6 +78,11 @@ import {
     AdminProjectStatusComponent,
     AdminProjectSortByComponent,
     AdminProjectCardComponent,
+    AdminTeamsComponent,
+    AdminTeamCardComponent,
+    AdminTeamToolbarComponent,
+    AdminTeamDepartmentComponent,
+    AdminTeamSortByComponent,
   ],
 	imports: [
 		CommonModule,
@@ -113,6 +124,9 @@ import {
 		BrnDialogDescriptionDirective,
 		HlmDialogFooterComponent,
 		BrnDialogContentDirective,
+		HlmAvatarComponent,
+		HlmAvatarImageDirective,
+		HlmAvatarFallbackDirective
 	],
   exports: [AdminDashboardComponent, AdminNavbarComponent],
 })
