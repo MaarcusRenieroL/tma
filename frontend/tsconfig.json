@@ -54,6 +54,15 @@
       ],
       "@spartan-ng/ui-tabs-helm": [
         ".\\src/components/ui/ui-tabs-helm/src/index.ts"
+      ],
+      "@spartan-ng/ui-label-helm": [
+        ".\\src/components/ui/ui-label-helm/src/index.ts"
+      ],
+      "@spartan-ng/ui-sonner-helm": [
+        ".\\src/components/ui/ui-sonner-helm/src/index.ts"
+      ],
+      "@spartan-ng/ui-select-helm": [
+        ".\\src/components/ui/ui-select-helm/src/index.ts"
       ]
     }
   },

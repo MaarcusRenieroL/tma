@@ -1,5 +1,5 @@
 import { NgModule } from "@angular/core";
-import { CommonModule } from "@angular/common";
+import { CommonModule, NgOptimizedImage } from "@angular/common";
 import { AdminDashboardComponent } from "./admin-dashboard/admin-dashboard.component";
 import { AdminNavbarComponent } from "./admin-navbar/admin-navbar.component";
 import { NgIconsModule } from "@ng-icons/core";
@@ -71,6 +71,17 @@ import {
 	HlmTabsTriggerDirective
 } from "@spartan-ng/ui-tabs-helm";
 import { AdminSettingsComponent } from './admin-settings/admin-settings.component';
+import { AdminSettingsProfileTabComponent } from './admin-settings/admin-settings-profile-tab/admin-settings-profile-tab.component';
+import { HlmLabelDirective } from "@spartan-ng/ui-label-helm";
+import { HlmToasterComponent } from "@spartan-ng/ui-sonner-helm";
+import { BrnSelectComponent } from "@spartan-ng/ui-select-brain";
+import {
+	HlmSelectContentDirective,
+	HlmSelectOptionComponent,
+	HlmSelectValueDirective,
+	HlmSelectTriggerComponent
+} from "@spartan-ng/ui-select-helm";
+import { FormsModule } from "@angular/forms";
 
 @NgModule({
   declarations: [
@@ -93,6 +104,7 @@ import { AdminSettingsComponent } from './admin-settings/admin-settings.componen
     AdminTeamSortByComponent,
     AdminNotificationsComponent,
     AdminSettingsComponent,
+    AdminSettingsProfileTabComponent,
   ],
 	imports: [
 		CommonModule,
@@ -140,7 +152,16 @@ import { AdminSettingsComponent } from './admin-settings/admin-settings.componen
 		HlmTabsComponent,
 		HlmTabsListComponent,
 		HlmTabsTriggerDirective,
-		HlmTabsContentDirective
+		HlmTabsContentDirective,
+		HlmLabelDirective,
+		NgOptimizedImage,
+		HlmToasterComponent,
+		BrnSelectComponent,
+		HlmSelectValueDirective,
+		HlmSelectContentDirective,
+		HlmSelectOptionComponent,
+		HlmSelectTriggerComponent,
+		FormsModule,
 	],
   exports: [AdminDashboardComponent, AdminNavbarComponent],
 })
