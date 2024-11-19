@@ -51,6 +51,9 @@
       ],
       "@spartan-ng/ui-avatar-helm": [
         ".\\src/components/ui/ui-avatar-helm/src/index.ts"
+      ],
+      "@spartan-ng/ui-tabs-helm": [
+        ".\\src/components/ui/ui-tabs-helm/src/index.ts"
       ]
     }
   },

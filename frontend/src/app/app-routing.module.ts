@@ -4,12 +4,14 @@ import { LandingPageComponent } from "./pages/landing-page/landing-page.componen
 import { AdminDashboardComponent } from "./pages/admin-pages/admin-dashboard/admin-dashboard.component";
 import { AdminProjectsComponent } from "./pages/admin-pages/admin-projects/admin-projects.component";
 import { AdminTeamsComponent } from "./pages/admin-pages/admin-teams/admin-teams.component";
+import { AdminNotificationsComponent } from "./pages/admin-pages/admin-notifications/admin-notifications.component";
 
 const routes: Routes = [
   { path: "", component: LandingPageComponent },
   { path: "admin/dashboard", component: AdminDashboardComponent },
   { path: "admin/projects", component: AdminProjectsComponent },
-  { path: "admin/teams", component: AdminTeamsComponent }
+  { path: "admin/teams", component: AdminTeamsComponent },
+  { path: "admin/notifications", component: AdminNotificationsComponent }
 ];
 
 @NgModule({

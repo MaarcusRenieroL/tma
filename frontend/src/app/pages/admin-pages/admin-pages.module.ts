@@ -63,6 +63,13 @@ import { AdminTeamToolbarComponent } from './admin-teams/admin-team-toolbar/admi
 import { AdminTeamDepartmentComponent } from './admin-teams/admin-team-toolbar/admin-team-department/admin-team-department.component';
 import { AdminTeamSortByComponent } from './admin-teams/admin-team-toolbar/admin-team-sort-by/admin-team-sort-by.component';
 import { HlmAvatarComponent, HlmAvatarFallbackDirective, HlmAvatarImageDirective } from "@spartan-ng/ui-avatar-helm";
+import { AdminNotificationsComponent } from './admin-notifications/admin-notifications.component';
+import {
+	HlmTabsComponent,
+	HlmTabsContentDirective,
+	HlmTabsListComponent,
+	HlmTabsTriggerDirective
+} from "@spartan-ng/ui-tabs-helm";
 
 @NgModule({
   declarations: [
@@ -83,6 +90,7 @@ import { HlmAvatarComponent, HlmAvatarFallbackDirective, HlmAvatarImageDirective
     AdminTeamToolbarComponent,
     AdminTeamDepartmentComponent,
     AdminTeamSortByComponent,
+    AdminNotificationsComponent,
   ],
 	imports: [
 		CommonModule,
@@ -126,7 +134,11 @@ import { HlmAvatarComponent, HlmAvatarFallbackDirective, HlmAvatarImageDirective
 		BrnDialogContentDirective,
 		HlmAvatarComponent,
 		HlmAvatarImageDirective,
-		HlmAvatarFallbackDirective
+		HlmAvatarFallbackDirective,
+		HlmTabsComponent,
+		HlmTabsListComponent,
+		HlmTabsTriggerDirective,
+		HlmTabsContentDirective
 	],
   exports: [AdminDashboardComponent, AdminNavbarComponent],
 })
