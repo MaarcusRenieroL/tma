@@ -70,6 +70,7 @@ import {
 	HlmTabsListComponent,
 	HlmTabsTriggerDirective
 } from "@spartan-ng/ui-tabs-helm";
+import { AdminSettingsComponent } from './admin-settings/admin-settings.component';
 
 @NgModule({
   declarations: [
@@ -91,6 +92,7 @@ import {
     AdminTeamDepartmentComponent,
     AdminTeamSortByComponent,
     AdminNotificationsComponent,
+    AdminSettingsComponent,
   ],
 	imports: [
 		CommonModule,
