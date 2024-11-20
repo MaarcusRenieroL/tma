@@ -18,12 +18,14 @@
 
   <div class="flex flex-col gap-5 w-full">
     <div class="w-full flex flex-col gap-5 py-5">
-      <div class="flex items-center justify-between w-full">
+      <div class="flex flex-col lg:flex-row items-start justify-between w-full">
         <label hlmLabel class="flex flex-col items-start gap-2">
-          <p>Brand Color *</p>
+          <p class="text-xl font-semibold">Brand Color *</p>
           <p>Select or customize your brand color</p>
         </label>
-        <div class="w-3/4 flex items-center gap-5">
+        <div class="lg:w-3/4 w-full lg:mt-0 mt-5 flex flex-col lg:flex-row lg:items-center items-start gap-5">
+          <div class="flex items-center gap-5">
+
           <button hlmBtn size="icon" class="rounded-full h-5 w-5 bg-red-500 hover:bg-red-800"></button>
           <button hlmBtn size="icon" class="rounded-full h-5 w-5 bg-yellow-500 hover:bg-yellow-800"></button>
           <button hlmBtn size="icon" class="rounded-full h-5 w-5 bg-green-500 hover:bg-green-800"></button>
@@ -33,7 +35,8 @@
           <button hlmBtn size="icon" class="rounded-full h-5 w-5 bg-slate-500 hover:bg-slate-800"></button>
           <button hlmBtn size="icon" class="rounded-full h-5 w-5 bg-stone-500 hover:bg-stone-800"></button>
           <button hlmBtn size="icon" class="rounded-full h-5 w-5 bg-lime-500 hover:bg-lime-800"></button>
-          <button hlmBtn variant="outline">#ffffff</button>
+          </div>
+          <button hlmBtn variant="outline" class="w-fit">#ffffff</button>
         </div>
       </div>
       <hr />
@@ -42,9 +45,12 @@
 
   <div class="flex flex-col gap-5 w-full">
     <div class="w-full flex flex-col gap-5 py-5">
-      <div class="flex items-center justify-between w-full">
-        <label hlmLabel>Email Address *</label>
-        <div class="w-3/4 flex items-center gap-5">
+      <div class="flex flex-col lg:flex-row items-start justify-between w-full">
+        <label hlmLabel class="flex flex-col items-start gap-2">
+          <p class="text-xl font-semibold">Display Preference</p>
+          <p>Switch between light and dark modes</p>
+        </label>
+        <div class="lg:w-3/4 w-full flex items-center gap-5 lg:mt-0 mt-5">
           <div class="flex flex-col gap-3">
             <div class="items-center rounded-md border-2 border-muted p-1 hover:border-accent">
               <div class="space-y-2 rounded-sm bg-[#ecedef] p-2">
@@ -98,9 +104,9 @@
 
   <div class="flex flex-col gap-5 w-full">
     <div class="w-full flex flex-col gap-5 py-5">
-      <div class="flex items-center justify-between w-full">
-        <label hlmLabel>Language</label>
-        <div class="w-3/4 flex items-center gap-5">
+      <div class="flex items-start justify-between w-full">
+        <label hlmLabel class="text-xl font-semibold">Language</label>
+        <div class="w-3/4 flex items-start gap-5">
           <brn-select class="inline-block w-2/5" placeholder="Select an option" [(ngModel)]="selectedValueForLanguage">
             <hlm-select-trigger class="w-full">
               <hlm-select-value>

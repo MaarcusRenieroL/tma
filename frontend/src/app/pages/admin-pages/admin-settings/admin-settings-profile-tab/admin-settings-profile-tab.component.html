@@ -18,11 +18,11 @@
 	
 	<div class="flex flex-col gap-5 w-full">
 		<div class="w-full flex flex-col gap-5 py-5">
-			<div class="flex items-center justify-between w-full">
+			<div class="flex flex-col lg:flex-row items-start justify-between w-full">
 				<label hlmLabel>Name *</label>
-				<div class="w-3/4 flex items-center gap-5">
-					<input hlmInput type="text" required placeholder="Enter your first name" class="w-2/5" />
-					<input hlmInput type="text" required placeholder="Enter your last name" class="w-2/5" />
+				<div class="lg:w-3/4 w-full flex items-center gap-5 lg:mt-0 mt-5">
+					<input hlmInput type="text" required placeholder="Enter your first name" class="lg:w-2/5 w-full" />
+					<input hlmInput type="text" required placeholder="Enter your last name" class="lg:w-2/5 w-full" />
 				</div>
 			</div>
 			<hr />
@@ -31,10 +31,10 @@
 	
 	<div class="flex flex-col gap-5 w-full">
 		<div class="w-full flex flex-col gap-5 py-5">
-			<div class="flex items-center justify-between w-full">
+			<div class="flex flex-col lg:flex-row items-start justify-between w-full">
 				<label hlmLabel>Email Address *</label>
-				<div class="w-3/4 flex items-center gap-5">
-					<input hlmInput type="email" required placeholder="Enter your email" class="w-2/5" />
+				<div class="lg:w-3/4 w-full flex items-center gap-5 lg:mt-0 mt-5">
+					<input hlmInput type="email" required placeholder="Enter your email" class="lg:w-2/5 w-full" />
 				</div>
 			</div>
 			<hr />
@@ -43,9 +43,9 @@
 	
 	<div class="flex flex-col gap-5 w-full">
 		<div class="w-full flex flex-col gap-5 py-5">
-			<div class="flex items-center justify-between w-full">
+			<div class="flex flex-col lg:flex-row items-start justify-between w-full">
 				<label hlmLabel>Profile Picture</label>
-				<div class="w-3/4 flex flex-col gap-3">
+				<div class="lg:w-3/4 w-full flex flex-col gap-3 lg:mt-0 mt-5">
 					<div
 						class="p-8 border-2 border-dashed rounded-lg text-center cursor-pointer transition-colors"
 						[ngClass]="{
@@ -72,7 +72,7 @@
 								alt="Preview"
 								class="mx-auto max-h-48 rounded-lg"
 							/>
-							<p class="text-sm text-gray-500 mt-4">{{ file?.name }}</p>
+							<p class="text-sm text-gray-500 mt-4">{{ file.name }}</p>
 							<div class="w-full">
 								<div class="w-full h-2 bg-gray-200 rounded-lg overflow-hidden mt-2">
 									<div
@@ -107,10 +107,10 @@
 	
 	<div class="flex flex-col gap-5 w-full">
 		<div class="w-full flex flex-col gap-5 py-5">
-			<div class="flex items-center justify-between w-full">
+			<div class="flex flex-col lg:flex-row items-start justify-between w-full">
 				<label hlmLabel>Role *</label>
-				<div class="w-3/4 flex items-center gap-5">
-					<input hlmInput type="text" required placeholder="Enter your first name" value="Hello" class="w-2/5" />
+				<div class="lg:w-3/4 w-full flex items-center gap-5 lg:mt-0 mt-5">
+					<input hlmInput type="text" required placeholder="Enter your role" value="Hello" class="lg:w-2/5 w-full" />
 				</div>
 			</div>
 			<hr />
@@ -119,10 +119,10 @@
 	
 	<div class="flex flex-col gap-5 w-full">
 		<div class="w-full flex flex-col gap-5 py-5">
-			<div class="flex items-center justify-between w-full">
+			<div class="flex flex-col lg:flex-row items-start justify-between w-full">
 				<label hlmLabel>Country *</label>
-				<div class="w-3/4 flex items-center gap-5">
-					<brn-select class="inline-block w-2/5" placeholder="Select an option" [(ngModel)]="selectedValueForCountries">
+				<div class="lg:w-3/4 w-full flex items-center gap-5 lg:mt-0 mt-5">
+					<brn-select class="inline-block lg:w-2/5 w-full" placeholder="Select an option" [(ngModel)]="selectedValueForCountries">
 						<hlm-select-trigger class="w-full">
 							<hlm-select-value>
 								{{ selectedValueForCountries ? selectedValueForCountries : 'Select an option' }}
@@ -145,10 +145,10 @@
 	
 	<div class="flex flex-col gap-5 w-full">
 		<div class="w-full flex flex-col gap-5 py-5">
-			<div class="flex items-center justify-between w-full">
+			<div class="flex flex-col lg:flex-row items-start justify-between w-full">
 				<label hlmLabel>Timezone *</label>
-				<div class="w-3/4 flex items-center gap-5">
-					<brn-select class="inline-block w-2/5" placeholder="Select an option" [(ngModel)]="selectedValueForTimezones">
+				<div class="lg:w-3/4 w-full flex items-center gap-5 lg:mt-0 mt-5">
+					<brn-select class="inline-block lg:w-2/5 w-full" placeholder="Select an option" [(ngModel)]="selectedValueForTimezones">
 						<hlm-select-trigger class="w-full">
 							<hlm-select-value>
 								{{ selectedValueForTimezones ? selectedValueForTimezones : 'Select an option' }}
@@ -165,7 +165,11 @@
 				
 				</div>
 			</div>
-			<hr />
 		</div>
+	</div>
+
+	<div class="flex md:hidden items-center justify-end w-full gap-5">
+		<button hlmBtn variant="outline">Cancel</button>
+		<button hlmBtn>Save</button>
 	</div>
 </div>
