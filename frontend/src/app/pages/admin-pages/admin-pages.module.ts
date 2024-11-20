@@ -61,6 +61,7 @@ import { AdminProjectCardComponent } from "./admin-projects/admin-project-card/a
 import { AdminNotificationsComponent } from "./admin-notifications/admin-notifications.component";
 
 import { AdminNavbarComponent } from "./admin-navbar/admin-navbar.component";
+import { AdminSettingsNotificationsTabComponent } from './admin-settings/admin-settings-notifications-tab/admin-settings-notifications-tab.component';
 
 @NgModule({
   declarations: [
@@ -91,6 +92,7 @@ import { AdminNavbarComponent } from "./admin-navbar/admin-navbar.component";
     AdminSettingsPasswordTabComponent,
     AdminSettingsAppearanceTabComponent,
     AdminSettingsTeamTabComponent,
+    AdminSettingsNotificationsTabComponent,
   ],
   imports: [
     CommonModule,

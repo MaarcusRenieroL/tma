@@ -5,7 +5,7 @@
 		<hr />
 	</div>
 	<div class="mt-5 w-full">
-		<hlm-tabs tab="my-details" class="mx-auto">
+		<hlm-tabs tab="notifications" class="mx-auto">
 			<div class="relative rounded-sm overflow-x-scroll lg:overflow-x-hidden overflow-y-hidden custom-scrollbar h-10 bg-muted">
 				<hlm-tabs-list class="w-full">
 					<button class="w-full" hlmTabsTrigger="my-details">My Details</button>
@@ -13,8 +13,6 @@
           <button class="w-full" hlmTabsTrigger="appearance">Appearance</button>
 					<button class="w-full" hlmTabsTrigger="password">Password</button>
 					<button class="w-full" hlmTabsTrigger="team">Team</button>
-					<button class="w-full" hlmTabsTrigger="plan">Plan</button>
-					<button class="w-full" hlmTabsTrigger="billing">Billing</button>
 					<button class="w-full" hlmTabsTrigger="email">Email</button>
 					<button class="w-full" hlmTabsTrigger="notifications">Notifications</button>
 				</hlm-tabs-list>
@@ -40,20 +38,12 @@
 				<admin-settings-team-tab />
       </div>
 			
-			<div hlmTabsContent="plan" class="mt-5">
-        Plan Tab
-      </div>
-			
-			<div hlmTabsContent="billing" class="mt-5">
-        Billing Tab
-      </div>
-			
 			<div hlmTabsContent="email" class="mt-5">
         Email Tab
       </div>
 			
 			<div hlmTabsContent="notifications" class="mt-5">
-        Notifications Tab
+				<admin-settings-notifications-tab />
       </div>
 			
 			<div hlmTabsContent="security" class="mt-5">
