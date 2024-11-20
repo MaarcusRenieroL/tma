@@ -25,6 +25,7 @@
     "@ng-icons/ionicons": "^29.9.0",
     "@ng-icons/lucide": "^26.3.0",
     "@spartan-ng/ui-avatar-brain": "0.0.1-alpha.356",
+    "@spartan-ng/ui-checkbox-brain": "0.0.1-alpha.356",
     "@spartan-ng/ui-core": "0.0.1-alpha.356",
     "@spartan-ng/ui-dialog-brain": "0.0.1-alpha.356",
     "@spartan-ng/ui-formfield-brain": "0.0.1-alpha.356",

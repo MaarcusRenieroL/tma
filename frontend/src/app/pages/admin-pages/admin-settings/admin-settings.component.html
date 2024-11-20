@@ -5,11 +5,12 @@
 		<hr />
 	</div>
 	<div class="mt-5 w-full">
-		<hlm-tabs tab="profile" class="mx-auto">
+		<hlm-tabs tab="my-details" class="mx-auto">
 			<div class="relative rounded-sm overflow-x-scroll lg:overflow-x-hidden overflow-y-hidden custom-scrollbar h-10 bg-muted">
 				<hlm-tabs-list class="w-full">
-					<button class="w-full" hlmTabsTrigger="profile">Profile</button>
 					<button class="w-full" hlmTabsTrigger="my-details">My Details</button>
+					<button class="w-full" hlmTabsTrigger="company-profile">Company Profile</button>
+          <button class="w-full" hlmTabsTrigger="appearance">Appearance</button>
 					<button class="w-full" hlmTabsTrigger="password">Password</button>
 					<button class="w-full" hlmTabsTrigger="team">Team</button>
 					<button class="w-full" hlmTabsTrigger="plan">Plan</button>
@@ -18,16 +19,20 @@
 					<button class="w-full" hlmTabsTrigger="notifications">Notifications</button>
 				</hlm-tabs-list>
 			</div>
-			
-			<div hlmTabsContent="profile" class="mt-5">
-				<admin-settings-profile-tab />
-			</div>
-			
+
 			<div hlmTabsContent="my-details" class="mt-5">
-        My Details Tab
+        <admin-settings-profile-tab />
       </div>
-			
-			<div hlmTabsContent="password" class="mt-5">
+
+      <div hlmTabsContent="company-profile" class="mt-5">
+        Company Profile Tab
+      </div>
+
+      <div hlmTabsContent="appearance" class="mt-5">
+        <admin-settings-appearance-tab />
+      </div>
+
+      <div hlmTabsContent="password" class="mt-5">
         <admin-settings-password-tab />
       </div>
 			

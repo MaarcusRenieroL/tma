@@ -83,6 +83,8 @@ import {
 import { FormsModule } from "@angular/forms";
 import { HlmButtonDirective } from "@spartan-ng/ui-button-helm";
 import { AdminSettingsPasswordTabComponent } from './admin-settings/admin-settings-password-tab/admin-settings-password-tab.component';
+import { AdminSettingsAppearanceTabComponent } from './admin-settings/admin-settings-appearance-tab/admin-settings-appearance-tab.component';
+import { HlmCheckboxComponent } from "@spartan-ng/ui-checkbox-helm";
 
 @NgModule({
   declarations: [
@@ -107,6 +109,7 @@ import { AdminSettingsPasswordTabComponent } from './admin-settings/admin-settin
     AdminSettingsComponent,
     AdminSettingsProfileTabComponent,
     AdminSettingsPasswordTabComponent,
+    AdminSettingsAppearanceTabComponent,
   ],
 	imports: [
 		CommonModule,
@@ -164,6 +167,7 @@ import { AdminSettingsPasswordTabComponent } from './admin-settings/admin-settin
 		HlmSelectTriggerComponent,
 		FormsModule,
 		HlmButtonDirective,
+		HlmCheckboxComponent,
 	],
   exports: [AdminDashboardComponent, AdminNavbarComponent],
 })
