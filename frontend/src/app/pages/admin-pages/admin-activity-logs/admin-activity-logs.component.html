@@ -14,7 +14,7 @@
           [ngModel]="_logFilter()"
           (ngModelChange)="_rawFilterInput.set($event)"
         />
-    
+
         <button hlmBtn variant="outline" align="end" [brnMenuTriggerFor]="menu">
           <p>Columns</p>
           <ng-icon name="lucideChevronDown" class="ml-2" />
@@ -74,7 +74,7 @@
             </button>
           </hlm-th>
           <hlm-td truncate *brnCellDef="let element">
-            {{ element.timestamp | date: 'short' }}
+            {{ element.timestamp | date: "short" }}
           </hlm-td>
         </brn-column-def>
         <brn-column-def name="user" class="w-32">
@@ -136,26 +136,30 @@
           onStateChange: _onStateChange
         "
       >
-        <span class="text-sm text-muted-foreground">
-          {{ _selected().length }} of {{ _totalElements() }} log(s) selected
-        </span>
-        <div class="flex mt-2 sm:mt-0">
-          <brn-select class="inline-block" [(ngModel)]="_pageSize">
-            <hlm-select-trigger class="inline-flex mr-1 w-15 h-9">
-              <hlm-select-value>
-                {{ _pageSize() === 10000 ? 'All' : _pageSize() }}
-              </hlm-select-value>
-            </hlm-select-trigger>
-            <hlm-select-content>
-              <hlm-option
-                *ngFor="let size of _availablePageSizes"
-                [value]="size"
-              >
-                {{ size === 10000 ? 'All' : size }}
-              </hlm-option>
-            </hlm-select-content>
-          </brn-select>
-    
+        <span class="${hlmMuted} text-sm"
+          >{{ _selected().length }} of {{ _totalElements() }} row(s)
+          selected</span
+        >
+        <div class="mt-2 flex items-center gap-5 sm:mt-0">
+
+          <button hlmBtn variant="outline" align="end" size="sm" [brnMenuTriggerFor]="pageSizeTrigger">
+            <p>{{ _pageSize() === 10000 ? "All" : _pageSize() }}</p>
+            <ng-icon name="lucideChevronDown" class="ml-2" />
+          </button>
+          <ng-template #pageSizeTrigger>
+            <hlm-menu class="w-32">
+              @for (size of _availablePageSizes; track size) {
+                <button
+                  hlmMenuItemCheckbox
+                  (click)="onOptionForPageSize(size)"
+                >
+                  <hlm-menu-item-check />
+                  <span>{{ size === 10000 ? "All" : size }}</span>
+                </button>
+              }
+            </hlm-menu>
+          </ng-template>
+
           <div class="flex space-x-1">
             <button
               size="sm"
@@ -179,6 +183,5 @@
         </div>
       </div>
     </div>
-    
   </div>
 </main>

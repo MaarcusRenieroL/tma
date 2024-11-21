@@ -82,6 +82,7 @@ import { AdminSettingsNotificationsTabComponent } from "./admin-settings/admin-s
 import { AdminSettingsCompanyProfileTabComponent } from "./admin-settings/admin-settings-company-profile-tab/admin-settings-company-profile-tab.component";
 import { AdminActivityLogsComponent } from "./admin-activity-logs/admin-activity-logs.component";
 import { AccountNavComponent } from "./admin-navbar/account-nav/account-nav.component";
+import { Router, RouterModule } from "@angular/router";
 
 @NgModule({
   declarations: [
@@ -121,6 +122,8 @@ import { AccountNavComponent } from "./admin-navbar/account-nav/account-nav.comp
     CommonModule,
     FormsModule,
     NgOptimizedImage,
+    RouterModule
+    ,
 
     NgIconsModule.withIcons({
       heroUser,
