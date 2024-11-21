@@ -34,11 +34,17 @@
       "@spartan-ng/ui-card-helm": [
         "./src/components/ui/ui-card-helm/src/index.ts"
       ],
+      "@spartan-ng/ui-checkbox-helm": [
+        "./src/components/ui/ui-checkbox-helm/src/index.ts"
+      ],
       "@spartan-ng/ui-dialog-helm": [
         "./src/components/ui/ui-dialog-helm/src/index.ts"
       ],
       "@spartan-ng/ui-formfield-helm": [
         "./src/components/ui/ui-formfield-helm/src/index.ts"
+      ],
+      "@spartan-ng/ui-icon-helm": [
+        "./src/components/ui/ui-icon-helm/src/index.ts"
       ],
       "@spartan-ng/ui-input-helm": [
         "./src/components/ui/ui-input-helm/src/index.ts"
@@ -49,9 +55,6 @@
       "@spartan-ng/ui-menu-helm": [
         "./src/components/ui/ui-menu-helm/src/index.ts"
       ],
-      "@spartan-ng/ui-icon-helm": [
-        "./src/components/ui/ui-icon-helm/src/index.ts"
-      ],
       "@spartan-ng/ui-select-helm": [
         "./src/components/ui/ui-select-helm/src/index.ts"
       ],
@@ -61,14 +64,11 @@
       "@spartan-ng/ui-sonner-helm": [
         "./src/components/ui/ui-sonner-helm/src/index.ts"
       ],
+      "@spartan-ng/ui-table-helm": [
+        "./src/components/ui/ui-table-helm/src/index.ts"
+      ],
       "@spartan-ng/ui-tabs-helm": [
         "./src/components/ui/ui-tabs-helm/src/index.ts"
-      ],
-      "@spartan-ng/ui-checkbox-helm": [
-        "./src/components/ui/ui-checkbox-helm/src/index.ts"
-      ],
-      "@spartan-ng/ui-table-helm": [
-        ".\\src/components/ui/ui-table-helm/src/index.ts"
       ]
     }
   },
