@@ -21,6 +21,8 @@ import { HlmTableModule } from "@spartan-ng/ui-table-helm";
 import { HlmCheckboxModule } from "@spartan-ng/ui-checkbox-helm";
 import { FormsModule } from "@angular/forms";
 import { HlmInputModule } from "@spartan-ng/ui-input-helm";
+import { TeamLeadTasksComponent } from "./team-lead-tasks/team-lead-tasks.component";
+import { heroEllipsisHorizontal } from "@ng-icons/heroicons/outline";
 
 
 @NgModule({
@@ -30,9 +32,10 @@ import { HlmInputModule } from "@spartan-ng/ui-input-helm";
 		TeamLeadAccountNavComponent,
   TeamLeadProjectsComponent,
   TeamLeadUsersComponent,
+  TeamLeadTasksComponent,
 	],
 	imports: [
-		CommonModule, NgIconsModule.withIcons({bootstrapGlobe}), RouterModule, TeamLeadDashboardModule, HlmSheetModule, BrnSheetModule, HlmButtonDirective, HlmAvatarModule, HlmMenuModule, BrnMenuModule, TeamLeadProjectsModule, BrnTableModule, HlmTableModule, HlmCheckboxModule, FormsModule, HlmInputModule
+		CommonModule, NgIconsModule.withIcons({bootstrapGlobe, heroEllipsisHorizontal}), RouterModule, TeamLeadDashboardModule, HlmSheetModule, BrnSheetModule, HlmButtonDirective, HlmAvatarModule, HlmMenuModule, BrnMenuModule, TeamLeadProjectsModule, BrnTableModule, HlmTableModule, HlmCheckboxModule, FormsModule, HlmInputModule
 	], exports: [
 		TeamLeadNavbarComponent,
 		TeamLeadDashboardComponent,
