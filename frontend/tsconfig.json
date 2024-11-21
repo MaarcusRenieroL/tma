@@ -51,6 +51,12 @@
       ],
       "@spartan-ng/ui-formfield-helm": [
         "./src/components/ui/ui-formfield-helm/src/index.ts"
+      ],
+      "@spartan-ng/ui-table-helm": [
+        "./src/components/ui/ui-table-helm/src/index.ts"
+      ],
+      "@spartan-ng/ui-checkbox-helm": [
+        "./src/components/ui/ui-checkbox-helm/src/index.ts"
       ]
     }
   },

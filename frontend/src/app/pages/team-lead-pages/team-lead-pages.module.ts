@@ -15,6 +15,12 @@ import { HlmMenuModule } from "@spartan-ng/ui-menu-helm";
 import { BrnMenuModule } from "@spartan-ng/ui-menu-brain";
 import { TeamLeadProjectsComponent } from './team-lead-projects/team-lead-projects.component';
 import { TeamLeadProjectsModule } from "./team-lead-projects/team-lead-projects.module";
+import { TeamLeadUsersComponent } from './team-lead-users/team-lead-users.component';
+import { BrnTableModule } from "@spartan-ng/ui-table-brain";
+import { HlmTableModule } from "@spartan-ng/ui-table-helm";
+import { HlmCheckboxModule } from "@spartan-ng/ui-checkbox-helm";
+import { FormsModule } from "@angular/forms";
+import { HlmInputModule } from "@spartan-ng/ui-input-helm";
 
 
 @NgModule({
@@ -23,9 +29,10 @@ import { TeamLeadProjectsModule } from "./team-lead-projects/team-lead-projects.
 		TeamLeadDashboardComponent,
 		TeamLeadAccountNavComponent,
   TeamLeadProjectsComponent,
+  TeamLeadUsersComponent,
 	],
 	imports: [
-		CommonModule, NgIconsModule.withIcons({bootstrapGlobe}), RouterModule, TeamLeadDashboardModule, HlmSheetModule, BrnSheetModule, HlmButtonDirective, HlmAvatarModule, HlmMenuModule, BrnMenuModule, TeamLeadProjectsModule
+		CommonModule, NgIconsModule.withIcons({bootstrapGlobe}), RouterModule, TeamLeadDashboardModule, HlmSheetModule, BrnSheetModule, HlmButtonDirective, HlmAvatarModule, HlmMenuModule, BrnMenuModule, TeamLeadProjectsModule, BrnTableModule, HlmTableModule, HlmCheckboxModule, FormsModule, HlmInputModule
 	], exports: [
 		TeamLeadNavbarComponent,
 		TeamLeadDashboardComponent,
