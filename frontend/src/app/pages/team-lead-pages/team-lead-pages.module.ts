@@ -13,6 +13,8 @@ import { HlmButtonDirective } from "@spartan-ng/ui-button-helm";
 import { HlmAvatarModule } from "@spartan-ng/ui-avatar-helm";
 import { HlmMenuModule } from "@spartan-ng/ui-menu-helm";
 import { BrnMenuModule } from "@spartan-ng/ui-menu-brain";
+import { TeamLeadProjectsComponent } from './team-lead-projects/team-lead-projects.component';
+import { TeamLeadProjectsModule } from "./team-lead-projects/team-lead-projects.module";
 
 
 @NgModule({
@@ -20,9 +22,10 @@ import { BrnMenuModule } from "@spartan-ng/ui-menu-brain";
 		TeamLeadNavbarComponent,
 		TeamLeadDashboardComponent,
 		TeamLeadAccountNavComponent,
+  TeamLeadProjectsComponent,
 	],
 	imports: [
-		CommonModule, NgIconsModule.withIcons({ bootstrapGlobe }), RouterModule, TeamLeadDashboardModule, HlmSheetModule, BrnSheetModule, HlmButtonDirective, HlmAvatarModule, HlmMenuModule, BrnMenuModule
+		CommonModule, NgIconsModule.withIcons({bootstrapGlobe}), RouterModule, TeamLeadDashboardModule, HlmSheetModule, BrnSheetModule, HlmButtonDirective, HlmAvatarModule, HlmMenuModule, BrnMenuModule, TeamLeadProjectsModule
 	], exports: [
 		TeamLeadNavbarComponent,
 		TeamLeadDashboardComponent,
