@@ -8,9 +8,26 @@ import {
   bootstrapEye,
   bootstrapPen,
   bootstrapTrash,
-  
 } from "@ng-icons/bootstrap-icons";
-import { lucideChevronDown, lucideArrowUpDown } from "@ng-icons/lucide";
+import {
+  lucideUser,
+  lucideChevronDown,
+  lucideArrowUpDown,
+  lucideUsers,
+  lucideLayers,
+  lucideCog,
+  lucideKeyboard,
+  lucideUserCircle,
+  lucideSmile,
+  lucidePlus,
+  lucideGithub,
+  lucideHelpCircle,
+  lucideCode,
+  lucideLogOut,
+  lucideMail,
+  lucideMessageSquare,
+  lucidePlusCircle,
+} from "@ng-icons/lucide";
 
 import { BrnSheetModule } from "@spartan-ng/ui-sheet-brain";
 import { BrnSelectComponent } from "@spartan-ng/ui-select-brain";
@@ -61,9 +78,10 @@ import { AdminProjectCardComponent } from "./admin-projects/admin-project-card/a
 import { AdminNotificationsComponent } from "./admin-notifications/admin-notifications.component";
 
 import { AdminNavbarComponent } from "./admin-navbar/admin-navbar.component";
-import { AdminSettingsNotificationsTabComponent } from './admin-settings/admin-settings-notifications-tab/admin-settings-notifications-tab.component';
-import { AdminSettingsCompanyProfileTabComponent } from './admin-settings/admin-settings-company-profile-tab/admin-settings-company-profile-tab.component';
-import { AdminActivityLogsComponent } from './admin-activity-logs/admin-activity-logs.component';
+import { AdminSettingsNotificationsTabComponent } from "./admin-settings/admin-settings-notifications-tab/admin-settings-notifications-tab.component";
+import { AdminSettingsCompanyProfileTabComponent } from "./admin-settings/admin-settings-company-profile-tab/admin-settings-company-profile-tab.component";
+import { AdminActivityLogsComponent } from "./admin-activity-logs/admin-activity-logs.component";
+import { AccountNavComponent } from "./admin-navbar/account-nav/account-nav.component";
 
 @NgModule({
   declarations: [
@@ -97,6 +115,7 @@ import { AdminActivityLogsComponent } from './admin-activity-logs/admin-activity
     AdminSettingsNotificationsTabComponent,
     AdminSettingsCompanyProfileTabComponent,
     AdminActivityLogsComponent,
+    AccountNavComponent,
   ],
   imports: [
     CommonModule,
@@ -110,7 +129,22 @@ import { AdminActivityLogsComponent } from './admin-activity-logs/admin-activity
       bootstrapTrash,
       lucideChevronDown,
       lucideArrowUpDown,
-      heroEllipsisHorizontal
+      heroEllipsisHorizontal,
+      lucideUsers,
+      lucideLayers,
+      lucideCog,
+      lucideKeyboard,
+      lucideUserCircle,
+      lucideSmile,
+      lucidePlus,
+      lucideGithub,
+      lucideHelpCircle,
+      lucideCode,
+      lucideLogOut,
+      lucideMail,
+      lucideMessageSquare,
+      lucidePlusCircle,
+      lucideUser
     }),
 
     BrnSheetModule,
@@ -136,10 +170,6 @@ import { AdminActivityLogsComponent } from './admin-activity-logs/admin-activity
     HlmCheckboxComponent,
     HlmToasterComponent,
   ],
-  exports: [
-    AdminDashboardComponent,
-    AdminNavbarComponent,
-  ],
+  exports: [AdminDashboardComponent, AdminNavbarComponent],
 })
-
 export class AdminPagesModule {}

@@ -19,7 +19,6 @@ export class AdminNavbarComponent {
     { href: "/admin/notifications", name: "Notifications" },
     { href: "/admin/settings", name: "Settings" },
     { href: "/admin/logs", name: "Activity Logs" },
-    { href: "/admin/profile", name: "Profile" },
   ];
 
   constructor(private router: Router) {}
