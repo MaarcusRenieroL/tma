@@ -7,6 +7,7 @@ import { AdminTeamsComponent } from "./pages/admin-pages/admin-teams/admin-teams
 import { AdminNotificationsComponent } from "./pages/admin-pages/admin-notifications/admin-notifications.component";
 import { AdminSettingsComponent } from "./pages/admin-pages/admin-settings/admin-settings.component";
 import { AdminActivityLogsComponent } from "./pages/admin-pages/admin-activity-logs/admin-activity-logs.component";
+import { AdminUsersComponent } from "./pages/admin-pages/admin-users/admin-users.component";
 
 const routes: Routes = [
   { path: "", component: LandingPageComponent },
@@ -15,7 +16,8 @@ const routes: Routes = [
   { path: "admin/teams", component: AdminTeamsComponent },
   { path: "admin/notifications", component: AdminNotificationsComponent },
   { path: "admin/settings", component: AdminSettingsComponent },
-  { path: "admin/logs", component: AdminActivityLogsComponent }
+  { path: "admin/logs", component: AdminActivityLogsComponent },
+  { path: "admin/users", component: AdminUsersComponent }
 ];
 
 @NgModule({

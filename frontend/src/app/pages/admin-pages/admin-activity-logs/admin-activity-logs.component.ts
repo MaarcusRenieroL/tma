@@ -6,7 +6,7 @@ import {
   TrackByFunction,
 } from "@angular/core";
 import { toObservable, toSignal } from "@angular/core/rxjs-interop";
-import { debounceTime, map, startWith } from "rxjs";
+import { debounceTime, map } from "rxjs";
 import { SelectionModel } from "@angular/cdk/collections";
 import {
   PaginatorState,

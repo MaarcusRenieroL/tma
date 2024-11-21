@@ -83,6 +83,7 @@ import { AdminSettingsCompanyProfileTabComponent } from "./admin-settings/admin-
 import { AdminActivityLogsComponent } from "./admin-activity-logs/admin-activity-logs.component";
 import { AccountNavComponent } from "./admin-navbar/account-nav/account-nav.component";
 import { Router, RouterModule } from "@angular/router";
+import { AdminUsersComponent } from './admin-users/admin-users.component';
 
 @NgModule({
   declarations: [
@@ -117,6 +118,7 @@ import { Router, RouterModule } from "@angular/router";
     AdminSettingsCompanyProfileTabComponent,
     AdminActivityLogsComponent,
     AccountNavComponent,
+    AdminUsersComponent,
   ],
   imports: [
     CommonModule,
