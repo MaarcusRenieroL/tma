@@ -53,6 +53,11 @@ import { BrnSelectModule } from '@spartan-ng/ui-select-brain';
 import { HlmToasterComponent } from '@spartan-ng/ui-sonner-helm';
 import { ProjectLeadTasksComponent } from './project-lead-tasks/project-lead-tasks.component';
 import { ProjectLeadUsersComponent } from './project-lead-users/project-lead-users.component';
+import { ProjectLeadTeamCardComponent } from './project-lead-teams/project-lead-team-card/project-lead-team-card.component';
+import { ProjectLeadTeamDepartmentComponent } from './project-lead-teams/project-lead-team-toolbar/project-lead-team-department/project-lead-team-department.component';
+import { ProjectLeadTeamSortByComponent } from './project-lead-teams/project-lead-team-toolbar/project-lead-team-sort-by/project-lead-team-sort-by.component';
+import { ProjectLeadTeamToolbarComponent } from './project-lead-teams/project-lead-team-toolbar/project-lead-team-toolbar.component';
+import { ProjectLeadTeamsComponent } from './project-lead-teams/project-lead-teams.component';
 
 @NgModule({
 	declarations: [
@@ -78,7 +83,12 @@ import { ProjectLeadUsersComponent } from './project-lead-users/project-lead-use
 		ProjectLeadSettingsProfileTabComponent,
 		ProjectLeadSettingsTeamTabComponent,
 		ProjectLeadTasksComponent,
-		ProjectLeadUsersComponent
+		ProjectLeadUsersComponent,
+		ProjectLeadTeamCardComponent,
+		ProjectLeadTeamDepartmentComponent,
+		ProjectLeadTeamSortByComponent,
+		ProjectLeadTeamToolbarComponent,
+		ProjectLeadTeamsComponent,
 	],
 	imports: [
 		CommonModule,
@@ -125,7 +135,12 @@ import { ProjectLeadUsersComponent } from './project-lead-users/project-lead-use
 		ProjectLeadSettingsProfileTabComponent,
 		ProjectLeadSettingsTeamTabComponent,
 		ProjectLeadTasksComponent,
-		ProjectLeadUsersComponent
+		ProjectLeadUsersComponent,
+		ProjectLeadTeamCardComponent,
+		ProjectLeadTeamDepartmentComponent,
+		ProjectLeadTeamSortByComponent,
+		ProjectLeadTeamToolbarComponent,
+		ProjectLeadTeamsComponent,
 	]
 })
 export class ProjectLeadPagesModule {

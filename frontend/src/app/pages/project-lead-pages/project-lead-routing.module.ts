@@ -7,6 +7,7 @@ import { ProjectLeadProjectsComponent } from "./project-lead-projects/project-le
 import { ProjectLeadSettingsComponent } from './project-lead-settings/project-lead-settings.component';
 import { ProjectLeadTasksComponent } from './project-lead-tasks/project-lead-tasks.component';
 import { ProjectLeadUsersComponent } from './project-lead-users/project-lead-users.component';
+import { ProjectLeadTeamsComponent } from './project-lead-teams/project-lead-teams.component';
 
 const routes: Routes = [
 	{ path: "project-lead/dashboard", component: ProjectLeadDashboardComponent },
@@ -16,6 +17,7 @@ const routes: Routes = [
 	{ path: "project-lead/settings", component: ProjectLeadSettingsComponent },
 	{ path: "project-lead/tasks", component: ProjectLeadTasksComponent },
 	{ path: "project-lead/users", component: ProjectLeadUsersComponent },
+	{ path: "project-lead/teams", component: ProjectLeadTeamsComponent }
 ];
 
 @NgModule({
