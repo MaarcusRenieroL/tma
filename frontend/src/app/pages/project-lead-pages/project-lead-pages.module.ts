@@ -52,6 +52,7 @@ import { HlmSelectModule } from '@spartan-ng/ui-select-helm';
 import { BrnSelectModule } from '@spartan-ng/ui-select-brain';
 import { HlmToasterComponent } from '@spartan-ng/ui-sonner-helm';
 import { ProjectLeadTasksComponent } from './project-lead-tasks/project-lead-tasks.component';
+import { ProjectLeadUsersComponent } from './project-lead-users/project-lead-users.component';
 
 @NgModule({
 	declarations: [
@@ -76,7 +77,8 @@ import { ProjectLeadTasksComponent } from './project-lead-tasks/project-lead-tas
 		ProjectLeadSettingsPasswordTabComponent,
 		ProjectLeadSettingsProfileTabComponent,
 		ProjectLeadSettingsTeamTabComponent,
-		ProjectLeadTasksComponent
+		ProjectLeadTasksComponent,
+		ProjectLeadUsersComponent
 	],
 	imports: [
 		CommonModule,
@@ -122,7 +124,8 @@ import { ProjectLeadTasksComponent } from './project-lead-tasks/project-lead-tas
 		ProjectLeadSettingsPasswordTabComponent,
 		ProjectLeadSettingsProfileTabComponent,
 		ProjectLeadSettingsTeamTabComponent,
-		ProjectLeadTasksComponent
+		ProjectLeadTasksComponent,
+		ProjectLeadUsersComponent
 	]
 })
 export class ProjectLeadPagesModule {
