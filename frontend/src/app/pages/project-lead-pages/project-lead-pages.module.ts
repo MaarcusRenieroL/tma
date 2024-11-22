@@ -30,20 +30,34 @@ import { HlmInputModule } from "@spartan-ng/ui-input-helm";
 import { HlmCheckboxModule } from "@spartan-ng/ui-checkbox-helm";
 import { FormsModule } from "@angular/forms";
 import { lucideChevronDown } from "@ng-icons/lucide";
-import { ProjectLeadNotificationsComponent } from './project-lead-notifications/project-lead-notifications.component';
 import { HlmTabsModule } from "@spartan-ng/ui-tabs-helm";
-
+import { ProjectLeadProjectCardComponent } from './project-lead-projects/project-lead-project-card/project-lead-project-card.component';
+import { ProjectLeadProjectCategoryComponent } from './project-lead-projects/project-lead-project-toolbar/project-lead-project-category/project-lead-project-category.component';
+import { ProjectLeadProjectSortByComponent } from './project-lead-projects/project-lead-project-toolbar/project-lead-project-sort-by/project-lead-project-sort-by.component';
+import { ProjectLeadProjectStatusComponent } from './project-lead-projects/project-lead-project-toolbar/project-lead-project-status/project-lead-project-status.component';
+import { ProjectLeadProjectToolbarComponent } from './project-lead-projects/project-lead-project-toolbar/project-lead-project-toolbar.component';
+import { ProjectLeadProjectsComponent } from './project-lead-projects/project-lead-projects.component';
+import { HlmDialogModule } from '@spartan-ng/ui-dialog-helm';
+import { BrnDialogModule } from '@spartan-ng/ui-dialog-brain';
+import { BrnTabsModule } from "@spartan-ng/ui-tabs-brain";
+import { ProjectLeadNotificationsComponent } from './project-lead-notifications/project-lead-notifications.component';
 
 @NgModule({
 	declarations: [
 		ProjectLeadDashboardComponent,
 		ProjectLeadNavbarComponent,
 		ProjectLeadAccountNavComponent,
-  ProjectLeadDashboardOngoingTasksComponent,
-  ProjectLeadDashboardStatsComponent,
-  ProjectLeadDashboardTopPerformersComponent,
-  ProjectLeadActivityLogsComponent,
-  ProjectLeadNotificationsComponent
+		ProjectLeadDashboardOngoingTasksComponent,
+		ProjectLeadDashboardStatsComponent,
+		ProjectLeadDashboardTopPerformersComponent,
+		ProjectLeadActivityLogsComponent,
+		ProjectLeadProjectCardComponent,
+		ProjectLeadProjectCategoryComponent,
+		ProjectLeadProjectSortByComponent,
+		ProjectLeadProjectStatusComponent,
+		ProjectLeadProjectToolbarComponent,
+		ProjectLeadProjectsComponent,
+		ProjectLeadNotificationsComponent
 	],
 	imports: [
 		CommonModule,
@@ -66,9 +80,19 @@ import { HlmTabsModule } from "@spartan-ng/ui-tabs-helm";
 		HlmCheckboxModule,
 		FormsModule,
 		HlmTabsModule,
+		BrnTabsModule,
+		HlmDialogModule,
+		BrnDialogModule
 	], exports: [
 		ProjectLeadDashboardComponent,
 		ProjectLeadNavbarComponent,
+		ProjectLeadProjectCardComponent,
+		ProjectLeadProjectCategoryComponent,
+		ProjectLeadProjectSortByComponent,
+		ProjectLeadProjectStatusComponent,
+		ProjectLeadProjectToolbarComponent,
+		ProjectLeadProjectsComponent,
+		ProjectLeadNotificationsComponent
 	]
 })
 export class ProjectLeadPagesModule {

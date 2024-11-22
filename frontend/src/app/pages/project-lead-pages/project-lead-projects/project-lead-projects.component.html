@@ -1,0 +1,13 @@
+<project-lead-navbar />
+<main class="p-10">
+  <div class="flex flex-col gap-5">
+    <h1 class="text-2xl font-bold">Projects</h1>
+    <hr />
+  </div>
+  <div class="flex flex-col gap-5 mt-5">
+    <project-lead-project-toolbar />
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-5">
+      <project-lead-project-card *ngFor="let project of projects" [project]="project" />
+    </div>
+  </div>
+</main>
