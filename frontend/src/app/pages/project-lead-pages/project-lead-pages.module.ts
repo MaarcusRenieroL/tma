@@ -41,6 +41,16 @@ import { HlmDialogModule } from '@spartan-ng/ui-dialog-helm';
 import { BrnDialogModule } from '@spartan-ng/ui-dialog-brain';
 import { BrnTabsModule } from "@spartan-ng/ui-tabs-brain";
 import { ProjectLeadNotificationsComponent } from './project-lead-notifications/project-lead-notifications.component';
+import { ProjectLeadSettingsAppearanceTabComponent } from './project-lead-settings/project-lead-settings-appearance-tab/project-lead-settings-appearance-tab.component';
+import { ProjectLeadSettingsCompanyProfileTabComponent } from './project-lead-settings/project-lead-settings-company-profile-tab/project-lead-settings-company-profile-tab.component';
+import { ProjectLeadSettingsComponent } from './project-lead-settings/project-lead-settings.component';
+import { ProjectLeadSettingsNotificationsTabComponent } from './project-lead-settings/project-lead-settings-notifications-tab/project-lead-settings-notifications-tab.component';
+import { ProjectLeadSettingsPasswordTabComponent } from './project-lead-settings/project-lead-settings-password-tab/project-lead-settings-password-tab.component';
+import { ProjectLeadSettingsProfileTabComponent } from './project-lead-settings/project-lead-settings-profile-tab/project-lead-settings-profile-tab.component';
+import { ProjectLeadSettingsTeamTabComponent } from './project-lead-settings/project-lead-settings-team-tab/project-lead-settings-team-tab.component';
+import { HlmSelectModule } from '@spartan-ng/ui-select-helm';
+import { BrnSelectModule } from '@spartan-ng/ui-select-brain';
+import { HlmToasterComponent } from '@spartan-ng/ui-sonner-helm';
 
 @NgModule({
 	declarations: [
@@ -57,7 +67,14 @@ import { ProjectLeadNotificationsComponent } from './project-lead-notifications/
 		ProjectLeadProjectStatusComponent,
 		ProjectLeadProjectToolbarComponent,
 		ProjectLeadProjectsComponent,
-		ProjectLeadNotificationsComponent
+		ProjectLeadNotificationsComponent,
+		ProjectLeadSettingsAppearanceTabComponent,
+		ProjectLeadSettingsCompanyProfileTabComponent,
+		ProjectLeadSettingsComponent,
+		ProjectLeadSettingsNotificationsTabComponent,
+		ProjectLeadSettingsPasswordTabComponent,
+		ProjectLeadSettingsProfileTabComponent,
+		ProjectLeadSettingsTeamTabComponent
 	],
 	imports: [
 		CommonModule,
@@ -82,7 +99,10 @@ import { ProjectLeadNotificationsComponent } from './project-lead-notifications/
 		HlmTabsModule,
 		BrnTabsModule,
 		HlmDialogModule,
-		BrnDialogModule
+		BrnDialogModule,
+		HlmSelectModule,
+		BrnSelectModule,
+		HlmToasterComponent
 	], exports: [
 		ProjectLeadDashboardComponent,
 		ProjectLeadNavbarComponent,
@@ -92,7 +112,14 @@ import { ProjectLeadNotificationsComponent } from './project-lead-notifications/
 		ProjectLeadProjectStatusComponent,
 		ProjectLeadProjectToolbarComponent,
 		ProjectLeadProjectsComponent,
-		ProjectLeadNotificationsComponent
+		ProjectLeadNotificationsComponent,
+		ProjectLeadSettingsAppearanceTabComponent,
+		ProjectLeadSettingsCompanyProfileTabComponent,
+		ProjectLeadSettingsComponent,
+		ProjectLeadSettingsNotificationsTabComponent,
+		ProjectLeadSettingsPasswordTabComponent,
+		ProjectLeadSettingsProfileTabComponent,
+		ProjectLeadSettingsTeamTabComponent
 	]
 })
 export class ProjectLeadPagesModule {

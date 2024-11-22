@@ -60,6 +60,12 @@
       ],
       "@spartan-ng/ui-dialog-helm": [
         "./src/components/ui/ui-dialog-helm/src/index.ts"
+      ],
+      "@spartan-ng/ui-select-helm": [
+        "./src/components/ui/ui-select-helm/src/index.ts"
+      ],
+      "@spartan-ng/ui-sonner-helm": [
+        "./src/components/ui/ui-sonner-helm/src/index.ts"
       ]
     }
   },
