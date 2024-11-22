@@ -26,6 +26,8 @@ import { heroEllipsisHorizontal } from "@ng-icons/heroicons/outline";
 import { TeamLeadNotificationsComponent } from './team-lead-notifications/team-lead-notifications.component';
 import { HlmTabsModule } from "@spartan-ng/ui-tabs-helm";
 import { HlmCardModule } from "@spartan-ng/ui-card-helm";
+import { TeamLeadActivityLogsComponent } from './team-lead-activity-logs/team-lead-activity-logs.component';
+import { lucideChevronDown } from "@ng-icons/lucide";
 
 
 @NgModule({
@@ -37,9 +39,10 @@ import { HlmCardModule } from "@spartan-ng/ui-card-helm";
   TeamLeadUsersComponent,
   TeamLeadTasksComponent,
   TeamLeadNotificationsComponent,
+  TeamLeadActivityLogsComponent,
 	],
 	imports: [
-		CommonModule, NgIconsModule.withIcons({bootstrapGlobe, heroEllipsisHorizontal}), RouterModule, TeamLeadDashboardModule, HlmSheetModule, BrnSheetModule, HlmButtonDirective, HlmAvatarModule, HlmMenuModule, BrnMenuModule, TeamLeadProjectsModule, BrnTableModule, HlmTableModule, HlmCheckboxModule, FormsModule, HlmInputModule, HlmTabsModule, HlmCardModule
+		CommonModule, NgIconsModule.withIcons({bootstrapGlobe, heroEllipsisHorizontal, lucideChevronDown}), RouterModule, TeamLeadDashboardModule, HlmSheetModule, BrnSheetModule, HlmButtonDirective, HlmAvatarModule, HlmMenuModule, BrnMenuModule, TeamLeadProjectsModule, BrnTableModule, HlmTableModule, HlmCheckboxModule, FormsModule, HlmInputModule, HlmTabsModule, HlmCardModule
 	], exports: [
 		TeamLeadNavbarComponent,
 		TeamLeadDashboardComponent,
