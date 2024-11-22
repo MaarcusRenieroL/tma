@@ -13,7 +13,7 @@ import {
 import { BrnSheetModule } from "@spartan-ng/ui-sheet-brain";
 import { HlmButtonDirective } from "@spartan-ng/ui-button-helm";
 import { bootstrapGlobe } from "@ng-icons/bootstrap-icons";
-import { heroUser } from "@ng-icons/heroicons/outline";
+import { heroUser, heroEllipsisHorizontal } from "@ng-icons/heroicons/outline";
 import { HlmIconModule } from "@spartan-ng/ui-icon-helm";
 import { HlmAvatarModule } from "@spartan-ng/ui-avatar-helm";
 import { BrnAvatarModule } from "@spartan-ng/ui-avatar-brain";
@@ -23,6 +23,13 @@ import { ProjectLeadDashboardOngoingTasksComponent } from './project-lead-dashbo
 import { ProjectLeadDashboardStatsComponent } from './project-lead-dashboard/project-lead-dashboard-stats/project-lead-dashboard-stats.component';
 import { ProjectLeadDashboardTopPerformersComponent } from './project-lead-dashboard/project-lead-dashboard-top-performers/project-lead-dashboard-top-performers.component';
 import { HlmCardModule } from "@spartan-ng/ui-card-helm";
+import { ProjectLeadActivityLogsComponent } from './project-lead-activity-logs/project-lead-activity-logs.component';
+import { HlmTableModule } from "@spartan-ng/ui-table-helm";
+import { BrnTableModule } from "@spartan-ng/ui-table-brain";
+import { HlmInputModule } from "@spartan-ng/ui-input-helm";
+import { HlmCheckboxModule } from "@spartan-ng/ui-checkbox-helm";
+import { FormsModule } from "@angular/forms";
+import { lucideChevronDown } from "@ng-icons/lucide";
 
 
 @NgModule({
@@ -32,7 +39,8 @@ import { HlmCardModule } from "@spartan-ng/ui-card-helm";
 		ProjectLeadAccountNavComponent,
   ProjectLeadDashboardOngoingTasksComponent,
   ProjectLeadDashboardStatsComponent,
-  ProjectLeadDashboardTopPerformersComponent
+  ProjectLeadDashboardTopPerformersComponent,
+  ProjectLeadActivityLogsComponent
 	],
 	imports: [
 		CommonModule,
@@ -42,13 +50,18 @@ import { HlmCardModule } from "@spartan-ng/ui-card-helm";
 		BrnSheetModule,
 		HlmButtonDirective,
 		NgIcon,
-		NgIconsModule.withIcons({bootstrapGlobe, heroUser}),
+		NgIconsModule.withIcons({bootstrapGlobe, heroUser, heroEllipsisHorizontal, lucideChevronDown}),
 		HlmIconModule,
 		HlmAvatarModule,
 		BrnAvatarModule,
 		HlmMenuModule,
 		BrnMenuModule,
 		HlmCardModule,
+		HlmTableModule,
+		BrnTableModule,
+		HlmInputModule,
+		HlmCheckboxModule,
+		FormsModule,
 	], exports: [
 		ProjectLeadDashboardComponent,
 		ProjectLeadNavbarComponent,
