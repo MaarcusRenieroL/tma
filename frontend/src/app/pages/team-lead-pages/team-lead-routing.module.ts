@@ -4,12 +4,14 @@ import { TeamLeadDashboardComponent } from "./team-lead-dashboard/team-lead-dash
 import { TeamLeadProjectsComponent } from "./team-lead-projects/team-lead-projects.component";
 import { TeamLeadUsersComponent } from "./team-lead-users/team-lead-users.component";
 import { TeamLeadTasksComponent } from "./team-lead-tasks/team-lead-tasks.component";
+import { TeamLeadNotificationsComponent } from "./team-lead-notifications/team-lead-notifications.component";
 
 const routes: Routes = [
 	{ path: "team-lead/dashboard", component: TeamLeadDashboardComponent },
 	{ path: "team-lead/projects", component: TeamLeadProjectsComponent },
 	{ path: "team-lead/users", component: TeamLeadUsersComponent },
 	{ path: "team-lead/tasks", component: TeamLeadTasksComponent },
+	{ path: "team-lead/notifications", component: TeamLeadNotificationsComponent },
 ];
 
 @NgModule({
