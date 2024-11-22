@@ -30,6 +30,8 @@ import { HlmInputModule } from "@spartan-ng/ui-input-helm";
 import { HlmCheckboxModule } from "@spartan-ng/ui-checkbox-helm";
 import { FormsModule } from "@angular/forms";
 import { lucideChevronDown } from "@ng-icons/lucide";
+import { ProjectLeadNotificationsComponent } from './project-lead-notifications/project-lead-notifications.component';
+import { HlmTabsModule } from "@spartan-ng/ui-tabs-helm";
 
 
 @NgModule({
@@ -40,7 +42,8 @@ import { lucideChevronDown } from "@ng-icons/lucide";
   ProjectLeadDashboardOngoingTasksComponent,
   ProjectLeadDashboardStatsComponent,
   ProjectLeadDashboardTopPerformersComponent,
-  ProjectLeadActivityLogsComponent
+  ProjectLeadActivityLogsComponent,
+  ProjectLeadNotificationsComponent
 	],
 	imports: [
 		CommonModule,
@@ -62,6 +65,7 @@ import { lucideChevronDown } from "@ng-icons/lucide";
 		HlmInputModule,
 		HlmCheckboxModule,
 		FormsModule,
+		HlmTabsModule,
 	], exports: [
 		ProjectLeadDashboardComponent,
 		ProjectLeadNavbarComponent,
