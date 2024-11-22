@@ -6,6 +6,7 @@ import { TeamLeadUsersComponent } from "./team-lead-users/team-lead-users.compon
 import { TeamLeadTasksComponent } from "./team-lead-tasks/team-lead-tasks.component";
 import { TeamLeadNotificationsComponent } from "./team-lead-notifications/team-lead-notifications.component";
 import { TeamLeadActivityLogsComponent } from "./team-lead-activity-logs/team-lead-activity-logs.component";
+import { TeamLeadSettingsComponent } from "./team-lead-settings/team-lead-settings.component";
 
 const routes: Routes = [
 	{ path: "team-lead/dashboard", component: TeamLeadDashboardComponent },
@@ -13,7 +14,8 @@ const routes: Routes = [
 	{ path: "team-lead/users", component: TeamLeadUsersComponent },
 	{ path: "team-lead/tasks", component: TeamLeadTasksComponent },
 	{ path: "team-lead/notifications", component: TeamLeadNotificationsComponent },
-	{ path: "team-lead/logs", component: TeamLeadActivityLogsComponent }
+	{ path: "team-lead/logs", component: TeamLeadActivityLogsComponent },
+	{ path: "team-lead/settings", component: TeamLeadSettingsComponent },
 ];
 
 @NgModule({
