@@ -35,6 +35,11 @@ import { HlmInputModule } from "@spartan-ng/ui-input-helm";
 import { DeveloperTeamsComponent } from "./developer-teams/developer-teams.component";
 import { DeveloperTeamCardComponent } from "./developer-teams/developer-team-card/developer-team-card.component";
 import { DeveloperTeamToolbarComponent } from "./developer-teams/developer-team-toolbar/developer-team-toolbar.component";
+import { DeveloperTasksComponent } from "./developer-tasks/developer-tasks.component";
+import { HlmTableModule } from "@spartan-ng/ui-table-helm";
+import { BrnTableModule } from "@spartan-ng/ui-table-brain";
+import { HlmCheckboxModule } from "@spartan-ng/ui-checkbox-helm";
+import { FormsModule } from "@angular/forms";
 
 @NgModule({
   declarations: [
@@ -53,6 +58,7 @@ import { DeveloperTeamToolbarComponent } from "./developer-teams/developer-team-
     DeveloperTeamsComponent,
     DeveloperTeamCardComponent,
     DeveloperTeamToolbarComponent,
+    DeveloperTasksComponent,
   ],
   imports: [
     CommonModule,
@@ -77,6 +83,10 @@ import { DeveloperTeamToolbarComponent } from "./developer-teams/developer-team-
     HlmDialogModule,
     BrnDialogModule,
     HlmInputModule,
+    HlmTableModule,
+    BrnTableModule,
+    HlmCheckboxModule,
+    FormsModule,
   ],
   exports: [
     DeveloperDashboardComponent,
@@ -94,6 +104,7 @@ import { DeveloperTeamToolbarComponent } from "./developer-teams/developer-team-
     DeveloperTeamsComponent,
     DeveloperTeamCardComponent,
     DeveloperTeamToolbarComponent,
+    DeveloperTasksComponent,
   ],
 })
 export class DeveloperPagesModule {}
