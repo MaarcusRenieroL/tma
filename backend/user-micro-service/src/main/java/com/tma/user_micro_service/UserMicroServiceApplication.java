@@ -7,8 +7,8 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 @SpringBootApplication
 @EnableDiscoveryClient
 public class UserMicroServiceApplication {
-
-  public static void main(String[] args) {
-    SpringApplication.run(UserMicroServiceApplication.class, args);
-  }
+	
+	public static void main(String[] args) {
+		SpringApplication.run(UserMicroServiceApplication.class, args);
+	}
 }
