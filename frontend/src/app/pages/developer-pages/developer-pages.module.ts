@@ -23,6 +23,15 @@ import { BrnMenuModule } from "@spartan-ng/ui-menu-brain";
 import { HlmMenuModule } from "@spartan-ng/ui-menu-helm";
 import { HlmAvatarModule } from "@spartan-ng/ui-avatar-helm";
 import { ionMenuOutline } from "@ng-icons/ionicons";
+import { DeveloperProjectsComponent } from "./developer-projects/developer-projects.component";
+import { DeveloperProjectCardComponent } from "./developer-projects/developer-project-card/developer-project-card.component";
+import { DeveloperProjectToolbarComponent } from "./developer-projects/developer-project-toolbar/developer-project-toolbar.component";
+import { DeveloperProjectCategoryComponent } from "./developer-projects/developer-project-toolbar/developer-project-category/developer-project-category.component";
+import { DeveloperProjectSortByComponent } from "./developer-projects/developer-project-toolbar/developer-project-sort-by/developer-project-sort-by.component";
+import { DeveloperProjectStatusComponent } from "./developer-projects/developer-project-toolbar/developer-project-status/developer-project-status.component";
+import { HlmDialogModule } from "@spartan-ng/ui-dialog-helm";
+import { BrnDialogModule } from "@spartan-ng/ui-dialog-brain";
+import { HlmInputModule } from "@spartan-ng/ui-input-helm";
 
 @NgModule({
   declarations: [
@@ -32,6 +41,12 @@ import { ionMenuOutline } from "@ng-icons/ionicons";
     DeveloperDashboardStatsComponent,
     DeveloperDashboardDailyScheduleComponent,
     DeveloperDashboardOngoingTasksComponent,
+    DeveloperProjectsComponent,
+    DeveloperProjectCardComponent,
+    DeveloperProjectToolbarComponent,
+    DeveloperProjectCategoryComponent,
+    DeveloperProjectSortByComponent,
+    DeveloperProjectStatusComponent,
   ],
   imports: [
     CommonModule,
@@ -53,6 +68,9 @@ import { ionMenuOutline } from "@ng-icons/ionicons";
     HlmMenuModule,
     HlmAvatarModule,
     NgOptimizedImage,
+    HlmDialogModule,
+    BrnDialogModule,
+    HlmInputModule,
   ],
   exports: [
     DeveloperDashboardComponent,
@@ -61,6 +79,12 @@ import { ionMenuOutline } from "@ng-icons/ionicons";
     DeveloperDashboardStatsComponent,
     DeveloperDashboardDailyScheduleComponent,
     DeveloperDashboardOngoingTasksComponent,
+    DeveloperProjectsComponent,
+    DeveloperProjectCardComponent,
+    DeveloperProjectToolbarComponent,
+    DeveloperProjectCategoryComponent,
+    DeveloperProjectSortByComponent,
+    DeveloperProjectStatusComponent,
   ],
 })
 export class DeveloperPagesModule {}

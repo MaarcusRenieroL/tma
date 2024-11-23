@@ -1,0 +1,31 @@
+<div
+  hlmCard
+  class="h-full w-full flex flex-col items-start justify-between hover:shadow-xl duration-500 transition-all"
+>
+  <div hlmCardHeader class="w-full">
+    <h3 hlmCardTitle>{{ project?.name }}</h3>
+    <div class="flex flex-wrap gap-1 w-full">
+      <p *ngFor="let category of project?.categories" hlmBadge>
+        {{ category }}
+      </p>
+    </div>
+  </div>
+  <div hlmCardContent>
+    <p hlmCardDescription>{{ project?.description }}</p>
+  </div>
+  <div hlmCardFooter class="flex items-end justify-end gap-5 w-full">
+    <div class="hidden md:flex items-center gap-5">
+      <button hlmBtn>Edit</button>
+      <button hlmBtn variant="destructive">Delete</button>
+    </div>
+
+    <div class="md:hidden flex items-center gap-5">
+      <button hlmBtn size="icon">
+        <ng-icon name="bootstrapPen" />
+      </button>
+      <button hlmBtn variant="destructive" size="icon">
+        <ng-icon name="bootstrapTrash" />
+      </button>
+    </div>
+  </div>
+</div>
