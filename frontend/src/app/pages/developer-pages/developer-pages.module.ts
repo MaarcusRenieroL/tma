@@ -32,6 +32,9 @@ import { DeveloperProjectStatusComponent } from "./developer-projects/developer-
 import { HlmDialogModule } from "@spartan-ng/ui-dialog-helm";
 import { BrnDialogModule } from "@spartan-ng/ui-dialog-brain";
 import { HlmInputModule } from "@spartan-ng/ui-input-helm";
+import { DeveloperTeamsComponent } from "./developer-teams/developer-teams.component";
+import { DeveloperTeamCardComponent } from "./developer-teams/developer-team-card/developer-team-card.component";
+import { DeveloperTeamToolbarComponent } from "./developer-teams/developer-team-toolbar/developer-team-toolbar.component";
 
 @NgModule({
   declarations: [
@@ -47,6 +50,9 @@ import { HlmInputModule } from "@spartan-ng/ui-input-helm";
     DeveloperProjectCategoryComponent,
     DeveloperProjectSortByComponent,
     DeveloperProjectStatusComponent,
+    DeveloperTeamsComponent,
+    DeveloperTeamCardComponent,
+    DeveloperTeamToolbarComponent,
   ],
   imports: [
     CommonModule,
@@ -85,6 +91,9 @@ import { HlmInputModule } from "@spartan-ng/ui-input-helm";
     DeveloperProjectCategoryComponent,
     DeveloperProjectSortByComponent,
     DeveloperProjectStatusComponent,
+    DeveloperTeamsComponent,
+    DeveloperTeamCardComponent,
+    DeveloperTeamToolbarComponent,
   ],
 })
 export class DeveloperPagesModule {}

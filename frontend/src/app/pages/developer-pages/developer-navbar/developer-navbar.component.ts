@@ -13,12 +13,9 @@ export class DeveloperNavbarComponent {
     { href: "/developer/dashboard", name: "Dashboard" },
     { href: "/developer/projects", name: "Projects" },
     { href: "/developer/teams", name: "Teams" },
-    { href: "/developer/users", name: "Users" },
     { href: "/developer/tasks", name: "Tasks" },
-    { href: "/developer/reports", name: "Reports" },
     { href: "/developer/notifications", name: "Notifications" },
     { href: "/developer/settings", name: "Settings" },
-    { href: "/developer/logs", name: "Activity Logs" },
   ];
 
   constructor(private router: Router) {}
