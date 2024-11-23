@@ -43,6 +43,25 @@ import { FormsModule } from "@angular/forms";
 import { DeveloperNotificationsComponent } from "./developer-notifications/developer-notifications.component";
 import { HlmTabsModule } from "@spartan-ng/ui-tabs-helm";
 import { BrnTabsModule } from "@spartan-ng/ui-tabs-brain";
+import { DeveloperSettingsComponent } from "./developer-settings/developer-settings.component";
+import {
+  DeveloperSettingsAppearanceTabComponent
+} from "./developer-settings/developer-settings-appearance-tab/developer-settings-appearance-tab.component";
+import {
+  DeveloperSettingsNotificationsTabComponent
+} from "./developer-settings/developer-settings-notifications-tab/developer-settings-notifications-tab.component";
+import {
+  DeveloperSettingsProfileTabComponent
+} from "./developer-settings/developer-settings-profile-tab/developer-settings-profile-tab.component";
+import {
+  DeveloperSettingsPasswordTabComponent
+} from "./developer-settings/developer-settings-password-tab/developer-settings-password-tab.component";
+import { HlmToasterComponent } from "@spartan-ng/ui-sonner-helm";
+import { HlmSelectModule } from "@spartan-ng/ui-select-helm";
+import { BrnSelectModule } from "@spartan-ng/ui-select-brain";
+import { HlmLabelModule } from "@spartan-ng/ui-label-helm";
+import { BrnLabelModule } from "@spartan-ng/ui-label-brain";
+import { HlmBadgeModule } from "@spartan-ng/ui-badge-helm";
 
 @NgModule({
   declarations: [
@@ -63,6 +82,11 @@ import { BrnTabsModule } from "@spartan-ng/ui-tabs-brain";
     DeveloperTeamToolbarComponent,
     DeveloperTasksComponent,
     DeveloperNotificationsComponent,
+    DeveloperSettingsComponent,
+    DeveloperSettingsAppearanceTabComponent,
+    DeveloperSettingsNotificationsTabComponent,
+    DeveloperSettingsProfileTabComponent,
+    DeveloperSettingsPasswordTabComponent,
   ],
   imports: [
     CommonModule,
@@ -93,6 +117,12 @@ import { BrnTabsModule } from "@spartan-ng/ui-tabs-brain";
     FormsModule,
     HlmTabsModule,
     BrnTabsModule,
+    HlmToasterComponent,
+    HlmSelectModule,
+    BrnSelectModule,
+    HlmLabelModule,
+    BrnLabelModule,
+    HlmBadgeModule
   ],
   exports: [
     DeveloperDashboardComponent,
@@ -112,6 +142,11 @@ import { BrnTabsModule } from "@spartan-ng/ui-tabs-brain";
     DeveloperTeamToolbarComponent,
     DeveloperTasksComponent,
     DeveloperNotificationsComponent,
+    DeveloperSettingsComponent,
+    DeveloperSettingsAppearanceTabComponent,
+    DeveloperSettingsNotificationsTabComponent,
+    DeveloperSettingsProfileTabComponent,
+    DeveloperSettingsPasswordTabComponent,
   ],
 })
 export class DeveloperPagesModule {}
