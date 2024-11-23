@@ -23,16 +23,22 @@
     ],
     "paths": {
       "@spartan-ng/ui-button-helm": [
-        ".\\src/components/ui/ui-button-helm/src/index.ts"
+        "./src/components/ui/ui-button-helm/src/index.ts"
       ],
       "@spartan-ng/ui-card-helm": [
-        ".\\src/components/ui/ui-card-helm/src/index.ts"
-      ],
-      "@spartan-ng/ui-sheet-helm": [
-        ".\\src/components/ui/ui-sheet-helm/src/index.ts"
+        "./src/components/ui/ui-card-helm/src/index.ts"
       ],
       "@spartan-ng/ui-icon-helm": [
-        ".\\src/components/ui/ui-icon-helm/src/index.ts"
+        "./src/components/ui/ui-icon-helm/src/index.ts"
+      ],
+      "@spartan-ng/ui-sheet-helm": [
+        "./src/components/ui/ui-sheet-helm/src/index.ts"
+      ],
+      "@spartan-ng/ui-menu-helm": [
+        "./src/components/ui/ui-menu-helm/src/index.ts"
+      ],
+      "@spartan-ng/ui-avatar-helm": [
+        "./src/components/ui/ui-avatar-helm/src/index.ts"
       ]
     }
   },

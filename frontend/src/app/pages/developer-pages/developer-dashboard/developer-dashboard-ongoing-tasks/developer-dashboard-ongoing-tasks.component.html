@@ -1,0 +1,74 @@
+<div hlmCard class="hover:shadow-xl duration-500 transition-all">
+  <div hlmCardHeader>
+    <h3 hlmCardTitle class="text-2xl font-bold">Ongoing Tasks</h3>
+    <p hlmCardDescription>List of all ongoing tasks</p>
+  </div>
+  <div hlmCardContent>
+    <div
+      class="h-96 overflow-y-scroll custom-scrollbar flex flex-col items-start gap-5 p-4 w-full"
+    >
+      <div hlmCard *ngFor="let task of tasks" class="w-full">
+        <div hlmCardHeader class="w-full">
+          <div class="w-full md:flex items-center justify-between">
+            <div class="w-full flex flex-col gap-2">
+              <h3 hlmCardTitle class="text-xl font-semibold">
+                {{ task.title }}
+              </h3>
+              <p hlmCardDescription class="text-sm text-muted-foreground">
+                {{ task.description }}
+              </p>
+            </div>
+            <div
+              class="flex md:items-end items-center md:justify-end justify-between gap-5 w-full md:w-fit md:mt-0 mt-5"
+            >
+              <button hlmBtn variant="outline" class="block md:hidden">
+                View
+              </button>
+
+              <button hlmBtn class="block md:hidden">Edit</button>
+
+              <button hlmBtn variant="destructive" class="block md:hidden">
+                Delete
+              </button>
+
+              <button
+                hlmBtn
+                variant="outline"
+                size="icon"
+                class="hidden md:block"
+              >
+                <ng-icon name="bootstrapEye" />
+              </button>
+
+              <button hlmBtn size="icon" class="hidden md:block">
+                <ng-icon name="bootstrapPen" />
+              </button>
+
+              <button
+                hlmBtn
+                variant="destructive"
+                size="icon"
+                class="hidden md:block"
+              >
+                <ng-icon name="bootstrapTrash" />
+              </button>
+            </div>
+          </div>
+        </div>
+        <div
+          hlmCardContent
+          class="md:flex space-y-5 md:space-y-0 items-center justify-between w-full"
+        >
+          <div>
+            <h6 class="text-lg font-bold">Status</h6>
+            <p class="text-sm text-muted-foreground">{{ task.status }}</p>
+          </div>
+          <div>
+            <h6 class="text-lg font-bold">Due Date</h6>
+            <p class="text-sm text-muted-foreground">{{ task.dueDate }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
