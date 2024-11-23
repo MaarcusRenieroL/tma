@@ -40,6 +40,9 @@ import { HlmTableModule } from "@spartan-ng/ui-table-helm";
 import { BrnTableModule } from "@spartan-ng/ui-table-brain";
 import { HlmCheckboxModule } from "@spartan-ng/ui-checkbox-helm";
 import { FormsModule } from "@angular/forms";
+import { DeveloperNotificationsComponent } from "./developer-notifications/developer-notifications.component";
+import { HlmTabsModule } from "@spartan-ng/ui-tabs-helm";
+import { BrnTabsModule } from "@spartan-ng/ui-tabs-brain";
 
 @NgModule({
   declarations: [
@@ -59,6 +62,7 @@ import { FormsModule } from "@angular/forms";
     DeveloperTeamCardComponent,
     DeveloperTeamToolbarComponent,
     DeveloperTasksComponent,
+    DeveloperNotificationsComponent,
   ],
   imports: [
     CommonModule,
@@ -87,6 +91,8 @@ import { FormsModule } from "@angular/forms";
     BrnTableModule,
     HlmCheckboxModule,
     FormsModule,
+    HlmTabsModule,
+    BrnTabsModule,
   ],
   exports: [
     DeveloperDashboardComponent,
@@ -105,6 +111,7 @@ import { FormsModule } from "@angular/forms";
     DeveloperTeamCardComponent,
     DeveloperTeamToolbarComponent,
     DeveloperTasksComponent,
+    DeveloperNotificationsComponent,
   ],
 })
 export class DeveloperPagesModule {}
