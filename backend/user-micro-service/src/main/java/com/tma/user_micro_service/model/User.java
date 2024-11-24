@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -25,8 +26,8 @@ import org.hibernate.annotations.UpdateTimestamp;
     })
 public class User {
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long userId;
+  @GeneratedValue(strategy = GenerationType.UUID)
+  private UUID userId;
 
   @NotBlank(message = "Username cannot be blank")
   @Size(max = 20, message = "Username must not exceed 20 characters")
