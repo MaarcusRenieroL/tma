@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
@@ -14,9 +15,9 @@ import lombok.ToString;
 @Table(name = "roles")
 public class Role {
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @GeneratedValue(strategy = GenerationType.UUID)
   @Column(name = "role_id")
-  private Long roleId;
+  private UUID roleId;
 
   @ToString.Exclude
   @Enumerated(EnumType.STRING)
