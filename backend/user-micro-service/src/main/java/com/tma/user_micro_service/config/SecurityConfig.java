@@ -2,6 +2,7 @@ package com.tma.user_micro_service.config;
 
 import static org.springframework.security.config.Customizer.withDefaults;
 
+import com.tma.user_micro_service.filter.RequestValidationFilter;
 import com.tma.user_micro_service.model.AppRole;
 import com.tma.user_micro_service.model.Role;
 import com.tma.user_micro_service.model.User;
@@ -15,7 +16,10 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -28,6 +32,8 @@ public class SecurityConfig {
     http.sessionManagement(
         session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
     http.httpBasic(withDefaults());
+    http.authorizeHttpRequests(requests -> requests.requestMatchers("/**").authenticated());
+    http.addFilterAfter(new RequestValidationFilter(), UsernamePasswordAuthenticationFilter.class);
 
     return http.build();
   }
@@ -127,5 +133,10 @@ public class SecurityConfig {
         userRepository.save(developer);
       }
     };
+  }
+
+  @Bean
+  PasswordEncoder passwordEncoder() {
+    return new BCryptPasswordEncoder();
   }
 }
