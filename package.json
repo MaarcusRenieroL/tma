@@ -22,5 +22,8 @@
       "prettier --write"
     ]
   },
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "tma": "file:"
+  }
 }

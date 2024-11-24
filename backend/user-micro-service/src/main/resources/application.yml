@@ -5,6 +5,9 @@ spring:
     url: jdbc:postgresql://localhost:5432/tma
     username: postgres
     password: postgres
+  jpa:
+    hibernate:
+      ddl-auto: create
 
 server:
   port: 8001
