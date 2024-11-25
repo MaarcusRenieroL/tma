@@ -7,7 +7,7 @@ spring:
     password: postgres
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
   app:
     jwtSecret: 0QkwkrFW82i60kglj179aelSS6NLc6N1qpgSrcV00Vbd
     jwtExpirationMs: 86400000

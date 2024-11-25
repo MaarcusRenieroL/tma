@@ -1,9 +1,9 @@
 package com.tma.user_micro_service.model;
 
 public enum AppRole {
-  SYSTEM_ADMIN,
-  ADMIN,
-  PROJECT_MANAGER,
-  TEAM_LEAD,
-  DEVELOPER
+  ROLE_SYSTEM_ADMIN,
+  ROLE_ADMIN,
+  ROLE_PROJECT_MANAGER,
+  ROLE_TEAM_LEAD,
+  ROLE_DEVELOPER
 }
