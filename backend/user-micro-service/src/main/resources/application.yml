@@ -8,6 +8,9 @@ spring:
   jpa:
     hibernate:
       ddl-auto: create
+  app:
+    jwtSecret: 0QkwkrFW82i60kglj179aelSS6NLc6N1qpgSrcV00Vbd
+    jwtExpirationMs: 86400000
 
 server:
   port: 8001
