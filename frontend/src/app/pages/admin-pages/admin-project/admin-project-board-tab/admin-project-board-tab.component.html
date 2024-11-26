@@ -4,11 +4,13 @@
       *ngFor="let column of columns; let columnIndex = index"
       class="flex flex-col gap-5 w-full flex-shrink-0"
     >
+      <!-- Column Header -->
       <div [ngClass]="[column.color, 'px-6 py-4 flex items-center gap-2 rounded-lg bg-opacity-30']">
         <div [ngClass]="[column.color, 'rounded-full h-4 w-4 border-4 border-white']"></div>
         <p>{{ column.name }}</p>
       </div>
 
+      <!-- Column Content (Drag and Drop) -->
       <div
         cdkDropList
         [cdkDropListData]="column.tasks"
@@ -17,19 +19,9 @@
         [id]="'list-' + columnIndex"
         class="flex flex-col overflow-y-scroll h-96 custom-scrollbar p-4 gap-5"
       >
+        <!-- Iterate over tasks in each column and use TaskCardComponent -->
         <div *ngFor="let task of column.tasks" cdkDrag [cdkDragData]="task">
-          <div hlmCard class="w-full">
-            <div hlmCardHeader>
-              <div class="w-full flex items-center justify-between">
-                <p hlmBadge>{{ task.priority }}</p>
-                <ng-icon name="heroEllipsisHorizontal" class="text-xl"></ng-icon>
-              </div>
-            </div>
-            <div hlmCardContent class="flex flex-col gap-3">
-              <h3 hlmCardTitle>{{ task.title }}</h3>
-              <p hlmCardDescription>{{ task.description }}</p>
-            </div>
-          </div>
+          <admin-project-board-tab-task-card [task]="task" />
         </div>
       </div>
     </div>

@@ -28,6 +28,7 @@ import {
   lucideMail,
   lucideMessageSquare,
   lucidePlusCircle, lucideArrowRight,
+  lucideDownload
 } from "@ng-icons/lucide";
 
 import { BrnSheetModule } from "@spartan-ng/ui-sheet-brain";
@@ -182,7 +183,8 @@ import { DragDropModule } from "@angular/cdk/drag-drop";
       lucideUser,
       bootstrapPlus,
       lucideArrowRight,
-      ionAttachOutline
+      ionAttachOutline,
+      lucideDownload
     }),
 
     BrnSheetModule,

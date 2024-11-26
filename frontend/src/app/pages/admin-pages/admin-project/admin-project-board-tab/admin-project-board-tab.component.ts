@@ -58,4 +58,5 @@ export class AdminProjectBoardTabComponent {
   getConnectedDropLists(): string[] {
     return this.columns.map((_, index) => `list-${index}`);
   }
+
 }
