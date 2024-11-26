@@ -97,6 +97,8 @@ import { AdminProjectOverviewAssigneeGraphComponent } from './admin-project/admi
 import { AdminProjectOverviewWorkloadGraphComponent } from './admin-project/admin-project-overview-tab/admin-project-overview-workload-graph/admin-project-overview-workload-graph.component';
 import { AdminProjectOverviewCompletedTasksComponent } from './admin-project/admin-project-overview-tab/admin-project-overview-completed-tasks/admin-project-overview-completed-tasks.component';
 import { AdminProjectOverviewRecentActivitiesComponent } from './admin-project/admin-project-overview-tab/admin-project-overview-recent-activities/admin-project-overview-recent-activities.component';
+import { AdminProjectBoardTabTaskCardComponent } from './admin-project/admin-project-board-tab/admin-project-board-tab-task-card/admin-project-board-tab-task-card.component';
+import { ionAttachOutline } from "@ng-icons/ionicons";
 
 @NgModule({
   declarations: [
@@ -143,6 +145,7 @@ import { AdminProjectOverviewRecentActivitiesComponent } from './admin-project/a
     AdminProjectOverviewWorkloadGraphComponent,
     AdminProjectOverviewCompletedTasksComponent,
     AdminProjectOverviewRecentActivitiesComponent,
+    AdminProjectBoardTabTaskCardComponent,
   ],
   imports: [
     CommonModule,
@@ -175,7 +178,8 @@ import { AdminProjectOverviewRecentActivitiesComponent } from './admin-project/a
       lucidePlusCircle,
       lucideUser,
       bootstrapPlus,
-      lucideArrowRight
+      lucideArrowRight,
+      ionAttachOutline
     }),
 
     BrnSheetModule,

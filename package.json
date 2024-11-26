@@ -24,6 +24,7 @@
   },
   "license": "ISC",
   "dependencies": {
-    "@ng-icons/heroicons": "^29.9.0"
+    "@ng-icons/heroicons": "^29.9.0",
+    "tma": "file:"
   }
 }

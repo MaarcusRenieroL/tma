@@ -6,20 +6,20 @@
 @tailwind utilities;
 
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: "Geist Mono", sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Geist Mono", sans-serif;
 }
 
 html,
 body,
 :root {
-    height: 100%;
+  height: 100%;
 }
 
 :root {
-    --font-sans: "Geist Mono";
+  --font-sans: "Geist Mono";
 }
 
 :root {

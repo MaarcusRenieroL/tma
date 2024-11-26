@@ -1,0 +1,53 @@
+<div class="w-full overflow-x-auto custom-scrollbar p-4">
+	<div class="grid grid-cols-4 gap-5 min-w-[1200px]">
+		<div class="flex flex-col gap-5 w-full flex-shrink-0">
+			<div class="bg-secondary px-6 py-4 flex items-center gap-2 rounded-lg bg-opacity-30">
+				<div class="rounded-full h-4 w-4 bg-black border-4 border-white"></div>
+				<p>Backlog</p>
+			</div>
+			
+			<div class="flex flex-col overflow-y-scroll h-96 custom-scrollbar p-4 gap-5">
+				<admin-project-board-tab-task-card />
+			</div>
+		</div>
+		
+		<div class="flex flex-col gap-5 w-full flex-shrink-0">
+			<div class="bg-blue-400 px-6 py-4 flex items-center gap-2 rounded-lg bg-opacity-30">
+				<div class="rounded-full h-4 w-4 bg-blue-400 border-4 border-white"></div>
+				<p>Todo</p>
+			</div>
+			
+			<div class="flex flex-col overflow-y-scroll h-96 custom-scrollbar p-4 gap-5">
+				<admin-project-board-tab-task-card />
+				<admin-project-board-tab-task-card />
+				<admin-project-board-tab-task-card />
+				<admin-project-board-tab-task-card />
+			</div>
+		</div>
+		
+		<div class="flex flex-col gap-5 w-full flex-shrink-0">
+			<div class="bg-orange-400 px-6 py-4 flex items-center gap-2 rounded-lg bg-opacity-30">
+				<div class="rounded-full h-4 w-4 bg-orange-400 border-4 border-white"></div>
+				<p>In Progress</p>
+			</div>
+			
+			<div class="flex flex-col overflow-y-scroll h-96 custom-scrollbar p-4 gap-5">
+				<admin-project-board-tab-task-card />
+				<admin-project-board-tab-task-card />
+			</div>
+		</div>
+		
+		<div class="flex flex-col gap-5 w-full flex-shrink-0">
+			<div class="bg-green-400 px-6 py-4 flex items-center gap-2 rounded-lg bg-opacity-30">
+				<div class="rounded-full h-4 w-4 bg-green-400 border-4 border-white"></div>
+				<p>Completed</p>
+			</div>
+			
+			<div class="flex flex-col overflow-y-scroll h-96 custom-scrollbar p-4 gap-5">
+				<admin-project-board-tab-task-card />
+				<admin-project-board-tab-task-card />
+				<admin-project-board-tab-task-card />
+			</div>
+		</div>
+	</div>
+</div>
