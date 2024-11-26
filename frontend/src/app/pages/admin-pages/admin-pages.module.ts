@@ -89,8 +89,6 @@ import { AdminTasksComponent } from './admin-tasks/admin-tasks.component';
 import { AdminProjectComponent } from './admin-project/admin-project.component';
 import { AdminProjectOverviewTabComponent } from './admin-project/admin-project-overview-tab/admin-project-overview-tab.component';
 import { AdminProjectBoardTabComponent } from './admin-project/admin-project-board-tab/admin-project-board-tab.component';
-import { AdminProjectCalendarTabComponent } from './admin-project/admin-project-calendar-tab/admin-project-calendar-tab.component';
-import { AdminProjectFilesTabComponent } from './admin-project/admin-project-files-tab/admin-project-files-tab.component';
 import { NgApexchartsModule } from "ng-apexcharts";
 import { AdminProjectOverviewStatsComponent } from './admin-project/admin-project-overview-tab/admin-project-overview-stats/admin-project-overview-stats.component';
 import { AdminProjectOverviewAssigneeGraphComponent } from './admin-project/admin-project-overview-tab/admin-project-overview-assignee-graph/admin-project-overview-assignee-graph.component';
@@ -99,6 +97,9 @@ import { AdminProjectOverviewCompletedTasksComponent } from './admin-project/adm
 import { AdminProjectOverviewRecentActivitiesComponent } from './admin-project/admin-project-overview-tab/admin-project-overview-recent-activities/admin-project-overview-recent-activities.component';
 import { AdminProjectBoardTabTaskCardComponent } from './admin-project/admin-project-board-tab/admin-project-board-tab-task-card/admin-project-board-tab-task-card.component';
 import { ionAttachOutline } from "@ng-icons/ionicons";
+import { AdminProjectFilesTabComponent } from './admin-project/admin-project-files-tab/admin-project-files-tab.component';
+import { AdminProjectFilesFileCardComponent } from './admin-project/admin-project-files-tab/admin-project-files-file-card/admin-project-files-file-card.component';
+import { AdminProjectFilesToolbarComponent } from './admin-project/admin-project-files-tab/admin-project-files-toolbar/admin-project-files-toolbar.component';
 
 @NgModule({
   declarations: [
@@ -138,14 +139,15 @@ import { ionAttachOutline } from "@ng-icons/ionicons";
     AdminProjectComponent,
     AdminProjectOverviewTabComponent,
     AdminProjectBoardTabComponent,
-    AdminProjectCalendarTabComponent,
-    AdminProjectFilesTabComponent,
     AdminProjectOverviewStatsComponent,
     AdminProjectOverviewAssigneeGraphComponent,
     AdminProjectOverviewWorkloadGraphComponent,
     AdminProjectOverviewCompletedTasksComponent,
     AdminProjectOverviewRecentActivitiesComponent,
     AdminProjectBoardTabTaskCardComponent,
+    AdminProjectFilesTabComponent,
+    AdminProjectFilesFileCardComponent,
+    AdminProjectFilesToolbarComponent,
   ],
   imports: [
     CommonModule,
