@@ -8,6 +8,7 @@ import {
   bootstrapEye,
   bootstrapPen,
   bootstrapTrash,
+  bootstrapPlus
 } from "@ng-icons/bootstrap-icons";
 import {
   lucideUser,
@@ -26,7 +27,7 @@ import {
   lucideLogOut,
   lucideMail,
   lucideMessageSquare,
-  lucidePlusCircle,
+  lucidePlusCircle, lucideArrowRight,
 } from "@ng-icons/lucide";
 
 import { BrnSheetModule } from "@spartan-ng/ui-sheet-brain";
@@ -82,9 +83,20 @@ import { AdminSettingsNotificationsTabComponent } from "./admin-settings/admin-s
 import { AdminSettingsCompanyProfileTabComponent } from "./admin-settings/admin-settings-company-profile-tab/admin-settings-company-profile-tab.component";
 import { AdminActivityLogsComponent } from "./admin-activity-logs/admin-activity-logs.component";
 import { AccountNavComponent } from "./admin-navbar/account-nav/account-nav.component";
-import { Router, RouterModule } from "@angular/router";
+import { RouterModule } from "@angular/router";
 import { AdminUsersComponent } from './admin-users/admin-users.component';
 import { AdminTasksComponent } from './admin-tasks/admin-tasks.component';
+import { AdminProjectComponent } from './admin-project/admin-project.component';
+import { AdminProjectOverviewTabComponent } from './admin-project/admin-project-overview-tab/admin-project-overview-tab.component';
+import { AdminProjectBoardTabComponent } from './admin-project/admin-project-board-tab/admin-project-board-tab.component';
+import { AdminProjectCalendarTabComponent } from './admin-project/admin-project-calendar-tab/admin-project-calendar-tab.component';
+import { AdminProjectFilesTabComponent } from './admin-project/admin-project-files-tab/admin-project-files-tab.component';
+import { NgApexchartsModule } from "ng-apexcharts";
+import { AdminProjectOverviewStatsComponent } from './admin-project/admin-project-overview-tab/admin-project-overview-stats/admin-project-overview-stats.component';
+import { AdminProjectOverviewAssigneeGraphComponent } from './admin-project/admin-project-overview-tab/admin-project-overview-assignee-graph/admin-project-overview-assignee-graph.component';
+import { AdminProjectOverviewWorkloadGraphComponent } from './admin-project/admin-project-overview-tab/admin-project-overview-workload-graph/admin-project-overview-workload-graph.component';
+import { AdminProjectOverviewCompletedTasksComponent } from './admin-project/admin-project-overview-tab/admin-project-overview-completed-tasks/admin-project-overview-completed-tasks.component';
+import { AdminProjectOverviewRecentActivitiesComponent } from './admin-project/admin-project-overview-tab/admin-project-overview-recent-activities/admin-project-overview-recent-activities.component';
 
 @NgModule({
   declarations: [
@@ -121,6 +133,16 @@ import { AdminTasksComponent } from './admin-tasks/admin-tasks.component';
     AccountNavComponent,
     AdminUsersComponent,
     AdminTasksComponent,
+    AdminProjectComponent,
+    AdminProjectOverviewTabComponent,
+    AdminProjectBoardTabComponent,
+    AdminProjectCalendarTabComponent,
+    AdminProjectFilesTabComponent,
+    AdminProjectOverviewStatsComponent,
+    AdminProjectOverviewAssigneeGraphComponent,
+    AdminProjectOverviewWorkloadGraphComponent,
+    AdminProjectOverviewCompletedTasksComponent,
+    AdminProjectOverviewRecentActivitiesComponent,
   ],
   imports: [
     CommonModule,
@@ -151,7 +173,9 @@ import { AdminTasksComponent } from './admin-tasks/admin-tasks.component';
       lucideMail,
       lucideMessageSquare,
       lucidePlusCircle,
-      lucideUser
+      lucideUser,
+      bootstrapPlus,
+      lucideArrowRight
     }),
 
     BrnSheetModule,
@@ -176,6 +200,8 @@ import { AdminTasksComponent } from './admin-tasks/admin-tasks.component';
     HlmButtonDirective,
     HlmCheckboxComponent,
     HlmToasterComponent,
+    
+    NgApexchartsModule
   ],
   exports: [AdminDashboardComponent, AdminNavbarComponent],
 })
