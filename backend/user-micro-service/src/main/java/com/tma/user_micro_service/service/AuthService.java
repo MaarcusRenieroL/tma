@@ -1,6 +1,7 @@
 package com.tma.user_micro_service.service;
 
 import com.tma.user_micro_service.model.User;
+import com.tma.user_micro_service.payload.request.ForgotPasswordRequest;
 import com.tma.user_micro_service.payload.request.SignInRequest;
 import com.tma.user_micro_service.payload.request.SignUpRequest;
 import com.tma.user_micro_service.payload.response.SignInResponse;
@@ -16,4 +17,6 @@ public interface AuthService {
   void signOut();
 
   CsrfToken generateCsrfToken(HttpServletRequest request);
+
+  String forgotPassword(ForgotPasswordRequest forgotPasswordRequest);
 }

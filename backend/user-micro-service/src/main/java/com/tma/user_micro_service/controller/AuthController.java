@@ -1,6 +1,7 @@
 package com.tma.user_micro_service.controller;
 
 import com.tma.user_micro_service.model.User;
+import com.tma.user_micro_service.payload.request.ForgotPasswordRequest;
 import com.tma.user_micro_service.payload.request.SignInRequest;
 import com.tma.user_micro_service.payload.request.SignUpRequest;
 import com.tma.user_micro_service.payload.response.SignInResponse;
@@ -73,5 +74,11 @@ public class AuthController {
       return ResponseUtil.buildErrorMessage(
           HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage(), request, LocalDateTime.now());
     }
+  }
+
+  @PostMapping("/forgot-password")
+  public void forgotPassword(
+      @RequestBody ForgotPasswordRequest forgotPasswordRequest, HttpServletRequest request) {
+    authService.forgotPassword(forgotPasswordRequest);
   }
 }
