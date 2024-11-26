@@ -100,6 +100,7 @@ import { ionAttachOutline } from "@ng-icons/ionicons";
 import { AdminProjectFilesTabComponent } from './admin-project/admin-project-files-tab/admin-project-files-tab.component';
 import { AdminProjectFilesFileCardComponent } from './admin-project/admin-project-files-tab/admin-project-files-file-card/admin-project-files-file-card.component';
 import { AdminProjectFilesToolbarComponent } from './admin-project/admin-project-files-tab/admin-project-files-toolbar/admin-project-files-toolbar.component';
+import { DragDropModule } from "@angular/cdk/drag-drop";
 
 @NgModule({
   declarations: [
@@ -153,8 +154,8 @@ import { AdminProjectFilesToolbarComponent } from './admin-project/admin-project
     CommonModule,
     FormsModule,
     NgOptimizedImage,
-    RouterModule
-    ,
+    RouterModule,
+    DragDropModule,
 
     NgIconsModule.withIcons({
       heroUser,
