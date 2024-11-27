@@ -66,9 +66,6 @@ import { AdminSettingsTeamTabComponent } from "./admin-settings/admin-settings-t
 
 import { AdminTeamsComponent } from "./admin-teams/admin-teams.component";
 import { AdminTeamCardComponent } from "./admin-teams/admin-team-card/admin-team-card.component";
-import { AdminTeamToolbarComponent } from "./admin-teams/admin-team-toolbar/admin-team-toolbar.component";
-import { AdminTeamDepartmentComponent } from "./admin-teams/admin-team-toolbar/admin-team-department/admin-team-department.component";
-import { AdminTeamSortByComponent } from "./admin-teams/admin-team-toolbar/admin-team-sort-by/admin-team-sort-by.component";
 
 import { AdminProjectsComponent } from "./admin-projects/admin-projects.component";
 import { AdminProjectCardComponent } from "./admin-projects/admin-project-card/admin-project-card.component";
@@ -117,9 +114,6 @@ import { BrnAlertDialogModule } from "@spartan-ng/ui-alertdialog-brain";
 
     AdminTeamsComponent,
     AdminTeamCardComponent,
-    AdminTeamToolbarComponent,
-    AdminTeamDepartmentComponent,
-    AdminTeamSortByComponent,
 
     AdminNotificationsComponent,
 

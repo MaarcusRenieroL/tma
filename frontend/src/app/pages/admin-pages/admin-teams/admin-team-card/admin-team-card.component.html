@@ -1,4 +1,5 @@
-<div hlmCard class="h-full w-full flex flex-col items-start justify-between hover:shadow-xl duration-500 transition-all">
+<div hlmCard
+     class="h-full w-full flex flex-col items-start justify-between hover:shadow-xl duration-500 transition-all">
 	<!-- Card Header -->
 	<div hlmCardHeader class="w-full">
 		<h3 hlmCardTitle>{{ team?.name ?? 'Team Name' }}</h3>
@@ -13,18 +14,26 @@
 	<!-- Card Footer -->
 	<div hlmCardFooter class="flex flex-wrap md:flex-nowrap justify-between gap-5 w-full">
 		<!-- Avatars -->
-		<div class="flex flex-wrap gap-2 w-full md:w-auto">
-			<hlm-avatar *ngFor="let member of team?.members" class="flex-shrink-0">
-				<img
-					src="https://github.com/shadcn.png"
-					alt="spartan logo. Resembling a spartanic shield"
-					hlmAvatarImage
-				/>
-				<span class="text-white bg-destructive" hlmAvatarFallback>
-          {{ getInitials(member) }}
-        </span>
-			</hlm-avatar>
+		<div class="relative flex items-center">
+			<div class="flex -space-x-2">
+				<hlm-avatar *ngFor="let member of team?.members!.slice(0, 3)" class="flex-shrink-0">
+					<img
+						src="https://github.com/shadcn.png"
+						alt="spartan logo. Resembling a spartanic shield"
+						hlmAvatarImage
+					/>
+					<span class="text-white bg-destructive" hlmAvatarFallback>
+		        {{ getInitials(member) }}
+		      </span>
+				</hlm-avatar>
+			</div>
+			
+			<!-- Display 'More' if there are additional members -->
+			<span *ngIf="team?.members!.length > 3" class="ml-1 text-xs text-gray-500 bg-gray-200 rounded-full p-1">
+		    +{{ team?.members!.length - 3 }}
+		  </span>
 		</div>
+		
 		
 		<!-- Buttons -->
 		<div class="w-full md:w-auto flex flex-wrap items-center justify-end gap-2 md:gap-5">
