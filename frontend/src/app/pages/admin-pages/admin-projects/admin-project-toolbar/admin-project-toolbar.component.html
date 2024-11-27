@@ -2,9 +2,41 @@
   <input hlmInput class="xl:w-1/2 w-full" placeholder="Search for a project name" />
   <div class="xl:flex hidden items-center gap-5">
     <button hlmBtn variant="outline">Search</button>
-    <admin-project-category />
-    <admin-project-status />
-    <admin-project-sort-by />
+    <button hlmBtn [brnMenuTriggerFor]="menu" variant="outline">Category</button>
+
+    <ng-template #menu>
+      <hlm-menu>
+        <hlm-menu-label>Select Category</hlm-menu-label>
+        <hlm-menu-separator />
+        <button hlmMenuItem *ngFor="let category of categories">
+          {{ category.name }}
+        </button>
+      </hlm-menu>
+    </ng-template>
+
+    <button hlmBtn [brnMenuTriggerFor]="menu" variant="outline">Sort By</button>
+
+    <ng-template #menu>
+      <hlm-menu>
+        <hlm-menu-label>Sort By</hlm-menu-label>
+        <hlm-menu-separator />
+        <button hlmMenuItem *ngFor="let sortByItem of sortByOptions">
+          {{ sortByItem.name }}
+        </button>
+      </hlm-menu>
+    </ng-template>
+
+    <button hlmBtn [brnMenuTriggerFor]="menu" variant="outline">Status</button>
+
+    <ng-template #menu>
+      <hlm-menu>
+        <hlm-menu-label>Status</hlm-menu-label>
+        <hlm-menu-separator />
+        <button hlmMenuItem *ngFor="let status of statusOptions">
+          {{ status.name }}
+        </button>
+      </hlm-menu>
+    </ng-template>
     <button hlmBtn variant="outline">Clear Filters</button>
   </div>
 
