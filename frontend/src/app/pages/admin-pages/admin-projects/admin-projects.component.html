@@ -1,97 +1,97 @@
-<admin-navbar />
+<admin-navbar/>
 <main class="p-10">
-  <div class="flex flex-col gap-5">
-    <h1 class="text-2xl font-bold">Projects</h1>
-    <hr />
-  </div>
-  <div class="flex flex-col gap-5 mt-5">
-    <div class="flex items-center justify-between">
-      <!-- Search Input -->
-      <input
-        hlmInput
-        class="xl:w-1/2 w-full"
-        placeholder="Search for a project name"
-        [(ngModel)]="searchQuery"
-        (input)="applyFilters()"
-      />
-
-      <!-- Desktop Filters -->
-      <div class="xl:flex hidden items-center gap-5">
-        <button hlmBtn [brnMenuTriggerFor]="categoryMenu" variant="outline">
-          {{ selectedCategoryName }}
-        </button>
-        <ng-template #categoryMenu>
-          <hlm-menu>
-            <hlm-menu-label>Select Category</hlm-menu-label>
-            <hlm-menu-separator />
-            <button hlmMenuItem (click)="setCategory('')">All</button>
-            <button hlmMenuItem *ngFor="let category of categories" (click)="setCategory(category.value)">
-              {{ category.name }}
-            </button>
-          </hlm-menu>
-        </ng-template>
-
-        <button hlmBtn [brnMenuTriggerFor]="statusMenu" variant="outline">
-          {{ selectedStatusName }}
-        </button>
-        <ng-template #statusMenu>
-          <hlm-menu>
-            <hlm-menu-label>Select Status</hlm-menu-label>
-            <hlm-menu-separator />
-            <button hlmMenuItem (click)="setStatus('')">All</button>
-            <button hlmMenuItem *ngFor="let status of statusOptions" (click)="setStatus(status.value)">
-              {{ status.name }}
-            </button>
-          </hlm-menu>
-        </ng-template>
-
-        <button hlmBtn [brnMenuTriggerFor]="sortMenu" variant="outline">
-          {{ selectedSortByName }}
-        </button>
-        <ng-template #sortMenu>
-          <hlm-menu>
-            <hlm-menu-label>Sort By</hlm-menu-label>
-            <hlm-menu-separator />
-            <button hlmMenuItem (click)="setSortBy('')">Default</button>
-            <button hlmMenuItem *ngFor="let sortByItem of sortByOptions" (click)="setSortBy(sortByItem.value)">
-              {{ sortByItem.name }}
-            </button>
-          </hlm-menu>
-        </ng-template>
-
-        <button hlmBtn variant="outline" (click)="clearFilters()">Clear Filters</button>
-      </div>
-
-      <!-- Mobile Filters -->
-      <hlm-dialog class="xl:hidden flex items-center gap-5">
-        <button hlmBtn variant="outline">Search</button>
-        <button brnDialogTrigger hlmBtn>Filters</button>
-        <hlm-dialog-content *brnDialogContent="let ctx">
-          <hlm-dialog-header>
-            <h3 brnDialogTitle>Choose your filters</h3>
-            <p brnDialogDescription>Adjust filters to refine results.</p>
-          </hlm-dialog-header>
-          <div class="flex flex-col items-start gap-5">
-            <button hlmBtn [brnMenuTriggerFor]="categoryMenu" variant="outline">
-              {{ selectedCategoryName }}
-            </button>
-            <button hlmBtn [brnMenuTriggerFor]="statusMenu" variant="outline">
-              {{ selectedStatusName }}
-            </button>
-            <button hlmBtn [brnMenuTriggerFor]="sortMenu" variant="outline">
-              {{ selectedSortByName }}
-            </button>
-          </div>
-          <hlm-dialog-footer>
-            <button hlmBtn variant="outline" (click)="clearFilters()">Clear Filters</button>
-          </hlm-dialog-footer>
-        </hlm-dialog-content>
-      </hlm-dialog>
-    </div>
-
-    <!-- Projects Grid -->
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-5">
-      <admin-project-card *ngFor="let project of filteredProjects" [project]="project"></admin-project-card>
-    </div>
-  </div>
+	<div class="flex flex-col gap-5">
+		<h1 class="text-2xl font-bold">Projects</h1>
+		<hr/>
+	</div>
+	<div class="flex flex-col gap-5 mt-5">
+		<div class="flex items-center justify-between">
+			<!-- Search Input -->
+			<input
+				hlmInput
+				class="xl:w-1/2 w-full"
+				placeholder="Search for a project name"
+				[(ngModel)]="searchQuery"
+				(input)="applyFilters()"
+			/>
+			
+			<!-- Desktop Filters -->
+			<div class="xl:flex hidden items-center gap-5">
+				<button hlmBtn [brnMenuTriggerFor]="categoryMenu" variant="outline">
+					{{ selectedCategoryName }}
+				</button>
+				<ng-template #categoryMenu>
+					<hlm-menu class="h-48 overflow-y-scroll custom-scrollbar">
+						<hlm-menu-label>Select Category</hlm-menu-label>
+						<hlm-menu-separator/>
+						<button hlmMenuItem (click)="setCategory('')">All</button>
+						<button hlmMenuItem *ngFor="let category of categories" (click)="setCategory(category.value)">
+							{{ category.name }}
+						</button>
+					</hlm-menu>
+				</ng-template>
+				
+				<button hlmBtn [brnMenuTriggerFor]="statusMenu" variant="outline">
+					{{ selectedStatusName }}
+				</button>
+				<ng-template #statusMenu>
+					<hlm-menu>
+						<hlm-menu-label>Select Status</hlm-menu-label>
+						<hlm-menu-separator/>
+						<button hlmMenuItem (click)="setStatus('')">All</button>
+						<button hlmMenuItem *ngFor="let status of statusOptions" (click)="setStatus(status.value)">
+							{{ status.name }}
+						</button>
+					</hlm-menu>
+				</ng-template>
+				
+				<button hlmBtn [brnMenuTriggerFor]="sortMenu" variant="outline">
+					{{ selectedSortByName }}
+				</button>
+				<ng-template #sortMenu>
+					<hlm-menu>
+						<hlm-menu-label>Sort By</hlm-menu-label>
+						<hlm-menu-separator/>
+						<button hlmMenuItem (click)="setSortBy('')">Default</button>
+						<button hlmMenuItem *ngFor="let sortByItem of sortByOptions" (click)="setSortBy(sortByItem.value)">
+							{{ sortByItem.name }}
+						</button>
+					</hlm-menu>
+				</ng-template>
+				
+				<button hlmBtn variant="outline" (click)="clearFilters()">Clear Filters</button>
+			</div>
+			
+			<!-- Mobile Filters -->
+			<hlm-dialog class="xl:hidden flex items-center gap-5">
+				<button hlmBtn variant="outline">Search</button>
+				<button brnDialogTrigger hlmBtn>Filters</button>
+				<hlm-dialog-content *brnDialogContent="let ctx">
+					<hlm-dialog-header>
+						<h3 brnDialogTitle>Choose your filters</h3>
+						<p brnDialogDescription>Adjust filters to refine results.</p>
+					</hlm-dialog-header>
+					<div class="flex flex-col items-start gap-5">
+						<button hlmBtn [brnMenuTriggerFor]="categoryMenu" variant="outline">
+							{{ selectedCategoryName }}
+						</button>
+						<button hlmBtn [brnMenuTriggerFor]="statusMenu" variant="outline">
+							{{ selectedStatusName }}
+						</button>
+						<button hlmBtn [brnMenuTriggerFor]="sortMenu" variant="outline">
+							{{ selectedSortByName }}
+						</button>
+					</div>
+					<hlm-dialog-footer>
+						<button hlmBtn variant="outline" (click)="clearFilters()">Clear Filters</button>
+					</hlm-dialog-footer>
+				</hlm-dialog-content>
+			</hlm-dialog>
+		</div>
+		
+		<!-- Projects Grid -->
+		<div class="grid grid-cols-1 lg:grid-cols-3 gap-5">
+			<admin-project-card *ngFor="let project of filteredProjects" [project]="project"></admin-project-card>
+		</div>
+	</div>
 </main>
