@@ -10,6 +10,7 @@ import { AdminActivityLogsComponent } from "./pages/admin-pages/admin-activity-l
 import { AdminUsersComponent } from "./pages/admin-pages/admin-users/admin-users.component";
 import { AdminTasksComponent } from "./pages/admin-pages/admin-tasks/admin-tasks.component";
 import { AdminProjectComponent } from "./pages/admin-pages/admin-project/admin-project.component";
+import { AdminTeamComponent } from "./pages/admin-pages/admin-team/admin-team.component";
 
 const routes: Routes = [
   { path: "", component: LandingPageComponent },
@@ -21,7 +22,8 @@ const routes: Routes = [
   { path: "admin/logs", component: AdminActivityLogsComponent },
   { path: "admin/users", component: AdminUsersComponent },
   { path: "admin/tasks", component: AdminTasksComponent },
-  { path: "admin/projects/:id", component: AdminProjectComponent }
+  { path: "admin/projects/:id", component: AdminProjectComponent },
+  { path: "admin/teams/:id", component: AdminTeamComponent }
 ];
 
 @NgModule({

@@ -101,6 +101,12 @@ import { HlmAlertDialogModule } from "@spartan-ng/ui-alertdialog-helm";
 import { BrnAlertDialogModule } from "@spartan-ng/ui-alertdialog-brain";
 import { AdminTeamsDeleteTeamModalComponent } from './admin-teams/admin-teams-delete-team-modal/admin-teams-delete-team-modal.component';
 import { AdminTeamsAddTeamModalComponent } from './admin-teams/admin-teams-add-team-modal/admin-teams-add-team-modal.component';
+import { AdminTeamComponent } from './admin-team/admin-team.component';
+import { AdminTeamOverviewTabComponent } from './admin-team/admin-team-overview-tab/admin-team-overview-tab.component';
+import { AdminTeamProjectsTabComponent } from './admin-team/admin-team-projects-tab/admin-team-projects-tab.component';
+import { AdminTeamBoardTabComponent } from './admin-team/admin-team-board-tab/admin-team-board-tab.component';
+import { AdminTeamFilesTabComponent } from './admin-team/admin-team-files-tab/admin-team-files-tab.component';
+import { AdminTeamCalendarTabComponent } from './admin-team/admin-team-calendar-tab/admin-team-calendar-tab.component';
 
 @NgModule({
   declarations: [
@@ -146,6 +152,12 @@ import { AdminTeamsAddTeamModalComponent } from './admin-teams/admin-teams-add-t
     AdminProjectsDeleteProjectModalComponent,
     AdminTeamsDeleteTeamModalComponent,
     AdminTeamsAddTeamModalComponent,
+    AdminTeamComponent,
+    AdminTeamOverviewTabComponent,
+    AdminTeamProjectsTabComponent,
+    AdminTeamBoardTabComponent,
+    AdminTeamFilesTabComponent,
+    AdminTeamCalendarTabComponent,
   ],
   imports: [
     CommonModule,
