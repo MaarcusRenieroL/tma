@@ -99,6 +99,7 @@ import { AdminProjectsAddProjectModalComponent } from './admin-projects/admin-pr
 import { AdminProjectsDeleteProjectModalComponent } from './admin-projects/admin-projects-delete-project-modal/admin-projects-delete-project-modal.component';
 import { HlmAlertDialogModule } from "@spartan-ng/ui-alertdialog-helm";
 import { BrnAlertDialogModule } from "@spartan-ng/ui-alertdialog-brain";
+import { AdminTeamsDeleteTeamModalComponent } from './admin-teams/admin-teams-delete-team-modal/admin-teams-delete-team-modal.component';
 
 @NgModule({
   declarations: [
@@ -142,6 +143,7 @@ import { BrnAlertDialogModule } from "@spartan-ng/ui-alertdialog-brain";
     AdminProjectFilesToolbarComponent,
     AdminProjectsAddProjectModalComponent,
     AdminProjectsDeleteProjectModalComponent,
+    AdminTeamsDeleteTeamModalComponent,
   ],
   imports: [
     CommonModule,

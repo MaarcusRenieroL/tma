@@ -35,22 +35,9 @@
 		</div>
 		
 		
-		<!-- Buttons -->
 		<div class="w-full md:w-auto flex flex-wrap items-center justify-end gap-2 md:gap-5">
-			<!-- Desktop Actions -->
-			<div class="hidden md:flex items-center gap-5">
-				<button hlmBtn>Edit</button>
-				<button hlmBtn variant="destructive">Delete</button>
-			</div>
-			
-			<!-- Mobile Actions -->
-			<div class="flex md:hidden items-center gap-2">
-				<button hlmBtn size="icon">
-					<ng-icon name="bootstrapPen"></ng-icon>
-				</button>
-				<button hlmBtn variant="destructive" size="icon">
-					<ng-icon name="bootstrapTrash"></ng-icon>
-				</button>
+			<div class="flex items-center gap-5">
+				<admin-teams-delete-team-modal />
 			</div>
 		</div>
 	</div>
