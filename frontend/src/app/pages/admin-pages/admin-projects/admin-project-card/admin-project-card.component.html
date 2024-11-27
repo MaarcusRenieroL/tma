@@ -12,16 +12,14 @@
   <div hlmCardFooter class="flex items-end justify-end gap-5 w-full">
     <div class="hidden md:flex items-center gap-5">
       <button hlmBtn>Edit</button>
-      <button hlmBtn variant="destructive">Delete</button>
+      <admin-projects-delete-project-modal />
     </div>
 
     <div class="md:hidden flex items-center gap-5">
       <button hlmBtn size="icon">
         <ng-icon name="bootstrapPen" />
       </button>
-      <button hlmBtn variant="destructive" size="icon">
-        <ng-icon name="bootstrapTrash" />
-      </button>
+      <admin-projects-delete-project-modal />
     </div>
   </div>
 </div>

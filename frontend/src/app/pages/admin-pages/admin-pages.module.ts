@@ -99,6 +99,9 @@ import { AdminProjectFilesFileCardComponent } from './admin-project/admin-projec
 import { AdminProjectFilesToolbarComponent } from './admin-project/admin-project-files-tab/admin-project-files-toolbar/admin-project-files-toolbar.component';
 import { DragDropModule } from "@angular/cdk/drag-drop";
 import { AdminProjectsAddProjectModalComponent } from './admin-projects/admin-projects-add-project-modal/admin-projects-add-project-modal.component';
+import { AdminProjectsDeleteProjectModalComponent } from './admin-projects/admin-projects-delete-project-modal/admin-projects-delete-project-modal.component';
+import { HlmAlertDialogModule } from "@spartan-ng/ui-alertdialog-helm";
+import { BrnAlertDialogModule } from "@spartan-ng/ui-alertdialog-brain";
 
 @NgModule({
   declarations: [
@@ -144,6 +147,7 @@ import { AdminProjectsAddProjectModalComponent } from './admin-projects/admin-pr
     AdminProjectFilesFileCardComponent,
     AdminProjectFilesToolbarComponent,
     AdminProjectsAddProjectModalComponent,
+    AdminProjectsDeleteProjectModalComponent,
   ],
   imports: [
     CommonModule,
@@ -203,6 +207,9 @@ import { AdminProjectsAddProjectModalComponent } from './admin-projects/admin-pr
     HlmButtonDirective,
     HlmCheckboxComponent,
     HlmToasterComponent,
+    
+    HlmAlertDialogModule,
+    BrnAlertDialogModule,
     
     NgApexchartsModule
   ],
