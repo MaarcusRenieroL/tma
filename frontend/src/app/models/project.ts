@@ -5,4 +5,4 @@ export interface Project {
 	priority: string;
 	categories: string[];
 	domain: string;
-};
+}

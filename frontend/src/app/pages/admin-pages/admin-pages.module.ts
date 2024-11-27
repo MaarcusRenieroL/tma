@@ -98,6 +98,7 @@ import { AdminProjectFilesTabComponent } from './admin-project/admin-project-fil
 import { AdminProjectFilesFileCardComponent } from './admin-project/admin-project-files-tab/admin-project-files-file-card/admin-project-files-file-card.component';
 import { AdminProjectFilesToolbarComponent } from './admin-project/admin-project-files-tab/admin-project-files-toolbar/admin-project-files-toolbar.component';
 import { DragDropModule } from "@angular/cdk/drag-drop";
+import { AdminProjectsAddProjectModalComponent } from './admin-projects/admin-projects-add-project-modal/admin-projects-add-project-modal.component';
 
 @NgModule({
   declarations: [
@@ -142,6 +143,7 @@ import { DragDropModule } from "@angular/cdk/drag-drop";
     AdminProjectFilesTabComponent,
     AdminProjectFilesFileCardComponent,
     AdminProjectFilesToolbarComponent,
+    AdminProjectsAddProjectModalComponent,
   ],
   imports: [
     CommonModule,
