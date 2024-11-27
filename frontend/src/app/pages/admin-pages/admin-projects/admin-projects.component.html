@@ -1,4 +1,4 @@
-<admin-navbar></admin-navbar>
+<admin-navbar />
 <main class="p-10">
   <div class="flex flex-col gap-5">
     <h1 class="text-2xl font-bold">Projects</h1>
@@ -18,7 +18,7 @@
       <!-- Desktop Filters -->
       <div class="xl:flex hidden items-center gap-5">
         <button hlmBtn [brnMenuTriggerFor]="categoryMenu" variant="outline">
-          {{ selectedCategory || 'Category: All' }}
+          {{ selectedCategoryName }}
         </button>
         <ng-template #categoryMenu>
           <hlm-menu>
@@ -32,7 +32,7 @@
         </ng-template>
 
         <button hlmBtn [brnMenuTriggerFor]="statusMenu" variant="outline">
-          {{ selectedStatus || 'Status: All' }}
+          {{ selectedStatusName }}
         </button>
         <ng-template #statusMenu>
           <hlm-menu>
@@ -46,7 +46,7 @@
         </ng-template>
 
         <button hlmBtn [brnMenuTriggerFor]="sortMenu" variant="outline">
-          {{ selectedSortBy || 'Sort By: Default' }}
+          {{ selectedSortByName }}
         </button>
         <ng-template #sortMenu>
           <hlm-menu>
@@ -73,13 +73,13 @@
           </hlm-dialog-header>
           <div class="flex flex-col items-start gap-5">
             <button hlmBtn [brnMenuTriggerFor]="categoryMenu" variant="outline">
-              {{ selectedCategory || 'Category: All' }}
+              {{ selectedCategoryName }}
             </button>
             <button hlmBtn [brnMenuTriggerFor]="statusMenu" variant="outline">
-              {{ selectedStatus || 'Status: All' }}
+              {{ selectedStatusName }}
             </button>
             <button hlmBtn [brnMenuTriggerFor]="sortMenu" variant="outline">
-              {{ selectedSortBy || 'Sirt By: Default' }}
+              {{ selectedSortByName }}
             </button>
           </div>
           <hlm-dialog-footer>

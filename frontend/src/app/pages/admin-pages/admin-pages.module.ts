@@ -71,10 +71,6 @@ import { AdminTeamDepartmentComponent } from "./admin-teams/admin-team-toolbar/a
 import { AdminTeamSortByComponent } from "./admin-teams/admin-team-toolbar/admin-team-sort-by/admin-team-sort-by.component";
 
 import { AdminProjectsComponent } from "./admin-projects/admin-projects.component";
-import { AdminProjectToolbarComponent } from "./admin-projects/admin-project-toolbar/admin-project-toolbar.component";
-import { AdminProjectCategoryComponent } from "./admin-projects/admin-project-toolbar/admin-project-category/admin-project-category.component";
-import { AdminProjectStatusComponent } from "./admin-projects/admin-project-toolbar/admin-project-status/admin-project-status.component";
-import { AdminProjectSortByComponent } from "./admin-projects/admin-project-toolbar/admin-project-sort-by/admin-project-sort-by.component";
 import { AdminProjectCardComponent } from "./admin-projects/admin-project-card/admin-project-card.component";
 
 import { AdminNotificationsComponent } from "./admin-notifications/admin-notifications.component";
@@ -113,10 +109,6 @@ import { DragDropModule } from "@angular/cdk/drag-drop";
     AdminNavbarComponent,
 
     AdminProjectsComponent,
-    AdminProjectToolbarComponent,
-    AdminProjectCategoryComponent,
-    AdminProjectStatusComponent,
-    AdminProjectSortByComponent,
     AdminProjectCardComponent,
 
     AdminTeamsComponent,

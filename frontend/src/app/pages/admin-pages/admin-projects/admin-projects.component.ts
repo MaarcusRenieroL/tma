@@ -80,7 +80,6 @@ export class AdminProjectsComponent {
 	applyFilters() {
 		this.filteredProjects = [ ...this.projects ];
 		
-		// Search by name
 		if (this.searchQuery) {
 			this.filteredProjects = this.filteredProjects.filter((project) =>
 				project.name.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
@@ -91,21 +90,18 @@ export class AdminProjectsComponent {
 			);
 		}
 		
-		// Filter by category
 		if (this.selectedCategory) {
 			this.filteredProjects = this.filteredProjects.filter((project) =>
 				project.categories.includes(this.selectedCategory)
 			);
 		}
 		
-		// Filter by status
 		if (this.selectedStatus) {
 			this.filteredProjects = this.filteredProjects.filter(
 				(project) => project.status === this.selectedStatus
 			);
 		}
 		
-		// Sort projects
 		if (this.selectedSortBy) {
 			switch (this.selectedSortBy) {
 				case 'name_asc':
@@ -124,7 +120,6 @@ export class AdminProjectsComponent {
 		}
 	}
 	
-	// Setters for filters
 	setCategory(category: string) {
 		this.selectedCategory = category;
 		this.applyFilters();
@@ -147,4 +142,17 @@ export class AdminProjectsComponent {
 		this.selectedSortBy = "";
 		this.applyFilters();
 	}
+	
+	get selectedCategoryName(): string {
+		return this.categories.find(category => category.value === this.selectedCategory)?.name || 'Category: All';
+	}
+	
+	get selectedStatusName(): string {
+		return this.statusOptions.find(status => status.value === this.selectedStatus)?.name || 'Status: All';
+	}
+	
+	get selectedSortByName(): string {
+		return this.sortByOptions.find(sortBy => sortBy.value === this.selectedSortBy)?.name || 'Sort By: Default';
+	}
+	
 }
