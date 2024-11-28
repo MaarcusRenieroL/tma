@@ -1,6 +1,5 @@
 @import '@angular/cdk/overlay-prebuilt.css';
-
-@import url('https://fonts.googleapis.com/css2?family=Geist+Mono:wght@100..900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap");
 
 @tailwind base;
 @tailwind components;
@@ -10,15 +9,17 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: "Geist Mono", sans-serif;
+  font-family: "Geist", sans-serif;
 }
 
-html, body, :root {
+html,
+body,
+:root {
   height: 100%;
 }
 
 :root {
-  --font-sans: 'Geist Mono'
+  --font-sans: "Geist";
 }
 
 :root {
@@ -67,3 +68,27 @@ html, body, :root {
   --ring: 212.7 26.8% 83.9;
   color-scheme: dark;
 }
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 10px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+.custom-scrollbar::-webkit-scrollbar-button {
+  background: transparent;
+}
+

@@ -1,0 +1,65 @@
+<admin-navbar />
+<main class="p-10">
+	<div class="flex flex-col gap-5">
+		<h1 class="text-2xl font-bold">Project Name</h1>
+		<div class="flex flex-col gap-5 w-fit text-sm">
+			<div class="grid grid-cols-3">
+				<h2 class="text-muted-foreground">Priority: </h2>
+				<div class="col-span-2 flex items-center justify-start">
+					<p hlmBadge>Normal</p>
+				</div>
+			</div>
+			<div class="grid grid-cols-3">
+				<h2 class="text-muted-foreground">Assigned To: </h2>
+				<div class="col-span-2 flex items-center justify-start gap-2">
+					<p hlmBadge variant="secondary">User 1</p>
+					<p hlmBadge variant="secondary">User 2</p>
+					<p hlmBadge variant="secondary">User 3</p>
+					<button hlmBtn size="icon" variant="outline" class="rounded-full h-8 w-8">
+						<ng-icon name="bootstrapPlus" />
+					</button>
+				</div>
+			</div>
+			<div class="grid grid-cols-3">
+				<h2 class="text-muted-foreground">Deadline: </h2>
+				<div class="col-span-2 flex items-center justify-start">
+					<p>23 Jan 2025</p>
+				</div>
+			</div>
+			<div class="grid grid-cols-3">
+				<h2 class="text-muted-foreground">Assigned To: </h2>
+				<div class="col-span-2 flex items-center justify-start gap-2">
+					<p hlmBadge variant="secondary">UI Design</p>
+					<p hlmBadge variant="secondary">Backend Development</p>
+					<p hlmBadge variant="secondary">Marketing</p>
+					<button hlmBtn size="icon" variant="outline" class="rounded-full h-8 w-8">
+						<ng-icon name="bootstrapPlus" />
+					</button>
+				</div>
+			</div>
+		</div>
+		<hr />
+	</div>
+	<div class="w-full mt-5">
+		<hlm-tabs tab="board" class="w-full">
+			<hlm-tabs-list class="w-full">
+				<button hlmTabsTrigger="overview" class="w-full">Overview</button>
+				<button hlmTabsTrigger="board" class="w-full">Board</button>
+				<button hlmTabsTrigger="calendar" class="w-full">Calendar</button>
+				<button hlmTabsTrigger="files" class="w-full">Files</button>
+			</hlm-tabs-list>
+			<div hlmTabsContent="overview" class="mt-5">
+				<admin-project-overview-tab />
+			</div>
+			<div hlmTabsContent="board" class="mt-5">
+				<admin-project-board-tab />
+			</div>
+			<div hlmTabsContent="calendar">
+				Calendar
+			</div>
+			<div hlmTabsContent="files" class="mt-5">
+				<admin-project-files-tab />
+			</div>
+		</hlm-tabs>
+	</div>
+</main>

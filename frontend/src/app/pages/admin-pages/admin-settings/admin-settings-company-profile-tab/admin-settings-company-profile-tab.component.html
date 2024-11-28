@@ -1,0 +1,181 @@
+<hlm-toaster />
+<div>
+  <div class="flex flex-col gap-5">
+    <div class="flex items-center justify-between w-full">
+      <div class="flex flex-col gap-3">
+        <h1 class="text-xl font-bold">Company</h1>
+        <p>Update your company photo and details here</p>
+      </div>
+
+      <div class="md:flex hidden items-center gap-5">
+        <button hlmBtn variant="outline">Cancel</button>
+        <button hlmBtn>Save</button>
+      </div>
+    </div>
+
+    <hr />
+  </div>
+
+  <div class="flex flex-col gap-5 w-full">
+    <div class="w-full flex flex-col gap-5 py-5">
+      <div class="flex flex-col lg:flex-row items-start justify-between w-full">
+        <label hlmLabel>
+          <p class="text-xl font-semibold">Public profile *</p>
+          <p>This will be displayed on your profile</p>
+        </label>
+        <div
+          class="lg:w-3/4 w-full flex flex-col items-start gap-5 lg:mt-0 mt-5"
+        >
+          <input
+            hlmInput
+            type="text"
+            required
+            placeholder="Enter your company's name"
+            class="lg:w-2/5 w-full"
+          />
+        </div>
+      </div>
+      <hr />
+    </div>
+  </div>
+
+  <div class="flex flex-col gap-5 w-full">
+    <div class="w-full flex flex-col gap-5 py-5">
+      <div class="flex flex-col lg:flex-row items-start justify-between w-full">
+        <label hlmLabel>
+          <p class="text-xl font-semibold">Tagline *</p>
+          <p>A quick snapshot of your company</p>
+        </label>
+        <div class="lg:w-3/4 w-full flex flex-col gap-5 lg:mt-0 mt-5">
+          <textarea hlmInput placeholder="Enter your tagline" class="min-h-[80px] w-full"></textarea>
+          <p class="mt-2">40 characters left</p>
+        </div>
+      </div>
+      <hr />
+    </div>
+  </div>
+
+  <div class="flex flex-col gap-5 w-full">
+    <div class="w-full flex flex-col gap-5 py-5">
+      <div class="flex flex-col lg:flex-row items-start justify-between w-full">
+        <label hlmLabel>
+          <p class="text-xl font-semibold">Company Logo</p>
+          <p>Update your company logo</p>
+        </label>
+        <div class="lg:w-3/4 w-full flex flex-col gap-3 lg:mt-0 mt-5">
+          <div
+            class="p-8 border-2 border-dashed rounded-lg text-center cursor-pointer transition-colors"
+            [ngClass]="{
+              'border-primary bg-primary/10': false,
+              'border-gray-300 hover:border-primary': true,
+            }"
+            (click)="fileInput.click()"
+          >
+            <input
+              #fileInput
+              type="file"
+              accept="image/*"
+              (change)="handleFileSelect($event)"
+              class="hidden"
+            />
+            <div *ngIf="!file">
+              <p class="text-lg font-semibold">Drag & Drop your file here</p>
+              <p class="text-sm text-gray-500 mt-2">
+                or click to select a file
+              </p>
+            </div>
+            <div *ngIf="file">
+              <img
+                *ngIf="preview"
+                [src]="preview"
+                alt="Preview"
+                class="mx-auto max-h-48 rounded-lg"
+              />
+              <p class="text-sm text-gray-500 mt-4">{{ file.name }}</p>
+              <div class="w-full">
+                <div
+                  class="w-full h-2 bg-gray-200 rounded-lg overflow-hidden mt-2"
+                >
+                  <div
+                    class="h-2 bg-blue-500 rounded-lg transition-width"
+                    [style.width.%]="uploadProgress"
+                  ></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div *ngIf="file" class="mt-4 flex justify-between items-center">
+            <p class="text-sm text-gray-500">
+              {{ (file.size / 1024 / 1024).toFixed(2) }}MB
+            </p>
+            <button
+              hlmBtn
+              variant="outline"
+              size="sm"
+              (click)="removeFile()"
+              class="text-red-500 hover:text-red-700"
+            >
+              Remove
+            </button>
+          </div>
+          <p class="mt-2 text-xs text-gray-500">
+            Accepted file types: {{ acceptedFileTypes.join(", ") }}. Max size:
+            {{ maxSize / 1024 / 1024 }}MB
+          </p>
+        </div>
+      </div>
+      <hr />
+    </div>
+  </div>
+
+  <div class="flex flex-col gap-5 w-full">
+    <div class="w-full flex flex-col gap-5 py-5">
+      <div class="flex flex-col lg:flex-row items-start justify-between w-full">
+        <label hlmLabel>Social Profiles *</label>
+        <div
+          class="lg:w-3/4 w-full flex flex-col items-start gap-5 lg:mt-0 mt-5"
+        >
+          <div class="w-full flex">
+            <span
+              class="w-64 bg-secondary text-sm flex justify-center items-center rounded-sm border text-muted-foreground rounded-r-none"
+            >
+              linkedin.com/company/
+            </span>
+            <input
+              hlmInput
+              class="focus-visible:ring-0 focus-visible:border-black overflow-hidden rounded-l-none w-full"
+            />
+          </div>
+          <div class="w-full flex">
+            <span
+              class="w-40 bg-secondary text-sm flex justify-center items-center rounded-sm border text-muted-foreground rounded-r-none"
+            >
+              facebook.com/
+            </span>
+            <input
+              hlmInput
+              class="focus-visible:ring-0 focus-visible:border-black overflow-hidden rounded-l-none w-full"
+            />
+          </div>
+          <div class="w-full flex">
+            <span
+              class="w-40 bg-secondary text-sm flex justify-center items-center rounded-sm border text-muted-foreground rounded-r-none"
+            >
+              instagram.com/
+            </span>
+            <input
+              hlmInput
+              class="focus-visible:ring-0 focus-visible:border-black overflow-hidden rounded-l-none w-full border-l-none"
+            />
+          </div>
+        </div>
+      </div>
+      <hr />
+    </div>
+  </div>
+
+  <div class="flex md:hidden items-center justify-end w-full gap-5">
+    <button hlmBtn variant="outline">Cancel</button>
+    <button hlmBtn>Save</button>
+  </div>
+</div>

@@ -1,0 +1,60 @@
+<admin-navbar />
+<main class="p-10">
+	<div class="flex flex-col gap-5">
+		<h1 class="text-2xl font-bold">Team Name</h1>
+		<div class="flex flex-col gap-5 w-fit text-sm">
+			<div class="grid grid-cols-3">
+				<h2 class="text-muted-foreground">Team Members: </h2>
+				<div class="col-span-2 flex items-center justify-start gap-2">
+					<p hlmBadge variant="secondary">User 1</p>
+					<p hlmBadge variant="secondary">User 2</p>
+					<p hlmBadge variant="secondary">User 3</p>
+					<button hlmBtn size="icon" variant="outline" class="rounded-full h-8 w-8">
+						<ng-icon name="bootstrapPlus" />
+					</button>
+				</div>
+			</div>
+			
+			<div class="grid grid-cols-3">
+				<h2 class="text-muted-foreground">Projects: </h2>
+				<div class="col-span-2 flex items-center justify-start gap-2">
+					<p hlmBadge variant="secondary">Project 1</p>
+					<p hlmBadge variant="secondary">Project 2</p>
+					<p hlmBadge variant="secondary">Project 3</p>
+					<p hlmBadge variant="secondary">Project 4</p>
+					<p hlmBadge variant="secondary">Project 5</p>
+					<button hlmBtn size="icon" variant="outline" class="rounded-full h-8 w-8">
+						<ng-icon name="bootstrapPlus" />
+					</button>
+				</div>
+			</div>
+		</div>
+		<hr />
+	</div>
+	<div class="w-full mt-5">
+		<hlm-tabs tab="overview" class="w-full">
+			<hlm-tabs-list class="w-full">
+				<button hlmTabsTrigger="overview" class="w-full">Overview</button>
+				<button hlmTabsTrigger="projects" class="w-full">Projects</button>
+				<button hlmTabsTrigger="board" class="w-full">Board</button>
+				<button hlmTabsTrigger="calendar" class="w-full">Calendar</button>
+				<button hlmTabsTrigger="files" class="w-full">Files</button>
+			</hlm-tabs-list>
+			<div hlmTabsContent="overview" class="mt-5 w-full">
+				<admin-team-overview-tab />
+			</div>
+			<div hlmTabsContent="projects" class="w-full mt-5">
+				<admin-team-projects-tab />
+			</div>
+			<div hlmTabsContent="board" class="mt-5 w-full">
+				<admin-team-board-tab />
+			</div>
+			<div hlmTabsContent="calendar">
+				<admin-team-calendar-tab />
+			</div>
+			<div hlmTabsContent="files" class="mt-5">
+				<admin-team-files-tab />
+			</div>
+		</hlm-tabs>
+	</div>
+</main>

@@ -1,0 +1,35 @@
+.custom-scrollbar::-webkit-scrollbar {
+	width: 4px;
+	height: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+	background: #f1f1f1;
+	border-radius: 10px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+	background: #888;
+	border-radius: 10px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+	background: #555;
+}
+
+.custom-scrollbar::-webkit-scrollbar-button {
+	background: transparent;
+}
+
+.cdk-drag-preview {
+	background: #ffffff;
+	border: 1px solid #e5e7eb;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+	padding: 1rem;
+	border-radius: 8px;
+}
+
+.cdk-drop-list-dragging {
+	border: 2px dashed #a0aec0;
+	background-color: #edf2f7;
+}

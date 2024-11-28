@@ -1,0 +1,16 @@
+<div hlmCard class="hover:shadow-xl duration-500 transition-all w-full">
+	<div hlmCardHeader>
+		<h3 hlmCardTitle class="text-2xl font-bold">Open Task by Assignee</h3>
+	</div>
+	<div hlmCardContent class="flex flex-col items-start space-y-4">
+		<div id="assigneeChart" class="w-full">
+			<apx-chart
+				[series]="assigneeChartOptions.series"
+				[chart]="assigneeChartOptions.chart"
+				[dataLabels]="assigneeChartOptions.dataLabels"
+				[plotOptions]="assigneeChartOptions.plotOptions"
+				[xaxis]="assigneeChartOptions.xAxis"
+			/>
+		</div>
+	</div>
+</div>

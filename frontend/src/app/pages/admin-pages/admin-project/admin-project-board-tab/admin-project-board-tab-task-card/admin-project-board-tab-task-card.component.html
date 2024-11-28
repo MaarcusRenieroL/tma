@@ -1,0 +1,137 @@
+<hlm-dialog>
+  <button brnDialogTrigger hlmBtn variant="outline"
+          class="h-full w-full hover:shadow-2xl duration-500 transition-all p-0">
+    <div class="flex flex-col gap-5 w-full p-6">
+      <div class="w-full flex items-center justify-between">
+        <p hlmBadge>{{ task.priority }}</p>
+        <ng-icon name="heroEllipsisHorizontal" class="text-xl"></ng-icon>
+      </div>
+
+      <div class="flex flex-col items-start gap-3">
+        <h3 hlmCardTitle>{{ task.title }}</h3>
+        <p hlmCardDescription>{{ task.description }}</p>
+      </div>
+
+      <div class="w-full flex items-center justify-between">
+        <div class="flex items-center gap-2">
+          <hlm-avatar>
+            <img src="https://github.com/shadcn.png" alt="spartan logo. Resembling a spartanic shield" hlmAvatarImage/>
+            <span class="text-white bg-destructive" hlmAvatarFallback>RG</span>
+          </hlm-avatar>
+          <hlm-avatar>
+            <img src="https://github.com/shadcn.png" alt="spartan logo. Resembling a spartanic shield" hlmAvatarImage/>
+            <span class="text-white bg-destructive" hlmAvatarFallback>RG</span>
+          </hlm-avatar>
+        </div>
+        <div class="flex items-center gap-5">
+          <ng-icon name="ionAttachOutline" class="text-2xl text-muted-foreground"/>
+          <ng-icon name="lucideMessageSquare" class="text-2xl text-muted-foreground"/>
+        </div>
+      </div>
+    </div>
+  </button>
+  <hlm-dialog-content class="max-w-screen-2xl" *brnDialogContent="let ctx">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-10 w-full mt-5">
+      <div class="col-span-2 flex flex-col gap-5">
+        <div class="flex flex-col items-start gap-3">
+          <h3 class="text-2xl font-bold">{{ task.title }}</h3>
+          <p class="text-md text-muted-foreground">{{ task.description }}</p>
+        </div>
+        <div class="flex flex-col gap-3 w-fit text-sm">
+          <div class="grid grid-cols-3">
+            <h2 class="text-muted-foreground">Priority: </h2>
+            <div class="col-span-2 flex items-center justify-start">
+              <p hlmBadge>Normal</p>
+            </div>
+          </div>
+          <div class="grid grid-cols-3">
+            <h2 class="text-muted-foreground">Assigned To: </h2>
+            <div class="col-span-2 flex items-center justify-start gap-2">
+              <p hlmBadge variant="secondary">User 1</p>
+              <p hlmBadge variant="secondary">User 2</p>
+              <p hlmBadge variant="secondary">User 3</p>
+              <button hlmBtn size="icon" variant="outline" class="rounded-full h-8 w-8">
+                <ng-icon name="bootstrapPlus"/>
+              </button>
+            </div>
+          </div>
+          <div class="grid grid-cols-3">
+            <h2 class="text-muted-foreground">Deadline: </h2>
+            <div class="col-span-2 flex items-center justify-start">
+              <p>23 Jan 2025</p>
+            </div>
+          </div>
+          <div class="grid grid-cols-3">
+            <h2 class="text-muted-foreground">Assigned To: </h2>
+            <div class="col-span-2 flex items-center justify-start gap-2">
+              <p hlmBadge variant="secondary">UI Design</p>
+              <p hlmBadge variant="secondary">Backend Development</p>
+              <p hlmBadge variant="secondary">Marketing</p>
+              <button hlmBtn size="icon" variant="outline" class="rounded-full h-8 w-8">
+                <ng-icon name="bootstrapPlus"/>
+              </button>
+            </div>
+          </div>
+        </div>
+        <hlm-tabs tab="sub-tasks" class="w-full">
+          <div
+            class="relative rounded-sm overflow-x-scroll lg:overflow-x-hidden overflow-y-hidden custom-scrollbar h-10 bg-muted">
+            <hlm-tabs-list class="w-full">
+              <button class="w-full" hlmTabsTrigger="sub-tasks">Sub Tasks</button>
+              <button class="w-full" hlmTabsTrigger="attachments">Attachments</button>
+              <button class="w-full" hlmTabsTrigger="comments">Comments</button>
+            </hlm-tabs-list>
+          </div>
+
+          <div hlmTabsContent="sub-tasks" class="mt-5">
+            sub tasks
+          </div>
+
+          <div hlmTabsContent="attachments" class="mt-5">
+            <div class="overflow-y-scroll custom-scrollbar p-4 h-48 flex flex-col gap-5">
+              <div class="flex items-center justify-between w-full border rounded-md px-6 py-4" *ngFor="let file of files">
+                <div class="flex items-center gap-x-5">
+                  <p class="text-2xl">{{ getFileIcon(file.type) }}</p>
+                  <div class="flex flex-col items-start gap-2">
+                    <h2 class="text-lg">{{ file.name }}</h2>
+                    <div class="flex items-start gap-x-2 text-xs text-muted-foreground">
+                      <p>{{ file.type }}</p>
+                      <p>{{ formatFileSize(file.size) }}</p>
+                    </div>
+                  </div>
+                </div>
+                <ng-icon name="lucideDownload" />
+              </div>
+            </div>
+          </div>
+
+          <div hlmTabsContent="comments" class="mt-5">
+            comments
+          </div>
+        </hlm-tabs>
+      </div>
+
+      <div class="flex flex-col gap-5">
+        <div class="flex flex-col gap-5">
+          <h3 class="text-lg font-bold">Project Stats</h3>
+            <div class="border border-border rounded-md px-4 py-2 text-xs">
+              <div class="flex items-center justify-between w-full">
+                <p>Remaining Time</p>
+                <p>4 days</p>
+              </div>
+          </div>
+        </div>
+        <div class="flex flex-col gap-5">
+          <h3 class="font-bold text-lg">Created by</h3>
+          <div class="flex items-center gap-2">
+            <hlm-avatar>
+              <img src="https://github.com/shadcn.png" alt="spartan logo. Resembling a spartanic shield" hlmAvatarImage/>
+              <span class="text-white bg-destructive" hlmAvatarFallback>RG</span>
+            </hlm-avatar>
+            <p>Username</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </hlm-dialog-content>
+</hlm-dialog>

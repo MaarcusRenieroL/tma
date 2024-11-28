@@ -1,0 +1,16 @@
+<div hlmCard class="hover:shadow-xl duration-500 transition-all w-full">
+	<div hlmCardHeader>
+		<h3 hlmCardTitle class="text-2xl font-bold">Workload by Status</h3>
+	</div>
+	<div hlmCardContent class="flex flex-col items-start space-y-4">
+		<div id="workloadChart" class="w-full">
+			<apx-chart
+				[series]="workloadChartOptions.series"
+				[chart]="workloadChartOptions.chart"
+				[dataLabels]="workloadChartOptions.dataLabels"
+				[plotOptions]="workloadChartOptions.plotOptions"
+				[xaxis]="workloadChartOptions.xAxis"
+			/>
+		</div>
+	</div>
+</div>

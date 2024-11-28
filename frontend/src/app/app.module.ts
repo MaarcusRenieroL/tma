@@ -1,10 +1,11 @@
-import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
+import { NgModule } from "@angular/core";
+import { BrowserModule } from "@angular/platform-browser";
 
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
+import { AppRoutingModule } from "./app-routing.module";
+import { AppComponent } from "./app.component";
 import { PagesModule } from "./pages/pages.module";
 import { AuthPagesRoutingModule } from './pages/auth-pages/auth-pages-routing.module';
+import { AdminPagesRoutingModule } from "./pages/admin-pages/admin-pages-routing.module";
 
 @NgModule({
   declarations: [
@@ -14,9 +15,10 @@ import { AuthPagesRoutingModule } from './pages/auth-pages/auth-pages-routing.mo
     BrowserModule,
     AppRoutingModule,
     AuthPagesRoutingModule,
+    AdminPagesRoutingModule,
     PagesModule
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
