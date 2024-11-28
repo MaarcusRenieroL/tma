@@ -25,3 +25,8 @@ spring:
             lb://team-micro-service
           predicates:
             - Path=/api/teams/**
+        - id: task-micro-service
+          uri:
+            lb://task-micro-service
+          predicates:
+            - Path=/api/tasks/**

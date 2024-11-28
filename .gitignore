@@ -33,6 +33,9 @@ target/
 testem.log
 /typings
 
+# Spring Boot
+target
+
 # System files
 .DS_Store
 Thumbs.db

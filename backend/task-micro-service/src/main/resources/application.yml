@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: task-micro-service
+  datasource:
+    url: jdbc:postgresql://localhost:5432/tma
+    username: postgres
+    password: postgres
+server:
+  port: 8002
