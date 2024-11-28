@@ -1,0 +1,37 @@
+<div hlmCard class="hover:shadow-xl duration-500 transition-all w-full h-full">
+  <div hlmCardHeader>
+    <h3 hlmCardTitle class="text-2xl font-bold">Today&apos;s Schedule</h3>
+    <p hlmCardDescription>
+      A list of all meetings and deadlines that are today
+    </p>
+  </div>
+
+  <div hlmCardContent class="w-full">
+    <div
+      class="h-96 overflow-y-scroll custom-scrollbar flex flex-col items-start gap-5 p-4 w-full"
+    >
+      <!-- Loop over the users -->
+      <ng-container *ngFor="let user of users; let i = index">
+        <div hlmCard class="w-full">
+          <div
+            hlmCardContent
+            class="md:flex space-y-5 md:space-y-0 items-center justify-between w-full p-6"
+          >
+            <div class="flex items-center justify-evenly gap-5">
+              <p>{{ i + 1 }}</p>
+              <!-- Displaying the index for task number -->
+              <div class="w-full flex flex-col gap-2">
+                <h3 hlmCardTitle class="text-xl font-semibold">
+                  {{ user.name }}
+                </h3>
+                <p hlmCardDescription class="text-sm text-muted-foreground">
+                  {{ user.percentage }}%
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+</div>

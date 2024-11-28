@@ -1,0 +1,31 @@
+<button
+  hlmBtn
+  variant="outline"
+  align="end"
+  size="icon"
+  class="rounded-full"
+  [brnMenuTriggerFor]="menu"
+>
+  <hlm-avatar>
+    <img
+      ngSrc="https://github.com/shadcn.png"
+      alt="spartan logo. Resembling a spartanic shield"
+      hlmAvatarImage
+      fill
+    />
+    <span class="text-white bg-destructive" hlmAvatarFallback>RG</span>
+  </hlm-avatar>
+</button>
+
+<ng-template #menu>
+  <hlm-menu class="w-56">
+    <hlm-menu-label>Name</hlm-menu-label>
+    <p class="block px-2 py-0.5 text-xs">Email</p>
+    <hlm-menu-separator />
+    <button hlmMenuItem>
+      <ng-icon name="lucideLogOut" hlmMenuIcon />
+      <span>Logout</span>
+      <hlm-menu-shortcut>⇧⌘Q</hlm-menu-shortcut>
+    </button>
+  </hlm-menu>
+</ng-template>

@@ -1,0 +1,58 @@
+<div
+  hlmCard
+  class="h-full w-full flex flex-col items-start justify-between hover:shadow-xl duration-500 transition-all"
+>
+  <!-- Card Header -->
+  <div hlmCardHeader class="w-full">
+    <h3 hlmCardTitle>{{ team?.name ?? "Team Name" }}</h3>
+    <p hlmCardDescription>
+      {{ team?.description || "No description available." }}
+    </p>
+  </div>
+
+  <!-- Card Content -->
+  <div hlmCardContent class="flex flex-wrap gap-2">
+    <p *ngFor="let project of team?.projects" hlmBadge>{{ project }}</p>
+  </div>
+
+  <!-- Card Footer -->
+  <div
+    hlmCardFooter
+    class="flex flex-wrap md:flex-nowrap justify-between gap-5 w-full"
+  >
+    <!-- Avatars -->
+    <div class="flex flex-wrap gap-2 w-full md:w-auto">
+      <hlm-avatar *ngFor="let member of team?.members" class="flex-shrink-0">
+        <img
+          src="https://github.com/shadcn.png"
+          alt="spartan logo. Resembling a spartanic shield"
+          hlmAvatarImage
+        />
+        <span class="text-white bg-destructive" hlmAvatarFallback>
+          {{ getInitials(member) }}
+        </span>
+      </hlm-avatar>
+    </div>
+
+    <!-- Buttons -->
+    <div
+      class="w-full md:w-auto flex flex-wrap items-center justify-end gap-2 md:gap-5"
+    >
+      <!-- Desktop Actions -->
+      <div class="hidden md:flex items-center gap-5">
+        <button hlmBtn>Edit</button>
+        <button hlmBtn variant="destructive">Delete</button>
+      </div>
+
+      <!-- Mobile Actions -->
+      <div class="flex md:hidden items-center gap-2">
+        <button hlmBtn size="icon">
+          <ng-icon name="bootstrapPen"></ng-icon>
+        </button>
+        <button hlmBtn variant="destructive" size="icon">
+          <ng-icon name="bootstrapTrash"></ng-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
