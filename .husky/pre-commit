@@ -12,6 +12,9 @@ mvn spotless:apply
 cd ../user-micro-service
 mvn spotless:apply
 
+cd ../team-micro-service
+mvn spotless:apply
+
 cd ../../
 
 git add .

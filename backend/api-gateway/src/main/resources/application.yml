@@ -20,3 +20,8 @@ spring:
           uri: lb://user-micro-service
           predicates:
             - Path=/api/auth/**
+        - id: team-micro-service
+          uri:
+            lb://team-micro-service
+          predicates:
+            - Path=/api/teams/**
