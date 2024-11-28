@@ -9,22 +9,19 @@ import {
   bootstrapMessenger,
 } from "@ng-icons/bootstrap-icons";
 import { ionMenuOutline, ionHomeOutline } from "@ng-icons/ionicons";
-import { heroUsers } from "@ng-icons/heroicons/outline";
-import { HeroSectionComponent } from "./hero-section/hero-section.component";
-import { FeaturesSectionComponent } from "./features-section/features-section.component";
-import { TestimonialSectionComponent } from "./testimonial-section/testimonial-section.component";
-import { CtaSectionComponent } from "./cta-section/cta-section.component";
+import { heroUsers } from "@ng-icons/heroicons/outline"
+import { HeroSectionComponent } from './hero-section/hero-section.component';
+import { FeaturesSectionComponent } from './features-section/features-section.component';
+import { TestimonialSectionComponent } from './testimonial-section/testimonial-section.component';
+import { CtaSectionComponent } from './cta-section/cta-section.component';
+import { HlmButtonDirective } from '@spartan-ng/ui-button-helm';
 import {
   HlmSheetComponent,
-  HlmSheetContentComponent,
-  HlmSheetDescriptionDirective,
+  HlmSheetContentComponent, HlmSheetDescriptionDirective,
   HlmSheetHeaderComponent,
-  HlmSheetTitleDirective,
+  HlmSheetTitleDirective
 } from "@spartan-ng/ui-sheet-helm";
-import {
-  BrnSheetContentDirective,
-  BrnSheetTriggerDirective,
-} from "@spartan-ng/ui-sheet-brain";
+import { BrnSheetContentDirective, BrnSheetTriggerDirective } from "@spartan-ng/ui-sheet-brain";
 import {
   HlmCardContentDirective,
   HlmCardDescriptionDirective,
@@ -32,8 +29,10 @@ import {
   HlmCardFooterDirective,
   HlmCardHeaderDirective,
   HlmCardTitleDirective,
-} from "@spartan-ng/ui-card-helm";
-import { HlmButtonDirective } from "@spartan-ng/ui-button-helm";
+} from '@spartan-ng/ui-card-helm';
+
+
+
 
 @NgModule({
   declarations: [
@@ -52,8 +51,9 @@ import { HlmButtonDirective } from "@spartan-ng/ui-button-helm";
       ionHomeOutline,
       bootstrapClock,
       bootstrapMessenger,
-      heroUsers,
+      heroUsers
     }),
+    HlmButtonDirective,
     HlmSheetComponent,
     HlmSheetContentComponent,
     HlmSheetHeaderComponent,
@@ -67,7 +67,6 @@ import { HlmButtonDirective } from "@spartan-ng/ui-button-helm";
     HlmCardFooterDirective,
     HlmCardHeaderDirective,
     HlmCardTitleDirective,
-    HlmButtonDirective,
   ],
   exports: [NavbarComponent],
 })
