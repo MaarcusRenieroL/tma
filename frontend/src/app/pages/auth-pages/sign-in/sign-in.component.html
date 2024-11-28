@@ -1,0 +1,43 @@
+<div class="flex items-center justify-center w-full h-full">
+	<div hlmCard class="w-full max-w-md mx-auto">
+		<div hlmCardHeader class="flex flex-col items-center justify-center w-full text-center gap-3">
+			<h3 hlmCardTitle>Sign In</h3>
+			<p hlmCardDescription>
+				Please enter your email and password to sign in.
+			</p>
+		</div>
+		<div hlmCardContent>
+			<form class="flex flex-col items-start justify-evenly gap-5 w-full">
+				
+				<div class="flex flex-col items-start w-full gap-3">
+					<label>Email</label>
+					<input hlmInput placeholder="Enter your email" class="w-full" />
+				</div>
+				
+				<div class="flex flex-col items-start w-full gap-3">
+					<div class="w-full">
+						<label>Password</label>
+						<input hlmInput placeholder="Enter your password" type="password" class="w-full" />
+					</div>
+					<a [routerLink]="['/auth/forgot-password']" class="text-xs text-right w-full hover:underline hover:underline-offset-4">
+						Forgot Password?
+					</a>
+				</div>
+				
+				<div class="w-full">
+					<button hlmBtn type="submit" class="w-full">
+						Sign In
+					</button>
+				</div>
+			</form>
+		</div>
+		<div hlmCardFooter class="flex justify-center">
+			<p class="text-sm text-gray-500">
+				Don&apos;t have an account?
+				<a [routerLink]="['/auth/sign-up']" class="text-primary hover:underline hover:underline-offset-4">
+					Sign Up
+				</a>
+			</p>
+		</div>
+	</div>
+</div>

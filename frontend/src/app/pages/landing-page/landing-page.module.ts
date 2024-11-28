@@ -30,6 +30,7 @@ import {
   HlmCardHeaderDirective,
   HlmCardTitleDirective,
 } from '@spartan-ng/ui-card-helm';
+import { RouterModule } from "@angular/router";
 
 
 
@@ -53,6 +54,7 @@ import {
       bootstrapMessenger,
       heroUsers
     }),
+    RouterModule,
     HlmButtonDirective,
     HlmSheetComponent,
     HlmSheetContentComponent,

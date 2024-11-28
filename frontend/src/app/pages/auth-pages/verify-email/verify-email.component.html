@@ -1,0 +1,36 @@
+<div class="flex items-center justify-center w-full h-full">
+	<div hlmCard class="w-full max-w-md mx-auto">
+		<div hlmCardHeader class="flex flex-col items-center justify-center gap-3 text-center">
+			<h3 hlmCardTitle>Email Verification</h3>
+			<p hlmCardDescription>
+				Enter the 6-digit code sent to your email
+			</p>
+		</div>
+		<div hlmCardContent>
+			<form class="flex flex-col items-start justify-evenly gap-5 w-full">
+				<div class="flex flex-col items-start w-full gap-3">
+					<input hlmInput placeholder="Enter your verification code" class="w-full"/>
+				</div>
+				
+				<div class="w-full">
+					<button hlmBtn type="submit" class="w-full">
+						Verify Email
+					</button>
+				</div>
+			</form>
+		
+		
+		</div>
+		<div hlmCardFooter class="flex justify-center">
+			<a [routerLink]="['/auth/sign-in']">
+				<button hlmBtn
+					variant="link"
+					class="text-sm text-gray-500"
+				>
+					Back to Login
+			</button>
+			</a>
+		</div>
+	</div>
+
+</div>
