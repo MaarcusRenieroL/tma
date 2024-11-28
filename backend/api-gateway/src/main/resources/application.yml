@@ -16,17 +16,26 @@ spring:
           uri: lb://user-micro-service
           predicates:
             - Path=/api/users/**
+
         - id: auth-micro-service
           uri: lb://user-micro-service
           predicates:
             - Path=/api/auth/**
+
         - id: team-micro-service
           uri:
             lb://team-micro-service
           predicates:
             - Path=/api/teams/**
+
         - id: task-micro-service
           uri:
             lb://task-micro-service
           predicates:
             - Path=/api/tasks/**
+            
+        - id: project-micro-service
+          uri:
+            lb://project-micro-service
+          predicates:
+            - Path=/api/projects/**

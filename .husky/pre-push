@@ -18,4 +18,7 @@ mvn spotless:apply
 cd ../task-micro-service
 mvn spotless:apply
 
+cd ../project-micro-service
+mvn spotless:apply
+
 git add .
