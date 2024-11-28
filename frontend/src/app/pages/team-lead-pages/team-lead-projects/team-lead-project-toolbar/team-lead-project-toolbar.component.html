@@ -1,0 +1,30 @@
+<div class="flex items-center justify-between">
+  <input hlmInput class="xl:w-1/2 w-full" placeholder="Search for a project name" />
+  <div class="xl:flex hidden items-center gap-5">
+    <button hlmBtn variant="outline">Search</button>
+    <team-lead-project-category />
+    <team-lead-project-status />
+    <team-lead-project-sort-by />
+    <button hlmBtn variant="outline">Clear Filters</button>
+  </div>
+
+  <hlm-dialog class="xl:hidden flex items-center gap-5">
+    <button hlmBtn variant="outline">Search</button>
+    <button brnDialogTrigger hlmBtn>Filters</button>
+    <hlm-dialog-content *brnDialogContent="let ctx">
+      <hlm-dialog-header>
+        <h3 brnDialogTitle>Choose your filters</h3>
+        <p brnDialogDescription>Make changes to your profile here. Click save when you're done.</p>
+      </hlm-dialog-header>
+      <div class="flex flex-col items-start gap-5">
+        <team-lead-project-category />
+        <team-lead-project-status />
+        <team-lead-project-sort-by />
+      </div>
+      <hlm-dialog-footer>
+        <button hlmBtn variant="outline">Clear Filters</button>
+      </hlm-dialog-footer>
+    </hlm-dialog-content>
+  </hlm-dialog>
+
+</div>
