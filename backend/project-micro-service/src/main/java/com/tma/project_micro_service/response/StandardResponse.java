@@ -1,11 +1,10 @@
 package com.tma.project_micro_service.response;
 
-
+import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.http.HttpStatus;
-import java.time.LocalDateTime;
 
 @Data
 @NoArgsConstructor
@@ -18,6 +17,4 @@ public class StandardResponse<T> {
   private LocalDateTime timeStamp;
   private String path;
   private T data;
-	
 }
-
