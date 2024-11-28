@@ -6,6 +6,7 @@ import { AppComponent } from "./app.component";
 import { PagesModule } from "./pages/pages.module";
 import { AuthPagesRoutingModule } from './pages/auth-pages/auth-pages-routing.module';
 import { AdminPagesRoutingModule } from "./pages/admin-pages/admin-pages-routing.module";
+import { ProjectLeadRoutingModule } from "./pages/project-lead-pages/project-lead-routing.module";
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import { AdminPagesRoutingModule } from "./pages/admin-pages/admin-pages-routing
     AppRoutingModule,
     AuthPagesRoutingModule,
     AdminPagesRoutingModule,
-    PagesModule
+    PagesModule,
+    ProjectLeadRoutingModule
   ],
   providers: [],
   bootstrap: [AppComponent],
