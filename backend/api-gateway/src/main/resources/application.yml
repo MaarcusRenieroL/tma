@@ -9,3 +9,14 @@ server:
 spring:
   application:
     name: api-gateway-server
+  cloud:
+    gateway:
+      routes:
+        - id: user-micro-service
+          uri: lb://user-micro-service
+          predicates:
+            - Path=/api/users/**
+        - id: auth-micro-service
+          uri: lb://user-micro-service
+          predicates:
+            - Path=/api/auth/**

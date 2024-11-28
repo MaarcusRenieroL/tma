@@ -17,7 +17,8 @@ package-lock.json
 target/
 *.launch
 .settings/
-*.sublime-workspace 
+*.sublime-workspace
+**/target
 
 # Visual Studio Code
 .vscode
