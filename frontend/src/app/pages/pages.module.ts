@@ -1,16 +1,16 @@
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { LandingPageModule } from "./landing-page/landing-page.module";
+import { SiteModule } from "./site/site.module";
 import { AuthPagesModule } from "./auth-pages/auth-pages.module";
-import { AdminPagesModule } from "./admin-pages/admin-pages.module";
-import { ProjectLeadPagesModule } from "./project-lead-pages/project-lead-pages.module";
-import { TeamLeadPagesModule } from "./team-lead-pages/team-lead-pages.module";
-
+import { LandingPageComponent } from "./landing-page/landing-page.component";
+import { LandingPageModule } from "../../components/pages/landing-page/landing-page.module";
+import { AuthPagesRoutingModule } from "./auth-pages/auth-pages-routing.module";
+import { SiteRoutingModule } from "./site/site-routing.module";
 
 @NgModule({
-  declarations: [],
+  declarations: [LandingPageComponent],
   imports: [
-    CommonModule, LandingPageModule, AuthPagesModule, AdminPagesModule, ProjectLeadPagesModule, TeamLeadPagesModule
-  ], exports: [LandingPageModule, AuthPagesModule, AdminPagesModule, ProjectLeadPagesModule, TeamLeadPagesModule]
+    CommonModule, SiteModule, AuthPagesModule, LandingPageModule, AuthPagesRoutingModule, SiteRoutingModule
+  ], exports: [SiteModule, AuthPagesModule, LandingPageComponent]
 })
 export class PagesModule {}
