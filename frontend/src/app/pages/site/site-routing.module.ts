@@ -10,18 +10,19 @@ import { UsersComponent } from "./users/users.component";
 import { ActivityLogsComponent } from "./activity-logs/activity-logs.component";
 import { SettingsComponent } from "./settings/settings.component";
 import { NotificationsComponent } from "./notifications/notifications.component";
+import { AuthGuard } from "../../../auth.guard";
 
 const routes: Routes = [
-	{ path: "dashboard", component: DashboardComponent },
-	{ path: "projects", component: ProjectsComponent },
-	{ path: "project/:id", component: ProjectComponent },
-	{ path: "teams", component: TeamsComponent },
-	{ path: "team/:id", component: TeamComponent },
-	{ path: "tasks", component: TasksComponent },
-	{ path: "users", component: UsersComponent },
-	{ path: "notifications", component: NotificationsComponent },
-	{ path: "logs", component: ActivityLogsComponent },
-	{ path: "settings", component: SettingsComponent }
+	{ path: "dashboard", component: DashboardComponent, canActivate: [AuthGuard] },
+	{ path: "projects", component: ProjectsComponent, canActivate: [AuthGuard] },
+	{ path: "project/:id", component: ProjectComponent, canActivate: [AuthGuard] },
+	{ path: "teams", component: TeamsComponent, canActivate: [AuthGuard] },
+	{ path: "team/:id", component: TeamComponent, canActivate: [AuthGuard] },
+	{ path: "tasks", component: TasksComponent, canActivate: [AuthGuard] },
+	{ path: "users", component: UsersComponent, canActivate: [AuthGuard] },
+	{ path: "notifications", component: NotificationsComponent, canActivate: [AuthGuard] },
+	{ path: "logs", component: ActivityLogsComponent, canActivate: [AuthGuard] },
+	{ path: "settings", component: SettingsComponent, canActivate: [AuthGuard] }
 ];
 
 @NgModule({

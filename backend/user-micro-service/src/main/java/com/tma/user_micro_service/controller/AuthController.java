@@ -12,7 +12,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -23,16 +22,6 @@ public class AuthController {
 
   public AuthController(AuthServiceImplementation authService) {
     this.authService = authService;
-  }
-
-  @GetMapping("csrf-token")
-  public ResponseEntity<StandardResponse<CsrfToken>> getCsrfToken(HttpServletRequest request) {
-    return ResponseUtil.buildSuccessMessage(
-        HttpStatus.OK,
-        "CSRF Token fetched successfully",
-        authService.generateCsrfToken(request),
-        request,
-        LocalDateTime.now());
   }
 
   @PostMapping("sign-in")

@@ -7,17 +7,36 @@
 			</p>
 		</div>
 		<div hlmCardContent>
-			<form class="flex flex-col items-start justify-evenly gap-5 w-full">
+			<form [formGroup]="signInForm" (ngSubmit)="onSubmit()" class="flex flex-col items-start justify-evenly gap-5 w-full">
 				
 				<div class="flex flex-col items-start w-full gap-3">
-					<label>Email</label>
-					<input hlmInput placeholder="Enter your email" class="w-full" />
+					<label for="username">Username</label>
+					<input
+						id="username"
+						formControlName="username"
+						hlmInput
+						placeholder="Enter your username"
+						class="w-full"
+					/>
+					<div *ngIf="signInForm.get('username')?.touched && signInForm.get('username')?.invalid" class="text-red-500 text-xs">
+						Username is required.
+					</div>
 				</div>
 				
 				<div class="flex flex-col items-start w-full gap-3">
-					<div class="w-full">
-						<label>Password</label>
-						<input hlmInput placeholder="Enter your password" type="password" class="w-full" />
+					<div class="w-full flex flex-col items-start gap-3">
+						<label for="password">Password</label>
+						<input
+							id="password"
+							formControlName="password"
+							hlmInput
+							type="password"
+							placeholder="Enter your password"
+							class="w-full"
+						/>
+					</div>
+					<div *ngIf="signInForm.get('password')?.touched && signInForm.get('password')?.invalid" class="text-red-500 text-xs">
+						Password is required.
 					</div>
 					<a [routerLink]="['/auth/forgot-password']" class="text-xs text-right w-full hover:underline hover:underline-offset-4">
 						Forgot Password?
@@ -25,7 +44,7 @@
 				</div>
 				
 				<div class="w-full">
-					<button hlmBtn type="submit" class="w-full">
+					<button hlmBtn type="submit" class="w-full" [disabled]="signInForm.invalid">
 						Sign In
 					</button>
 				</div>

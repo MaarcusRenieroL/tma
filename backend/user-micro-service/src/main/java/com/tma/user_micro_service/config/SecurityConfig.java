@@ -3,7 +3,6 @@ package com.tma.user_micro_service.config;
 import static org.springframework.security.config.Customizer.withDefaults;
 
 import com.tma.user_micro_service.filter.AuthTokenFilter;
-import com.tma.user_micro_service.filter.RequestValidationFilter;
 import com.tma.user_micro_service.model.AppRole;
 import com.tma.user_micro_service.model.Role;
 import com.tma.user_micro_service.model.User;
@@ -20,29 +19,24 @@ import org.springframework.security.authentication.dao.DaoAuthenticationProvider
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
 
   private final UserDetailsService userDetailsService;
-  private final RequestValidationFilter requestValidationFilter;
   private final AuthTokenFilter authTokenFilter;
   private final JwtUtils jwtUtils;
 
   public SecurityConfig(
-      UserDetailsService userDetailsService,
-      RequestValidationFilter requestValidationFilter,
-      AuthTokenFilter authTokenFilter,
-      JwtUtils jwtUtils) {
+      UserDetailsService userDetailsService, AuthTokenFilter authTokenFilter, JwtUtils jwtUtils) {
     this.userDetailsService = userDetailsService;
-    this.requestValidationFilter = requestValidationFilter;
     this.authTokenFilter = authTokenFilter;
     this.jwtUtils = jwtUtils;
   }
@@ -50,7 +44,7 @@ public class SecurityConfig {
   @Bean
   SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
 
-    http.csrf(csrf -> csrf.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()));
+    http.csrf(AbstractHttpConfigurer::disable);
     http.authorizeHttpRequests(
         requests ->
             requests
@@ -62,7 +56,6 @@ public class SecurityConfig {
                 .authenticated());
     http.httpBasic(withDefaults());
 
-    http.addFilterBefore(requestValidationFilter, UsernamePasswordAuthenticationFilter.class);
     http.addFilterAfter(authTokenFilter, UsernamePasswordAuthenticationFilter.class);
 
     return http.build();

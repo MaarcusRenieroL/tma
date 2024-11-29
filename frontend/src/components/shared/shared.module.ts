@@ -12,13 +12,16 @@ import { RouterModule } from "@angular/router";
 import { HlmAvatarModule } from "@spartan-ng/ui-avatar-helm";
 import { HlmMenuModule } from "@spartan-ng/ui-menu-helm";
 import { BrnMenuModule } from "@spartan-ng/ui-menu-brain";
+import { lucideLogOut } from "@ng-icons/lucide";
 
 @NgModule({
   declarations: [
     AccountNavComponent, SiteNavbarComponent
   ],
   imports: [
-    CommonModule, ModalsModule, CardsModule, HlmSheetModule, BrnSheetModule, HlmButtonDirective, NgIconsModule, RouterModule, HlmAvatarModule, HlmMenuModule, BrnMenuModule
+    CommonModule, ModalsModule, CardsModule, HlmSheetModule, BrnSheetModule, HlmButtonDirective, NgIconsModule, RouterModule, HlmAvatarModule, HlmMenuModule, BrnMenuModule, NgIconsModule.withIcons({
+      lucideLogOut
+    })
   ], exports: [ AccountNavComponent, SiteNavbarComponent ]
 })
 export class SharedModule { }

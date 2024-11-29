@@ -9,6 +9,7 @@ import { HlmCardModule } from "@spartan-ng/ui-card-helm";
 import { HlmButtonDirective } from "@spartan-ng/ui-button-helm";
 import { HlmInputModule } from "@spartan-ng/ui-input-helm";
 import { RouterLink } from "@angular/router";
+import { ReactiveFormsModule } from "@angular/forms";
 
 const components = [
   SignInComponent, SignUpComponent, VerifyEmailComponent, PasswordResetComponent, ForgotPasswordComponent
@@ -17,7 +18,7 @@ const components = [
 @NgModule({
   declarations: [...components],
   imports: [
-    CommonModule, HlmCardModule, HlmButtonDirective, HlmInputModule, RouterLink
+    CommonModule, HlmCardModule, HlmButtonDirective, HlmInputModule, RouterLink, ReactiveFormsModule
   ], exports: [...components]
 })
 export class AuthPagesModule { }

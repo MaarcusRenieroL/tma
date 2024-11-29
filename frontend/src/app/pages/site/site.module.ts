@@ -29,6 +29,8 @@ import { RouterLink } from "@angular/router";
 import { ModalsModule } from "../../../components/shared/modals/modals.module";
 import { CardsModule } from "../../../components/shared/cards/cards.module";
 import { lucideChevronDown } from "@ng-icons/lucide";
+import { HTTP_INTERCEPTORS } from "@angular/common/http";
+import { AuthInterceptor } from "../../../auth.interceptor";
 
 const components = [ ActivityLogsComponent, NotificationsComponent, ProjectsComponent, TasksComponent, TeamsComponent, UsersComponent ]
 
@@ -43,7 +45,14 @@ const components = [ ActivityLogsComponent, NotificationsComponent, ProjectsComp
 		HlmInputModule, FormsModule, HlmMenuModule, BrnMenuModule, NgIconsModule.withIcons({
 			lucideChevronDown
 		}), HlmTableModule, BrnTableModule, HlmCheckboxModule, DatePipe, HlmTabsModule, BrnTabsModule, HlmCardModule, CommonModule, SharedModule, HlmDialogModule, BrnDialogModule, RouterLink, ModalsModule, CardsModule ],
-	exports: [ ...components, ProjectModule, TeamModule, SettingsModule, DashboardModule ]
+	exports: [ ...components, ProjectModule, TeamModule, SettingsModule, DashboardModule ],
+	providers: [
+		{
+			provide: HTTP_INTERCEPTORS,
+			useClass: AuthInterceptor,
+			multi: true
+		}
+	]
 })
 export class SiteModule {
 }
