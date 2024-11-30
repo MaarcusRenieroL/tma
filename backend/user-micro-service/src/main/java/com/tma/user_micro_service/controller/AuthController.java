@@ -64,10 +64,20 @@ public class AuthController {
           HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage(), request, LocalDateTime.now());
     }
   }
-
+  
   @PostMapping("/forgot-password")
-  public void forgotPassword(
-      @RequestBody ForgotPasswordRequest forgotPasswordRequest, HttpServletRequest request) {
-    authService.forgotPassword(forgotPasswordRequest);
+  public ResponseEntity<StandardResponse<Void>> forgotPassword(
+    @RequestBody ForgotPasswordRequest forgotPasswordRequest, HttpServletRequest request) {
+    if (forgotPasswordRequest.getEmail() == null || forgotPasswordRequest.getEmail().trim().isEmpty()) {
+      return ResponseUtil.buildErrorMessage(
+        HttpStatus.BAD_REQUEST,
+        "Email address is required. Please provide a valid email address.",
+        request,
+        LocalDateTime.now()
+      );
+    }
+    
+    return ResponseUtil.buildSuccessMessage(HttpStatus.OK, "If the provided email address is associated with an account, a reset password link has been sent.", null, request, LocalDateTime.now());
   }
+  
 }

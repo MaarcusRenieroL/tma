@@ -6,6 +6,7 @@ import { StandardResponse } from "../../payload/responses/standard-response";
 import { SignInResponse } from "../../payload/responses/auth/sign-in-response";
 import { environment } from "../../../environments/environment.development";
 import { CookieService } from "ngx-cookie-service";
+import { ForgotPasswordRequest } from "../../payload/requests/auth/forgot-password-request";
 
 
 @Injectable({
@@ -21,5 +22,9 @@ export class AuthService {
   
   logout() {
     this.cookieService.delete("syncTeam.token")
+  }
+  
+  forgotPassword(forgotPasswordRequest: ForgotPasswordRequest): Observable<StandardResponse<void>> {
+    return this.http.post<StandardResponse<void>>(environment.backendAPI + "auth/forgot-password", forgotPasswordRequest);
   }
 }
