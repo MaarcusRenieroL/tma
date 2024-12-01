@@ -2,6 +2,7 @@ package com.tma.task_micro_service.model;
 
 import jakarta.persistence.*;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -28,4 +29,12 @@ public class Task {
   private LocalDate dueDate;
 
   private Priority priority;
+  
+  private UUID projectId;
+  
+  private UUID teamId;
+  
+  @ElementCollection
+  private List<UUID> userIds;
+  
 }

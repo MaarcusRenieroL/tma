@@ -2,8 +2,11 @@ spring:
   application:
     name: task-micro-service
   datasource:
-    url: jdbc:postgresql://localhost:5432/tma
+    url: jdbc:postgresql://localhost:5432/tasks
     username: postgres
     password: postgres
+  jpa:
+    hibernate:
+      ddl-auto: update
 server:
   port: 8002

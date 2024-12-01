@@ -1,6 +1,8 @@
 package com.tma.project_micro_service.model;
 
 import jakarta.persistence.*;
+
+import java.util.List;
 import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -17,13 +19,14 @@ public class Project {
 
   private String projectTitle;
   private String projectDescription;
-
-  //  @ManyToOne
-  //  @JoinColumn(name="teamId")
-  //  @JsonIgnore
-  //  private Team team;
-
-  //  @OneToMany(mappedBy = "project", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-  //  @JsonIgnore // Keep this as ignore if you don't want to serialize tasks in project
-  //  private List<Task> tasks;
+  
+  private UUID teamId;
+  
+  @ElementCollection
+  private List<UUID>taskIds;
+  
+  @ElementCollection
+  private List<UUID>UserIds;
+  
+  
 }

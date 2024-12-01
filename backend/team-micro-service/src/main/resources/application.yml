@@ -2,8 +2,11 @@ spring:
   application:
     name: team-micro-service
   datasource:
-    url: jdbc:postgresql://localhost:5432/tma
+    url: jdbc:postgresql://localhost:5432/teams
     username: postgres
     password: postgres
+  jpa:
+    hibernate:
+      ddl-auto: update
 server:
   port: 8004

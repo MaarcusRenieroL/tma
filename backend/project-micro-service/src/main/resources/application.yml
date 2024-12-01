@@ -2,9 +2,11 @@ spring:
   application:
     name: project-micro-service
   datasource:
-    url: jdbc:postgresql://localhost:5432/tma
+    url: jdbc:postgresql://localhost:5432/projects
     username: postgres
     password: postgres
-
+  jpa:
+    hibernate:
+      ddl-auto: update
 server:
   port: 8003

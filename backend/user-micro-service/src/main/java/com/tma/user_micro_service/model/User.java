@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -113,4 +114,13 @@ public class User {
   public int hashCode() {
     return getClass().hashCode();
   }
+  
+  
+  private UUID teamId;
+  
+  @ElementCollection
+  private List<UUID> taskIds;
+  
+  @ElementCollection
+  private  List<UUID> projectIds;
 }
