@@ -7,30 +7,32 @@
 			</p>
 		</div>
 		<div hlmCardContent>
-			<form class="flex flex-col items-start justify-evenly gap-5 w-full">
+			<form [formGroup]="verifyEmailForm" class="flex flex-col items-start justify-evenly gap-5 w-full" (ngSubmit)="onSubmit()">
 				<div class="flex flex-col items-start w-full gap-3">
-					<input hlmInput placeholder="Enter your verification code" class="w-full"/>
+					<input
+						hlmInput
+						placeholder="Enter your verification code"
+						class="w-full"
+						formControlName="verificationCode"
+					/>
+					<p *ngIf="verifyEmailForm.get('verificationCode')?.invalid && verifyEmailForm.get('verificationCode')?.touched" class="text-red-500 text-sm">
+						Please enter a valid 6-digit verification code.
+					</p>
 				</div>
 				
 				<div class="w-full">
-					<button hlmBtn type="submit" class="w-full">
+					<button hlmBtn type="submit" class="w-full" [disabled]="verifyEmailForm.invalid">
 						Verify Email
 					</button>
 				</div>
 			</form>
-		
-		
 		</div>
 		<div hlmCardFooter class="flex justify-center">
 			<a [routerLink]="['/auth/sign-in']">
-				<button hlmBtn
-					variant="link"
-					class="text-sm text-gray-500"
-				>
+				<button hlmBtn variant="link" class="text-sm text-gray-500">
 					Back to Login
-			</button>
+				</button>
 			</a>
 		</div>
 	</div>
-
 </div>

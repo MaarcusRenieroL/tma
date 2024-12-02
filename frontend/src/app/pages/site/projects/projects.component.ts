@@ -5,7 +5,8 @@ import { Project } from '../../../models/project';
 	selector: 'app-projects', templateUrl: './projects.component.html',
 })
 export class ProjectsComponent {
-	projects: Project[] = [ {
+	projects: Project[] = [
+		{
 		name: 'Social Media Analytics Tool',
 		description: 'A web application to track, analyze, and report on social media performance metrics.',
 		status: 'in-progress',

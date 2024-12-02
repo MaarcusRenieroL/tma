@@ -1,38 +1,40 @@
 <hlm-dialog>
-  <button brnDialogTrigger hlmBtn>Add New Team</button>
-  <hlm-dialog-content class="max-w-4xl w-full" *brnDialogContent="let ctx">
-    <hlm-dialog-header>
-      <h3 hlmDialogTitle>Add New Team</h3>
-      <p hlmDialogDescription>Fill in the details below to create a new team.</p>
-    </hlm-dialog-header>
-
-    <div class="flex flex-col gap-5">
-      <div class="w-full flex flex-col gap-3">
-        <label hlmLabel for="projectName">Team Name</label>
-        <input
-          hlmInput
-          id="projectName"
-          placeholder="Enter team name"
-          type="text"
-          class="w-full"
-        />
-      </div>
-
-      <div class="flex flex-col gap-3 w-full">
-        <label hlmLabel>Team Description</label>
-        <textarea
-          hlmInput
-          placeholder="Enter team description"
-          class="w-full h-20">
-        </textarea>
-      </div>
-
-    </div>
-
-
-    <hlm-dialog-footer>
-      <button hlmBtn variant="outline" (click)="ctx.close()">Cancel</button>
-      <button hlmBtn type="submit">Add Team</button>
-    </hlm-dialog-footer>
-  </hlm-dialog-content>
+	<button brnDialogTrigger hlmBtn>Add New Team</button>
+	<hlm-dialog-content class="max-w-4xl w-full" *brnDialogContent="let ctx">
+		<hlm-dialog-header>
+			<h3 hlmDialogTitle>Add New Team</h3>
+			<p hlmDialogDescription>Fill in the details below to create a new team.</p>
+		</hlm-dialog-header>
+		
+		<form [formGroup]="teamForm" (ngSubmit)="submitForm()">
+			<div class="flex flex-col gap-5">
+				<div class="w-full flex flex-col gap-3">
+					<label hlmLabel for="teamName">Team Name</label>
+					<input
+						hlmInput
+						id="teamName"
+						placeholder="Enter team name"
+						type="text"
+						class="w-full"
+						formControlName="teamName"
+					/>
+				</div>
+				
+				<div class="flex flex-col gap-3 w-full">
+					<label hlmLabel>Team Description</label>
+					<textarea
+						hlmInput
+						placeholder="Enter team description"
+						class="w-full h-20"
+						formControlName="teamDescription">
+          </textarea>
+				</div>
+			</div>
+			
+			<hlm-dialog-footer>
+				<button hlmBtn variant="outline" (click)="ctx.close()">Cancel</button>
+				<button hlmBtn type="submit" [disabled]="teamForm.invalid">Add Team</button>
+			</hlm-dialog-footer>
+		</form>
+	</hlm-dialog-content>
 </hlm-dialog>

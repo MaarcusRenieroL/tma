@@ -18,5 +18,5 @@ public interface AuthService {
 
   CsrfToken generateCsrfToken(HttpServletRequest request);
 
-  String forgotPassword(ForgotPasswordRequest forgotPasswordRequest);
+  void forgotPassword(ForgotPasswordRequest forgotPasswordRequest);
 }
