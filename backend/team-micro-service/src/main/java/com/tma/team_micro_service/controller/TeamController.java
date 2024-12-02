@@ -1,5 +1,7 @@
 package com.tma.team_micro_service.controller;
 
+import com.netflix.discovery.converters.Auto;
+import com.tma.team_micro_service.feign.TeamUserInterface;
 import com.tma.team_micro_service.model.Team;
 import com.tma.team_micro_service.payload.response.StandardResponse;
 import com.tma.team_micro_service.service.TeamService;
@@ -17,7 +19,6 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/team") // Adjusted to match the project structure
 public class TeamController {
   @Autowired private TeamService teamService;
-
   @GetMapping
   public ResponseEntity<StandardResponse<List<Team>>> getAllTeams(HttpServletRequest request) {
     List<Team> teams = teamService.getAllTeams();

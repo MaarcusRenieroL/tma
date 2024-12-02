@@ -3,6 +3,8 @@ package com.tma.user_micro_service.service.implementation;
 import com.tma.user_micro_service.model.User;
 import com.tma.user_micro_service.repository.UserRepository;
 import com.tma.user_micro_service.service.UserService;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -53,5 +55,15 @@ public class UserServiceImplementation implements UserService {
 
   public User getUserById(UUID userId) {
     return userRepository.findById(userId).orElse(null);
+  }
+  
+  @Override
+  public List<User> getAllUsersByIds(List<UUID> userIds) {
+    List<User> users= new ArrayList<>();
+    for(UUID id : userIds){
+      users.add(userRepository.findById(id).get());
+      
+    }
+    return users;
   }
 }

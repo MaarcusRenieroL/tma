@@ -1,16 +1,22 @@
 package com.tma.team_micro_service.service;
 
+import com.tma.team_micro_service.dto.User;
+import com.tma.team_micro_service.feign.TeamUserInterface;
 import com.tma.team_micro_service.model.Team;
+import com.tma.team_micro_service.payload.response.StandardResponse;
 import com.tma.team_micro_service.repository.TeamRepository;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 @Service
 public class TeamServiceImpl implements TeamService {
-
+@Autowired private TeamUserInterface teamUserInterface;
   @Autowired private TeamRepository teamRepo;
 
   @Override
@@ -53,4 +59,11 @@ public class TeamServiceImpl implements TeamService {
 
     teamRepo.deleteById(teamId);
   }
+  
+  @Override
+  public List<User> getAllUsersByIds(List<UUID> userIds) {
+    return teamUserInterface.getAllUsersByIds(userIds);
+  }
+  
+  
 }

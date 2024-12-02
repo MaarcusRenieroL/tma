@@ -15,4 +15,7 @@ public interface UserService {
   void deleteUser(UUID userId);
 
   User getUserById(UUID userId);
+  
+  List<User> getAllUsersByIds(List<UUID> userIds);
 }
+

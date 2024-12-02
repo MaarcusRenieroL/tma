@@ -129,4 +129,9 @@ public class UserController {
     return ResponseUtil.buildSuccessMessage(
         HttpStatus.OK, "User retrieved successfully", user, request, LocalDateTime.now());
   }
+  @PostMapping("/usersId")
+  public List<User> getAllUsersByIds(@RequestBody
+    List<UUID> userIds) {
+    return userService.getAllUsersByIds(userIds);
+  }
 }
