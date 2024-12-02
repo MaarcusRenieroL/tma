@@ -1,6 +1,7 @@
 package com.tma.team_micro_service.controller;
 
 import com.netflix.discovery.converters.Auto;
+import com.tma.team_micro_service.dto.User;
 import com.tma.team_micro_service.feign.TeamUserInterface;
 import com.tma.team_micro_service.model.Team;
 import com.tma.team_micro_service.payload.response.StandardResponse;
@@ -16,7 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/team") // Adjusted to match the project structure
+@RequestMapping("/api/team")
 public class TeamController {
   @Autowired private TeamService teamService;
   @GetMapping
@@ -108,4 +109,9 @@ public class TeamController {
           LocalDateTime.now());
     }
   }
+  @GetMapping("/users/{teamId}")
+  public List<UUID> getUsersByTeamId(@PathVariable UUID teamId){
+    return teamService.getUserByTeamId(teamId);
+  }
+  
 }

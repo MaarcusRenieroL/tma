@@ -11,10 +11,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import java.util.List;
 import java.util.UUID;
 
-@FeignClient("USER-MICRO-SERVICE")
+@FeignClient(name="USER-MICRO-SERVICE", url = "http://USER-MICRO-SERVICE/api/users")
 public interface TeamUserInterface {
 	@PostMapping("api/users/usersId")
-	List<User> getAllUsersByIds(@RequestBody List<UUID> userIds);
+	public List<User> getAllUsersByIds(@RequestBody List<UUID> userIds);
 
 
 }

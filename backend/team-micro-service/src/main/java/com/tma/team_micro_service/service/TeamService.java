@@ -23,4 +23,7 @@ public interface TeamService {
   List<User> getAllUsersByIds(List<UUID> userIds);
   
   
+  
+  List<UUID> getUserByTeamId(UUID teamId);
+  
 }

@@ -65,5 +65,14 @@ public class TeamServiceImpl implements TeamService {
     return teamUserInterface.getAllUsersByIds(userIds);
   }
   
+  @Override
+  public List<UUID> getUserByTeamId(UUID teamId) {
+    Team team =teamRepo.findById(teamId).orElseThrow(()->new RuntimeException("Team Not Found"));
+//    List<UUID> userIds=team.getUserIds();
+    
+    
+    return team.getUserIds();
+  }
+  
   
 }

@@ -1,19 +1,25 @@
 package com.tma.user_micro_service.service.implementation;
 
+import com.netflix.discovery.converters.Auto;
+import com.tma.user_micro_service.dto.TeamDto;
+import com.tma.user_micro_service.feign.UserTeamInterface;
 import com.tma.user_micro_service.model.User;
+import com.tma.user_micro_service.payload.response.StandardResponse;
 import com.tma.user_micro_service.repository.UserRepository;
 import com.tma.user_micro_service.service.UserService;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 @Service
 public class UserServiceImplementation implements UserService {
   @Autowired private UserRepository userRepository;
+  
+  @Autowired
+  private UserTeamInterface userTeamInterface;
 
   @Override
   public List<User> getAllUsers() {
@@ -65,5 +71,14 @@ public class UserServiceImplementation implements UserService {
       
     }
     return users;
+  }
+  @Override
+  public ResponseEntity<StandardResponse<TeamDto>> getTeamDetails(UUID teamId){
+    return userTeamInterface.getTeamById(teamId);
+    
+  }
+  @Override
+  public List<UUID> getUsersInTeam(UUID teamId) {
+    return userTeamInterface.getUsersByTeamId(teamId);
   }
 }

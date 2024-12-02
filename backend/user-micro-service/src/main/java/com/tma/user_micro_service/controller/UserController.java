@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("api/users")
+@CrossOrigin
 public class UserController {
 
   @Autowired private UserService userService;
@@ -130,8 +131,7 @@ public class UserController {
         HttpStatus.OK, "User retrieved successfully", user, request, LocalDateTime.now());
   }
   @PostMapping("/usersId")
-  public List<User> getAllUsersByIds(@RequestBody
-    List<UUID> userIds) {
+  public List<User> getAllUsersByIds(@RequestParam List<UUID> userIds) {
     return userService.getAllUsersByIds(userIds);
   }
 }
