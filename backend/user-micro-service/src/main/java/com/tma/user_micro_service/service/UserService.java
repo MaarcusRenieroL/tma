@@ -25,5 +25,7 @@ public interface UserService {
   ResponseEntity<StandardResponse<TeamDto>> getTeamDetails(UUID teamId);
   
   List<UUID> getUsersInTeam(UUID teamId) ;
+  
+  Object addUserToTeam(UUID teamId, UUID userId);
 }
 

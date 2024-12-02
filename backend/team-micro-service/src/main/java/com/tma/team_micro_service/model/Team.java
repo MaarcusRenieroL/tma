@@ -3,6 +3,7 @@ package com.tma.team_micro_service.model;
 import jakarta.persistence.*;
 
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -21,7 +22,7 @@ public class Team {
   private String teamDescription;
   
   @ElementCollection
-  private List<UUID> userIds;
+  private Set<UUID> userIds;
   
   @ElementCollection
   private List<UUID>taskIds;

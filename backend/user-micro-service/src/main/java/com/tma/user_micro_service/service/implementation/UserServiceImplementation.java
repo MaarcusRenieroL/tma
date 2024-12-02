@@ -1,8 +1,7 @@
 package com.tma.user_micro_service.service.implementation;
 
-import com.netflix.discovery.converters.Auto;
 import com.tma.user_micro_service.dto.TeamDto;
-import com.tma.user_micro_service.feign.UserTeamInterface;
+import com.tma.user_micro_service.feign.TeamFeignClient;
 import com.tma.user_micro_service.model.User;
 import com.tma.user_micro_service.payload.response.StandardResponse;
 import com.tma.user_micro_service.repository.UserRepository;
@@ -10,16 +9,19 @@ import com.tma.user_micro_service.service.UserService;
 
 import java.util.*;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 @Service
 public class UserServiceImplementation implements UserService {
-  @Autowired private UserRepository userRepository;
   
-  @Autowired
-  private UserTeamInterface userTeamInterface;
+  private final UserRepository userRepository;
+  private final TeamFeignClient teamFeignClient;
+  
+  public UserServiceImplementation(UserRepository userRepository, TeamFeignClient teamFeignClient) {
+    this.teamFeignClient = teamFeignClient;
+    this.userRepository = userRepository;
+  }
 
   @Override
   public List<User> getAllUsers() {
@@ -74,11 +76,31 @@ public class UserServiceImplementation implements UserService {
   }
   @Override
   public ResponseEntity<StandardResponse<TeamDto>> getTeamDetails(UUID teamId){
-    return userTeamInterface.getTeamById(teamId);
+    return teamFeignClient.getTeamById(teamId);
     
   }
   @Override
   public List<UUID> getUsersInTeam(UUID teamId) {
-    return userTeamInterface.getUsersByTeamId(teamId);
+    return teamFeignClient.getUsersByTeamId(teamId);
   }
+	
+	public Object addUserToTeam(UUID teamId, UUID userId) {
+		Optional<User> optionalUser = userRepository.findById(userId);
+		
+		if (optionalUser.isEmpty()) {
+			return null;
+		}
+		
+		User existingUser = optionalUser.get();
+		
+		Set<UUID> teamIds = new HashSet<>();
+		
+		teamIds.add(teamId);
+		
+		existingUser.setTeamIds(teamIds);
+		
+		userRepository.save(existingUser);
+		
+		return "User has been added to the team successfully";
+	}
 }

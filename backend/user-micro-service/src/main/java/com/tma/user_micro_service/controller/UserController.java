@@ -134,4 +134,13 @@ public class UserController {
   public List<User> getAllUsersByIds(@RequestParam List<UUID> userIds) {
     return userService.getAllUsersByIds(userIds);
   }
+  
+  @PostMapping("/team/{teamId}")
+  ResponseEntity<StandardResponse<Object>> addTeamToUser(@PathVariable UUID teamId, @RequestBody UUID userId, HttpServletRequest request) {
+    if (teamId == null || userId == null) {
+      return ResponseUtil.buildErrorMessage(HttpStatus.BAD_REQUEST, "Missing Required Fields", request, LocalDateTime.now());
+    }
+    
+    return ResponseUtil.buildSuccessMessage(HttpStatus.OK, userService.addUserToTeam(teamId, userId).toString(), null, request, LocalDateTime.now());
+  }
 }

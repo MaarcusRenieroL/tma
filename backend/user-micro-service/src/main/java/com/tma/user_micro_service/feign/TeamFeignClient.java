@@ -13,12 +13,11 @@ import java.util.List;
 import java.util.UUID;
 
 @FeignClient("TEAM-MICRO-SERVICE")
-public interface UserTeamInterface {
+public interface TeamFeignClient {
 	@GetMapping("/api/team/{id}")
 	public ResponseEntity<StandardResponse<TeamDto>> getTeamById(UUID teamId );
 	
 	@GetMapping("/api/team/users/{id}")
 	public List<UUID> getUsersByTeamId(@PathVariable UUID teamId);
-
-
+	
 }

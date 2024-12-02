@@ -7,6 +7,7 @@ import jakarta.validation.constraints.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -116,7 +117,8 @@ public class User {
   }
   
   
-  private UUID teamId;
+  @ElementCollection
+  private Set<UUID> teamIds;
   
   @ElementCollection
   private List<UUID> taskIds;
