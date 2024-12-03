@@ -115,14 +115,10 @@ public class User {
   public int hashCode() {
     return getClass().hashCode();
   }
-  
-  
-  @ElementCollection
-  private Set<UUID> teamIds;
-  
-  @ElementCollection
-  private List<UUID> taskIds;
-  
-  @ElementCollection
-  private  List<UUID> projectIds;
+
+  @ElementCollection private Set<UUID> teamIds;
+
+  @ElementCollection private List<UUID> taskIds;
+
+  @ElementCollection private List<UUID> projectIds;
 }

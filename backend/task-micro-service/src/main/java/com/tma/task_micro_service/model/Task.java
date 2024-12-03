@@ -29,12 +29,10 @@ public class Task {
   private LocalDate dueDate;
 
   private Priority priority;
-  
+
   private UUID projectId;
-  
+
   private UUID teamId;
-  
-  @ElementCollection
-  private List<UUID> userIds;
-  
+
+  @ElementCollection private List<UUID> userIds;
 }

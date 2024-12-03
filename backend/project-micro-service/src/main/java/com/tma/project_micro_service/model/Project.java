@@ -1,7 +1,6 @@
 package com.tma.project_micro_service.model;
 
 import jakarta.persistence.*;
-
 import java.util.List;
 import java.util.UUID;
 import lombok.AllArgsConstructor;
@@ -19,14 +18,10 @@ public class Project {
 
   private String projectTitle;
   private String projectDescription;
-  
+
   private UUID teamId;
-  
-  @ElementCollection
-  private List<UUID>taskIds;
-  
-  @ElementCollection
-  private List<UUID>UserIds;
-  
-  
+
+  @ElementCollection private List<UUID> taskIds;
+
+  @ElementCollection private List<UUID> UserIds;
 }

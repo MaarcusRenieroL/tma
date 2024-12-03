@@ -21,7 +21,7 @@ import {
 	HlmSelectOptionComponent,
 	HlmSelectTriggerComponent, HlmSelectValueDirective
 } from "@spartan-ng/ui-select-helm";
-import { NgForOf } from "@angular/common";
+import { NgForOf, NgIf } from "@angular/common";
 import { BrnAlertDialogContentDirective, BrnAlertDialogTriggerDirective } from "@spartan-ng/ui-alertdialog-brain";
 import {
 	HlmAlertDialogCancelButtonDirective,
@@ -33,6 +33,7 @@ import {
 } from "@spartan-ng/ui-alertdialog-helm";
 import { NgIcon } from "@ng-icons/core";
 import { ReactiveFormsModule } from "@angular/forms";
+import { HlmToasterComponent } from "@spartan-ng/ui-sonner-helm";
 
 const components = [
 	AddProjectModalComponent, DeleteProjectModalComponent, AddTeamModalComponent, DeleteTeamModalComponent
@@ -41,7 +42,7 @@ const components = [
 @NgModule({
 	declarations: [...components],
 	imports: [
-		HlmCardModule, HlmButtonDirective, HlmBadgeModule, BrnDialogModule, HlmDialogModule, BrnSelectComponent, HlmInputDirective, HlmLabelDirective, HlmSelectContentDirective, HlmSelectOptionComponent, HlmSelectTriggerComponent, HlmSelectValueDirective, NgForOf, BrnAlertDialogContentDirective, BrnAlertDialogTriggerDirective, HlmAlertDialogCancelButtonDirective, HlmAlertDialogComponent, HlmAlertDialogContentComponent, HlmAlertDialogDescriptionDirective, HlmAlertDialogFooterComponent, HlmAlertDialogHeaderComponent, HlmAlertDialogTitleDirective, NgIcon, ReactiveFormsModule
+		HlmCardModule, HlmButtonDirective, HlmBadgeModule, BrnDialogModule, HlmDialogModule, BrnSelectComponent, HlmInputDirective, HlmLabelDirective, HlmSelectContentDirective, HlmSelectOptionComponent, HlmSelectTriggerComponent, HlmSelectValueDirective, NgForOf, BrnAlertDialogContentDirective, BrnAlertDialogTriggerDirective, HlmAlertDialogCancelButtonDirective, HlmAlertDialogComponent, HlmAlertDialogContentComponent, HlmAlertDialogDescriptionDirective, HlmAlertDialogFooterComponent, HlmAlertDialogHeaderComponent, HlmAlertDialogTitleDirective, NgIcon, ReactiveFormsModule, NgIf, HlmToasterComponent
 	],
 	exports: [...components],
 })

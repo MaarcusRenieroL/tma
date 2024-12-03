@@ -31,6 +31,7 @@ import { CardsModule } from "../../../components/shared/cards/cards.module";
 import { lucideChevronDown } from "@ng-icons/lucide";
 import { HTTP_INTERCEPTORS } from "@angular/common/http";
 import { AuthInterceptor } from "../../../auth.interceptor";
+import { HlmToasterComponent } from "@spartan-ng/ui-sonner-helm";
 
 const components = [ ActivityLogsComponent, NotificationsComponent, ProjectsComponent, TasksComponent, TeamsComponent, UsersComponent ]
 
@@ -44,7 +45,7 @@ const components = [ ActivityLogsComponent, NotificationsComponent, ProjectsComp
 		HlmButtonDirective,
 		HlmInputModule, FormsModule, HlmMenuModule, BrnMenuModule, NgIconsModule.withIcons({
 			lucideChevronDown
-		}), HlmTableModule, BrnTableModule, HlmCheckboxModule, DatePipe, HlmTabsModule, BrnTabsModule, HlmCardModule, CommonModule, SharedModule, HlmDialogModule, BrnDialogModule, RouterLink, ModalsModule, CardsModule ],
+		}), HlmTableModule, BrnTableModule, HlmCheckboxModule, DatePipe, HlmTabsModule, BrnTabsModule, HlmCardModule, CommonModule, SharedModule, HlmDialogModule, BrnDialogModule, RouterLink, ModalsModule, CardsModule, HlmToasterComponent ],
 	exports: [ ...components, ProjectModule, TeamModule, SettingsModule, DashboardModule ],
 	providers: [
 		{
