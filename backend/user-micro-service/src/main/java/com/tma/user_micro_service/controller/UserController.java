@@ -1,5 +1,6 @@
 package com.tma.user_micro_service.controller;
 
+import com.tma.user_micro_service.dto.TeamDto;
 import com.tma.user_micro_service.model.User;
 import com.tma.user_micro_service.payload.response.StandardResponse;
 import com.tma.user_micro_service.service.UserService;
@@ -7,6 +8,7 @@ import com.tma.user_micro_service.util.ResponseUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -142,5 +144,10 @@ public class UserController {
     }
     
     return ResponseUtil.buildSuccessMessage(HttpStatus.OK, userService.addUserToTeam(teamId, userId).toString(), null, request, LocalDateTime.now());
+  }
+  
+  @GetMapping("/getTeams/{userId}")
+  public Set<UUID> getTeamsByUserId(@PathVariable UUID userId){
+    return userService.getTeamsByUserId(userId);
   }
 }

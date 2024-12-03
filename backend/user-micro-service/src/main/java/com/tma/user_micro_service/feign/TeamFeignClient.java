@@ -9,15 +9,16 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
-import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
-@FeignClient("TEAM-MICRO-SERVICE")
+@FeignClient(value = "TEAM-MICRO-SERVICE", path = "/api/teams")
 public interface TeamFeignClient {
-	@GetMapping("/api/team/{id}")
+	@GetMapping("/{id}")
 	public ResponseEntity<StandardResponse<TeamDto>> getTeamById(UUID teamId );
 	
-	@GetMapping("/api/team/users/{id}")
-	public List<UUID> getUsersByTeamId(@PathVariable UUID teamId);
+	@GetMapping("/users/{id}")
+	Set<UUID> getUsersByTeamId(@PathVariable UUID teamId);
+	
 	
 }

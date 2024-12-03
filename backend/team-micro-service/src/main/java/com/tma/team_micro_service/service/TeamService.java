@@ -25,4 +25,6 @@ public interface TeamService {
   
   Set<UUID> getUserByTeamId(UUID teamId);
   
+  Set<UUID> getTeamsByUserId(UUID userId);
+  
 }

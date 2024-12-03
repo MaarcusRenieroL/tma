@@ -80,7 +80,7 @@ public class UserServiceImplementation implements UserService {
     
   }
   @Override
-  public List<UUID> getUsersInTeam(UUID teamId) {
+  public Set<UUID> getUsersInTeam(UUID teamId) {
     return teamFeignClient.getUsersByTeamId(teamId);
   }
 	
@@ -93,14 +93,31 @@ public class UserServiceImplementation implements UserService {
 		
 		User existingUser = optionalUser.get();
 		
-		Set<UUID> teamIds = new HashSet<>();
+		if (existingUser.getTeamIds() != null) {
+			
+			existingUser.getTeamIds().add(teamId);
+			
+			userRepository.save(existingUser);
+		} else {
+			Set<UUID> teamIds = new HashSet<>();
+			
+			teamIds.add(teamId);
+			
+			existingUser.setTeamIds(teamIds);
+			
+			userRepository.save(existingUser);
+		}
 		
-		teamIds.add(teamId);
-		
-		existingUser.setTeamIds(teamIds);
-		
-		userRepository.save(existingUser);
 		
 		return "User has been added to the team successfully";
+	}
+	
+	@Override
+	public Set<UUID> getTeamsByUserId(UUID userId) {
+		User user =userRepository.findById(userId).orElse(null);
+		if(user==null) throw  new RuntimeException("User not found");
+		return  user.getTeamIds();
+		
+		
 	}
 }
