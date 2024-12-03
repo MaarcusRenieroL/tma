@@ -29,4 +29,6 @@ public interface UserService {
   Object addUserToTeam(UUID teamId, UUID userId);
   
   Set<UUID> getTeamsByUserId(UUID userId);
+  
+  Object removeUserFromTeam(UUID teamId, UUID userId);
 }

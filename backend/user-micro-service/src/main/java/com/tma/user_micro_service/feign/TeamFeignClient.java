@@ -8,6 +8,8 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.Set;
 
@@ -20,5 +22,6 @@ public interface TeamFeignClient {
 	@GetMapping("/users/{id}")
 	Set<UUID> getUsersByTeamId(@PathVariable UUID teamId);
 	
-	
+//	@PutMapping("/removeUser/{teamId}")
+//	void removeUserFromTeam(@PathVariable UUID teamId,@RequestBody UUID userId);
 }

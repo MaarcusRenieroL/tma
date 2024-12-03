@@ -95,10 +95,13 @@ public class TeamServiceImplementation implements TeamService {
 
   @Override
   public Set<UUID> getUserByTeamId(UUID teamId) {
-    Team team =
-        teamRepository.findById(teamId).orElseThrow(() -> new RuntimeException("Team Not Found"));
-    //    List<UUID> userIds=team.getUserIds();
+    Team team = teamRepository.findById(teamId).orElseThrow(() -> new RuntimeException("Team Not Found"));
 
     return team.getUserIds();
   }
+ 
+  
+  
+  
+  
 }

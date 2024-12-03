@@ -118,4 +118,14 @@ public class UserServiceImplementation implements UserService {
 		
 		
 	}
+	public Object removeUserFromTeam(UUID teamId,UUID userId) {
+		User user =userRepository.findById(userId).orElseThrow(()->new RuntimeException("user not Found"));
+		Set<UUID> teamIds =user.getTeamIds();
+		teamIds.remove(teamId);
+		user.setTeamIds(teamIds);
+		userRepository.save(user);
+		return "user removed";
+		
+	}
+	
 }

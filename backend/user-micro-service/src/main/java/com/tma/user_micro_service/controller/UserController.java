@@ -158,4 +158,9 @@ public class UserController {
   public Set<UUID> getTeamsByUserId(@PathVariable UUID userId){
     return userService.getTeamsByUserId(userId);
   }
+  
+  @PutMapping("/remove-user/{teamId}/user/{userId}")
+  public Object removeUserFromTeam(@PathVariable UUID teamId,@PathVariable UUID userId){
+    return userService.removeUserFromTeam(teamId, userId);
+  }
 }
