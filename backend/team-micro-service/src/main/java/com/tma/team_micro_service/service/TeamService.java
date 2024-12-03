@@ -16,13 +16,9 @@ public interface TeamService {
 
   Team updateTeam(UUID teamId, Team team);
 
-  void deleteTeam(UUID teamId);
+  void deleteTeam(UUID teamId, UUID userId, HttpServletRequest request);
 
   List<User> getAllUsersByIds(List<UUID> userIds);
 
   Set<UUID> getUserByTeamId(UUID teamId);
-  
-  
-  
-  
 }

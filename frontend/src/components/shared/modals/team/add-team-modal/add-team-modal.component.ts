@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { CreateTeamRequest } from "../../../../../app/payload/requests/create-team-request";
+import { CreateTeamRequest } from "../../../../../app/payload/requests/team/create-team-request";
 import { CookieService } from "ngx-cookie-service";
 import { TeamService } from "../../../../../app/services/team/team.service";
 import { toast } from "ngx-sonner";

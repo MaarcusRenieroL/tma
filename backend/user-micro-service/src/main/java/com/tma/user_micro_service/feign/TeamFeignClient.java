@@ -3,25 +3,24 @@ package com.tma.user_micro_service.feign;
 import com.tma.user_micro_service.dto.TeamDto;
 import com.tma.user_micro_service.payload.response.StandardResponse;
 
+import java.util.List;
 import java.util.UUID;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Set;
 
 
-@FeignClient(value = "TEAM-MICRO-SERVICE", path = "/api/teams")
+@FeignClient(value = "team-micro-service", path = "/api/teams")
 public interface TeamFeignClient {
 	@GetMapping("/{id}")
-	public ResponseEntity<StandardResponse<TeamDto>> getTeamById(UUID teamId );
+	StandardResponse<TeamDto> getTeamById(@PathVariable UUID id);
 	
 	@GetMapping("/users/{id}")
 	Set<UUID> getUsersByTeamId(@PathVariable UUID teamId);
 	
-//	@PutMapping("/removeUser/{teamId}")
-//	void removeUserFromTeam(@PathVariable UUID teamId,@RequestBody UUID userId);
+	@GetMapping("/{id}")
+	StandardResponse<TeamDto> getTeamById(@PathVariable UUID id, @RequestHeader("Authorization") String authToken);
+	
 }

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Team } from "../../../models/team";
 import { TeamService } from "../../../services/team/team.service";
 import { toast } from "ngx-sonner";
+import { CookieService } from "ngx-cookie-service";
 
 @Component({
 	selector: 'teams', templateUrl: './teams.component.html',
@@ -12,11 +13,11 @@ export class TeamsComponent implements OnInit {
 		this.getTeams();
 	}
 	
-	constructor(private teamService: TeamService) {
+	constructor(private teamService: TeamService, private cookieService: CookieService) {
 	}
 	
 	getTeams() {
-		this.teamService.getAllTeams().subscribe((response) => {
+		this.teamService.getTeamsByUserId({ userId: this.cookieService.get("syncTeam.userId")}).subscribe((response) => {
 			if (response) {
 				if (response.statusCode === 200) {
 					

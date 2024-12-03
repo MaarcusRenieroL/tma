@@ -1,6 +1,7 @@
 package com.tma.user_micro_service.dto;
 
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -15,7 +16,7 @@ public class TeamDto {
   private String teamName;
   private String teamDescription;
 
-  private List<UUID> userIds;
+  private Set<UUID> userIds;
 
   private List<UUID> taskIds;
 

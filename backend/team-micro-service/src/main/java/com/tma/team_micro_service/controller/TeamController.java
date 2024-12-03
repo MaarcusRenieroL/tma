@@ -2,6 +2,7 @@ package com.tma.team_micro_service.controller;
 
 import com.tma.team_micro_service.model.Team;
 import com.tma.team_micro_service.payload.request.CreateTeamRequest;
+import com.tma.team_micro_service.payload.request.DeleteTeamRequest;
 import com.tma.team_micro_service.payload.response.StandardResponse;
 import com.tma.team_micro_service.service.implementation.TeamServiceImplementation;
 import com.tma.team_micro_service.util.ResponseUtil;
@@ -93,21 +94,37 @@ public class TeamController {
         HttpStatus.OK, "Team updated successfully", updatedTeam, request, LocalDateTime.now());
   }
 
-  @DeleteMapping("/{id}")
+  @DeleteMapping("/{teamId}")
   public ResponseEntity<StandardResponse<Team>> deleteTeam(
-      @PathVariable UUID id, HttpServletRequest request) {
+    @PathVariable UUID teamId, @RequestBody DeleteTeamRequest deleteTeamRequest, HttpServletRequest request) {
+    
+    log.info("Inside delete method");
+    
     try {
-      if (teamService.getTeamById(id) == null) {
+      
+      log.info("Inside try catch block");
+      
+      if (teamService.getTeamById(teamId) == null || deleteTeamRequest.getUserId() == null) {
         return ResponseUtil.buildErrorMessage(
-            HttpStatus.NOT_FOUND, "Team not found with ID: " + id, request, LocalDateTime.now());
+            HttpStatus.NOT_FOUND, "Missing required fields", request, LocalDateTime.now());
       }
+      
+      log.info("");
+      log.info("");
+      log.info("");
+      log.info("");
+      log.info("");
+      
+      log.info("Team Id: {}", deleteTeamRequest.getTeamId());
+      log.info("User Id: {}", deleteTeamRequest.getUserId());
 
-      teamService.deleteTeam(id);
+      teamService.deleteTeam(teamId, deleteTeamRequest.getUserId(), request);
 
       return ResponseUtil.buildSuccessMessage(
           HttpStatus.NO_CONTENT, "Team deleted successfully", null, request, LocalDateTime.now());
 
     } catch (Exception e) {
+      log.error("e: ", e);
       return ResponseUtil.buildErrorMessage(
           HttpStatus.INTERNAL_SERVER_ERROR,
           "An error occurred while deleting the team",
@@ -120,9 +137,5 @@ public class TeamController {
   public Set<UUID> getUsersByTeamId(@PathVariable UUID teamId) {
     return teamService.getUserByTeamId(teamId);
   }
-  
-  
-    
-  
 
 }

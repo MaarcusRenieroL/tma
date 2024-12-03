@@ -1,4 +1,4 @@
-<a [routerLink]="'/team/' + team?.teamId">
+<!--<a [routerLink]="'/team/' + team?.teamId">-->
 	<div hlmCard
 	     class="h-full w-full flex flex-col items-start justify-between hover:shadow-xl duration-500 transition-all">
 		<!-- Card Header -->
@@ -38,10 +38,10 @@
 			
 			<div class="w-full md:w-auto flex flex-wrap items-center justify-end gap-2 md:gap-5">
 				<div class="flex items-center gap-5">
-					<delete-team-modal />
+					<delete-team-modal [teamId]="team?.teamId!" />
 				</div>
 			</div>
 		</div>
 	</div>
 
-</a>
+<!--</a>-->

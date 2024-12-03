@@ -6,6 +6,8 @@ import com.tma.user_micro_service.payload.response.StandardResponse;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
+
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.ResponseEntity;
 
 public interface UserService {
@@ -22,13 +24,13 @@ public interface UserService {
 
   List<User> getAllUsersByIds(List<UUID> userIds);
 
-  ResponseEntity<StandardResponse<TeamDto>> getTeamDetails(UUID teamId);
+//  ResponseEntity<StandardResponse<TeamDto>> getTeamDetails(UUID teamId);
   
   Set<UUID> getUsersInTeam(UUID teamId) ;
   
   Object addUserToTeam(UUID teamId, UUID userId);
   
-  Set<UUID> getTeamsByUserId(UUID userId);
+  List<TeamDto> getTeamsByUserId(UUID userId, HttpServletRequest request);
   
   Object removeUserFromTeam(UUID teamId, UUID userId);
 }
