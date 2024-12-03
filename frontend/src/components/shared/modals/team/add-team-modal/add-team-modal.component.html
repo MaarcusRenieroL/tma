@@ -39,7 +39,7 @@
 			
 			<hlm-dialog-footer class="mt-5">
 				<button hlmBtn variant="outline" (click)="ctx.close()">Cancel</button>
-				<button hlmBtn type="submit" [disabled]="createTeamForm.invalid">Add Team</button>
+				<button hlmBtn type="submit" (click)="ctx.close()" [disabled]="createTeamForm.invalid">Add Team</button>
 			</hlm-dialog-footer>
 		</form>
 	</hlm-dialog-content>

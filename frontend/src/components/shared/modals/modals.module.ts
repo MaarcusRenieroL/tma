@@ -21,7 +21,7 @@ import {
 	HlmSelectOptionComponent,
 	HlmSelectTriggerComponent, HlmSelectValueDirective
 } from "@spartan-ng/ui-select-helm";
-import { NgForOf, NgIf } from "@angular/common";
+import { CommonModule } from "@angular/common";
 import { BrnAlertDialogContentDirective, BrnAlertDialogTriggerDirective } from "@spartan-ng/ui-alertdialog-brain";
 import {
 	HlmAlertDialogCancelButtonDirective,
@@ -42,7 +42,7 @@ const components = [
 @NgModule({
 	declarations: [...components],
 	imports: [
-		HlmCardModule, HlmButtonDirective, HlmBadgeModule, BrnDialogModule, HlmDialogModule, BrnSelectComponent, HlmInputDirective, HlmLabelDirective, HlmSelectContentDirective, HlmSelectOptionComponent, HlmSelectTriggerComponent, HlmSelectValueDirective, NgForOf, BrnAlertDialogContentDirective, BrnAlertDialogTriggerDirective, HlmAlertDialogCancelButtonDirective, HlmAlertDialogComponent, HlmAlertDialogContentComponent, HlmAlertDialogDescriptionDirective, HlmAlertDialogFooterComponent, HlmAlertDialogHeaderComponent, HlmAlertDialogTitleDirective, NgIcon, ReactiveFormsModule, NgIf, HlmToasterComponent
+		HlmCardModule, HlmButtonDirective, HlmBadgeModule, BrnDialogModule, HlmDialogModule, BrnSelectComponent, HlmInputDirective, HlmLabelDirective, HlmSelectContentDirective, HlmSelectOptionComponent, HlmSelectTriggerComponent, HlmSelectValueDirective, BrnAlertDialogContentDirective, BrnAlertDialogTriggerDirective, HlmAlertDialogCancelButtonDirective, HlmAlertDialogComponent, HlmAlertDialogContentComponent, HlmAlertDialogDescriptionDirective, HlmAlertDialogFooterComponent, HlmAlertDialogHeaderComponent, HlmAlertDialogTitleDirective, NgIcon, ReactiveFormsModule, CommonModule, HlmToasterComponent
 	],
 	exports: [...components],
 })

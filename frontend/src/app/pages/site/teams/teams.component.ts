@@ -19,8 +19,16 @@ export class TeamsComponent implements OnInit {
 		this.teamService.getAllTeams().subscribe((response) => {
 			if (response) {
 				if (response.statusCode === 200) {
-					this.teams = response.data;
+					
+					response.data.map((team) => {
+						this.teams.push(team);
+					})
+					
+					this.filteredTeams = [ ...this.teams ]
+					
 					toast.success("Teams fetched successfully");
+				} else if ([400, 401, 402, 403, 404, 500].includes(response.statusCode)) {
+					toast.error(response.message);
 				}
 			} else {
 				toast.error("Error fetching teams");
