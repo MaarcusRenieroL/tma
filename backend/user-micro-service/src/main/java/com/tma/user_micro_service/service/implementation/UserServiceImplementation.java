@@ -71,7 +71,13 @@ public class UserServiceImplementation implements UserService {
 	public List<User> getAllUsersByIds(List<UUID> userIds) {
 		List<User> users = new ArrayList<>();
 		for (UUID id : userIds) {
-			users.add(userRepository.findById(id).get());
+			Optional<User> optionalUser = userRepository.findById(id);
+			
+			if (optionalUser.isEmpty()) {
+				return null;
+			}
+			
+			users.add(optionalUser.get());
 		}
 		return users;
 	}

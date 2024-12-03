@@ -94,12 +94,19 @@ public class User {
 
   @UpdateTimestamp private LocalDateTime updatedDate;
 
-  public User(String userName, String password, String email) {
+  public User(String userName, String password, String email, String name) {
     this.userName = userName;
     this.password = password;
     this.email = email;
+    this.name = name;
   }
-
+  
+  public User(String userName, String email, String password) {
+    this.userName = userName;
+    this.email = email;
+    this.password = password;
+  }
+  
   @Override
   public boolean equals(Object o) {
     if (this == o) {

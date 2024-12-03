@@ -1,11 +1,12 @@
-<!--<a [routerLink]="'/team/' + team?.teamId">-->
 	<div hlmCard
 	     class="h-full w-full flex flex-col items-start justify-between hover:shadow-xl duration-500 transition-all">
 		<!-- Card Header -->
-		<div hlmCardHeader class="w-full">
-			<h3 hlmCardTitle>{{ team?.teamName ?? 'Team Name' }}</h3>
-			<p hlmCardDescription>{{ team?.teamDescription || 'No description available.' }}</p>
-		</div>
+		<a [routerLink]="'/team/' + team?.teamId">
+			<div hlmCardHeader class="w-full">
+				<h3 hlmCardTitle>{{ team?.teamName ?? 'Team Name' }}</h3>
+				<p hlmCardDescription>{{ team?.teamDescription || 'No description available.' }}</p>
+			</div>
+		</a>
 		
 		<!-- Card Content -->
 		<div hlmCardContent class="flex flex-wrap gap-2">
@@ -43,5 +44,3 @@
 			</div>
 		</div>
 	</div>
-
-<!--</a>-->

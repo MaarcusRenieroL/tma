@@ -16,40 +16,46 @@ import { User } from "../../../models/user";
 
 export const USER_DATA: User[] = [
   {
-    id: 1,
+    userId: "1",
+    username: "alice_johnson",
     name: "Alice Johnson",
     email: "alice.johnson@example.com",
-    role: "Admin",
+    location: "New York",
   },
   {
-    id: 2,
+    userId: "2",
+    username: "bob_smith",
     name: "Bob Smith",
     email: "bob.smith@example.com",
-    role: "Manager",
+    location: "Los Angeles",
   },
   {
-    id: 3,
+    userId: "3",
+    username: "charlie_brown",
     name: "Charlie Brown",
     email: "charlie.brown@example.com",
-    role: "Developer",
+    location: "Chicago",
   },
   {
-    id: 4,
+    userId: "4",
+    username: "diana_green",
     name: "Diana Green",
     email: "diana.green@example.com",
-    role: "Designer",
+    location: "Houston",
   },
   {
-    id: 5,
+    userId: "5",
+    username: "ethan_white",
     name: "Ethan White",
     email: "ethan.white@example.com",
-    role: "Tester",
+    location: "Phoenix",
   },
   {
-    id: 6,
+    userId: "6",
+    username: "fiona_black",
     name: "Fiona Black",
     email: "fiona.black@example.com",
-    role: "HR",
+    location: "San Francisco",
   },
 ];
 
@@ -131,7 +137,7 @@ export class UsersComponent {
     return noneSelected ? false : allSelectedOrIndeterminate;
   });
 
-  protected readonly _trackBy: TrackByFunction<User> = (_: number, p: User) => p.id;
+  protected readonly _trackBy: TrackByFunction<User> = (_: number, p: User) => p.userId;
   protected readonly _totalElements = computed(() => this._filteredUsers().length);
   protected readonly _onStateChange = ({ startIndex, endIndex }: PaginatorState) =>
     this._displayedIndices.set({ start: startIndex, end: endIndex });

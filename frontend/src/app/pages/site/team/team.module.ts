@@ -22,6 +22,11 @@ import { HlmTabsModule } from "@spartan-ng/ui-tabs-helm";
 import { BrnTabsModule } from "@spartan-ng/ui-tabs-brain";
 import { NgIconsModule } from "@ng-icons/core";
 import { CardsModule } from "../../../../components/shared/cards/cards.module";
+import { lucideMessageSquare } from "@ng-icons/lucide";
+import { bootstrapPlus } from "@ng-icons/bootstrap-icons";
+import { ionAttachOutline } from "@ng-icons/ionicons";
+import { HlmHoverCardModule } from "@spartan-ng/ui-hovercard-helm";
+import { BrnHoverCardModule } from "@spartan-ng/ui-hovercard-brain";
 
 const components = [
 	BoardTabComponent,
@@ -49,8 +54,13 @@ const components = [
     BrnDialogModule,
     HlmTabsModule,
     BrnTabsModule,
-    NgIconsModule,
-    CardsModule
+    NgIconsModule.withIcons({
+			bootstrapPlus, ionAttachOutline, lucideMessageSquare,
+		}),
+    CardsModule,
+		CommonModule,
+		HlmHoverCardModule,
+		BrnHoverCardModule
 ],
 	declarations: [...components],
 	exports: [...components],

@@ -2,6 +2,7 @@ package com.tma.user_micro_service.controller;
 
 import com.tma.user_micro_service.dto.TeamDto;
 import com.tma.user_micro_service.model.User;
+import com.tma.user_micro_service.payload.request.GetAllUsersByUserIdsRequest;
 import com.tma.user_micro_service.payload.response.StandardResponse;
 import com.tma.user_micro_service.service.UserService;
 import com.tma.user_micro_service.util.ResponseUtil;
@@ -101,8 +102,13 @@ public class UserController {
 	}
 	
 	@PostMapping("/usersId")
-	public List<User> getAllUsersByIds(@RequestParam List<UUID> userIds) {
-		return userService.getAllUsersByIds(userIds);
+	public ResponseEntity<StandardResponse<List<User>>> getAllUsersByIds(@RequestBody GetAllUsersByUserIdsRequest getAllUsersByUserIdsRequest, HttpServletRequest request) {
+		
+		if (getAllUsersByUserIdsRequest.getUserIds().isEmpty()) {
+			return ResponseUtil.buildErrorMessage(HttpStatus.BAD_REQUEST, "Missing required fields", request, LocalDateTime.now());
+		}
+		
+		return ResponseUtil.buildSuccessMessage(HttpStatus.OK, "Users fetched successfully", userService.getAllUsersByIds(getAllUsersByUserIdsRequest.getUserIds()), request, LocalDateTime.now());
 	}
 	
 	@PostMapping("/team/{teamId}")

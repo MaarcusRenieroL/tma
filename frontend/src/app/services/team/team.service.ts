@@ -9,6 +9,7 @@ import { CookieService } from "ngx-cookie-service";
 import { Team } from "../../models/team";
 import { DeleteTeamRequest } from "../../payload/requests/team/delete-team-request";
 import { GetTeamByUserIdRequest } from "../../payload/requests/team/get-team-by-user-id-request";
+import { GetTeamByTeamIdRequest } from "../../payload/requests/team/get-team-by-team-id-request";
 
 
 @Injectable({
@@ -32,6 +33,14 @@ export class TeamService {
 				"Authorization": "Bearer " + this.cookieService.get("syncTeam.token")
 			}
 		})
+	}
+	
+	getTeamByTeamId(getTeamByTeamIdRequest: GetTeamByTeamIdRequest): Observable<StandardResponse<Team>> {
+		return this.http.get<StandardResponse<Team>>(environment.backendAPI + 'teams/' + getTeamByTeamIdRequest.teamId, {
+      headers: {
+        "Authorization": "Bearer " + this.cookieService.get("syncTeam.token")
+      }
+    })
 	}
 	
 	getTeamsByUserId(getTeamByUserIdRequest: GetTeamByUserIdRequest): Observable<StandardResponse<Team[]>> {

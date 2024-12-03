@@ -1,4 +1,4 @@
-<site-navbar />
+<site-navbar/>
 <main class="p-10">
 	<div class="flex flex-col gap-5">
 		<h1 class="text-2xl font-bold">Team Name</h1>
@@ -6,11 +6,27 @@
 			<div class="grid grid-cols-3">
 				<h2 class="text-muted-foreground">Team Members: </h2>
 				<div class="col-span-2 flex items-center justify-start gap-2">
-					<p hlmBadge variant="secondary">User 1</p>
-					<p hlmBadge variant="secondary">User 2</p>
-					<p hlmBadge variant="secondary">User 3</p>
+					<div class="relative flex items-center">
+						<div class="flex -space-x-2">
+							<hlm-avatar *ngFor="let teamMember of teamMembers.slice(0, 3)" class="flex-shrink-0">
+								<img
+									src="https://github.com/shadcn.png"
+									alt="spartan logo. Resembling a spartanic shield"
+									hlmAvatarImage
+								/>
+								<span class="text-white bg-destructive" hlmAvatarFallback>
+					        {{ getInitials(teamMember.name) }}
+					      </span>
+							</hlm-avatar>
+						</div>
+						
+						<!-- Display 'More' if there are additional members -->
+						<span *ngIf="team?.userIds!.length > 3" class="ml-1 text-xs text-gray-500 bg-gray-200 rounded-full p-1">
+					    +{{ team?.userIds!.length - 3 }}
+					  </span>
+					</div>
 					<button hlmBtn size="icon" variant="outline" class="rounded-full h-8 w-8">
-						<ng-icon name="bootstrapPlus" />
+						<ng-icon name="bootstrapPlus"/>
 					</button>
 				</div>
 			</div>
@@ -24,12 +40,12 @@
 					<p hlmBadge variant="secondary">Project 4</p>
 					<p hlmBadge variant="secondary">Project 5</p>
 					<button hlmBtn size="icon" variant="outline" class="rounded-full h-8 w-8">
-						<ng-icon name="bootstrapPlus" />
+						<ng-icon name="bootstrapPlus"/>
 					</button>
 				</div>
 			</div>
 		</div>
-		<hr />
+		<hr/>
 	</div>
 	<div class="w-full mt-5">
 		<hlm-tabs tab="overview" class="w-full">
@@ -41,19 +57,19 @@
 				<button hlmTabsTrigger="files" class="w-full">Files</button>
 			</hlm-tabs-list>
 			<div hlmTabsContent="overview" class="mt-5 w-full">
-				<overview-tab />
+				<overview-tab/>
 			</div>
 			<div hlmTabsContent="projects" class="w-full mt-5">
-				<projects-tab />
+				<projects-tab/>
 			</div>
 			<div hlmTabsContent="board" class="mt-5 w-full">
-				<board-tab />
+				<board-tab/>
 			</div>
 			<div hlmTabsContent="calendar">
-				<calendar-tab />
+				<calendar-tab/>
 			</div>
 			<div hlmTabsContent="files" class="mt-5">
-				<files-tab />
+				<files-tab/>
 			</div>
 		</hlm-tabs>
 	</div>
