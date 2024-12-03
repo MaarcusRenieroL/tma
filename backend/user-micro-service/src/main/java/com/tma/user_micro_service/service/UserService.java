@@ -33,4 +33,7 @@ public interface UserService {
   List<TeamDto> getTeamsByUserId(UUID userId, HttpServletRequest request);
   
   Object removeUserFromTeam(UUID teamId, UUID userId);
+  
+  Object addTaskToUser(UUID taskId, UUID userId);
+  
 }

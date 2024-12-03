@@ -1,6 +1,6 @@
 package com.tma.project_micro_service.util;
 
-import com.tma.project_micro_service.response.StandardResponse;
+import com.tma.project_micro_service.payload.response.StandardResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
 import org.springframework.http.HttpStatus;

@@ -1,4 +1,4 @@
-package com.tma.project_micro_service.response;
+package com.tma.project_micro_service.payload.response;
 
 import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;

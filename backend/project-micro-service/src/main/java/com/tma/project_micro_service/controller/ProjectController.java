@@ -1,7 +1,7 @@
 package com.tma.project_micro_service.controller;
 
 import com.tma.project_micro_service.model.Project;
-import com.tma.project_micro_service.response.StandardResponse;
+import com.tma.project_micro_service.payload.response.StandardResponse;
 import com.tma.project_micro_service.service.ProjectService;
 import com.tma.project_micro_service.util.ResponseUtil;
 import jakarta.servlet.http.HttpServletRequest;
@@ -15,12 +15,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("api/project")
+@RequestMapping("api/projects")
 public class ProjectController {
   @Autowired private ProjectService projectService;
 
   @GetMapping
-  public ResponseEntity<StandardResponse<List<Project>>> getAllTasks(HttpServletRequest request) {
+  public ResponseEntity<StandardResponse<List<Project>>> getAllProjects(HttpServletRequest request) {
     List<Project> projects = projectService.getAllProjects();
 
     if (projects.isEmpty()) {
@@ -127,19 +127,16 @@ public class ProjectController {
     }
   }
 
-  //	@GetMapping("/team/{teamId}")
-  //	public ResponseEntity<StandardResponse<List<Project>>> getProjectsByTeam(@PathVariable UUID
-  // teamId, HttpServletRequest request) {
-  //
-  //		List<Project> projects = projectService.getProjectsByTeam(teamId);
-  //
-  //		if (!projects.isEmpty()) {
-  //			return ResponseUtil.buildSuccessMessage(HttpStatus.OK, "Projects retrieved successfully for
-  // the team", projects, request, LocalDateTime.now());
-  //		}
-  //		return ResponseUtil.buildErrorMessage(HttpStatus.NOT_FOUND, "No projects found for the
-  // specified team", request, LocalDateTime.now());
-  //	}
+  	@GetMapping("/team/{teamId}")
+  	public ResponseEntity<StandardResponse<List<Project>>> getProjectsByTeamId(@PathVariable UUID teamId, HttpServletRequest request) {
+
+  		List<Project> projects = projectService.getProjectsByTeamId(teamId);
+
+  		if (!projects.isEmpty()) {
+  			return ResponseUtil.buildSuccessMessage(HttpStatus.OK, "Projects retrieved successfully", projects, request, LocalDateTime.now());
+  		}
+  		return ResponseUtil.buildErrorMessage(HttpStatus.NOT_FOUND, "No projects found for the specified team", request, LocalDateTime.now());
+  	}
 
   //	@PostMapping("/{projectId}/team/{teamId}")
   //	public ResponseEntity<StandardResponse<Project>> assignTeamToProject(@PathVariable UUID
