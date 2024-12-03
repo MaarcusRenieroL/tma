@@ -3,16 +3,11 @@ package com.tma.user_micro_service.feign;
 import com.tma.user_micro_service.dto.TeamDto;
 import com.tma.user_micro_service.payload.response.StandardResponse;
 
-import java.util.List;
 import java.util.UUID;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.http.ResponseEntity;
-<<<<<<< Updated upstream
 import org.springframework.web.bind.annotation.*;
-=======
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
->>>>>>> Stashed changes
 
 import java.util.Set;
 
@@ -22,14 +17,9 @@ public interface TeamFeignClient {
 	@GetMapping("/{id}")
 	StandardResponse<TeamDto> getTeamById(@PathVariable UUID id);
 	
-	@GetMapping("/users/{id}")
+	@GetMapping("/users/{teamId}")
 	Set<UUID> getUsersByTeamId(@PathVariable UUID teamId);
-<<<<<<< Updated upstream
 	
 	@GetMapping("/{id}")
 	StandardResponse<TeamDto> getTeamById(@PathVariable UUID id, @RequestHeader("Authorization") String authToken);
-	
-=======
-
->>>>>>> Stashed changes
 }

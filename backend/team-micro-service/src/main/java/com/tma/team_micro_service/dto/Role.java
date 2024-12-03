@@ -1,6 +1,5 @@
 package com.tma.team_micro_service.dto;
 
-import jakarta.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
