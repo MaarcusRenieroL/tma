@@ -1,6 +1,7 @@
 package com.tma.task_micro_service.controller;
 
 import com.tma.task_micro_service.model.Task;
+import com.tma.task_micro_service.payload.request.CreateTaskRequest;
 import com.tma.task_micro_service.payload.response.StandardResponse;
 import com.tma.task_micro_service.service.TaskService;
 import com.tma.task_micro_service.util.ResponseUtil;
@@ -35,18 +36,18 @@ public class TaskController {
 
   @PostMapping
   public ResponseEntity<StandardResponse<Task>> createTask(
-      @RequestBody Task task, HttpServletRequest request) {
+    @RequestBody CreateTaskRequest taskRequest, HttpServletRequest request) {
     try {
 
-      if (task.getTitle() == null
-          || task.getDescription() == null
-          || task.getDueDate() == null
-          || task.getPriority() == null) {
+      if (taskRequest.getTask().getTitle() == null
+          || taskRequest.getTask().getDescription() == null
+          || taskRequest.getTask().getDueDate() == null
+          || taskRequest.getTask().getPriority() == null) {
         return responseUtil.buildErrorMessage(
             HttpStatus.BAD_REQUEST, "Missing required fields", request, LocalDateTime.now());
       }
 
-      Task createdTask = taskService.createTask(task);
+      Task createdTask = taskService.createTask(taskRequest.getTask(),taskRequest.getUserId(),request);
 
       return responseUtil.buildSuccessMessage(
           HttpStatus.CREATED,

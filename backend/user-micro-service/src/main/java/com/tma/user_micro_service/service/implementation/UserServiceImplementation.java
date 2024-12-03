@@ -140,4 +140,23 @@ public class UserServiceImplementation implements UserService {
 		
 	}
 	
+	@Override
+	public Object addTaskToUser(UUID taskId, UUID userId) {
+		User user = userRepository.findById(userId).orElseThrow(()->new RuntimeException("User Not Found"));
+		if(user.getTaskIds()==null){
+			List<UUID> taskIds= new ArrayList<>();
+			taskIds.add(taskId);
+			user.setTaskIds(taskIds);
+			userRepository.save(user);
+			
+		}
+		else{
+			user.getTaskIds().add(taskId);
+			userRepository.save(user);
+		}
+		
+		return "Task assigned to the User";
+		
+	}
+	
 }

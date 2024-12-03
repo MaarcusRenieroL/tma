@@ -17,7 +17,7 @@ public interface ProjectService {
 
   void deleteProject(UUID projectId);
 
-  //  List<Project> getProjectsByTeam(UUID teamId);
+    List<Project> getProjectsByTeamId(UUID teamId);
 
   //  Project assignTeamToProject(UUID projectId, UUID teamId);
 
