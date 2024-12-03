@@ -3,7 +3,6 @@ package com.tma.team_micro_service.controller;
 import com.tma.team_micro_service.model.Team;
 import com.tma.team_micro_service.payload.request.CreateTeamRequest;
 import com.tma.team_micro_service.payload.response.StandardResponse;
-import com.tma.team_micro_service.service.TeamService;
 import com.tma.team_micro_service.service.implementation.TeamServiceImplementation;
 import com.tma.team_micro_service.util.ResponseUtil;
 import jakarta.servlet.http.HttpServletRequest;
@@ -11,21 +10,23 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+@Slf4j
 @RestController
-@RequestMapping("/api/teams")
-@CrossOrigin
+@RequestMapping("api/teams")
+@CrossOrigin("http://localhost:4200")
 public class TeamController {
-  
+
   private final TeamServiceImplementation teamService;
-  
+
   public TeamController(TeamServiceImplementation teamService) {
     this.teamService = teamService;
   }
-  
+
   @GetMapping
   public ResponseEntity<StandardResponse<List<Team>>> getAllTeams(HttpServletRequest request) {
     List<Team> teams = teamService.getAllTeams();
@@ -54,14 +55,19 @@ public class TeamController {
   }
 
   @PostMapping
-  public ResponseEntity<StandardResponse<Team>> createTeam (
-    @RequestBody CreateTeamRequest teamRequest, HttpServletRequest request) {
+  public ResponseEntity<StandardResponse<Team>> createTeam(
+      @RequestBody CreateTeamRequest teamRequest, HttpServletRequest request) {
+
+    log.info("Inside team controller");
+
     try {
-      if (teamRequest.getTeam().getTeamName() == null || teamRequest.getTeam().getTeamDescription() == null) {
+      if (teamRequest.getTeam().getTeamName() == null
+          || teamRequest.getTeam().getTeamDescription() == null) {
         return ResponseUtil.buildErrorMessage(
             HttpStatus.BAD_REQUEST, "Missing required fields", request, LocalDateTime.now());
       }
-      Team createdTeam = teamService.createTeam(teamRequest.getTeam(), teamRequest.getUserId(), request);
+      Team createdTeam =
+          teamService.createTeam(teamRequest.getTeam(), teamRequest.getUserId(), request);
 
       return ResponseUtil.buildSuccessMessage(
           HttpStatus.CREATED,
@@ -117,8 +123,7 @@ public class TeamController {
   }
   
   @GetMapping("/users/{teamId}")
-  public Set<UUID> getUsersByTeamId(@PathVariable UUID teamId){
+  public Set<UUID> getUsersByTeamId(@PathVariable UUID teamId) {
     return teamService.getUserByTeamId(teamId);
   }
-  
 }

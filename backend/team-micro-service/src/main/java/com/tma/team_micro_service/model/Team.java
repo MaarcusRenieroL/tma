@@ -1,7 +1,6 @@
 package com.tma.team_micro_service.model;
 
 import jakarta.persistence.*;
-
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
@@ -20,14 +19,10 @@ public class Team {
 
   private String teamName;
   private String teamDescription;
-  
-  @ElementCollection
-  private Set<UUID> userIds;
-  
-  @ElementCollection
-  private List<UUID>taskIds;
-  
-  @ElementCollection
-  private List<UUID> ProjectIds;
-  
+
+  @ElementCollection private Set<UUID> userIds;
+
+  @ElementCollection private List<UUID> taskIds;
+
+  @ElementCollection private List<UUID> ProjectIds;
 }

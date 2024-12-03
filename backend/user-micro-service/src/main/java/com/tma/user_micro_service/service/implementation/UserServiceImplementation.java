@@ -6,18 +6,16 @@ import com.tma.user_micro_service.model.User;
 import com.tma.user_micro_service.payload.response.StandardResponse;
 import com.tma.user_micro_service.repository.UserRepository;
 import com.tma.user_micro_service.service.UserService;
-
 import java.util.*;
-
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 @Service
 public class UserServiceImplementation implements UserService {
-  
+
   private final UserRepository userRepository;
   private final TeamFeignClient teamFeignClient;
-  
+
   public UserServiceImplementation(UserRepository userRepository, TeamFeignClient teamFeignClient) {
     this.teamFeignClient = teamFeignClient;
     this.userRepository = userRepository;
@@ -64,21 +62,21 @@ public class UserServiceImplementation implements UserService {
   public User getUserById(UUID userId) {
     return userRepository.findById(userId).orElse(null);
   }
-  
+
   @Override
   public List<User> getAllUsersByIds(List<UUID> userIds) {
-    List<User> users= new ArrayList<>();
-    for(UUID id : userIds){
+    List<User> users = new ArrayList<>();
+    for (UUID id : userIds) {
       users.add(userRepository.findById(id).get());
-      
     }
     return users;
   }
+
   @Override
-  public ResponseEntity<StandardResponse<TeamDto>> getTeamDetails(UUID teamId){
+  public ResponseEntity<StandardResponse<TeamDto>> getTeamDetails(UUID teamId) {
     return teamFeignClient.getTeamById(teamId);
-    
   }
+
   @Override
   public Set<UUID> getUsersInTeam(UUID teamId) {
     return teamFeignClient.getUsersByTeamId(teamId);

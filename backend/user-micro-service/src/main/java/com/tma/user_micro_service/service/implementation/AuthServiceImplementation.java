@@ -79,7 +79,13 @@ public class AuthServiceImplementation implements AuthService {
               .map(GrantedAuthority::getAuthority)
               .collect(Collectors.toList());
 
-      return new SignInResponse(userDetails.getUsername(), jwtToken, roles);
+      Optional<User> optionalUser = userRepository.findByUserName(userDetails.getUsername());
+
+      return optionalUser
+          .map(
+              user ->
+                  new SignInResponse(user.getUserId(), userDetails.getUsername(), jwtToken, roles))
+          .orElse(null);
 
     } catch (Exception exception) {
       throw new AuthenticationServiceException("Invalid username or password", exception);

@@ -21,7 +21,8 @@ export class AuthService {
   }
   
   logout() {
-    this.cookieService.delete("syncTeam.token")
+    this.cookieService.delete("syncTeam.token");
+    this.cookieService.delete("syncTeam.userId");
   }
   
   forgotPassword(forgotPasswordRequest: ForgotPasswordRequest): Observable<StandardResponse<void>> {

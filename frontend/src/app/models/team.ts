@@ -1,8 +1,9 @@
 export interface Team {
-	name: string;
-	description: string;
+	teamName: string;
+	teamDescription: string;
 	createdAt: Date;
 	updatedAt: Date;
-	members: string[];
-	projects: string[];
+	userIds: string[];
+	projectIds: string[];
+	taskIds: string[];
 }

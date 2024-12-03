@@ -16,8 +16,9 @@ export class AuthGuard implements CanActivate {
 	
 	canActivate(): boolean {
 		const token = this.cookieService.get('syncTeam.token');
+		const userId = this.cookieService.get("syncTeam.userId");
 		
-		if (token) {
+		if (token && userId) {
 			const decodedToken: JwtPayload = jwtDecode<JwtPayload>(token);
 			const currentTime = Date.now() / 1000;
 			
@@ -25,6 +26,7 @@ export class AuthGuard implements CanActivate {
 				return true;
 			} else {
 				this.cookieService.delete('syncTeam.token');
+				this.cookieService.delete('syncTeam.userId');
 				toast.error("Please login again")
 			}
 		}

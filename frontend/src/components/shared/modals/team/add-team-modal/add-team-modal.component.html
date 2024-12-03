@@ -6,7 +6,7 @@
 			<p hlmDialogDescription>Fill in the details below to create a new team.</p>
 		</hlm-dialog-header>
 		
-		<form [formGroup]="teamForm" (ngSubmit)="submitForm()">
+		<form [formGroup]="createTeamForm" (ngSubmit)="submitCreateTeamForm()">
 			<div class="flex flex-col gap-5">
 				<div class="w-full flex flex-col gap-3">
 					<label hlmLabel for="teamName">Team Name</label>
@@ -18,6 +18,9 @@
 						class="w-full"
 						formControlName="teamName"
 					/>
+          <div *ngIf="createTeamForm.get('teamName')?.touched && createTeamForm.get('teamName')?.invalid" class="text-red-500 text-xs">
+            Team Name is required.
+          </div>
 				</div>
 				
 				<div class="flex flex-col gap-3 w-full">
@@ -28,13 +31,17 @@
 						class="w-full h-20"
 						formControlName="teamDescription">
           </textarea>
+          <div *ngIf="createTeamForm.get('teamDescription')?.touched && createTeamForm.get('teamDescription')?.invalid" class="text-red-500 text-xs">
+            Team Description is required.
+          </div>
 				</div>
 			</div>
 			
-			<hlm-dialog-footer>
+			<hlm-dialog-footer class="mt-5">
 				<button hlmBtn variant="outline" (click)="ctx.close()">Cancel</button>
-				<button hlmBtn type="submit" [disabled]="teamForm.invalid">Add Team</button>
+				<button hlmBtn type="submit" [disabled]="createTeamForm.invalid">Add Team</button>
 			</hlm-dialog-footer>
 		</form>
 	</hlm-dialog-content>
 </hlm-dialog>
+<hlm-toaster />

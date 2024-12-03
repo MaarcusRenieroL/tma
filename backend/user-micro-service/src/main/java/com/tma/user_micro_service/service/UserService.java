@@ -3,11 +3,10 @@ package com.tma.user_micro_service.service;
 import com.tma.user_micro_service.dto.TeamDto;
 import com.tma.user_micro_service.model.User;
 import com.tma.user_micro_service.payload.response.StandardResponse;
-import org.springframework.http.ResponseEntity;
-
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
+import org.springframework.http.ResponseEntity;
 
 public interface UserService {
 
@@ -20,9 +19,9 @@ public interface UserService {
   void deleteUser(UUID userId);
 
   User getUserById(UUID userId);
-  
+
   List<User> getAllUsersByIds(List<UUID> userIds);
-  
+
   ResponseEntity<StandardResponse<TeamDto>> getTeamDetails(UUID teamId);
   
   Set<UUID> getUsersInTeam(UUID teamId) ;
@@ -31,4 +30,3 @@ public interface UserService {
   
   Set<UUID> getTeamsByUserId(UUID userId);
 }
-
