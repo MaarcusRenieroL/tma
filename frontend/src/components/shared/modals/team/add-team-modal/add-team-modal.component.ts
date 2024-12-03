@@ -49,5 +49,7 @@ export class AddTeamModalComponent {
       this.router.navigate(["/teams"]).then();
       
     }
+    
+    this.createTeamForm.reset();
   }
 }

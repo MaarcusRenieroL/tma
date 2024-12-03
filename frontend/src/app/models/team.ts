@@ -1,4 +1,5 @@
 export interface Team {
+	teamId: string;
 	teamName: string;
 	teamDescription: string;
 	createdAt: Date;

@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.*;
 @Slf4j
 @RestController
 @RequestMapping("api/teams")
-@CrossOrigin("http://localhost:4200")
 public class TeamController {
 
   private final TeamServiceImplementation teamService;
@@ -30,11 +29,6 @@ public class TeamController {
   @GetMapping
   public ResponseEntity<StandardResponse<List<Team>>> getAllTeams(HttpServletRequest request) {
     List<Team> teams = teamService.getAllTeams();
-
-    if (teams.isEmpty()) {
-      return ResponseUtil.buildErrorMessage(
-          HttpStatus.NOT_FOUND, "No teams found", request, LocalDateTime.now());
-    }
 
     return ResponseUtil.buildSuccessMessage(
         HttpStatus.OK, "Teams retrieved successfully", teams, request, LocalDateTime.now());

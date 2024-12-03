@@ -27,17 +27,18 @@ import {
 import { heroCalendar, heroEllipsisHorizontal } from "@ng-icons/heroicons/outline";
 import { lucideFile, lucideHardDrive } from "@ng-icons/lucide";
 import { CommonModule } from "@angular/common";
+import { RouterLink } from "@angular/router";
 
 const components = [ FileCardComponent, TeamCardComponent, ProjectCardComponent, TaskCardComponent ]
 
 @NgModule({
 	declarations: [ ...components, TaskCardComponent ],
-	imports: [HlmCardModule, HlmButtonDirective, HlmBadgeModule, HlmDialogModule, BrnDialogModule, NgIconsModule.withIcons({
-        heroEllipsisHorizontal,
-        heroCalendar,
-        lucideHardDrive,
-        lucideFile
-    }), HlmAvatarModule, HlmTabsComponent, HlmTabsContentDirective, HlmTabsListComponent, HlmTabsTriggerDirective, ModalsModule, CommonModule ],
+	imports: [ HlmCardModule, HlmButtonDirective, HlmBadgeModule, HlmDialogModule, BrnDialogModule, NgIconsModule.withIcons({
+		heroEllipsisHorizontal,
+		heroCalendar,
+		lucideHardDrive,
+		lucideFile
+	}), HlmAvatarModule, HlmTabsComponent, HlmTabsContentDirective, HlmTabsListComponent, HlmTabsTriggerDirective, ModalsModule, CommonModule, RouterLink ],
 	exports: [ ...components ]
 })
 export class CardsModule {
