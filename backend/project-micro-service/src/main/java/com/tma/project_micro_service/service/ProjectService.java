@@ -1,13 +1,14 @@
 package com.tma.project_micro_service.service;
 
 import com.tma.project_micro_service.model.Project;
+import jakarta.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
 public interface ProjectService {
 
-  Project createProject(Project project, UUID teamId);
+  Project createProject(Project project, UUID teamId, HttpServletRequest request);
 
   Optional<Project> getProjectById(UUID projectId);
 

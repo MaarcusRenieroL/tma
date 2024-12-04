@@ -24,5 +24,5 @@ public class Team {
 
   @ElementCollection private List<UUID> taskIds;
 
-  @ElementCollection private List<UUID> ProjectIds;
+  @ElementCollection private Set<UUID> ProjectIds;
 }

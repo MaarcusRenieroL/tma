@@ -1,6 +1,7 @@
 package com.tma.project_micro_service.controller;
 
 import com.tma.project_micro_service.model.Project;
+import com.tma.project_micro_service.payload.request.CreateProjectRequest;
 import com.tma.project_micro_service.payload.response.StandardResponse;
 import com.tma.project_micro_service.service.ProjectService;
 import com.tma.project_micro_service.util.ResponseUtil;
@@ -9,7 +10,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,7 +17,11 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("api/projects")
 public class ProjectController {
-  @Autowired private ProjectService projectService;
+  private final ProjectService projectService;
+
+  public ProjectController(ProjectService projectService) {
+    this.projectService = projectService;
+  }
 
   @GetMapping
   public ResponseEntity<StandardResponse<List<Project>>> getAllProjects(
@@ -53,13 +57,16 @@ public class ProjectController {
 
   @PostMapping
   public ResponseEntity<StandardResponse<Project>> createProject(
-      @RequestParam UUID teamId, @RequestBody Project project, HttpServletRequest request) {
+      @RequestBody CreateProjectRequest createProjectRequest, HttpServletRequest request) {
     try {
-      if (project.getProjectTitle() == null) {
+      if (createProjectRequest.getProject().getProjectTitle() == null
+          || createProjectRequest.getTeamId() == null) {
         return ResponseUtil.buildErrorMessage(
             HttpStatus.BAD_REQUEST, "Missing required fields", request, LocalDateTime.now());
       }
-      Project createdProject = projectService.createProject(project, teamId);
+      Project createdProject =
+          projectService.createProject(
+              createProjectRequest.getProject(), createProjectRequest.getTeamId(), request);
 
       return ResponseUtil.buildSuccessMessage(
           HttpStatus.CREATED,

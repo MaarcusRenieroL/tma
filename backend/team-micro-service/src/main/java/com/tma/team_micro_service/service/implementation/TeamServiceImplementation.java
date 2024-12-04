@@ -3,6 +3,7 @@ package com.tma.team_micro_service.service.implementation;
 import com.tma.team_micro_service.dto.User;
 import com.tma.team_micro_service.feign.UserFeignClient;
 import com.tma.team_micro_service.model.Team;
+import com.tma.team_micro_service.payload.request.AssignProjectToTeamRequest;
 import com.tma.team_micro_service.repository.TeamRepository;
 import com.tma.team_micro_service.service.TeamService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -113,5 +114,32 @@ public class TeamServiceImplementation implements TeamService {
         teamRepository.findById(teamId).orElseThrow(() -> new RuntimeException("Team Not Found"));
 
     return team.getUserIds();
+  }
+
+  public Object assignProjectToTeam(AssignProjectToTeamRequest assignProjectToTeamRequest) {
+
+    Optional<Team> optionalTeam = teamRepository.findById(assignProjectToTeamRequest.getTeamId());
+
+    if (optionalTeam.isEmpty()) {
+      return null;
+    }
+
+    Team existingTeam = optionalTeam.get();
+
+    if (existingTeam.getProjectIds() == null) {
+      Set<UUID> projectIds = new HashSet<>();
+
+      projectIds.add(assignProjectToTeamRequest.getProjectId());
+
+      existingTeam.setProjectIds(projectIds);
+
+      teamRepository.save(existingTeam);
+    } else {
+      existingTeam.getProjectIds().add(assignProjectToTeamRequest.getProjectId());
+
+      teamRepository.save(existingTeam);
+    }
+
+    return "Project added to team";
   }
 }

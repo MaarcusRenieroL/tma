@@ -2,6 +2,7 @@ package com.tma.team_micro_service.service;
 
 import com.tma.team_micro_service.dto.User;
 import com.tma.team_micro_service.model.Team;
+import com.tma.team_micro_service.payload.request.AssignProjectToTeamRequest;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Set;
@@ -21,4 +22,6 @@ public interface TeamService {
   List<User> getAllUsersByIds(List<UUID> userIds);
 
   Set<UUID> getUserByTeamId(UUID teamId);
+
+  Object assignProjectToTeam(AssignProjectToTeamRequest assignProjectToTeamRequest);
 }

@@ -1,6 +1,7 @@
 package com.tma.team_micro_service.controller;
 
 import com.tma.team_micro_service.model.Team;
+import com.tma.team_micro_service.payload.request.AssignProjectToTeamRequest;
 import com.tma.team_micro_service.payload.request.CreateTeamRequest;
 import com.tma.team_micro_service.payload.request.DeleteTeamRequest;
 import com.tma.team_micro_service.payload.response.StandardResponse;
@@ -138,5 +139,12 @@ public class TeamController {
   @GetMapping("/users/{teamId}")
   public Set<UUID> getUsersByTeamId(@PathVariable UUID teamId) {
     return teamService.getUserByTeamId(teamId);
+  }
+
+  @PostMapping("/project")
+  public void assignProjectToTeam(
+      @RequestBody AssignProjectToTeamRequest assignProjectToTeamRequest,
+      @RequestHeader("Authorization") String authToken) {
+    teamService.assignProjectToTeam(assignProjectToTeamRequest);
   }
 }

@@ -1,30 +1,49 @@
 package com.tma.project_micro_service.service;
 
+import com.tma.project_micro_service.feign.TeamFeignClient;
 import com.tma.project_micro_service.model.Project;
+import com.tma.project_micro_service.payload.request.AssignProjectToTeamRequest;
 import com.tma.project_micro_service.repository.ProjectRepository;
+import jakarta.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @Service
 public class ProjectServiceImpl implements ProjectService {
-  @Autowired ProjectRepository projectRepository;
+
+  private final ProjectRepository projectRepository;
+  private final TeamFeignClient teamFeignClient;
+
+  public ProjectServiceImpl(ProjectRepository projectRepository, TeamFeignClient teamFeignClient) {
+    this.projectRepository = projectRepository;
+    this.teamFeignClient = teamFeignClient;
+  }
 
   @Override
-  public Project createProject(Project project, UUID teamId) {
-    //		Optional<Team> optionalTeam = teamService.getTeamById(teamId);
-    //
-    //		if (optionalTeam.isEmpty()) {
-    //			return null;
-    //		}
-    //
-    //		Team team = optionalTeam.get();
-    //
-    //		project.setTeam(team);
+  public Project createProject(Project project, UUID teamId, HttpServletRequest request) {
 
-    return projectRepository.save(project);
+    String bearerToken = request.getHeader("Authorization");
+
+    log.info("JWT: {}", bearerToken);
+
+    if (bearerToken == null) {
+      return null;
+    }
+
+    if (project.getTeamId() == null) {
+      project.setTeamId(teamId);
+    }
+
+    Project savedProject = projectRepository.save(project);
+
+    teamFeignClient.assignProjectToTeam(
+        new AssignProjectToTeamRequest(savedProject.getProjectId(), teamId), bearerToken);
+
+    return savedProject;
   }
 
   @Override
