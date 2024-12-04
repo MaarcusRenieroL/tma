@@ -75,6 +75,9 @@
       ],
       "@spartan-ng/ui-hovercard-helm": [
         ".\\src/components/ui/ui-hovercard-helm/src/index.ts"
+      ],
+      "@spartan-ng/ui-alert-helm": [
+        ".\\src/components/ui/ui-alert-helm/src/index.ts"
       ]
     }
   },

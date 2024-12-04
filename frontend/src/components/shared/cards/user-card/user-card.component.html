@@ -1,0 +1,89 @@
+<hlm-dialog>
+	<button brnDialogTrigger hlmBtn variant="link" size="icon">
+		<brn-hover-card>
+			<button hlmBtn variant="link" brnHoverCardTrigger size="icon">
+				<hlm-avatar class="flex-shrink-0">
+					<img
+						src="https://github.com/shadcn.png"
+						alt="spartan logo. Resembling a spartanic shield"
+						hlmAvatarImage
+					/>
+					<span class="text-white bg-destructive" hlmAvatarFallback>
+		        {{ getInitials(user.name) }}
+		      </span>
+				</hlm-avatar>
+			</button>
+			<hlm-hover-card-content *brnHoverCardContent>
+				{{ user.name }}
+			</hlm-hover-card-content>
+		</brn-hover-card>
+	</button>
+	<hlm-dialog-content *brnDialogContent="let ctx" class="max-w-2xl">
+		<hlm-dialog-header class="w-full">
+			<h3 class="text-2xl font-bold">{{ user.name }}</h3>
+			<p hlmDialogDescription>{{ "Role: " + user.role }}</p>
+		</hlm-dialog-header>
+		<div class="w-full flex flex-col gap-5">
+			<div hlmAlert class="w-full flex items-center">
+				<ng-icon hlmAlertIcon name="lucideAlertCircle" />
+				<div>
+					<h4 hlmAlertTitle>Availability</h4>
+					<p hlmAlertDesc>
+						available
+					</p>
+				</div>
+			</div>
+			<h1 class="text-xl font-bold">Contact Information</h1>
+			<div class="grid grid-cols-1 lg:grid-cols-3 gap-5 w-full">
+				<div hlmCard>
+					<div hlmCardHeader>
+						<h3 hlmCardTitle>Email</h3>
+					</div>
+					<div hlmCardContent>
+						<p>{{ user.email }}</p>
+					</div>
+				</div>
+				<div hlmCard>
+					<div hlmCardHeader>
+						<h3 hlmCardTitle>Chat</h3>
+					</div>
+					<div hlmCardContent>
+						<p>{{ user.username }}</p>
+					</div>
+				</div>
+				<div hlmCard>
+					<div hlmCardHeader>
+						<h3 hlmCardTitle>Phone</h3>
+					</div>
+					<div hlmCardContent>
+						<p>phone number</p>
+					</div>
+				</div>
+				<div hlmCard>
+					<div hlmCardHeader>
+						<h3 hlmCardTitle>Location</h3>
+					</div>
+					<div hlmCardContent>
+						<p>{{ user.location }}</p>
+					</div>
+				</div>
+				<div hlmCard>
+					<div hlmCardHeader>
+						<h3 hlmCardTitle>Company</h3>
+					</div>
+					<div hlmCardContent>
+						<p>company name</p>
+					</div>
+				</div>
+				<div hlmCard>
+					<div hlmCardHeader>
+						<h3 hlmCardTitle>Department</h3>
+					</div>
+					<div hlmCardContent>
+						<p>teams</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</hlm-dialog-content>
+</hlm-dialog>

@@ -20,7 +20,8 @@ public class ProjectController {
   @Autowired private ProjectService projectService;
 
   @GetMapping
-  public ResponseEntity<StandardResponse<List<Project>>> getAllProjects(HttpServletRequest request) {
+  public ResponseEntity<StandardResponse<List<Project>>> getAllProjects(
+      HttpServletRequest request) {
     List<Project> projects = projectService.getAllProjects();
 
     if (projects.isEmpty()) {
@@ -127,16 +128,22 @@ public class ProjectController {
     }
   }
 
-  	@GetMapping("/team/{teamId}")
-  	public ResponseEntity<StandardResponse<List<Project>>> getProjectsByTeamId(@PathVariable UUID teamId, HttpServletRequest request) {
+  @GetMapping("/team/{teamId}")
+  public ResponseEntity<StandardResponse<List<Project>>> getProjectsByTeamId(
+      @PathVariable UUID teamId, HttpServletRequest request) {
 
-  		List<Project> projects = projectService.getProjectsByTeamId(teamId);
+    List<Project> projects = projectService.getProjectsByTeamId(teamId);
 
-  		if (!projects.isEmpty()) {
-  			return ResponseUtil.buildSuccessMessage(HttpStatus.OK, "Projects retrieved successfully", projects, request, LocalDateTime.now());
-  		}
-  		return ResponseUtil.buildErrorMessage(HttpStatus.NOT_FOUND, "No projects found for the specified team", request, LocalDateTime.now());
-  	}
+    if (!projects.isEmpty()) {
+      return ResponseUtil.buildSuccessMessage(
+          HttpStatus.OK, "Projects retrieved successfully", projects, request, LocalDateTime.now());
+    }
+    return ResponseUtil.buildErrorMessage(
+        HttpStatus.NOT_FOUND,
+        "No projects found for the specified team",
+        request,
+        LocalDateTime.now());
+  }
 
   //	@PostMapping("/{projectId}/team/{teamId}")
   //	public ResponseEntity<StandardResponse<Project>> assignTeamToProject(@PathVariable UUID

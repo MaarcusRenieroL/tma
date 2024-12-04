@@ -41,20 +41,19 @@ public class TeamServiceImplementation implements TeamService {
       Team savedTeam = teamRepository.save(team);
 
       log.info("Saved team and calling user feign client to add team id to user");
-      
-      
+
       log.info("INside create team function");
-      
+
       log.info("Team Id: {}", savedTeam.getTeamId());
       log.info("User Id: {}", userId);
 
       userFeignClient.addTeamToUser(savedTeam.getTeamId(), userId, bearerToken);
-      
+
       log.info("After feign client call");
-      
+
       log.info("Team Id: {}", savedTeam.getTeamId());
       log.info("User Id: {}", userId);
-      
+
       log.info("Success");
 
       return savedTeam;
@@ -96,7 +95,7 @@ public class TeamServiceImplementation implements TeamService {
   @Override
   public void deleteTeam(UUID teamId, UUID userId, HttpServletRequest request) {
     String bearerToken = request.getHeader("Authorization");
-    
+
     if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
       teamRepository.deleteById(teamId);
       userFeignClient.removeUserFromTeam(userId, teamId, bearerToken);
@@ -110,7 +109,8 @@ public class TeamServiceImplementation implements TeamService {
 
   @Override
   public Set<UUID> getUserByTeamId(UUID teamId) {
-    Team team = teamRepository.findById(teamId).orElseThrow(() -> new RuntimeException("Team Not Found"));
+    Team team =
+        teamRepository.findById(teamId).orElseThrow(() -> new RuntimeException("Team Not Found"));
 
     return team.getUserIds();
   }

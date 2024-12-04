@@ -96,25 +96,27 @@ public class TeamController {
 
   @DeleteMapping("/{teamId}")
   public ResponseEntity<StandardResponse<Team>> deleteTeam(
-    @PathVariable UUID teamId, @RequestBody DeleteTeamRequest deleteTeamRequest, HttpServletRequest request) {
-    
+      @PathVariable UUID teamId,
+      @RequestBody DeleteTeamRequest deleteTeamRequest,
+      HttpServletRequest request) {
+
     log.info("Inside delete method");
-    
+
     try {
-      
+
       log.info("Inside try catch block");
-      
+
       if (teamService.getTeamById(teamId) == null || deleteTeamRequest.getUserId() == null) {
         return ResponseUtil.buildErrorMessage(
             HttpStatus.NOT_FOUND, "Missing required fields", request, LocalDateTime.now());
       }
-      
+
       log.info("");
       log.info("");
       log.info("");
       log.info("");
       log.info("");
-      
+
       log.info("Team Id: {}", deleteTeamRequest.getTeamId());
       log.info("User Id: {}", deleteTeamRequest.getUserId());
 
@@ -132,10 +134,9 @@ public class TeamController {
           LocalDateTime.now());
     }
   }
-  
+
   @GetMapping("/users/{teamId}")
   public Set<UUID> getUsersByTeamId(@PathVariable UUID teamId) {
     return teamService.getUserByTeamId(teamId);
   }
-
 }

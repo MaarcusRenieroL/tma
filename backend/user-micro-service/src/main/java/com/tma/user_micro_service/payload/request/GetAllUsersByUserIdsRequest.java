@@ -1,15 +1,14 @@
 package com.tma.user_micro_service.payload.request;
 
+import java.util.List;
+import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.util.List;
-import java.util.UUID;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class GetAllUsersByUserIdsRequest {
-	private List<UUID> userIds;
+  private List<UUID> userIds;
 }

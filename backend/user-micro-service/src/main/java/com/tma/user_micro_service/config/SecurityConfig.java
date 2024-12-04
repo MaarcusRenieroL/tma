@@ -108,12 +108,14 @@ public class SecurityConfig {
               .orElseGet(() -> roleRepository.save(new Role(AppRole.ROLE_DEVELOPER)));
 
       if (userRepository.findByUserName("sa1").isEmpty()) {
-        User sa1 = new User("sa1", passwordEncoder.encode("asd@123"), "sa1@example.com", "System Admin 1");
+        User sa1 =
+            new User("sa1", passwordEncoder.encode("asd@123"), "sa1@example.com", "System Admin 1");
         Utilities.setupUser(roleRepository, userRepository, sa1, systemAdminRole.getRoleName());
       }
 
       if (userRepository.findByUserName("sa2").isEmpty()) {
-        User sa2 = new User("sa2", passwordEncoder.encode("asd@123"), "sa2@example.com", "System Admin 2");
+        User sa2 =
+            new User("sa2", passwordEncoder.encode("asd@123"), "sa2@example.com", "System Admin 2");
         Utilities.setupUser(roleRepository, userRepository, sa2, systemAdminRole.getRoleName());
       }
 
@@ -128,32 +130,40 @@ public class SecurityConfig {
       }
 
       if (userRepository.findByUserName("pm1").isEmpty()) {
-        User pm1 = new User("pm1", passwordEncoder.encode("asd@123"), "pm1@example.com", "Project Manager 1");
+        User pm1 =
+            new User(
+                "pm1", passwordEncoder.encode("asd@123"), "pm1@example.com", "Project Manager 1");
         Utilities.setupUser(roleRepository, userRepository, pm1, projectManagerRole.getRoleName());
       }
 
       if (userRepository.findByUserName("pm2").isEmpty()) {
-        User pm2 = new User("pm2", passwordEncoder.encode("asd@123"), "pm2@example.com", "Project Manager 2");
+        User pm2 =
+            new User(
+                "pm2", passwordEncoder.encode("asd@123"), "pm2@example.com", "Project Manager 2");
         Utilities.setupUser(roleRepository, userRepository, pm2, projectManagerRole.getRoleName());
       }
 
       if (userRepository.findByUserName("tl1").isEmpty()) {
-        User tl1 = new User("tl1", passwordEncoder.encode("asd@123"), "tl1@example.com", "Team Lead 1");
+        User tl1 =
+            new User("tl1", passwordEncoder.encode("asd@123"), "tl1@example.com", "Team Lead 1");
         Utilities.setupUser(roleRepository, userRepository, tl1, teamLeadRole.getRoleName());
       }
 
       if (userRepository.findByUserName("tl2").isEmpty()) {
-        User tl2 = new User("tl2", passwordEncoder.encode("asd@123"), "tl2@example.com", "Team Lead 2");
+        User tl2 =
+            new User("tl2", passwordEncoder.encode("asd@123"), "tl2@example.com", "Team Lead 2");
         Utilities.setupUser(roleRepository, userRepository, tl2, teamLeadRole.getRoleName());
       }
 
       if (userRepository.findByUserName("dev1").isEmpty()) {
-        User dev1 = new User("dev1", passwordEncoder.encode("asd@123"), "dev1@example.com", "Developer 1");
+        User dev1 =
+            new User("dev1", passwordEncoder.encode("asd@123"), "dev1@example.com", "Developer 1");
         Utilities.setupUser(roleRepository, userRepository, dev1, developerRole.getRoleName());
       }
 
       if (userRepository.findByUserName("dev2").isEmpty()) {
-        User dev2 = new User("dev2", passwordEncoder.encode("asd@123"), "dev2@example.com", "Developer 2");
+        User dev2 =
+            new User("dev2", passwordEncoder.encode("asd@123"), "dev2@example.com", "Developer 2");
         Utilities.setupUser(roleRepository, userRepository, dev2, developerRole.getRoleName());
       }
     };

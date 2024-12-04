@@ -4,27 +4,25 @@ import com.tma.user_micro_service.dto.TeamDto;
 import com.tma.user_micro_service.model.User;
 import com.tma.user_micro_service.payload.request.GetAllUsersByUserIdsRequest;
 import com.tma.user_micro_service.payload.response.StandardResponse;
+import com.tma.user_micro_service.payload.response.UserResponse;
 import com.tma.user_micro_service.service.UserService;
 import com.tma.user_micro_service.util.ResponseUtil;
 import jakarta.servlet.http.HttpServletRequest;
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.UUID;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Set;
-import java.util.UUID;
-
 @Slf4j
 @RestController
 @RequestMapping("api/users")
 public class UserController {
-	
-	@Autowired
-	private UserService userService;
+
+  @Autowired private UserService userService;
 
   @GetMapping
   public ResponseEntity<StandardResponse<List<User>>> getAllUsers(HttpServletRequest request) {
@@ -136,7 +134,6 @@ public class UserController {
     return ResponseUtil.buildSuccessMessage(
         HttpStatus.OK, "User retrieved successfully", user, request, LocalDateTime.now());
   }
-	
 
   @PostMapping("/team/{teamId}")
   ResponseEntity<StandardResponse<Object>> addTeamToUser(
@@ -153,61 +150,77 @@ public class UserController {
         request,
         LocalDateTime.now());
   }
-  
+
   @PutMapping("/remove-user/{teamId}/user/{userId}")
-  public Object removeUserFromTeam(@PathVariable UUID teamId,@PathVariable UUID userId){
+  public Object removeUserFromTeam(@PathVariable UUID teamId, @PathVariable UUID userId) {
     return userService.removeUserFromTeam(teamId, userId);
   }
-  
+
   @PostMapping("/task/{taskId}")
   ResponseEntity<StandardResponse<Object>> addTaskToUser(
-    @PathVariable UUID taskId, @RequestBody UUID userId, HttpServletRequest request) {
+      @PathVariable UUID taskId, @RequestBody UUID userId, HttpServletRequest request) {
     if (taskId == null || userId == null) {
       return ResponseUtil.buildErrorMessage(
-        HttpStatus.BAD_REQUEST, "Missing Required Fields", request, LocalDateTime.now());
+          HttpStatus.BAD_REQUEST, "Missing Required Fields", request, LocalDateTime.now());
     }
-    
+
     return ResponseUtil.buildSuccessMessage(
-      HttpStatus.OK,
-      userService.addTaskToUser(taskId, userId).toString(),
-      null,
-      request,
-      LocalDateTime.now());
+        HttpStatus.OK,
+        userService.addTaskToUser(taskId, userId).toString(),
+        null,
+        request,
+        LocalDateTime.now());
   }
-	
-	@PostMapping("/usersId")
-	public ResponseEntity<StandardResponse<List<User>>> getAllUsersByIds(@RequestBody GetAllUsersByUserIdsRequest getAllUsersByUserIdsRequest, HttpServletRequest request) {
-		
-		if (getAllUsersByUserIdsRequest.getUserIds().isEmpty()) {
-			return ResponseUtil.buildErrorMessage(HttpStatus.BAD_REQUEST, "Missing required fields", request, LocalDateTime.now());
-		}
-		
-		return ResponseUtil.buildSuccessMessage(HttpStatus.OK, "Users fetched successfully", userService.getAllUsersByIds(getAllUsersByUserIdsRequest.getUserIds()), request, LocalDateTime.now());
-	}
-	
-	@GetMapping("/get-teams/{userId}")
-	public ResponseEntity<StandardResponse<List<TeamDto>>> getTeamsByUserId(@PathVariable UUID userId, HttpServletRequest request) {
-		if (userId == null) {
-			return ResponseUtil.buildErrorMessage(HttpStatus.BAD_REQUEST, "Missing Required Fields", request, LocalDateTime.now());
-		}
-		
-		return ResponseUtil.buildSuccessMessage(HttpStatus.OK, "Teams fetched successfully", userService.getTeamsByUserId(userId, request), request, LocalDateTime.now());
-	}
-	
-	@PutMapping("/remove-user/{userId}/team/{teamId}")
-	public Object removeUserFromTeam(@PathVariable UUID userId, @PathVariable("teamId") UUID teamId, HttpServletRequest request) {
-		try {
-			
-			log.info("Path: {}", request.getRequestURI());
-			
-			log.info("Team ID: {}", teamId);
-			log.info("User ID: {}", userId);
-			
-			userService.removeUserFromTeam(teamId, userId);
-		} catch (Exception e) {
-			log.info("e: ", e);
-		}
-		
-		return "team deleted";
-	}
+
+  @PostMapping("/usersId")
+  public ResponseEntity<StandardResponse<List<UserResponse>>> getAllUsersByIds(
+      @RequestBody GetAllUsersByUserIdsRequest getAllUsersByUserIdsRequest,
+      HttpServletRequest request) {
+
+    if (getAllUsersByUserIdsRequest.getUserIds().isEmpty()) {
+      return ResponseUtil.buildErrorMessage(
+          HttpStatus.BAD_REQUEST, "Missing required fields", request, LocalDateTime.now());
+    }
+
+    return ResponseUtil.buildSuccessMessage(
+        HttpStatus.OK,
+        "Users fetched successfully",
+        userService.getAllUsersByIds(getAllUsersByUserIdsRequest.getUserIds()),
+        request,
+        LocalDateTime.now());
+  }
+
+  @GetMapping("/get-teams/{userId}")
+  public ResponseEntity<StandardResponse<List<TeamDto>>> getTeamsByUserId(
+      @PathVariable UUID userId, HttpServletRequest request) {
+    if (userId == null) {
+      return ResponseUtil.buildErrorMessage(
+          HttpStatus.BAD_REQUEST, "Missing Required Fields", request, LocalDateTime.now());
+    }
+
+    return ResponseUtil.buildSuccessMessage(
+        HttpStatus.OK,
+        "Teams fetched successfully",
+        userService.getTeamsByUserId(userId, request),
+        request,
+        LocalDateTime.now());
+  }
+
+  @PutMapping("/remove-user/{userId}/team/{teamId}")
+  public Object removeUserFromTeam(
+      @PathVariable UUID userId, @PathVariable("teamId") UUID teamId, HttpServletRequest request) {
+    try {
+
+      log.info("Path: {}", request.getRequestURI());
+
+      log.info("Team ID: {}", teamId);
+      log.info("User ID: {}", userId);
+
+      userService.removeUserFromTeam(teamId, userId);
+    } catch (Exception e) {
+      log.info("e: ", e);
+    }
+
+    return "team deleted";
+  }
 }

@@ -6,7 +6,7 @@ import { Team } from "../../../../app/models/team";
   templateUrl: './team-card.component.html',
 })
 export class TeamCardComponent {
-  @Input() team: Team | undefined;
+  @Input() team!: Team;
   
   getInitials(name: string) {
     return name.split(" ").map(word => word[0]).join(" ");

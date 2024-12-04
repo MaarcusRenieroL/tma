@@ -1,11 +1,10 @@
 package com.tma.task_micro_service.payload.request;
 
 import com.tma.task_micro_service.model.Task;
+import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.util.UUID;
 
 @Data
 @AllArgsConstructor

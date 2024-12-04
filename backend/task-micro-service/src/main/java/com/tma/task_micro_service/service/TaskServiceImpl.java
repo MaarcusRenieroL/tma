@@ -1,22 +1,17 @@
 package com.tma.task_micro_service.service;
 
-import com.netflix.discovery.converters.Auto;
 import com.tma.task_micro_service.feign.UserFeignClient;
 import com.tma.task_micro_service.model.Task;
 import com.tma.task_micro_service.repository.TaskRepository;
-
-import java.util.*;
-
 import jakarta.servlet.http.HttpServletRequest;
+import java.util.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class TaskServiceImpl implements TaskService {
   @Autowired TaskRepository taskRepo;
-  @Autowired
-  UserFeignClient userFeignClient;
-  
+  @Autowired UserFeignClient userFeignClient;
 
   @Override
   public List<Task> getAllTasks() {
@@ -25,30 +20,24 @@ public class TaskServiceImpl implements TaskService {
 
   @Override
   public Task createTask(Task task, UUID userId, HttpServletRequest request) {
-    
-    
+
     String bearerToken = request.getHeader("Authorization");
-    
+
     if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
-      
-      
+
       List<UUID> userIds = new ArrayList<>();
-      
+
       userIds.add(userId);
-      
+
       task.setUserIds(userIds);
-      
+
       Task savedTeam = taskRepo.save(task);
-      
-      
-      
+
       userFeignClient.addTaskToUser(savedTeam.getTeamId(), userId, bearerToken);
-      
-      
-      
+
       return savedTeam;
     }
-    
+
     return null;
   }
 
@@ -84,6 +73,4 @@ public class TaskServiceImpl implements TaskService {
   public Task getTaskById(UUID taskId) {
     return taskRepo.findById(taskId).orElse(null);
   }
-  
-  
 }

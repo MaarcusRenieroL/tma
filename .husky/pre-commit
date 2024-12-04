@@ -6,17 +6,27 @@ cd ../
 cd backend/eureka-server
 mvn spotless:apply
 
+git add .
+
 cd ../api-gateway
 mvn spotless:apply
+
+git add .
 
 cd ../user-micro-service
 mvn spotless:apply
 
+git add .
+
 cd ../team-micro-service
 mvn spotless:apply
 
+git add .
+
 cd ../task-micro-service
 mvn spotless:apply
+
+git add .
 
 cd ../project-micro-service
 mvn spotless:apply

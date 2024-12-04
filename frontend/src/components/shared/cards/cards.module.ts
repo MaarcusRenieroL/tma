@@ -25,20 +25,32 @@ import {
 	HlmTabsTriggerDirective
 } from "@spartan-ng/ui-tabs-helm";
 import { heroCalendar, heroEllipsisHorizontal } from "@ng-icons/heroicons/outline";
-import { lucideFile, lucideHardDrive } from "@ng-icons/lucide";
+import { lucideFile, lucideHardDrive, lucideAlertCircle } from "@ng-icons/lucide";
 import { CommonModule } from "@angular/common";
 import { RouterLink } from "@angular/router";
+import { UserCardComponent } from './user-card/user-card.component';
+import {
+	BrnHoverCardModule,
+} from "@spartan-ng/ui-hovercard-brain";
+import { HlmHoverCardModule } from "@spartan-ng/ui-hovercard-helm";
+import {
+	HlmAlertDescriptionDirective,
+	HlmAlertDirective,
+	HlmAlertIconDirective,
+	HlmAlertModule,
+	HlmAlertTitleDirective
+} from "@spartan-ng/ui-alert-helm";
 
-const components = [ FileCardComponent, TeamCardComponent, ProjectCardComponent, TaskCardComponent ]
+const components = [ FileCardComponent, TeamCardComponent, ProjectCardComponent, TaskCardComponent, UserCardComponent ]
 
 @NgModule({
-	declarations: [ ...components, TaskCardComponent ],
-	imports: [ HlmCardModule, HlmButtonDirective, HlmBadgeModule, HlmDialogModule, BrnDialogModule, NgIconsModule.withIcons({
+	declarations: [ ...components ],
+	imports: [ HlmCardModule, HlmButtonDirective, HlmBadgeModule, HlmDialogModule, BrnDialogModule, HlmHoverCardModule, BrnHoverCardModule, NgIconsModule.withIcons({
 		heroEllipsisHorizontal,
 		heroCalendar,
 		lucideHardDrive,
-		lucideFile
-	}), HlmAvatarModule, HlmTabsComponent, HlmTabsContentDirective, HlmTabsListComponent, HlmTabsTriggerDirective, ModalsModule, CommonModule, RouterLink ],
+		lucideFile, lucideAlertCircle
+	}), HlmAvatarModule, HlmTabsComponent, HlmTabsContentDirective, HlmTabsListComponent, HlmTabsTriggerDirective, ModalsModule, CommonModule, RouterLink, HlmAlertDirective, HlmAlertIconDirective, HlmAlertTitleDirective, HlmAlertDescriptionDirective ],
 	exports: [ ...components ]
 })
 export class CardsModule {

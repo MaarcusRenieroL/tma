@@ -100,13 +100,13 @@ public class User {
     this.email = email;
     this.name = name;
   }
-  
+
   public User(String userName, String email, String password) {
     this.userName = userName;
     this.email = email;
     this.password = password;
   }
-  
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {

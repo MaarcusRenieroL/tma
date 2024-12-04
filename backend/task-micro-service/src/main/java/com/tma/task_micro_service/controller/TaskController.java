@@ -36,7 +36,7 @@ public class TaskController {
 
   @PostMapping
   public ResponseEntity<StandardResponse<Task>> createTask(
-    @RequestBody CreateTaskRequest taskRequest, HttpServletRequest request) {
+      @RequestBody CreateTaskRequest taskRequest, HttpServletRequest request) {
     try {
 
       if (taskRequest.getTask().getTitle() == null
@@ -47,7 +47,8 @@ public class TaskController {
             HttpStatus.BAD_REQUEST, "Missing required fields", request, LocalDateTime.now());
       }
 
-      Task createdTask = taskService.createTask(taskRequest.getTask(),taskRequest.getUserId(),request);
+      Task createdTask =
+          taskService.createTask(taskRequest.getTask(), taskRequest.getUserId(), request);
 
       return responseUtil.buildSuccessMessage(
           HttpStatus.CREATED,
