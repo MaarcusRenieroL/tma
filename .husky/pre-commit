@@ -31,4 +31,9 @@ git add .
 cd ../project-micro-service
 mvn spotless:apply
 
+cd ../organization-micro-service
+mvn spotless:apply
+
+cd ../../
+
 git add .

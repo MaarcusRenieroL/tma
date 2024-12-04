@@ -41,5 +41,11 @@ spring:
             predicates:
               - Path=/api/projects/**
 
+          - id: organization-micro-service
+            uri:
+              lb://organization-micro-service
+            predicates:
+              - Path=/api/organizations/**
+
 frontend:
   url: http://localhost:4200

@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: organization-micro-service
+  datasource:
+    url: jdbc:postgresql://localhost:5432/organizations
+    username: postgres
+    password: postgres
+  jpa:
+    hibernate:
+      ddl-auto: update
+server:
+  port: 8005
