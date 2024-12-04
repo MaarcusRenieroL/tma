@@ -14,50 +14,7 @@ import {
 } from "@spartan-ng/ui-table-brain";
 import { User } from "../../../models/user";
 
-export const USER_DATA: User[] = [
-  {
-    userId: "1",
-    username: "alice_johnson",
-    name: "Alice Johnson",
-    email: "alice.johnson@example.com",
-    location: "New York",
-  },
-  {
-    userId: "2",
-    username: "bob_smith",
-    name: "Bob Smith",
-    email: "bob.smith@example.com",
-    location: "Los Angeles",
-  },
-  {
-    userId: "3",
-    username: "charlie_brown",
-    name: "Charlie Brown",
-    email: "charlie.brown@example.com",
-    location: "Chicago",
-  },
-  {
-    userId: "4",
-    username: "diana_green",
-    name: "Diana Green",
-    email: "diana.green@example.com",
-    location: "Houston",
-  },
-  {
-    userId: "5",
-    username: "ethan_white",
-    name: "Ethan White",
-    email: "ethan.white@example.com",
-    location: "Phoenix",
-  },
-  {
-    userId: "6",
-    username: "fiona_black",
-    name: "Fiona Black",
-    email: "fiona.black@example.com",
-    location: "San Francisco",
-  },
-];
+export const USER_DATA: User[] = []
 
 
 @Component({

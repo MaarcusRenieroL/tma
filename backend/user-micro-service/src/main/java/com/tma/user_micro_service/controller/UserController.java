@@ -4,6 +4,7 @@ import com.tma.user_micro_service.dto.TeamDto;
 import com.tma.user_micro_service.model.User;
 import com.tma.user_micro_service.payload.request.GetAllUsersByUserIdsRequest;
 import com.tma.user_micro_service.payload.response.StandardResponse;
+import com.tma.user_micro_service.payload.response.UserResponse;
 import com.tma.user_micro_service.service.UserService;
 import com.tma.user_micro_service.util.ResponseUtil;
 import jakarta.servlet.http.HttpServletRequest;
@@ -176,7 +177,7 @@ public class UserController {
   }
 	
 	@PostMapping("/usersId")
-	public ResponseEntity<StandardResponse<List<User>>> getAllUsersByIds(@RequestBody GetAllUsersByUserIdsRequest getAllUsersByUserIdsRequest, HttpServletRequest request) {
+	public ResponseEntity<StandardResponse<List<UserResponse>>> getAllUsersByIds(@RequestBody GetAllUsersByUserIdsRequest getAllUsersByUserIdsRequest, HttpServletRequest request) {
 		
 		if (getAllUsersByUserIdsRequest.getUserIds().isEmpty()) {
 			return ResponseUtil.buildErrorMessage(HttpStatus.BAD_REQUEST, "Missing required fields", request, LocalDateTime.now());

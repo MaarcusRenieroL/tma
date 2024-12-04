@@ -4,6 +4,7 @@ import com.tma.user_micro_service.dto.TeamDto;
 import com.tma.user_micro_service.feign.TeamFeignClient;
 import com.tma.user_micro_service.model.User;
 import com.tma.user_micro_service.payload.response.StandardResponse;
+import com.tma.user_micro_service.payload.response.UserResponse;
 import com.tma.user_micro_service.repository.UserRepository;
 import com.tma.user_micro_service.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -68,8 +69,8 @@ public class UserServiceImplementation implements UserService {
 	}
 	
 	@Override
-	public List<User> getAllUsersByIds(List<UUID> userIds) {
-		List<User> users = new ArrayList<>();
+	public List<UserResponse> getAllUsersByIds(List<UUID> userIds) {
+		List<UserResponse> users = new ArrayList<>();
 		for (UUID id : userIds) {
 			Optional<User> optionalUser = userRepository.findById(id);
 			
@@ -77,8 +78,13 @@ public class UserServiceImplementation implements UserService {
 				return null;
 			}
 			
-			users.add(optionalUser.get());
+			User existingUser = optionalUser.get();
+			
+			UserResponse userResponse = new UserResponse(existingUser.getUserId(), existingUser.getUserName(), existingUser.getName(), existingUser.getEmail(), existingUser.getLocation(), existingUser.getRole().getRoleName().toString(), existingUser.getTeamIds());
+			
+			users.add(userResponse);
 		}
+		
 		return users;
 	}
 	

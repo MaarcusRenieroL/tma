@@ -13,7 +13,7 @@ export class TeamComponent implements OnInit {
 	
 	teamId: string = "";
 	team!: Team;
-	teamMembers!: User[];
+	teamMembers: User[] = [];
 	
 	constructor(private activatedRoute: ActivatedRoute, private teamService: TeamService, private userService: UserService) {
 	}
@@ -46,9 +46,5 @@ export class TeamComponent implements OnInit {
 				toast.error("Something went wrong")
 			}
 		});
-	}
-	
-	getInitials(name: string) {
-		return name.split(" ").map(word => word[0]).join(" ");
 	}
 }

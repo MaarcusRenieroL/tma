@@ -62,10 +62,10 @@ public class ProjectServiceImpl implements ProjectService {
     projectRepository.deleteById(projectId);
   }
 
-  	@Override
-  	public List<Project> getProjectsByTeamId(UUID teamId) {
-  		return projectRepository.findProjectsByTeamId(teamId);
-  	}
+  @Override
+  public List<Project> getProjectsByTeamId(UUID teamId) {
+    return projectRepository.findProjectsByTeamId(teamId);
+  }
 
   //	@Override
   //	public Project assignTeamToProject(UUID projectId, UUID teamId) {

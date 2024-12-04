@@ -7,22 +7,14 @@
 				<h2 class="text-muted-foreground">Team Members: </h2>
 				<div class="col-span-2 flex items-center justify-start gap-2">
 					<div class="relative flex items-center">
-						<div class="flex -space-x-2">
-							<hlm-avatar *ngFor="let teamMember of teamMembers.slice(0, 3)" class="flex-shrink-0">
-								<img
-									src="https://github.com/shadcn.png"
-									alt="spartan logo. Resembling a spartanic shield"
-									hlmAvatarImage
-								/>
-								<span class="text-white bg-destructive" hlmAvatarFallback>
-					        {{ getInitials(teamMember.name) }}
-					      </span>
-							</hlm-avatar>
+						<div class="flex -space-x-2" *ngFor="let teamMember of teamMembers.slice(0, 3)">
+							<user-card [user]="teamMember" />
 						</div>
 						
+						
 						<!-- Display 'More' if there are additional members -->
-						<span *ngIf="team?.userIds!.length > 3" class="ml-1 text-xs text-gray-500 bg-gray-200 rounded-full p-1">
-					    +{{ team?.userIds!.length - 3 }}
+						<span *ngIf="team.userIds.length > 3" class="ml-1 text-xs text-gray-500 bg-gray-200 rounded-full p-1">
+					    +{{ team.userIds.length - 3 }}
 					  </span>
 					</div>
 					<button hlmBtn size="icon" variant="outline" class="rounded-full h-8 w-8">

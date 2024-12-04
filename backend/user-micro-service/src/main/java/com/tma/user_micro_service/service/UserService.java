@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
+import com.tma.user_micro_service.payload.response.UserResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.ResponseEntity;
 
@@ -22,7 +23,7 @@ public interface UserService {
 
   User getUserById(UUID userId);
 
-  List<User> getAllUsersByIds(List<UUID> userIds);
+  List<UserResponse> getAllUsersByIds(List<UUID> userIds);
 
 //  ResponseEntity<StandardResponse<TeamDto>> getTeamDetails(UUID teamId);
   
