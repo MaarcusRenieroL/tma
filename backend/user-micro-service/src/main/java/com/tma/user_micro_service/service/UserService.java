@@ -33,4 +33,6 @@ public interface UserService {
   Object removeUserFromTeam(UUID teamId, UUID userId);
 
   Object addTaskToUser(UUID taskId, UUID userId);
+  List<User> getUsersByProjectId(UUID projectId);
+  
 }

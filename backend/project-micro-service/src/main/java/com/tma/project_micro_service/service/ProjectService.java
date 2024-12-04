@@ -1,5 +1,6 @@
 package com.tma.project_micro_service.service;
 
+import com.tma.project_micro_service.dto.User;
 import com.tma.project_micro_service.model.Project;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -21,5 +22,6 @@ public interface ProjectService {
   List<Project> getProjectsByTeamId(UUID teamId);
 
   //  Project assignTeamToProject(UUID projectId, UUID teamId);
+  List<User> getUsersForProject(UUID projectId);
 
 }

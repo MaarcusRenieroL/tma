@@ -223,4 +223,9 @@ public class UserController {
 
     return "team deleted";
   }
+  
+  @GetMapping("project/{projectId}")
+  public List<User> getUsersByProjectId(@PathVariable UUID projectId){
+    return userService.getUsersByProjectId(projectId);
+  }
 }

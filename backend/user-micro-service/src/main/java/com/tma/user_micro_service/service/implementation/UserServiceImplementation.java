@@ -173,4 +173,9 @@ public class UserServiceImplementation implements UserService {
 
     return "Task assigned to the User";
   }
+	
+	@Override
+	public List<User> getUsersByProjectId(UUID projectId) {
+		return userRepository.findByProjectIds(projectId);
+	}
 }
