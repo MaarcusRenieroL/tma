@@ -1,7 +1,6 @@
 package com.tma.organization_micro_service.payload.response;
 
 import java.util.UUID;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,9 +10,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class UserResponse {
   private UUID userId;
-  
+
   private String username;
-  
+
   private String email;
 
   private String name;

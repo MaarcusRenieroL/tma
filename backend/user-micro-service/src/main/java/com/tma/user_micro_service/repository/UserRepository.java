@@ -1,7 +1,6 @@
 package com.tma.user_micro_service.repository;
 
 import com.tma.user_micro_service.model.User;
-
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -13,6 +12,6 @@ public interface UserRepository extends JpaRepository<User, UUID> {
   Optional<User> findByUserName(String username);
 
   Optional<User> findByEmail(String email);
+
   List<User> findByProjectIds(UUID projectId);
-  
 }

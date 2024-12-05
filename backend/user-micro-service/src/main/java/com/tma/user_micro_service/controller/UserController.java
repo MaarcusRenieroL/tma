@@ -225,16 +225,19 @@ public class UserController {
 
     return "team deleted";
   }
-  
+
   @GetMapping("project/{projectId}")
-  public List<User> getUsersByProjectId(@PathVariable UUID projectId){
+  public List<User> getUsersByProjectId(@PathVariable UUID projectId) {
     return userService.getUsersByProjectId(projectId);
   }
 
   @PutMapping("/{userId}/organization")
   public ResponseEntity<StandardResponse<User>> updateUserOrganizationId(
-      @PathVariable UUID userId, @RequestBody UpdateUserOrganizationRequest updateUserOrganizationIdRequest, HttpServletRequest request) {
-    return userService.updateUserOrganizationId(userId, updateUserOrganizationIdRequest.getOrganizationId(), request);
+      @PathVariable UUID userId,
+      @RequestBody UpdateUserOrganizationRequest updateUserOrganizationIdRequest,
+      HttpServletRequest request) {
+    return userService.updateUserOrganizationId(
+        userId, updateUserOrganizationIdRequest.getOrganizationId(), request);
   }
   @PostMapping("/project")
   ResponseEntity<StandardResponse<Object>> assignProjectToUser(

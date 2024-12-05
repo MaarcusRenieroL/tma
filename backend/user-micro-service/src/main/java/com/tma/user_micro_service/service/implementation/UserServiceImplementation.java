@@ -8,13 +8,10 @@ import com.tma.user_micro_service.payload.response.UserResponse;
 import com.tma.user_micro_service.repository.UserRepository;
 import com.tma.user_micro_service.service.UserService;
 import com.tma.user_micro_service.util.ResponseUtil;
-
 import jakarta.servlet.http.HttpServletRequest;
-
 import java.time.LocalDateTime;
 import java.util.*;
 import lombok.extern.slf4j.Slf4j;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -181,38 +178,49 @@ public class UserServiceImplementation implements UserService {
 
     return "Task assigned to the User";
   }
-	
-	@Override
-	public List<User> getUsersByProjectId(UUID projectId) {
-		return userRepository.findByProjectIds(projectId);
-	}
 
   @Override
-  public ResponseEntity<StandardResponse<User>> updateUserOrganizationId(UUID userId,
-      UUID organizationId, HttpServletRequest request) {
-    
+  public List<User> getUsersByProjectId(UUID projectId) {
+    return userRepository.findByProjectIds(projectId);
+  }
+
+  @Override
+  public ResponseEntity<StandardResponse<User>> updateUserOrganizationId(
+      UUID userId, UUID organizationId, HttpServletRequest request) {
+
     log.info("User id: {}", userId);
     log.info("Organization id: {}", organizationId);
-    
+
     if (userId == null || organizationId == null) {
-      return ResponseUtil.buildErrorMessage(HttpStatus.BAD_REQUEST, "Missing required fields", request, LocalDateTime.now());
+      return ResponseUtil.buildErrorMessage(
+          HttpStatus.BAD_REQUEST, "Missing required fields", request, LocalDateTime.now());
     }
 
     try {
       // Find the user
-      User user = userRepository.findById(userId)
-          .orElseThrow(() -> new RuntimeException("User not found"));
+      User user =
+          userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
 
       // Update organization ID
       user.setOrganizationId(organizationId);
       User updatedUser = userRepository.save(user);
 
-      return ResponseUtil.buildSuccessMessage(HttpStatus.OK, "Organization ID updated successfully", updatedUser, request, LocalDateTime.now());
+      return ResponseUtil.buildSuccessMessage(
+          HttpStatus.OK,
+          "Organization ID updated successfully",
+          updatedUser,
+          request,
+          LocalDateTime.now());
 
     } catch (RuntimeException e) {
-      return ResponseUtil.buildErrorMessage(HttpStatus.BAD_REQUEST, e.getMessage(), request, LocalDateTime.now());
+      return ResponseUtil.buildErrorMessage(
+          HttpStatus.BAD_REQUEST, e.getMessage(), request, LocalDateTime.now());
     } catch (Exception e) {
-      return ResponseUtil.buildErrorMessage(HttpStatus.INTERNAL_SERVER_ERROR, "Error updating organization ID", request, LocalDateTime.now());
+      return ResponseUtil.buildErrorMessage(
+          HttpStatus.INTERNAL_SERVER_ERROR,
+          "Error updating organization ID",
+          request,
+          LocalDateTime.now());
     }
   }
 	
