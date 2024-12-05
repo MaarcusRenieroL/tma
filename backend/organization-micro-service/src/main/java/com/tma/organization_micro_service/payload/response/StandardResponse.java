@@ -10,11 +10,11 @@ import org.springframework.http.HttpStatus;
 @NoArgsConstructor
 @AllArgsConstructor
 public class StandardResponse<T> {
-	
-	private HttpStatus httpStatus;
-	private int statusCode;
-	private String message;
-	private LocalDateTime timeStamp;
-	private String path;
-	private T data;
+
+  private HttpStatus httpStatus;
+  private int statusCode;
+  private String message;
+  private LocalDateTime timeStamp;
+  private String path;
+  private T data;
 }

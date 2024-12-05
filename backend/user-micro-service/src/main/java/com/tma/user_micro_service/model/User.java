@@ -122,7 +122,7 @@ public class User {
   public int hashCode() {
     return getClass().hashCode();
   }
-  
+
   private UUID organizationId;
 
   @ElementCollection private Set<UUID> teamIds;

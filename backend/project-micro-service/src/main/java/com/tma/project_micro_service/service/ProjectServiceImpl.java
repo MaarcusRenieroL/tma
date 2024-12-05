@@ -21,11 +21,14 @@ public class ProjectServiceImpl implements ProjectService {
   private final TeamFeignClient teamFeignClient;
   private final UserFeignClient userFeignClient;
 
-  public ProjectServiceImpl(ProjectRepository projectRepository, TeamFeignClient teamFeignClient, UserFeignClient userFeignClient) {
+  public ProjectServiceImpl(
+      ProjectRepository projectRepository,
+      TeamFeignClient teamFeignClient,
+      UserFeignClient userFeignClient) {
     this.projectRepository = projectRepository;
     this.teamFeignClient = teamFeignClient;
-		this.userFeignClient = userFeignClient;
-	}
+    this.userFeignClient = userFeignClient;
+  }
 
   @Override
   public Project createProject(Project project, UUID teamId, HttpServletRequest request) {
@@ -89,12 +92,12 @@ public class ProjectServiceImpl implements ProjectService {
   public List<Project> getProjectsByTeamId(UUID teamId) {
     return projectRepository.findProjectsByTeamId(teamId);
   }
-  
+
   @Override
   public List<User> getUsersForProject(UUID projectId) {
     return userFeignClient.getUsersByProjectId(projectId);
   }
-  
+
   //	@Override
   //	public Project assignTeamToProject(UUID projectId, UUID teamId) {
   //		Optional<Project> optionalProject = projectRepository.findById(projectId);

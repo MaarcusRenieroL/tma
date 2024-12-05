@@ -23,5 +23,4 @@ public interface ProjectService {
 
   //  Project assignTeamToProject(UUID projectId, UUID teamId);
   List<User> getUsersForProject(UUID projectId);
-
 }

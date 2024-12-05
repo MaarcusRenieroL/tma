@@ -10,8 +10,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 @EnableFeignClients
 public class OrganizationMicroServiceApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(OrganizationMicroServiceApplication.class, args);
-	}
-
+  public static void main(String[] args) {
+    SpringApplication.run(OrganizationMicroServiceApplication.class, args);
+  }
 }

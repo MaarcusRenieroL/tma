@@ -1,11 +1,10 @@
 package com.tma.project_micro_service.dto;
 
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
