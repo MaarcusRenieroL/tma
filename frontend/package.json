@@ -19,6 +19,8 @@
     "@angular/platform-browser": "^18.2.13",
     "@angular/platform-browser-dynamic": "^18.2.13",
     "@angular/router": "^18.2.13",
+    "@aws-sdk/client-s3": "^3.705.0",
+    "@aws-sdk/s3-request-presigner": "^3.705.0",
     "@ng-icons/bootstrap-icons": "^29.10.0",
     "@ng-icons/core": "^29.10.0",
     "@ng-icons/heroicons": "^29.10.0",
