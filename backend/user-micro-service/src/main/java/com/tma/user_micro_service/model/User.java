@@ -1,10 +1,8 @@
 package com.tma.user_micro_service.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
@@ -31,50 +29,17 @@ public class User {
   @GeneratedValue(strategy = GenerationType.UUID)
   private UUID userId;
 
-  @NotBlank(message = "Username cannot be blank")
-  @Size(max = 20, message = "Username must not exceed 20 characters")
-  @Pattern(
-      regexp = "^[a-zA-Z0-9_]*$",
-      message = "Username can only contain alphanumeric characters and underscores")
-  @Column(name = "username")
   private String userName;
 
-  @NotBlank(message = "Email cannot be blank")
-  @Size(max = 50, message = "Email must not exceed 50 characters")
-  @Email(message = "Invalid email format")
-  @Column(name = "email")
   private String email;
 
-  @NotBlank(message = "Password cannot be blank")
-  @Size(min = 8, max = 100, message = "Password must be between 8 and 100 characters")
-  @JsonIgnore
-  @Column(name = "password")
   private String password;
 
-  @Size(max = 100, message = "Name must not exceed 100 characters")
   private String name;
 
-  @Size(max = 100, message = "Location must not exceed 100 characters")
   private String location;
 
-  private boolean accountNonLocked = false;
-
-  private boolean accountNonExpired = false;
-
-  private boolean credentialsNonExpired = false;
-
-  private boolean enabled = true;
-
-  @FutureOrPresent(message = "Credentials expiry date must be in the future or present")
-  private LocalDate credentialsExpiryDate;
-
-  @FutureOrPresent(message = "Account expiry date must be in the future or present")
-  private LocalDate accountExpiryDate;
-
-  @Size(max = 32, message = "Two-factor secret must not exceed 32 characters")
-  private String twoFactorSecret;
-
-  private boolean isTwoFactorEnabled = false;
+  private boolean isOnboarded;
 
   @NotBlank(message = "Sign-up method cannot be blank")
   @Pattern(

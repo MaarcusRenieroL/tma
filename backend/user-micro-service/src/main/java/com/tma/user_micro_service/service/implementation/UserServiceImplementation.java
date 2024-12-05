@@ -29,59 +29,126 @@ public class UserServiceImplementation implements UserService {
   }
 
   @Override
-  public List<User> getAllUsers() {
-    return userRepository.findAll();
-  }
+  public ResponseEntity<StandardResponse<List<User>>> getAllUsers(HttpServletRequest request) {
+    List<User> users = userRepository.findAll();
 
-  @Override
-  public User createUser(User user) {
-    return userRepository.save(user);
-  }
-
-  @Override
-  public User updateUser(UUID userId, User user) {
-    if (!userRepository.existsById(userId)) {
-      return null;
+    if (users.isEmpty()) {
+      return ResponseUtil.buildErrorMessage(
+          HttpStatus.NOT_FOUND, "No users found", request, LocalDateTime.now());
     }
 
+    return ResponseUtil.buildSuccessMessage(
+        HttpStatus.OK, "Users retrieved successfully", users, request, LocalDateTime.now());
+  }
+
+  @Override
+  public ResponseEntity<StandardResponse<User>> createUser(User user, HttpServletRequest request) {
+    try {
+
+      if (user.getName() == null || user.getEmail() == null || user.getLocation() == null) {
+        return ResponseUtil.buildErrorMessage(
+            HttpStatus.BAD_REQUEST, "Missing required fields", request, LocalDateTime.now());
+      }
+
+      User createdUser = userRepository.save(user);
+
+      return ResponseUtil.buildSuccessMessage(
+          HttpStatus.CREATED,
+          "User created successfully",
+          createdUser,
+          request,
+          LocalDateTime.now());
+    } catch (Exception e) {
+
+      return ResponseUtil.buildErrorMessage(
+          HttpStatus.INTERNAL_SERVER_ERROR,
+          "An error occurred while creating the user",
+          request,
+          LocalDateTime.now());
+    }
+  }
+
+  @Override
+  public ResponseEntity<StandardResponse<User>> updateUser(
+      UUID userId, User user, HttpServletRequest request) {
+    if (user == null || userId == null) {
+      return ResponseUtil.buildErrorMessage(
+          HttpStatus.BAD_REQUEST, "Missing required fields", request, LocalDateTime.now());
+    }
     Optional<User> optionalUser = userRepository.findById(userId);
 
-    if (optionalUser.isPresent()) {
-      User existingUser = optionalUser.get();
-      existingUser.setName(user.getName());
-      existingUser.setRole(user.getRole());
-      existingUser.setEmail(user.getEmail());
-      existingUser.setLocation(user.getLocation());
-      existingUser.setPassword(user.getPassword());
-
-      userRepository.save(existingUser);
-
-      return existingUser;
+    if (optionalUser.isEmpty()) {
+      return ResponseUtil.buildErrorMessage(
+          HttpStatus.NOT_FOUND, "User Not Found", request, LocalDateTime.now());
     }
+    User existingUser = optionalUser.get();
+    existingUser.setName(user.getName());
+    existingUser.setRole(user.getRole());
+    existingUser.setEmail(user.getEmail());
+    existingUser.setLocation(user.getLocation());
+    existingUser.setPassword(user.getPassword());
 
-    return null;
-  }
+    userRepository.save(existingUser);
 
-  public void deleteUser(UUID userId) {
-    userRepository.deleteById(userId);
-  }
-
-  public User getUserById(UUID userId) {
-    return userRepository.findById(userId).orElse(null);
+    return ResponseUtil.buildSuccessMessage(
+        HttpStatus.OK, "User updated successfully", existingUser, request, LocalDateTime.now());
   }
 
   @Override
-  public List<UserResponse> getAllUsersByIds(List<UUID> userIds) {
+  public ResponseEntity<StandardResponse<User>> deleteUser(
+      UUID userId, HttpServletRequest request) {
+    if (userId == null) {
+      return ResponseUtil.buildErrorMessage(
+          HttpStatus.BAD_REQUEST, "Missing required fields", request, LocalDateTime.now());
+    }
+
+    User existingUser = userRepository.findById(userId).orElse(null);
+
+    if (existingUser == null) {
+      return ResponseUtil.buildErrorMessage(
+          HttpStatus.NOT_FOUND, "User not found", request, LocalDateTime.now());
+    }
+
+    userRepository.deleteById(userId);
+
+    return ResponseUtil.buildSuccessMessage(
+        HttpStatus.OK, "User deleted successfully", null, request, LocalDateTime.now());
+  }
+
+  @Override
+  public ResponseEntity<StandardResponse<User>> getUserById(
+      UUID userId, HttpServletRequest request) {
+    if (userId == null) {
+      return ResponseUtil.buildErrorMessage(
+          HttpStatus.BAD_REQUEST, "User ID is required", request, LocalDateTime.now());
+    }
+
+    User user = userRepository.findById(userId).orElse(null);
+
+    if (user == null) {
+      return ResponseUtil.buildErrorMessage(
+          HttpStatus.NOT_FOUND, "User not found with ID: " + userId, request, LocalDateTime.now());
+    }
+
+    return ResponseUtil.buildSuccessMessage(
+        HttpStatus.OK, "User retrieved successfully", user, request, LocalDateTime.now());
+  }
+
+  @Override
+  public ResponseEntity<StandardResponse<List<UserResponse>>> getAllUsersByIds(
+      List<UUID> userIds, HttpServletRequest request) {
+
     List<UserResponse> users = new ArrayList<>();
+
     for (UUID id : userIds) {
       Optional<User> optionalUser = userRepository.findById(id);
 
       if (optionalUser.isEmpty()) {
-        return null;
+        return ResponseUtil.buildErrorMessage(
+            HttpStatus.NOT_FOUND, "User not found with ID: " + id, request, LocalDateTime.now());
       }
 
       User existingUser = optionalUser.get();
-
       UserResponse userResponse =
           new UserResponse(
               existingUser.getUserId(),
@@ -95,102 +162,155 @@ public class UserServiceImplementation implements UserService {
       users.add(userResponse);
     }
 
-    return users;
+    // Return success response with the list of users
+    return ResponseUtil.buildSuccessMessage(
+        HttpStatus.OK, "Users retrieved successfully", users, request, LocalDateTime.now());
   }
-
-  //	@Override
-  //	public ResponseEntity<StandardResponse<TeamDto>> getTeamDetails(UUID teamId) {
-  //		return teamFeignClient.getTeamById(teamId);
-  //	}
 
   @Override
-  public Set<UUID> getUsersInTeam(UUID teamId) {
-    return teamFeignClient.getUsersByTeamId(teamId);
+  public ResponseEntity<StandardResponse<Set<UUID>>> getUsersInTeam(
+      UUID teamId, HttpServletRequest request) {
+
+    return ResponseUtil.buildSuccessMessage(
+        HttpStatus.OK,
+        "Users found successfully",
+        teamFeignClient.getUsersByTeamId(teamId),
+        request,
+        LocalDateTime.now());
   }
 
-  public Object addUserToTeam(UUID teamId, UUID userId) {
+  public ResponseEntity<StandardResponse<Object>> addUserToTeam(
+      UUID teamId, UUID userId, HttpServletRequest request) {
+    if (teamId == null || userId == null) {
+      return ResponseUtil.buildErrorMessage(
+          HttpStatus.BAD_REQUEST, "Missing required fields", request, LocalDateTime.now());
+    }
+
     Optional<User> optionalUser = userRepository.findById(userId);
 
     if (optionalUser.isEmpty()) {
-      return null;
+      return ResponseUtil.buildErrorMessage(
+          HttpStatus.NOT_FOUND, "User not found with ID: " + userId, request, LocalDateTime.now());
     }
 
     User existingUser = optionalUser.get();
 
     if (existingUser.getTeamIds() != null) {
-
       existingUser.getTeamIds().add(teamId);
-
-      userRepository.save(existingUser);
     } else {
       Set<UUID> teamIds = new HashSet<>();
-
       teamIds.add(teamId);
-
       existingUser.setTeamIds(teamIds);
-
-      userRepository.save(existingUser);
     }
 
-    return "User has been added to the team successfully";
+    userRepository.save(existingUser);
+
+    return ResponseUtil.buildSuccessMessage(
+        HttpStatus.OK,
+        "User has been added to the team successfully",
+        null,
+        request,
+        LocalDateTime.now());
   }
 
   @Override
-  public List<TeamDto> getTeamsByUserId(UUID userId, HttpServletRequest request) {
+  public ResponseEntity<StandardResponse<List<TeamDto>>> getTeamsByUserId(
+      UUID userId, HttpServletRequest request) {
+
     User user = userRepository.findById(userId).orElse(null);
-    if (user == null) throw new RuntimeException("User not found");
+    if (user == null) {
+      return ResponseUtil.buildErrorMessage(
+          HttpStatus.NOT_FOUND, "User not found with ID: " + userId, request, LocalDateTime.now());
+    }
 
     Set<UUID> userTeams = user.getTeamIds();
-
     List<TeamDto> teams = new ArrayList<>();
 
     for (UUID teamId : userTeams) {
-      teams.add(Objects.requireNonNull(teamFeignClient.getTeamById(teamId)).getData());
+      TeamDto teamDto = Objects.requireNonNull(teamFeignClient.getTeamById(teamId)).getData();
+      if (teamDto != null) {
+        teams.add(teamDto);
+      }
     }
 
-    return teams;
+    return ResponseUtil.buildSuccessMessage(
+        HttpStatus.OK, "Teams retrieved successfully", teams, request, LocalDateTime.now());
   }
 
-  public Object removeUserFromTeam(UUID teamId, UUID userId) {
+  public ResponseEntity<StandardResponse<Object>> removeUserFromTeam(
+      UUID teamId, UUID userId, HttpServletRequest request) {
     User user =
-        userRepository.findById(userId).orElseThrow(() -> new RuntimeException("user not Found"));
+        userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
     Set<UUID> teamIds = user.getTeamIds();
-    teamIds.remove(teamId);
-    user.setTeamIds(teamIds);
-    userRepository.save(user);
-    return "user removed";
+    if (teamIds != null && teamIds.contains(teamId)) {
+      teamIds.remove(teamId);
+      user.setTeamIds(teamIds);
+      userRepository.save(user);
+
+      return ResponseUtil.buildSuccessMessage(
+          HttpStatus.OK,
+          "User removed from team successfully",
+          "User removed",
+          request,
+          LocalDateTime.now());
+    }
+
+    return ResponseUtil.buildErrorMessage(
+        HttpStatus.BAD_REQUEST,
+        "User is not part of the specified team",
+        request,
+        LocalDateTime.now());
   }
 
   @Override
-  public Object addTaskToUser(UUID taskId, UUID userId) {
+  public ResponseEntity<StandardResponse<Object>> addTaskToUser(
+      UUID taskId, UUID userId, HttpServletRequest request) {
+    // Fetch the user and handle the case where the user is not found
     User user =
         userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User Not Found"));
+
+    // Check if the user has taskIds and add the taskId
     if (user.getTaskIds() == null) {
       List<UUID> taskIds = new ArrayList<>();
       taskIds.add(taskId);
       user.setTaskIds(taskIds);
-      userRepository.save(user);
-
     } else {
       user.getTaskIds().add(taskId);
-      userRepository.save(user);
     }
 
-    return "Task assigned to the User";
+    // Save the updated user and return success message
+    userRepository.save(user);
+
+    return ResponseUtil.buildSuccessMessage(
+        HttpStatus.OK,
+        "Task assigned to the User",
+        "Task assigned successfully",
+        request,
+        LocalDateTime.now());
   }
 
   @Override
-  public List<User> getUsersByProjectId(UUID projectId) {
-    return userRepository.findByProjectIds(projectId);
+  public ResponseEntity<StandardResponse<List<User>>> getUsersByProjectId(
+      UUID projectId, HttpServletRequest request) {
+    // Fetch users by projectId and handle the case where no users are found
+    List<User> users = userRepository.findByProjectIds(projectId);
+
+    if (users.isEmpty()) {
+      return ResponseUtil.buildErrorMessage(
+          HttpStatus.NOT_FOUND,
+          "No users found for the given project ID",
+          request,
+          LocalDateTime.now());
+    }
+
+    return ResponseUtil.buildSuccessMessage(
+        HttpStatus.OK, "Users retrieved successfully", users, request, LocalDateTime.now());
   }
 
   @Override
   public ResponseEntity<StandardResponse<User>> updateUserOrganizationId(
       UUID userId, UUID organizationId, HttpServletRequest request) {
-
-    log.info("User id: {}", userId);
-    log.info("Organization id: {}", organizationId);
-
+    // Validate input parameters
     if (userId == null || organizationId == null) {
       return ResponseUtil.buildErrorMessage(
           HttpStatus.BAD_REQUEST, "Missing required fields", request, LocalDateTime.now());
@@ -201,17 +321,17 @@ public class UserServiceImplementation implements UserService {
       User user =
           userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
 
-      // Update organization ID
+      // Update organization ID and save the user
       user.setOrganizationId(organizationId);
       User updatedUser = userRepository.save(user);
 
+      // Return success response
       return ResponseUtil.buildSuccessMessage(
           HttpStatus.OK,
           "Organization ID updated successfully",
           updatedUser,
           request,
           LocalDateTime.now());
-
     } catch (RuntimeException e) {
       return ResponseUtil.buildErrorMessage(
           HttpStatus.BAD_REQUEST, e.getMessage(), request, LocalDateTime.now());
@@ -223,22 +343,31 @@ public class UserServiceImplementation implements UserService {
           LocalDateTime.now());
     }
   }
-	
-	@Override
-	public Object assignProjectToUser(UUID projectId, UUID userId) {
-		User user =
-			userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User Not Found"));
-		if (user.getProjectIds() == null) {
-			List<UUID> projectIds = new ArrayList<>();
-			projectIds.add(projectId);
-			user.setProjectIds(projectIds);
-			userRepository.save(user);
-			
-		} else {
-			user.getProjectIds().add(projectId);
-			userRepository.save(user);
-		}
-		
-		return "Project assigned to the User";
-	}
+
+  @Override
+  public ResponseEntity<StandardResponse<Object>> assignProjectToUser(
+      UUID projectId, UUID userId, HttpServletRequest request) {
+    // Fetch the user and handle the case where the user is not found
+    User user =
+        userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User Not Found"));
+
+    // Check if the user has projectIds and assign the projectId
+    if (user.getProjectIds() == null) {
+      List<UUID> projectIds = new ArrayList<>();
+      projectIds.add(projectId);
+      user.setProjectIds(projectIds);
+    } else {
+      user.getProjectIds().add(projectId);
+    }
+
+    // Save the updated user and return success message
+    userRepository.save(user);
+
+    return ResponseUtil.buildSuccessMessage(
+        HttpStatus.OK,
+        "Project assigned to the User",
+        "Project assigned successfully",
+        request,
+        LocalDateTime.now());
+  }
 }

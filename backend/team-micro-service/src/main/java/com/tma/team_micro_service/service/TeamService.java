@@ -3,25 +3,34 @@ package com.tma.team_micro_service.service;
 import com.tma.team_micro_service.dto.User;
 import com.tma.team_micro_service.model.Team;
 import com.tma.team_micro_service.payload.request.AssignProjectToTeamRequest;
+import com.tma.team_micro_service.payload.response.StandardResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
+import org.springframework.http.ResponseEntity;
 
 public interface TeamService {
-  Team createTeam(Team team, UUID userId, HttpServletRequest request);
 
-  Team getTeamById(UUID teamId);
+  ResponseEntity<StandardResponse<Team>> createTeam(
+      Team team, UUID userId, HttpServletRequest request);
 
-  List<Team> getAllTeams();
+  ResponseEntity<StandardResponse<Team>> getTeamById(UUID teamId, HttpServletRequest request);
 
-  Team updateTeam(UUID teamId, Team team);
+  ResponseEntity<StandardResponse<List<Team>>> getAllTeams(HttpServletRequest request);
 
-  void deleteTeam(UUID teamId, UUID userId, HttpServletRequest request);
+  ResponseEntity<StandardResponse<Team>> updateTeam(
+      UUID teamId, Team team, HttpServletRequest request);
 
-  List<User> getAllUsersByIds(List<UUID> userIds);
+  ResponseEntity<StandardResponse<Team>> deleteTeam(
+      UUID teamId, UUID userId, HttpServletRequest request);
 
-  Set<UUID> getUserByTeamId(UUID teamId);
+  ResponseEntity<StandardResponse<List<User>>> getAllUsersByIds(
+      List<UUID> userIds, HttpServletRequest request);
 
-  Object assignProjectToTeam(AssignProjectToTeamRequest assignProjectToTeamRequest);
+  ResponseEntity<StandardResponse<Set<UUID>>> getUserByTeamId(
+      UUID teamId, HttpServletRequest request);
+
+  ResponseEntity<StandardResponse<Object>> assignProjectToTeam(
+      AssignProjectToTeamRequest assignProjectToTeamRequest, HttpServletRequest request);
 }

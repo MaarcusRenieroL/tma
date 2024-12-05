@@ -84,7 +84,12 @@ public class AuthServiceImplementation implements AuthService {
       return optionalUser
           .map(
               user ->
-                  new SignInResponse(user.getUserId(), userDetails.getUsername(), jwtToken, roles))
+                  new SignInResponse(
+                      user.getUserId(),
+                      userDetails.getUsername(),
+                      jwtToken,
+                      roles,
+                      user.isOnboarded()))
           .orElse(null);
 
     } catch (Exception exception) {

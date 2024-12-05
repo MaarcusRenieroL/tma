@@ -135,39 +135,43 @@ public class TaskController {
     return responseUtil.buildSuccessMessage(
         HttpStatus.OK, "Task retrieved successfully", task, request, LocalDateTime.now());
   }
+
   @GetMapping("user/{userId}")
-  public ResponseEntity<StandardResponse<List<Task>>>getTasksByUserId(@PathVariable UUID userId,HttpServletRequest request){
-    List<Task>tasks= taskService.getTaskByUserId(userId);
+  public ResponseEntity<StandardResponse<List<Task>>> getTasksByUserId(
+      @PathVariable UUID userId, HttpServletRequest request) {
+    List<Task> tasks = taskService.getTaskByUserId(userId);
     if (tasks.isEmpty()) {
       return responseUtil.buildErrorMessage(
-        HttpStatus.NOT_FOUND, "No tasks found", request, LocalDateTime.now());
+          HttpStatus.NOT_FOUND, "No tasks found", request, LocalDateTime.now());
     }
-    
+
     return responseUtil.buildSuccessMessage(
-      HttpStatus.OK, "Tasks retrieved successfully", tasks, request, LocalDateTime.now());
+        HttpStatus.OK, "Tasks retrieved successfully", tasks, request, LocalDateTime.now());
   }
-  
+
   @GetMapping("team/{teamId}")
-  public ResponseEntity<StandardResponse<List<Task>>>getTasksByTeamId(@PathVariable UUID teamId, HttpServletRequest request){
-    List<Task>tasks= taskService.getTaskByTeamId(teamId);
+  public ResponseEntity<StandardResponse<List<Task>>> getTasksByTeamId(
+      @PathVariable UUID teamId, HttpServletRequest request) {
+    List<Task> tasks = taskService.getTaskByTeamId(teamId);
     if (tasks.isEmpty()) {
       return responseUtil.buildErrorMessage(
-        HttpStatus.NOT_FOUND, "No tasks found", request, LocalDateTime.now());
+          HttpStatus.NOT_FOUND, "No tasks found", request, LocalDateTime.now());
     }
-    
+
     return responseUtil.buildSuccessMessage(
-      HttpStatus.OK, "Tasks retrieved successfully", tasks, request, LocalDateTime.now());
+        HttpStatus.OK, "Tasks retrieved successfully", tasks, request, LocalDateTime.now());
   }
+
   @GetMapping("project/{projectId}")
-  public ResponseEntity<StandardResponse<List<Task>>>getTasksByProjectId(@PathVariable UUID projectId, HttpServletRequest request){
-    List<Task>tasks= taskService.getTaskByUserId(projectId);
+  public ResponseEntity<StandardResponse<List<Task>>> getTasksByProjectId(
+      @PathVariable UUID projectId, HttpServletRequest request) {
+    List<Task> tasks = taskService.getTaskByUserId(projectId);
     if (tasks.isEmpty()) {
       return responseUtil.buildErrorMessage(
-        HttpStatus.NOT_FOUND, "No tasks found", request, LocalDateTime.now());
+          HttpStatus.NOT_FOUND, "No tasks found", request, LocalDateTime.now());
     }
-    
+
     return responseUtil.buildSuccessMessage(
-      HttpStatus.OK, "Tasks retrieved successfully", tasks, request, LocalDateTime.now());
+        HttpStatus.OK, "Tasks retrieved successfully", tasks, request, LocalDateTime.now());
   }
-  
 }

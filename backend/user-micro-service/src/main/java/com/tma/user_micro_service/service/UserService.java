@@ -8,40 +8,45 @@ import jakarta.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
-
 import org.springframework.http.ResponseEntity;
 
 public interface UserService {
 
-  List<User> getAllUsers();
+  ResponseEntity<StandardResponse<List<User>>> getAllUsers(HttpServletRequest request);
 
-  User createUser(User user);
+  ResponseEntity<StandardResponse<User>> createUser(User user, HttpServletRequest request);
 
-  User updateUser(UUID userId, User user);
+  ResponseEntity<StandardResponse<User>> updateUser(
+      UUID userId, User user, HttpServletRequest request);
 
-  void deleteUser(UUID userId);
+  ResponseEntity<StandardResponse<User>> deleteUser(UUID userId, HttpServletRequest request);
 
-  User getUserById(UUID userId);
+  ResponseEntity<StandardResponse<User>> getUserById(UUID userId, HttpServletRequest request);
 
-  List<UserResponse> getAllUsersByIds(List<UUID> userIds);
+  ResponseEntity<StandardResponse<List<UserResponse>>> getAllUsersByIds(
+      List<UUID> userIds, HttpServletRequest request);
 
-  //  ResponseEntity<StandardResponse<TeamDto>> getTeamDetails(UUID teamId);
+  ResponseEntity<StandardResponse<Set<UUID>>> getUsersInTeam(
+      UUID teamId, HttpServletRequest request);
 
-  Set<UUID> getUsersInTeam(UUID teamId);
+  ResponseEntity<StandardResponse<Object>> addUserToTeam(
+      UUID teamId, UUID userId, HttpServletRequest request);
 
-  Object addUserToTeam(UUID teamId, UUID userId);
+  ResponseEntity<StandardResponse<List<TeamDto>>> getTeamsByUserId(
+      UUID userId, HttpServletRequest request);
 
-  List<TeamDto> getTeamsByUserId(UUID userId, HttpServletRequest request);
+  ResponseEntity<StandardResponse<Object>> removeUserFromTeam(
+      UUID teamId, UUID userId, HttpServletRequest request);
 
-  Object removeUserFromTeam(UUID teamId, UUID userId);
+  ResponseEntity<StandardResponse<Object>> addTaskToUser(
+      UUID taskId, UUID userId, HttpServletRequest request);
 
-  Object addTaskToUser(UUID taskId, UUID userId);
+  ResponseEntity<StandardResponse<List<User>>> getUsersByProjectId(
+      UUID projectId, HttpServletRequest request);
 
-  List<User> getUsersByProjectId(UUID projectId);
+  ResponseEntity<StandardResponse<User>> updateUserOrganizationId(
+      UUID userId, UUID updateUserOrganizationIdRequest, HttpServletRequest request);
 
-  ResponseEntity<StandardResponse<User>> updateUserOrganizationId(UUID userId,
-      UUID updateUserOrganizationIdRequest, HttpServletRequest request);
-  
-  Object assignProjectToUser(UUID projectId, UUID userId);
+  ResponseEntity<StandardResponse<Object>> assignProjectToUser(
+      UUID projectId, UUID userId, HttpServletRequest request);
 }
-

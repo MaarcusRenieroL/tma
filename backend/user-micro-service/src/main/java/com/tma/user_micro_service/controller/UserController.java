@@ -28,113 +28,31 @@ public class UserController {
 
   @GetMapping
   public ResponseEntity<StandardResponse<List<User>>> getAllUsers(HttpServletRequest request) {
-    List<User> users = userService.getAllUsers();
-
-    if (users.isEmpty()) {
-      return ResponseUtil.buildErrorMessage(
-          HttpStatus.NOT_FOUND, "No users found", request, LocalDateTime.now());
-    }
-
-    return ResponseUtil.buildSuccessMessage(
-        HttpStatus.OK, "Users retrieved successfully", users, request, LocalDateTime.now());
+    return userService.getAllUsers(request);
   }
 
   @PostMapping
   public ResponseEntity<StandardResponse<User>> createUser(
       @RequestBody User user, HttpServletRequest request) {
-    try {
-
-      if (user.getName() == null || user.getEmail() == null || user.getLocation() == null) {
-        return ResponseUtil.buildErrorMessage(
-            HttpStatus.BAD_REQUEST, "Missing required fields", request, LocalDateTime.now());
-      }
-
-      User createdUser = userService.createUser(user);
-
-      return ResponseUtil.buildSuccessMessage(
-          HttpStatus.CREATED,
-          "User created successfully",
-          createdUser,
-          request,
-          LocalDateTime.now());
-    } catch (Exception e) {
-
-      return ResponseUtil.buildErrorMessage(
-          HttpStatus.INTERNAL_SERVER_ERROR,
-          "An error occurred while creating the user",
-          request,
-          LocalDateTime.now());
-    }
+    return userService.createUser(user, request);
   }
 
   @PutMapping("/{userId}")
   public ResponseEntity<StandardResponse<User>> updateUser(
       @PathVariable UUID userId, @RequestBody User user, HttpServletRequest request) {
-    try {
-
-      if (userService.getUserById(userId) == null) {
-        return ResponseUtil.buildErrorMessage(
-            HttpStatus.NOT_FOUND,
-            "User not found with ID: " + userId,
-            request,
-            LocalDateTime.now());
-      }
-
-      User updatedUser = userService.updateUser(userId, user);
-
-      return ResponseUtil.buildSuccessMessage(
-          HttpStatus.OK, "User updated successfully", updatedUser, request, LocalDateTime.now());
-
-    } catch (Exception e) {
-
-      return ResponseUtil.buildErrorMessage(
-          HttpStatus.INTERNAL_SERVER_ERROR,
-          "An error occurred while updating the user",
-          request,
-          LocalDateTime.now());
-    }
+    return userService.updateUser(userId, user, request);
   }
 
   @DeleteMapping("/{userId}")
   public ResponseEntity<StandardResponse<User>> deleteUser(
       @PathVariable UUID userId, HttpServletRequest request) {
-    try {
-
-      if (userService.getUserById(userId) == null) {
-        return ResponseUtil.buildErrorMessage(
-            HttpStatus.NOT_FOUND,
-            "User not found with ID: " + userId,
-            request,
-            LocalDateTime.now());
-      }
-
-      userService.deleteUser(userId);
-
-      return ResponseUtil.buildSuccessMessage(
-          HttpStatus.NO_CONTENT, "User deleted successfully", null, request, LocalDateTime.now());
-
-    } catch (Exception e) {
-
-      return ResponseUtil.buildErrorMessage(
-          HttpStatus.INTERNAL_SERVER_ERROR,
-          "An error occurred while deleting the user",
-          request,
-          LocalDateTime.now());
-    }
+    return userService.deleteUser(userId, request);
   }
 
   @GetMapping("/{userId}")
   public ResponseEntity<StandardResponse<User>> getUserById(
       @PathVariable UUID userId, HttpServletRequest request) {
-    User user = userService.getUserById(userId);
-
-    if (user == null) {
-      return ResponseUtil.buildErrorMessage(
-          HttpStatus.NOT_FOUND, "User not found with ID: " + userId, request, LocalDateTime.now());
-    }
-
-    return ResponseUtil.buildSuccessMessage(
-        HttpStatus.OK, "User retrieved successfully", user, request, LocalDateTime.now());
+    return userService.getUserById(userId, request);
   }
 
   @PostMapping("/team/{teamId}")
@@ -147,15 +65,16 @@ public class UserController {
 
     return ResponseUtil.buildSuccessMessage(
         HttpStatus.OK,
-        userService.addUserToTeam(teamId, userId).toString(),
+        userService.addUserToTeam(teamId, userId, request).toString(),
         null,
         request,
         LocalDateTime.now());
   }
 
   @PutMapping("/remove-user/{teamId}/user/{userId}")
-  public Object removeUserFromTeam(@PathVariable UUID teamId, @PathVariable UUID userId) {
-    return userService.removeUserFromTeam(teamId, userId);
+  public ResponseEntity<StandardResponse<Object>> removeUserFromTeam(
+      @PathVariable UUID teamId, @PathVariable UUID userId, HttpServletRequest request) {
+    return userService.removeUserFromTeam(teamId, userId, request);
   }
 
   @PostMapping("/task/{taskId}")
@@ -168,7 +87,7 @@ public class UserController {
 
     return ResponseUtil.buildSuccessMessage(
         HttpStatus.OK,
-        userService.addTaskToUser(taskId, userId).toString(),
+        userService.addTaskToUser(taskId, userId, request).toString(),
         null,
         request,
         LocalDateTime.now());
@@ -179,56 +98,19 @@ public class UserController {
       @RequestBody GetAllUsersByUserIdsRequest getAllUsersByUserIdsRequest,
       HttpServletRequest request) {
 
-    if (getAllUsersByUserIdsRequest.getUserIds().isEmpty()) {
-      return ResponseUtil.buildErrorMessage(
-          HttpStatus.BAD_REQUEST, "Missing required fields", request, LocalDateTime.now());
-    }
-
-    return ResponseUtil.buildSuccessMessage(
-        HttpStatus.OK,
-        "Users fetched successfully",
-        userService.getAllUsersByIds(getAllUsersByUserIdsRequest.getUserIds()),
-        request,
-        LocalDateTime.now());
+    return userService.getAllUsersByIds(getAllUsersByUserIdsRequest.getUserIds(), request);
   }
 
   @GetMapping("/get-teams/{userId}")
   public ResponseEntity<StandardResponse<List<TeamDto>>> getTeamsByUserId(
       @PathVariable UUID userId, HttpServletRequest request) {
-    if (userId == null) {
-      return ResponseUtil.buildErrorMessage(
-          HttpStatus.BAD_REQUEST, "Missing Required Fields", request, LocalDateTime.now());
-    }
-
-    return ResponseUtil.buildSuccessMessage(
-        HttpStatus.OK,
-        "Teams fetched successfully",
-        userService.getTeamsByUserId(userId, request),
-        request,
-        LocalDateTime.now());
-  }
-
-  @PutMapping("/remove-user/{userId}/team/{teamId}")
-  public Object removeUserFromTeam(
-      @PathVariable UUID userId, @PathVariable("teamId") UUID teamId, HttpServletRequest request) {
-    try {
-
-      log.info("Path: {}", request.getRequestURI());
-
-      log.info("Team ID: {}", teamId);
-      log.info("User ID: {}", userId);
-
-      userService.removeUserFromTeam(teamId, userId);
-    } catch (Exception e) {
-      log.info("e: ", e);
-    }
-
-    return "team deleted";
+    return userService.getTeamsByUserId(userId, request);
   }
 
   @GetMapping("project/{projectId}")
-  public List<User> getUsersByProjectId(@PathVariable UUID projectId) {
-    return userService.getUsersByProjectId(projectId);
+  public ResponseEntity<StandardResponse<List<User>>> getUsersByProjectId(
+      @PathVariable UUID projectId, HttpServletRequest request) {
+    return userService.getUsersByProjectId(projectId, request);
   }
 
   @PutMapping("/{userId}/organization")
@@ -239,22 +121,12 @@ public class UserController {
     return userService.updateUserOrganizationId(
         userId, updateUserOrganizationIdRequest.getOrganizationId(), request);
   }
+
   @PostMapping("/project")
   ResponseEntity<StandardResponse<Object>> assignProjectToUser(
-    @RequestBody AssignProjectToUserRequest projectToUserRequest, HttpServletRequest request) {
-    if (projectToUserRequest.getProjectId() == null || projectToUserRequest.getUserId() == null) {
-      return ResponseUtil.buildErrorMessage(
-        HttpStatus.BAD_REQUEST, "Missing Required Fields", request, LocalDateTime.now());
-    }
-    
-    return ResponseUtil.buildSuccessMessage(
-      HttpStatus.OK,
-      userService.assignProjectToUser(projectToUserRequest.getProjectId(), projectToUserRequest.getUserId()).toString(),
-      null,
-      request,
-      LocalDateTime.now());
-    
+      @RequestBody AssignProjectToUserRequest projectToUserRequest, HttpServletRequest request) {
+
+    return userService.assignProjectToUser(
+        projectToUserRequest.getProjectId(), projectToUserRequest.getUserId(), request);
   }
-  
-  
 }

@@ -25,8 +25,6 @@ public class UserDetailsImplementation implements UserDetails {
 
   @JsonIgnore private String password;
 
-  private boolean isTwoFactorEnabled;
-
   private Collection<? extends GrantedAuthority> authorities;
 
   @Override
@@ -49,14 +47,12 @@ public class UserDetailsImplementation implements UserDetails {
       String userName,
       String email,
       String password,
-      Collection<? extends GrantedAuthority> authorities,
-      boolean isTwoFactorEnabled) {
+      Collection<? extends GrantedAuthority> authorities) {
     this.userId = userId;
     this.userName = userName;
     this.email = email;
     this.password = password;
     this.authorities = authorities;
-    this.isTwoFactorEnabled = isTwoFactorEnabled;
   }
 
   public static UserDetailsImplementation build(User user) {
@@ -67,7 +63,6 @@ public class UserDetailsImplementation implements UserDetails {
         user.getUserName(),
         user.getEmail(),
         user.getPassword(),
-        List.of(authority),
-        user.isTwoFactorEnabled());
+        List.of(authority));
   }
 }

@@ -24,18 +24,15 @@ public class TaskServiceImpl implements TaskService {
     String bearerToken = request.getHeader("Authorization");
 
     if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
-      
-      if(task.getUserIds()==null) {
+
+      if (task.getUserIds() == null) {
         Set<UUID> userIds = new HashSet<>();
         userIds.add(userId);
         task.setUserIds(userIds);
-      }
-      else {
-       Set<UUID> userIds=task.getUserIds();
-       userIds.add(userId);
-       task.setUserIds(userIds);
-       
-       
+      } else {
+        Set<UUID> userIds = task.getUserIds();
+        userIds.add(userId);
+        task.setUserIds(userIds);
       }
       Task savedTeam = taskRepo.save(task);
 
@@ -79,20 +76,19 @@ public class TaskServiceImpl implements TaskService {
   public Task getTaskById(UUID taskId) {
     return taskRepo.findById(taskId).orElse(null);
   }
-  
+
   @Override
   public List<Task> getTaskByUserId(UUID userId) {
     return taskRepo.findTaskByUserIds(userId);
   }
-  
+
   @Override
   public List<Task> getTaskByTeamId(UUID teamId) {
     return taskRepo.findByTeamId(teamId);
   }
-  
+
   @Override
   public List<Task> getTaskByProjectId(UUID projectId) {
     return taskRepo.findByProjectId(projectId);
-    
   }
 }

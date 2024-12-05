@@ -9,7 +9,7 @@ import java.util.UUID;
 
 public interface ProjectService {
 
-  Project createProject(Project project, UUID teamId,UUID userId, HttpServletRequest request);
+  Project createProject(Project project, UUID teamId, UUID userId, HttpServletRequest request);
 
   Optional<Project> getProjectById(UUID projectId);
 
@@ -21,8 +21,5 @@ public interface ProjectService {
 
   List<Project> getProjectsByTeamId(UUID teamId);
 
-  
   List<User> getUsersForProject(UUID projectId);
-
-  
 }

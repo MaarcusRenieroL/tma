@@ -1,21 +1,43 @@
 <button hlmBtn variant="outline" align="end" size="icon" class="rounded-full" [brnMenuTriggerFor]="menu">
-  
-<hlm-avatar>
-  <img src='https://github.com/shadcn.png' alt='spartan logo. Resembling a spartanic shield' hlmAvatarImage />
-  <span class='text-white bg-destructive' hlmAvatarFallback>RG</span>
-</hlm-avatar>
-
+  <hlm-avatar>
+    <img src='https://github.com/shadcn.png' alt='spartan logo. Resembling a spartanic shield' hlmAvatarImage />
+    <span class='text-white bg-destructive' hlmAvatarFallback>RG</span>
+  </hlm-avatar>
 </button>
 
 <ng-template #menu>
   <hlm-menu class="w-56">
-    <hlm-menu-label>Name</hlm-menu-label>
-    <p class="block px-2 py-0.5 text-xs">Email</p>
+    <hlm-menu-label>{{ name }}</hlm-menu-label>
+    <p class="block px-2 py-0.5 text-xs">{{ email }}</p>
     <hlm-menu-separator />
     <button hlmMenuItem (click)="logout()">
       <ng-icon name="lucideLogOut" hlmMenuIcon />
       <span>Logout</span>
       <hlm-menu-shortcut>⇧⌘Q</hlm-menu-shortcut>
     </button>
+    <button hlmMenuItem [brnMenuTriggerFor]="theme">
+      <ng-icon name="lucideSmile" hlmMenuIcon />
+      <span>Theme</span>
+      <hlm-menu-item-sub-indicator />
+    </button>
   </hlm-menu>
+</ng-template>
+
+<ng-template #theme>
+  <hlm-sub-menu>
+    <button hlmMenuItem (click)="themeService.setTheme('light')">
+      <ng-icon name="bootstrapSun" hlmMenuIcon />
+      Light
+    </button>
+
+    <button hlmMenuItem (click)="themeService.setTheme('dark')">
+      <ng-icon name="bootstrapMoon" hlmMenuIcon />
+      Dark
+    </button>
+
+    <button hlmMenuItem (click)="themeService.setTheme('system')">
+      <ng-icon name="bootstrapLaptop" hlmMenuIcon />
+      System
+    </button>
+  </hlm-sub-menu>
 </ng-template>

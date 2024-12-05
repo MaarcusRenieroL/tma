@@ -7,6 +7,7 @@ import { ForgotPasswordComponent } from "./forgot-password/forgot-password.compo
 import { PasswordResetComponent } from "./password-reset/password-reset.component";
 import { NoAuthGuard } from "../../../no-auth.guard";
 import { OnboardingComponent } from "./onboarding/onboarding.component";
+import { AuthOnboardingGuard } from "../../../auth-onboarding.guard";
 
 const routes: Routes = [
 	{ path: "auth/sign-in", component: SignInComponent, canActivate: [NoAuthGuard] },
@@ -14,7 +15,7 @@ const routes: Routes = [
 	{ path: "auth/verify-email", component: VerifyEmailComponent, canActivate: [NoAuthGuard] },
 	{ path: "auth/forgot-password", component: ForgotPasswordComponent, canActivate: [NoAuthGuard] },
 	{ path: "auth/reset-password", component: PasswordResetComponent, canActivate: [NoAuthGuard] },
-	{ path: "auth/onboarding", component: OnboardingComponent, canActivate: [NoAuthGuard] },
+	{ path: "auth/onboarding", component: OnboardingComponent, canActivate: [AuthOnboardingGuard] },
 ];
 
 @NgModule({
