@@ -5,11 +5,12 @@ import com.tma.project_micro_service.feign.TeamFeignClient;
 import com.tma.project_micro_service.feign.UserFeignClient;
 import com.tma.project_micro_service.model.Project;
 import com.tma.project_micro_service.payload.request.AssignProjectToTeamRequest;
+import com.tma.project_micro_service.payload.request.AssignProjectToUserRequest;
 import com.tma.project_micro_service.repository.ProjectRepository;
 import jakarta.servlet.http.HttpServletRequest;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+
+import java.util.*;
+
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -28,10 +29,10 @@ public class ProjectServiceImpl implements ProjectService {
 	}
 
   @Override
-  public Project createProject(Project project, UUID teamId, HttpServletRequest request) {
+  public Project createProject(Project project, UUID teamId, UUID userId, HttpServletRequest request) {
 
     String bearerToken = request.getHeader("Authorization");
-
+//
     log.info("JWT: {}", bearerToken);
 
     if (bearerToken == null) {
@@ -41,11 +42,23 @@ public class ProjectServiceImpl implements ProjectService {
     if (project.getTeamId() == null) {
       project.setTeamId(teamId);
     }
+    if(project.getUserIds()==null){
+      Set<UUID>userIds= new HashSet<>();
+      userIds.add(userId);
+      project.setUserIds(userIds);
+    }
+    else{
+      Set<UUID> userIds=project.getUserIds();
+      userIds.add(userId);
+      project.setUserIds(userIds);
+    }
 
     Project savedProject = projectRepository.save(project);
 
     teamFeignClient.assignProjectToTeam(
         new AssignProjectToTeamRequest(savedProject.getProjectId(), teamId), bearerToken);
+    userFeignClient.assignProjectToUser(
+      new AssignProjectToUserRequest(savedProject.getProjectId(),userId),bearerToken);
 
     return savedProject;
   }

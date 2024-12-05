@@ -41,4 +41,6 @@ public interface UserService {
   ResponseEntity<StandardResponse<User>> updateUserOrganizationId(UUID userId,
       UUID updateUserOrganizationIdRequest, HttpServletRequest request);
   
+  Object assignProjectToUser(UUID projectId, UUID userId);
 }
+
