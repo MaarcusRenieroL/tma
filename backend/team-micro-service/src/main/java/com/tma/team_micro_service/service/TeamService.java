@@ -20,7 +20,7 @@ public interface TeamService {
   
   ResponseEntity<StandardResponse<Team>> updateTeam(UUID teamId, Team team, HttpServletRequest request);
   
-  ResponseEntity<StandardResponse<Void>> deleteTeam(UUID teamId, UUID userId, HttpServletRequest request);
+  ResponseEntity<StandardResponse<Team>> deleteTeam(UUID teamId, UUID userId, HttpServletRequest request);
   
   ResponseEntity<StandardResponse<List<User>>> getAllUsersByIds(List<UUID> userIds, HttpServletRequest request);
   
