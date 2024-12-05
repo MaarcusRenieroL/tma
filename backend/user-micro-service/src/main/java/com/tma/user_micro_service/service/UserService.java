@@ -2,11 +2,14 @@ package com.tma.user_micro_service.service;
 
 import com.tma.user_micro_service.dto.TeamDto;
 import com.tma.user_micro_service.model.User;
+import com.tma.user_micro_service.payload.response.StandardResponse;
 import com.tma.user_micro_service.payload.response.UserResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
+
+import org.springframework.http.ResponseEntity;
 
 public interface UserService {
 
@@ -34,5 +37,8 @@ public interface UserService {
 
   Object addTaskToUser(UUID taskId, UUID userId);
   List<User> getUsersByProjectId(UUID projectId);
+
+  ResponseEntity<StandardResponse<User>> updateUserOrganizationId(UUID userId,
+      UUID updateUserOrganizationIdRequest, HttpServletRequest request);
   
 }

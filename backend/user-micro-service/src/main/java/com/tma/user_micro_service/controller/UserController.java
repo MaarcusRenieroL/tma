@@ -3,6 +3,7 @@ package com.tma.user_micro_service.controller;
 import com.tma.user_micro_service.dto.TeamDto;
 import com.tma.user_micro_service.model.User;
 import com.tma.user_micro_service.payload.request.GetAllUsersByUserIdsRequest;
+import com.tma.user_micro_service.payload.request.UpdateUserOrganizationRequest;
 import com.tma.user_micro_service.payload.response.StandardResponse;
 import com.tma.user_micro_service.payload.response.UserResponse;
 import com.tma.user_micro_service.service.UserService;
@@ -227,5 +228,11 @@ public class UserController {
   @GetMapping("project/{projectId}")
   public List<User> getUsersByProjectId(@PathVariable UUID projectId){
     return userService.getUsersByProjectId(projectId);
+  }
+
+  @PutMapping("/{userId}/organization")
+  public ResponseEntity<StandardResponse<User>> updateUserOrganizationId(
+      @PathVariable UUID userId, @RequestBody UpdateUserOrganizationRequest updateUserOrganizationIdRequest, HttpServletRequest request) {
+    return userService.updateUserOrganizationId(userId, updateUserOrganizationIdRequest.getOrganizationId(), request);
   }
 }

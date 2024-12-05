@@ -1,21 +1,25 @@
 package com.tma.organization_micro_service.service;
 
 import com.tma.organization_micro_service.model.Organization;
+import com.tma.organization_micro_service.payload.response.StandardResponse;
+
+import jakarta.servlet.http.HttpServletRequest;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
+
+import org.springframework.http.ResponseEntity;
 
 public interface OrganizationService {
 	
-	Organization createOrganization(Organization organization);
+	ResponseEntity<StandardResponse<Organization>> createOrganization(Organization organization, UUID userId, HttpServletRequest request);
 	
-	List<Organization> getAllOrganizations();
+	ResponseEntity<StandardResponse<List<Organization>>> getAllOrganizations(HttpServletRequest request);
 	
-	Organization updateOrganization(Organization organization, UUID organizationId);
+	ResponseEntity<StandardResponse<Organization>> updateOrganization(Organization organization, UUID organizationId, HttpServletRequest request);
 	
-	Organization deleteOrganization(UUID organizationId);
+	ResponseEntity<StandardResponse<Organization>> deleteOrganization(UUID organizationId, HttpServletRequest request);
 	
-	Organization getOrganizationById(UUID organizationId);
+	ResponseEntity<StandardResponse<Organization>> getOrganizationById(UUID organizationId, HttpServletRequest request);
 	
 }
