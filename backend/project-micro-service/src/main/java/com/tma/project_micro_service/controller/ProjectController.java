@@ -10,6 +10,9 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("api/projects")
 public class ProjectController {
+  private static final Logger log = LoggerFactory.getLogger(ProjectController.class);
   private final ProjectService projectService;
 
   public ProjectController(ProjectService projectService) {
@@ -66,7 +70,7 @@ public class ProjectController {
       }
       Project createdProject =
           projectService.createProject(
-              createProjectRequest.getProject(), createProjectRequest.getTeamId(), request);
+              createProjectRequest.getProject(), createProjectRequest.getTeamId(), createProjectRequest.getUserId(),request);
 
       return ResponseUtil.buildSuccessMessage(
           HttpStatus.CREATED,
@@ -75,6 +79,7 @@ public class ProjectController {
           request,
           LocalDateTime.now());
     } catch (Exception e) {
+      System.out.println(e.getMessage());
       return ResponseUtil.buildErrorMessage(
           HttpStatus.INTERNAL_SERVER_ERROR,
           "An error occurred while creating the project",

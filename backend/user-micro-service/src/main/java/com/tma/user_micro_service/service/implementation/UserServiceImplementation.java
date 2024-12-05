@@ -223,4 +223,22 @@ public class UserServiceImplementation implements UserService {
           LocalDateTime.now());
     }
   }
+	
+	@Override
+	public Object assignProjectToUser(UUID projectId, UUID userId) {
+		User user =
+			userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User Not Found"));
+		if (user.getProjectIds() == null) {
+			List<UUID> projectIds = new ArrayList<>();
+			projectIds.add(projectId);
+			user.setProjectIds(projectIds);
+			userRepository.save(user);
+			
+		} else {
+			user.getProjectIds().add(projectId);
+			userRepository.save(user);
+		}
+		
+		return "Project assigned to the User";
+	}
 }

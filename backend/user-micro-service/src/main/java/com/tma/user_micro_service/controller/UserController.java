@@ -2,6 +2,7 @@ package com.tma.user_micro_service.controller;
 
 import com.tma.user_micro_service.dto.TeamDto;
 import com.tma.user_micro_service.model.User;
+import com.tma.user_micro_service.payload.request.AssignProjectToUserRequest;
 import com.tma.user_micro_service.payload.request.GetAllUsersByUserIdsRequest;
 import com.tma.user_micro_service.payload.request.UpdateUserOrganizationRequest;
 import com.tma.user_micro_service.payload.response.StandardResponse;
@@ -238,4 +239,22 @@ public class UserController {
     return userService.updateUserOrganizationId(
         userId, updateUserOrganizationIdRequest.getOrganizationId(), request);
   }
+  @PostMapping("/project")
+  ResponseEntity<StandardResponse<Object>> assignProjectToUser(
+    @RequestBody AssignProjectToUserRequest projectToUserRequest, HttpServletRequest request) {
+    if (projectToUserRequest.getProjectId() == null || projectToUserRequest.getUserId() == null) {
+      return ResponseUtil.buildErrorMessage(
+        HttpStatus.BAD_REQUEST, "Missing Required Fields", request, LocalDateTime.now());
+    }
+    
+    return ResponseUtil.buildSuccessMessage(
+      HttpStatus.OK,
+      userService.assignProjectToUser(projectToUserRequest.getProjectId(), projectToUserRequest.getUserId()).toString(),
+      null,
+      request,
+      LocalDateTime.now());
+    
+  }
+  
+  
 }

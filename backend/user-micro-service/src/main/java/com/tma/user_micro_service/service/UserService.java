@@ -8,6 +8,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
+
 import org.springframework.http.ResponseEntity;
 
 public interface UserService {
@@ -38,6 +39,9 @@ public interface UserService {
 
   List<User> getUsersByProjectId(UUID projectId);
 
-  ResponseEntity<StandardResponse<User>> updateUserOrganizationId(
-      UUID userId, UUID updateUserOrganizationIdRequest, HttpServletRequest request);
+  ResponseEntity<StandardResponse<User>> updateUserOrganizationId(UUID userId,
+      UUID updateUserOrganizationIdRequest, HttpServletRequest request);
+  
+  Object assignProjectToUser(UUID projectId, UUID userId);
 }
+
