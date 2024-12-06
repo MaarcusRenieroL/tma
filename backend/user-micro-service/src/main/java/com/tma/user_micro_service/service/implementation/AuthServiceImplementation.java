@@ -11,11 +11,13 @@ import com.tma.user_micro_service.payload.request.ForgotPasswordRequest;
 import com.tma.user_micro_service.payload.request.SignInRequest;
 import com.tma.user_micro_service.payload.request.SignUpRequest;
 import com.tma.user_micro_service.payload.response.SignInResponse;
+import com.tma.user_micro_service.payload.response.StandardResponse;
 import com.tma.user_micro_service.repository.PasswordResetTokenRepository;
 import com.tma.user_micro_service.repository.RoleRepository;
 import com.tma.user_micro_service.repository.UserRepository;
 import com.tma.user_micro_service.service.AuthService;
 import com.tma.user_micro_service.util.JwtUtils;
+import com.tma.user_micro_service.util.ResponseUtil;
 import com.tma.user_micro_service.util.Utilities;
 import jakarta.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
@@ -24,8 +26,9 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -61,41 +64,62 @@ public class AuthServiceImplementation implements AuthService {
     this.passwordResetTokenRepository = passwordResetTokenRepository;
   }
 
-  public SignInResponse signIn(SignInRequest signInRequest) {
+  public ResponseEntity<StandardResponse<SignInResponse>> signIn(SignInRequest signInRequest,HttpServletRequest request) {
+    if (signInRequest.getUsername().isEmpty()) {
+      return ResponseUtil.buildErrorMessage(
+        HttpStatus.BAD_REQUEST, "Username should not be empty", request, LocalDateTime.now());
+    }
+    
+    if (signInRequest.getPassword().isEmpty()) {
+      return ResponseUtil.buildErrorMessage(
+        HttpStatus.BAD_REQUEST, "Password should not be empty", request, LocalDateTime.now());
+    }
     try {
       Authentication authentication =
-          authenticationManager.authenticate(
-              new UsernamePasswordAuthenticationToken(
-                  signInRequest.getUsername(), signInRequest.getPassword()));
-
+        authenticationManager.authenticate(
+          new UsernamePasswordAuthenticationToken(
+            signInRequest.getUsername(), signInRequest.getPassword()));
+      
       SecurityContextHolder.getContext().setAuthentication(authentication);
-
+      
       UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-
+      
       String jwtToken = jwtUtils.generateTokenFromUsername(userDetails);
-
+      
       List<String> roles =
-          userDetails.getAuthorities().stream()
-              .map(GrantedAuthority::getAuthority)
-              .collect(Collectors.toList());
-
+        userDetails.getAuthorities().stream()
+          .map(GrantedAuthority::getAuthority)
+          .collect(Collectors.toList());
+      
       Optional<User> optionalUser = userRepository.findByUserName(userDetails.getUsername());
-
-      return optionalUser
-          .map(
-              user ->
-                  new SignInResponse(
-                      user.getUserId(),
-                      userDetails.getUsername(),
-                      jwtToken,
-                      roles,
-                      user.isOnboarded()))
-          .orElse(null);
-
+      if (optionalUser.isPresent()) {
+        User user = optionalUser.get();
+        SignInResponse signInResponse =
+          new SignInResponse(user.getUserId(), userDetails.getUsername(), jwtToken, roles,user.isOnboarded());
+        
+        return ResponseUtil.buildSuccessMessage(
+          HttpStatus.OK,
+          "Successfully authenticated",
+          signInResponse,
+          request,
+          LocalDateTime.now());
+      } else {
+        return ResponseUtil.buildErrorMessage(
+          HttpStatus.NOT_FOUND,
+          "User Not Found",
+          request,
+          LocalDateTime.now());
+      }
+      
     } catch (Exception exception) {
-      throw new AuthenticationServiceException("Invalid username or password", exception);
+      return  ResponseUtil.buildErrorMessage(
+        HttpStatus.UNAUTHORIZED,
+        "User not authorized",
+        request,
+        LocalDateTime.now());
+      }
     }
-  }
+  
 
   public User signUp(SignUpRequest signUpRequest) {
 
@@ -110,8 +134,8 @@ public class AuthServiceImplementation implements AuthService {
     if (userRepository.findByUserName(signUpRequest.getUsername()).isPresent()) {
       throw new IllegalArgumentException("Error: Username is already taken!");
     }
-
-    User user =
+    try {
+      User user =
         new User(
             signUpRequest.getUsername(),
             signUpRequest.getEmail(),
@@ -127,23 +151,43 @@ public class AuthServiceImplementation implements AuthService {
     return Utilities.setupUser(roleRepository, userRepository, user, role.getRoleName());
   }
 
-  public void signOut() {}
 
-  public CsrfToken generateCsrfToken(HttpServletRequest request) {
-    return (CsrfToken) request.getAttribute(CsrfToken.class.getName());
+  
+
+  public ResponseEntity<StandardResponse<CsrfToken>> generateCsrfToken(HttpServletRequest request) {
+    CsrfToken token= (CsrfToken) request.getAttribute(CsrfToken.class.getName());
+  
+return ResponseUtil.buildSuccessMessage(
+  HttpStatus.CREATED,
+  "Token generated successfully",
+  token,
+  request,
+  LocalDateTime.now());
   }
 
-  public void forgotPassword(ForgotPasswordRequest forgotPasswordRequest) {
+  public ResponseEntity<StandardResponse<Void>>forgotPassword(ForgotPasswordRequest forgotPasswordRequest,HttpServletRequest request) {
+    if (forgotPasswordRequest.getEmail() == null
+      || forgotPasswordRequest.getEmail().trim().isEmpty()) {
+      return ResponseUtil.buildErrorMessage(
+        HttpStatus.BAD_REQUEST,
+        "Email address is required. Please provide a valid email address.",
+        request,
+        LocalDateTime.now());
+    }
+    
     Optional<User> optionalUser = userRepository.findByEmail(forgotPasswordRequest.getEmail());
 
     if (optionalUser.isEmpty()) {
-      return;
+      return ResponseUtil.buildErrorMessage(
+        HttpStatus.NOT_FOUND,
+        "User Not Found",
+        request,
+        LocalDateTime.now());
     }
 
     UUID token = UUID.randomUUID();
     PasswordResetToken passwordResetToken =
         new PasswordResetToken(optionalUser.get(), token, LocalDateTime.now().plusHours(1), false);
-
     passwordResetTokenRepository.save(passwordResetToken);
 
     log.info("Email service called");
@@ -199,5 +243,11 @@ public class AuthServiceImplementation implements AuthService {
     SendEmailResponse data = resend.emails().send(sendEmailRequest);
 
     log.info("Data: {}", data.getId());
-  }
+		return ResponseUtil.buildSuccessMessage(
+      HttpStatus.OK,
+      "If the provided email address is associated with an account, a reset password link has been sent.",
+      null,
+      request,
+      LocalDateTime.now());
+	}
 }

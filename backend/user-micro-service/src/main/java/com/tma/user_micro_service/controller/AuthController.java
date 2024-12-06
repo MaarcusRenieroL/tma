@@ -27,23 +27,8 @@ public class AuthController {
   @PostMapping("sign-in")
   public ResponseEntity<StandardResponse<SignInResponse>> signIn(
       @RequestBody SignInRequest signInRequest, HttpServletRequest request) {
-
-    if (signInRequest.getUsername().isEmpty()) {
-      return ResponseUtil.buildErrorMessage(
-          HttpStatus.BAD_REQUEST, "Username should not be empty", request, LocalDateTime.now());
-    }
-
-    if (signInRequest.getPassword().isEmpty()) {
-      return ResponseUtil.buildErrorMessage(
-          HttpStatus.BAD_REQUEST, "Password should not be empty", request, LocalDateTime.now());
-    }
-
-    return ResponseUtil.buildSuccessMessage(
-        HttpStatus.OK,
-        "Successfully authenticated",
-        authService.signIn(signInRequest),
-        request,
-        LocalDateTime.now());
+    
+    return authService.signIn(signInRequest,request);
   }
 
   @PostMapping("/sign-up")
@@ -83,7 +68,7 @@ public class AuthController {
           LocalDateTime.now());
     }
 
-    authService.forgotPassword(forgotPasswordRequest);
+    authService.forgotPassword(forgotPasswordRequest, request);
 
     return ResponseUtil.buildSuccessMessage(
         HttpStatus.OK,
