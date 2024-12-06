@@ -98,6 +98,15 @@ public class AuthServiceImplementation implements AuthService {
   }
 
   public User signUp(SignUpRequest signUpRequest) {
+
+    if (signUpRequest.getUsername().isEmpty()) {
+      throw new IllegalArgumentException("Username cannot be empty");
+    }
+
+    if (!signUpRequest.getPassword().equals(signUpRequest.getConfirmPassword())) {
+      throw new IllegalArgumentException("Passwords do not match");
+    }
+
     if (userRepository.findByUserName(signUpRequest.getUsername()).isPresent()) {
       throw new IllegalArgumentException("Error: Username is already taken!");
     }
@@ -105,26 +114,14 @@ public class AuthServiceImplementation implements AuthService {
     User user =
         new User(
             signUpRequest.getUsername(),
-            passwordEncoder.encode(signUpRequest.getPassword()),
-            signUpRequest.getEmail());
+            signUpRequest.getEmail(),
+            passwordEncoder.encode(signUpRequest.getPassword()));
 
-    List<String> strRoles = signUpRequest.getRole();
+    Role role =
+        roleRepository
+            .findByRoleName(AppRole.ROLE_DEVELOPER)
+            .orElseThrow(() -> new RuntimeException("Error: Default role is not found."));
 
-    Role role;
-
-    if (strRoles == null || strRoles.isEmpty()) {
-      role =
-          roleRepository
-              .findByRoleName(AppRole.ROLE_DEVELOPER)
-              .orElseThrow(() -> new RuntimeException("Error: Default role is not found."));
-    } else {
-      String roleStr = strRoles.getFirst();
-      role =
-          roleRepository
-              .findByRoleName(
-                  roleStr.equalsIgnoreCase("admin") ? AppRole.ROLE_ADMIN : AppRole.ROLE_DEVELOPER)
-              .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-    }
     user.setRole(role);
 
     return Utilities.setupUser(roleRepository, userRepository, user, role.getRoleName());

@@ -1,7 +1,7 @@
 <div
-	class="fixed inset-0 z-50 bg-black/80 flex items-center justify-center data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0">
+	class="fixed inset-0 z-50 flex items-center justify-center data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0">
 	<div
-		class="grid w-full max-w-5xl gap-6 border bg-white p-8 shadow-lg duration-200 sm:rounded-lg data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95">
+		class="grid w-full max-w-5xl gap-6 border p-8 shadow-lg duration-200 sm:rounded-lg data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95">
 		<div class="flex flex-col space-y-2 text-center sm:text-left">
 			<h3 class="text-2xl font-semibold leading-tight">Onboarding Form</h3>
 			<p class="text-sm text-gray-500">Fill in the organization details below.</p>
@@ -9,7 +9,7 @@
 		<form [formGroup]="organizationForm" (ngSubmit)="onSubmit()" class="grid gap-5">
 			<div class="grid grid-cols-1 lg:grid-cols-4 gap-5">
 				<div class="flex flex-col gap-2">
-					<label class="block text-sm font-medium text-gray-700" for="organizationName">Organization Name</label>
+					<label class="block text-sm font-medium" for="organizationName">Organization Name</label>
 					<input
 						hlmInput
 						id="organizationName"
@@ -25,7 +25,7 @@
 					</div>
 				</div>
 				<div class="flex flex-col gap-2">
-					<label class="block text-sm font-medium text-gray-700" for="email">Email</label>
+					<label class="block text-sm font-medium" for="email">Email</label>
 					<input
 						hlmInput
 						id="email"
@@ -40,7 +40,7 @@
 					</div>
 				</div>
 				<div class="flex flex-col gap-2">
-					<label class="block text-sm font-medium text-gray-700" for="website">Website</label>
+					<label class="block text-sm font-medium" for="website">Website</label>
 					<input
 						hlmInput
 						id="website"
@@ -55,7 +55,7 @@
 					</div>
 				</div>
 				<div class="flex flex-col gap-2">
-					<label class="block text-sm font-medium text-gray-700" for="phoneNumber">Phone Number</label>
+					<label class="block text-sm font-medium" for="phoneNumber">Phone Number</label>
 					<input
 						hlmInput
 						id="phoneNumber"
@@ -70,7 +70,7 @@
 					</div>
 				</div>
 				<div class="flex flex-col gap-2 w-full col-span-2">
-					<label class="block text-sm font-medium text-gray-700" for="address">Address</label>
+					<label class="block text-sm font-medium" for="address">Address</label>
 					<textarea
 						hlmInput
 						id="address"
@@ -85,7 +85,7 @@
 					</div>
 				</div>
 				<div class="hidden">
-					<label class="block text-sm font-medium text-gray-700" for="logoUrl">Logo URL</label>
+					<label class="block text-sm font-medium" for="logoUrl">Logo URL</label>
 					<input
 						id="logoUrl"
 						type="url"

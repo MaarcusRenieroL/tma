@@ -10,6 +10,20 @@
 			<form [formGroup]="signUpForm" class="flex flex-col items-start justify-evenly gap-5 w-full" (ngSubmit)="onSubmit()">
 				
 				<div class="flex flex-col items-start w-full gap-2">
+					<label for="email">Username</label>
+					<input
+						hlmInput
+						id="username"
+						placeholder="Enter your email"
+						class="w-full"
+						formControlName="username"
+					/>
+					<p *ngIf="signUpForm.get('username')?.invalid && signUpForm.get('username')?.touched" class="text-red-500 text-sm">
+						Please enter a valid username.
+					</p>
+				</div>
+				
+				<div class="flex flex-col items-start w-full gap-2">
 					<label for="email">Email</label>
 					<input
 						hlmInput
