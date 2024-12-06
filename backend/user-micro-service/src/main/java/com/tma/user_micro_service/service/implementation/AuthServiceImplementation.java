@@ -29,7 +29,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -96,7 +95,7 @@ public class AuthServiceImplementation implements AuthService {
       if (optionalUser.isPresent()) {
         User user = optionalUser.get();
         SignInResponse signInResponse =
-          new SignInResponse(user.getUserId(), userDetails.getUsername(), jwtToken, roles);
+          new SignInResponse(user.getUserId(), userDetails.getUsername(), jwtToken, roles,user.isOnboarded());
         
         return ResponseUtil.buildSuccessMessage(
           HttpStatus.OK,
