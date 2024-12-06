@@ -14,39 +14,46 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("api/projects")
 public class ProjectController {
-  
+
   @Autowired private ProjectService projectService;
-  
+
   @GetMapping
-  public ResponseEntity<StandardResponse<List<Project>>> getAllProjects(HttpServletRequest request) {
+  public ResponseEntity<StandardResponse<List<Project>>> getAllProjects(
+      HttpServletRequest request) {
     return projectService.getAllProjects(request);
   }
-  
+
   @GetMapping("/{id}")
-  public ResponseEntity<StandardResponse<Project>> getProjectById(@PathVariable UUID id, HttpServletRequest request) {
+  public ResponseEntity<StandardResponse<Project>> getProjectById(
+      @PathVariable UUID id, HttpServletRequest request) {
     return projectService.getProjectById(id, request);
   }
-  
+
   @PostMapping
   public ResponseEntity<StandardResponse<Project>> createProject(
-    @RequestBody CreateProjectRequest createProjectRequest, HttpServletRequest request) {
-    return projectService.createProject(createProjectRequest.getProject(), createProjectRequest.getTeamId(), createProjectRequest.getUserId(), request);
+      @RequestBody CreateProjectRequest createProjectRequest, HttpServletRequest request) {
+    return projectService.createProject(
+        createProjectRequest.getProject(),
+        createProjectRequest.getTeamId(),
+        createProjectRequest.getUserId(),
+        request);
   }
-  
+
   @PutMapping("/{id}")
   public ResponseEntity<StandardResponse<Project>> updateProject(
-    @PathVariable UUID id, @RequestBody Project project, HttpServletRequest request) {
+      @PathVariable UUID id, @RequestBody Project project, HttpServletRequest request) {
     return projectService.updateProject(id, project, request);
   }
-  
+
   @DeleteMapping("/{id}")
-  public ResponseEntity<StandardResponse<Void>> deleteProject(@PathVariable UUID id, HttpServletRequest request) {
+  public ResponseEntity<StandardResponse<Void>> deleteProject(
+      @PathVariable UUID id, HttpServletRequest request) {
     return projectService.deleteProject(id, request);
   }
-  
+
   @GetMapping("/team/{teamId}")
   public ResponseEntity<StandardResponse<List<Project>>> getProjectsByTeamId(
-    @PathVariable UUID teamId, HttpServletRequest request) {
+      @PathVariable UUID teamId, HttpServletRequest request) {
     return projectService.getProjectsByTeamId(teamId, request);
   }
 }

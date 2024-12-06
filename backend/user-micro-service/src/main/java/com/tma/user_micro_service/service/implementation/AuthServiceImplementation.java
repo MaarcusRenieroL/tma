@@ -1,8 +1,5 @@
 package com.tma.user_micro_service.service.implementation;
 
-import com.resend.Resend;
-import com.resend.services.emails.model.SendEmailRequest;
-import com.resend.services.emails.model.SendEmailResponse;
 import com.tma.user_micro_service.model.AppRole;
 import com.tma.user_micro_service.model.PasswordResetToken;
 import com.tma.user_micro_service.model.Role;
@@ -12,6 +9,7 @@ import com.tma.user_micro_service.payload.request.SignInRequest;
 import com.tma.user_micro_service.payload.request.SignUpRequest;
 import com.tma.user_micro_service.payload.response.SignInResponse;
 import com.tma.user_micro_service.payload.response.StandardResponse;
+import com.tma.user_micro_service.payload.response.UserResponse;
 import com.tma.user_micro_service.repository.PasswordResetTokenRepository;
 import com.tma.user_micro_service.repository.RoleRepository;
 import com.tma.user_micro_service.repository.UserRepository;
@@ -19,6 +17,7 @@ import com.tma.user_micro_service.service.AuthService;
 import com.tma.user_micro_service.util.JwtUtils;
 import com.tma.user_micro_service.util.ResponseUtil;
 import com.tma.user_micro_service.util.Utilities;
+import io.github.cdimascio.dotenv.Dotenv;
 import jakarta.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -37,6 +36,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.stereotype.Service;
+import software.amazon.awssdk.services.ses.SesClient;
+import software.amazon.awssdk.services.ses.model.*;
 
 @Slf4j
 @Service
@@ -48,6 +49,7 @@ public class AuthServiceImplementation implements AuthService {
   private final RoleRepository roleRepository;
   private final PasswordResetTokenRepository passwordResetTokenRepository;
   private final PasswordEncoder passwordEncoder;
+  private final SesClient sesClient;
 
   public AuthServiceImplementation(
       AuthenticationManager authenticationManager,
@@ -55,6 +57,7 @@ public class AuthServiceImplementation implements AuthService {
       UserRepository userRepository,
       RoleRepository roleRepository,
       PasswordEncoder passwordEncoder,
+      SesClient sesClient,
       PasswordResetTokenRepository passwordResetTokenRepository) {
     this.authenticationManager = authenticationManager;
     this.jwtUtils = jwtUtils;
@@ -62,80 +65,82 @@ public class AuthServiceImplementation implements AuthService {
     this.roleRepository = roleRepository;
     this.passwordEncoder = passwordEncoder;
     this.passwordResetTokenRepository = passwordResetTokenRepository;
+    this.sesClient = sesClient;
   }
 
-  public ResponseEntity<StandardResponse<SignInResponse>> signIn(SignInRequest signInRequest,HttpServletRequest request) {
+  Dotenv dotenv = Dotenv.configure().load();
+
+  public ResponseEntity<StandardResponse<SignInResponse>> signIn(
+      SignInRequest signInRequest, HttpServletRequest request) {
     if (signInRequest.getUsername().isEmpty()) {
       return ResponseUtil.buildErrorMessage(
-        HttpStatus.BAD_REQUEST, "Username should not be empty", request, LocalDateTime.now());
+          HttpStatus.BAD_REQUEST, "Username should not be empty", request, LocalDateTime.now());
     }
-    
+
     if (signInRequest.getPassword().isEmpty()) {
       return ResponseUtil.buildErrorMessage(
-        HttpStatus.BAD_REQUEST, "Password should not be empty", request, LocalDateTime.now());
+          HttpStatus.BAD_REQUEST, "Password should not be empty", request, LocalDateTime.now());
     }
     try {
       Authentication authentication =
-        authenticationManager.authenticate(
-          new UsernamePasswordAuthenticationToken(
-            signInRequest.getUsername(), signInRequest.getPassword()));
-      
+          authenticationManager.authenticate(
+              new UsernamePasswordAuthenticationToken(
+                  signInRequest.getUsername(), signInRequest.getPassword()));
+
       SecurityContextHolder.getContext().setAuthentication(authentication);
-      
+
       UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-      
+
       String jwtToken = jwtUtils.generateTokenFromUsername(userDetails);
-      
+
       List<String> roles =
-        userDetails.getAuthorities().stream()
-          .map(GrantedAuthority::getAuthority)
-          .collect(Collectors.toList());
-      
+          userDetails.getAuthorities().stream()
+              .map(GrantedAuthority::getAuthority)
+              .collect(Collectors.toList());
+
       Optional<User> optionalUser = userRepository.findByUserName(userDetails.getUsername());
       if (optionalUser.isPresent()) {
         User user = optionalUser.get();
         SignInResponse signInResponse =
-          new SignInResponse(user.getUserId(), userDetails.getUsername(), jwtToken, roles,user.isOnboarded());
-        
+            new SignInResponse(
+                user.getUserId(), userDetails.getUsername(), jwtToken, roles, user.isOnboarded());
+
         return ResponseUtil.buildSuccessMessage(
-          HttpStatus.OK,
-          "Successfully authenticated",
-          signInResponse,
-          request,
-          LocalDateTime.now());
+            HttpStatus.OK,
+            "Successfully authenticated",
+            signInResponse,
+            request,
+            LocalDateTime.now());
       } else {
         return ResponseUtil.buildErrorMessage(
-          HttpStatus.NOT_FOUND,
-          "User Not Found",
-          request,
-          LocalDateTime.now());
+            HttpStatus.NOT_FOUND, "User Not Found", request, LocalDateTime.now());
       }
-      
-    } catch (Exception exception) {
-      return  ResponseUtil.buildErrorMessage(
-        HttpStatus.UNAUTHORIZED,
-        "User not authorized",
-        request,
-        LocalDateTime.now());
-      }
-    }
-  
 
-  public User signUp(SignUpRequest signUpRequest) {
+    } catch (Exception exception) {
+      return ResponseUtil.buildErrorMessage(
+          HttpStatus.UNAUTHORIZED, "User not authorized", request, LocalDateTime.now());
+    }
+  }
+
+  public ResponseEntity<StandardResponse<UserResponse>> signUp(
+      SignUpRequest signUpRequest, HttpServletRequest request) {
 
     if (signUpRequest.getUsername().isEmpty()) {
-      throw new IllegalArgumentException("Username cannot be empty");
+      return ResponseUtil.buildErrorMessage(
+          HttpStatus.BAD_REQUEST, "Username is required", request, LocalDateTime.now());
     }
 
     if (!signUpRequest.getPassword().equals(signUpRequest.getConfirmPassword())) {
-      throw new IllegalArgumentException("Passwords do not match");
+      return ResponseUtil.buildErrorMessage(
+          HttpStatus.BAD_REQUEST, "Passwords don't match'", request, LocalDateTime.now());
     }
 
     if (userRepository.findByUserName(signUpRequest.getUsername()).isPresent()) {
-      throw new IllegalArgumentException("Error: Username is already taken!");
+      return ResponseUtil.buildErrorMessage(
+          HttpStatus.BAD_REQUEST, "Username is already taken", request, LocalDateTime.now());
     }
-    try {
-      User user =
+
+    User user =
         new User(
             signUpRequest.getUsername(),
             signUpRequest.getEmail(),
@@ -148,106 +153,128 @@ public class AuthServiceImplementation implements AuthService {
 
     user.setRole(role);
 
-    return Utilities.setupUser(roleRepository, userRepository, user, role.getRoleName());
+    Utilities.setupUser(roleRepository, userRepository, user, role.getRoleName());
+
+    return ResponseUtil.buildSuccessMessage(
+        HttpStatus.CREATED,
+        "User created successfully",
+        new UserResponse(
+            user.getUserId(),
+            user.getUserName(),
+            user.getName(),
+            user.getEmail(),
+            user.getLocation(),
+            user.getRole().getRoleName().toString(),
+            user.getTeamIds()),
+        request,
+        LocalDateTime.now());
   }
-
-
-  
 
   public ResponseEntity<StandardResponse<CsrfToken>> generateCsrfToken(HttpServletRequest request) {
-    CsrfToken token= (CsrfToken) request.getAttribute(CsrfToken.class.getName());
-  
-return ResponseUtil.buildSuccessMessage(
-  HttpStatus.CREATED,
-  "Token generated successfully",
-  token,
-  request,
-  LocalDateTime.now());
+    CsrfToken token = (CsrfToken) request.getAttribute(CsrfToken.class.getName());
+
+    return ResponseUtil.buildSuccessMessage(
+        HttpStatus.CREATED, "Token generated successfully", token, request, LocalDateTime.now());
   }
 
-  public ResponseEntity<StandardResponse<Void>>forgotPassword(ForgotPasswordRequest forgotPasswordRequest,HttpServletRequest request) {
+  public ResponseEntity<StandardResponse<Void>> forgotPassword(
+      ForgotPasswordRequest forgotPasswordRequest, HttpServletRequest request) {
+
+    // Check if the email is null or empty
     if (forgotPasswordRequest.getEmail() == null
-      || forgotPasswordRequest.getEmail().trim().isEmpty()) {
+        || forgotPasswordRequest.getEmail().trim().isEmpty()) {
       return ResponseUtil.buildErrorMessage(
-        HttpStatus.BAD_REQUEST,
-        "Email address is required. Please provide a valid email address.",
-        request,
-        LocalDateTime.now());
+          HttpStatus.BAD_REQUEST,
+          "Email address is required. Please provide a valid email address.",
+          request,
+          LocalDateTime.now());
     }
-    
+
+    // Retrieve the user by email
     Optional<User> optionalUser = userRepository.findByEmail(forgotPasswordRequest.getEmail());
 
+    // If user not found, return error
     if (optionalUser.isEmpty()) {
       return ResponseUtil.buildErrorMessage(
-        HttpStatus.NOT_FOUND,
-        "User Not Found",
-        request,
-        LocalDateTime.now());
+          HttpStatus.NOT_FOUND, "User Not Found", request, LocalDateTime.now());
     }
 
+    User existingUser = optionalUser.get();
+
+    // Check if there's already a valid token for the user
+    Optional<PasswordResetToken> existingTokenOpt =
+        passwordResetTokenRepository.findByUser_UserId(existingUser.getUserId());
+
+    // If there's an existing token, check if it's still valid
+    if (existingTokenOpt.isPresent()) {
+      PasswordResetToken existingToken = existingTokenOpt.get();
+      if (!existingToken.isTokenUsed()) {
+        // Token exists and is not expired, reject the request
+        return ResponseUtil.buildErrorMessage(
+            HttpStatus.BAD_REQUEST,
+            "A password reset request is already pending for this account.",
+            request,
+            LocalDateTime.now());
+      }
+    }
+
+    // Generate a new token if no valid token exists
     UUID token = UUID.randomUUID();
     PasswordResetToken passwordResetToken =
-        new PasswordResetToken(optionalUser.get(), token, LocalDateTime.now().plusHours(1), false);
+        new PasswordResetToken(existingUser, token, LocalDateTime.now().plusHours(1), false);
     passwordResetTokenRepository.save(passwordResetToken);
 
     log.info("Email service called");
 
-    Resend resend = new Resend("re_RkyGG486_717MqZUU1DqzzHwnf3QZXaPy");
+    // Get email body content
+    String emailBodyContent = getEmailBodyContent(token, existingUser);
 
-    String resetLink = "http://localhost:4200/reset-password?token=" + token;
+    // Setup email parameters
+    Destination destination =
+        Destination.builder().toAddresses(forgotPasswordRequest.getEmail()).build();
+
+    Content subjectContent = Content.builder().data("Password Reset Request").build();
+
+    Content bodyContent = Content.builder().data(emailBodyContent).build();
+
+    Body emailBody = Body.builder().text(bodyContent).build();
+
+    Message message = Message.builder().subject(subjectContent).body(emailBody).build();
 
     SendEmailRequest sendEmailRequest =
         SendEmailRequest.builder()
-            .from("Acme <onboarding@resend.dev>")
-            .to("maarcusreniero.l@gmail.com")
-            .html(
-                """
-  <!DOCTYPE html>
-  <html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Password Reset</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-  </head>
-  <body class="bg-gray-100 text-gray-800">
-    <div class="max-w-lg mx-auto mt-8 bg-white shadow-lg rounded-lg overflow-hidden">
-      <div class="p-6">
-        <h1 class="text-2xl font-semibold text-center text-gray-700 mb-4">Password Reset Request</h1>
-        <p class="text-gray-600 text-base leading-6">
-          Hi, <br><br>
-          You recently requested to reset your password. Click the button below to reset it. This link will expire in <strong>15 minutes</strong>.
-        </p>
-        <div class="text-center my-6">
-          <a href="%s" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition duration-200">
-            Reset Your Password
-          </a>
-        </div>
-        <p class="text-gray-600 text-sm">
-          If you did not request a password reset, please ignore this email or contact support if you have concerns.
-        </p>
-        <div class="border-t mt-6 pt-4 text-center">
-          <p class="text-xs text-gray-500">
-            &copy; 2024 SyncTeam. All rights reserved.
-          </p>
-        </div>
-      </div>
-    </div>
-  </body>
-  </html>
-  """
-                    .formatted(resetLink))
-            .subject("Request for Reset Password")
+            .source(dotenv.get("AWS_SES_VERIFIED_EMAIL")) // Replace with your verified email
+            .destination(destination)
+            .message(message)
             .build();
 
-    SendEmailResponse data = resend.emails().send(sendEmailRequest);
+    // Send email
+    sesClient.sendEmail(sendEmailRequest);
 
-    log.info("Data: {}", data.getId());
-		return ResponseUtil.buildSuccessMessage(
-      HttpStatus.OK,
-      "If the provided email address is associated with an account, a reset password link has been sent.",
-      null,
-      request,
-      LocalDateTime.now());
-	}
+    System.out.println("Email sent successfully!");
+
+    return ResponseUtil.buildSuccessMessage(
+        HttpStatus.OK,
+        "If the provided email address is associated with an account, a reset password link has been sent.",
+        null,
+        request,
+        LocalDateTime.now());
+  }
+
+  private String getEmailBodyContent(UUID token, User user) {
+    String resetLink = "https://www.yourdomain.com/reset-password?token=" + token.toString();
+
+    return "Hi "
+        + user.getName()
+        + ",\n\n"
+        + // Personalize greeting
+        "We received a request to reset your password. Click the link below to reset your password:\n\n"
+        + resetLink
+        + "\n\n"
+        + "Please note that the link will expire in 1 hour.\n\n"
+        + "If you didn't request a password reset, please ignore this email.\n\n"
+        + "Best regards,\n"
+        + "The YourApp Team\n"
+        + "Contact us at support@maarcus.dev if you have any questions.";
+  }
 }
