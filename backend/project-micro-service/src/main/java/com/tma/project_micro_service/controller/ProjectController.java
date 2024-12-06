@@ -4,171 +4,49 @@ import com.tma.project_micro_service.model.Project;
 import com.tma.project_micro_service.payload.request.CreateProjectRequest;
 import com.tma.project_micro_service.payload.response.StandardResponse;
 import com.tma.project_micro_service.service.ProjectService;
-import com.tma.project_micro_service.util.ResponseUtil;
 import jakarta.servlet.http.HttpServletRequest;
-import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpStatus;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("api/projects")
 public class ProjectController {
-  private static final Logger log = LoggerFactory.getLogger(ProjectController.class);
-  private final ProjectService projectService;
-
-  public ProjectController(ProjectService projectService) {
-    this.projectService = projectService;
-  }
-
+  
+  @Autowired private ProjectService projectService;
+  
   @GetMapping
-  public ResponseEntity<StandardResponse<List<Project>>> getAllProjects(
-      HttpServletRequest request) {
-    List<Project> projects = projectService.getAllProjects();
-
-    if (projects.isEmpty()) {
-      return ResponseUtil.buildErrorMessage(
-          HttpStatus.NOT_FOUND, "No Project found", request, LocalDateTime.now());
-    }
-
-    return ResponseUtil.buildSuccessMessage(
-        HttpStatus.OK, "Projects retrieved successfully", projects, request, LocalDateTime.now());
+  public ResponseEntity<StandardResponse<List<Project>>> getAllProjects(HttpServletRequest request) {
+    return projectService.getAllProjects(request);
   }
-
+  
   @GetMapping("/{id}")
-  public ResponseEntity<StandardResponse<Project>> getProjectById(
-      @PathVariable UUID id, HttpServletRequest request) {
-    Optional<Project> project = projectService.getProjectById(id);
-
-    if (project.isEmpty()) {
-      return ResponseUtil.buildErrorMessage(
-          HttpStatus.NOT_FOUND, "Project not found", request, LocalDateTime.now());
-    }
-
-    return ResponseUtil.buildSuccessMessage(
-        HttpStatus.OK,
-        "Project retrieved successfully",
-        project.get(),
-        request,
-        LocalDateTime.now());
+  public ResponseEntity<StandardResponse<Project>> getProjectById(@PathVariable UUID id, HttpServletRequest request) {
+    return projectService.getProjectById(id, request);
   }
-
+  
   @PostMapping
   public ResponseEntity<StandardResponse<Project>> createProject(
-      @RequestBody CreateProjectRequest createProjectRequest, HttpServletRequest request) {
-    try {
-      if (createProjectRequest.getProject().getProjectTitle() == null
-          || createProjectRequest.getTeamId() == null) {
-        return ResponseUtil.buildErrorMessage(
-            HttpStatus.BAD_REQUEST, "Missing required fields", request, LocalDateTime.now());
-      }
-      Project createdProject =
-          projectService.createProject(
-              createProjectRequest.getProject(), createProjectRequest.getTeamId(), createProjectRequest.getUserId(),request);
-
-      return ResponseUtil.buildSuccessMessage(
-          HttpStatus.CREATED,
-          "Project created successfully",
-          createdProject,
-          request,
-          LocalDateTime.now());
-    } catch (Exception e) {
-      System.out.println(e.getMessage());
-      return ResponseUtil.buildErrorMessage(
-          HttpStatus.INTERNAL_SERVER_ERROR,
-          "An error occurred while creating the project",
-          request,
-          LocalDateTime.now());
-    }
+    @RequestBody CreateProjectRequest createProjectRequest, HttpServletRequest request) {
+    return projectService.createProject(createProjectRequest.getProject(), createProjectRequest.getTeamId(), createProjectRequest.getUserId(), request);
   }
-
+  
   @PutMapping("/{id}")
   public ResponseEntity<StandardResponse<Project>> updateProject(
-      @PathVariable UUID id, @RequestBody Project project, HttpServletRequest request) {
-    try {
-      if (projectService.getProjectById(id).isEmpty()) {
-        return ResponseUtil.buildErrorMessage(
-            HttpStatus.NOT_FOUND, "Project not found for update", request, LocalDateTime.now());
-      }
-      Project updatedProject = projectService.updateProject(id, project);
-
-      return ResponseUtil.buildSuccessMessage(
-          HttpStatus.OK,
-          "Project updated successfully",
-          updatedProject,
-          request,
-          LocalDateTime.now());
-    } catch (Exception e) {
-      return ResponseUtil.buildErrorMessage(
-          HttpStatus.INTERNAL_SERVER_ERROR,
-          "An error occurred while updating the project",
-          request,
-          LocalDateTime.now());
-    }
+    @PathVariable UUID id, @RequestBody Project project, HttpServletRequest request) {
+    return projectService.updateProject(id, project, request);
   }
-
+  
   @DeleteMapping("/{id}")
-  public ResponseEntity<StandardResponse<Project>> deleteProject(
-      @PathVariable UUID id, HttpServletRequest request) {
-    try {
-      if (projectService.getProjectById(id).isEmpty()) {
-        return ResponseUtil.buildErrorMessage(
-            HttpStatus.NOT_FOUND, "Project not found with ID: " + id, request, LocalDateTime.now());
-      }
-
-      projectService.deleteProject(id);
-
-      return ResponseUtil.buildSuccessMessage(
-          HttpStatus.NO_CONTENT,
-          "Project deleted successfully",
-          null,
-          request,
-          LocalDateTime.now());
-
-    } catch (Exception e) {
-      return ResponseUtil.buildErrorMessage(
-          HttpStatus.INTERNAL_SERVER_ERROR,
-          "An error occurred while deleting the project",
-          request,
-          LocalDateTime.now());
-    }
+  public ResponseEntity<StandardResponse<Void>> deleteProject(@PathVariable UUID id, HttpServletRequest request) {
+    return projectService.deleteProject(id, request);
   }
-
+  
   @GetMapping("/team/{teamId}")
   public ResponseEntity<StandardResponse<List<Project>>> getProjectsByTeamId(
-      @PathVariable UUID teamId, HttpServletRequest request) {
-
-    List<Project> projects = projectService.getProjectsByTeamId(teamId);
-
-    if (!projects.isEmpty()) {
-      return ResponseUtil.buildSuccessMessage(
-          HttpStatus.OK, "Projects retrieved successfully", projects, request, LocalDateTime.now());
-    }
-    return ResponseUtil.buildErrorMessage(
-        HttpStatus.NOT_FOUND,
-        "No projects found for the specified team",
-        request,
-        LocalDateTime.now());
+    @PathVariable UUID teamId, HttpServletRequest request) {
+    return projectService.getProjectsByTeamId(teamId, request);
   }
-
-  //	@PostMapping("/{projectId}/team/{teamId}")
-  //	public ResponseEntity<StandardResponse<Project>> assignTeamToProject(@PathVariable UUID
-  // projectId, @PathVariable UUID teamId, HttpServletRequest request) {
-  //
-  //		Project updatedProject = projectService.assignTeamToProject(projectId, teamId);
-  //
-  //		if (updatedProject != null) {
-  //			return ResponseUtil.buildSuccessMessage(HttpStatus.OK, "Team assigned to project
-  // successfully", updatedProject, request, LocalDateTime.now());
-  //		}
-  //		return ResponseUtil.buildErrorMessage(HttpStatus.NOT_FOUND, "Failed to assign team to project.
-  // Project or Team not found", request, LocalDateTime.now());
-  //	}
-
 }
