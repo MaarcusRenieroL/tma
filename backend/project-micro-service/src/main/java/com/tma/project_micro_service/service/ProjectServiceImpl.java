@@ -52,8 +52,12 @@ public class ProjectServiceImpl implements ProjectService {
     }
     if (project.getUserIds() == null) {
       Set<UUID> userIds = new HashSet<>();
+    if (project.getUserIds() == null) {
+      Set<UUID> userIds = new HashSet<>();
       userIds.add(userId);
       project.setUserIds(userIds);
+    } else {
+      Set<UUID> userIds = project.getUserIds();
     } else {
       Set<UUID> userIds = project.getUserIds();
       userIds.add(userId);

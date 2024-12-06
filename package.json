@@ -4,11 +4,13 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "commit": "cz",
     "test": "echo \"Error: no test specified\" && exit 1",
     "prepare": "husky"
   },
   "devDependencies": {
     "@eslint/js": "^9.16.0",
+    "cz-conventional-changelog": "^3.3.0",
     "eslint": "^9.15.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-prettier": "^5.2.1",
@@ -32,5 +34,10 @@
   "license": "ISC",
   "dependencies": {
     "tma": "file:"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
   }
 }

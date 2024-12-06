@@ -13,6 +13,7 @@ import { HlmAvatarModule } from "@spartan-ng/ui-avatar-helm";
 import { HlmMenuModule } from "@spartan-ng/ui-menu-helm";
 import { BrnMenuModule } from "@spartan-ng/ui-menu-brain";
 import { lucideLogOut } from "@ng-icons/lucide";
+import { bootstrapLaptop, bootstrapMoon, bootstrapSun } from "@ng-icons/bootstrap-icons";
 
 @NgModule({
   declarations: [
@@ -20,7 +21,10 @@ import { lucideLogOut } from "@ng-icons/lucide";
   ],
   imports: [
     CommonModule, ModalsModule, CardsModule, HlmSheetModule, BrnSheetModule, HlmButtonDirective, NgIconsModule, RouterModule, HlmAvatarModule, HlmMenuModule, BrnMenuModule, NgIconsModule.withIcons({
-      lucideLogOut
+      lucideLogOut,
+      bootstrapSun,
+      bootstrapMoon,
+      bootstrapLaptop
     })
   ], exports: [ AccountNavComponent, SiteNavbarComponent ]
 })

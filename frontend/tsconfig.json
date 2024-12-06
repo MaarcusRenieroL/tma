@@ -73,11 +73,11 @@
       "@spartan-ng/ui-tabs-helm": [
         "./src/components/ui/ui-tabs-helm/src/index.ts"
       ],
-      "@spartan-ng/ui-hovercard-helm": [
-        ".\\src/components/ui/ui-hovercard-helm/src/index.ts"
-      ],
       "@spartan-ng/ui-alert-helm": [
-        ".\\src/components/ui/ui-alert-helm/src/index.ts"
+        "./src/components/ui/ui-alert-helm/src/index.ts"
+      ],
+      "@spartan-ng/ui-hovercard-helm": [
+        "./ui-hovercard-helm/src/index.ts"
       ]
     }
   },

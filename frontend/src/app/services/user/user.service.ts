@@ -22,4 +22,12 @@ export class UserService {
       }
     })
   }
+  
+  getUserByUserId(userId: string): Observable<StandardResponse<User>> {
+    return this.http.get<StandardResponse<User>>(environment.backendAPI + "users/" + userId, {
+      headers: {
+        Authorization: "Bearer " + this.cookieService.get("syncTeam.token")
+      }
+    });
+  }
 }

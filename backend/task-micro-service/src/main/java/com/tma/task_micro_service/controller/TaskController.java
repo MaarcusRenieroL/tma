@@ -14,53 +14,53 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("api/tasks")
 public class TaskController {
-  
+
   @Autowired private TaskService taskService;
-  
+
   @GetMapping
   public ResponseEntity<StandardResponse<List<Task>>> getAllTasks(HttpServletRequest request) {
     return taskService.getAllTasks(request);
   }
-  
+
   @PostMapping
   public ResponseEntity<StandardResponse<Task>> createTask(
-    @RequestBody CreateTaskRequest taskRequest, HttpServletRequest request) {
+      @RequestBody CreateTaskRequest taskRequest, HttpServletRequest request) {
     return taskService.createTask(taskRequest.getTask(), taskRequest.getUserId(), request);
   }
-  
+
   @PutMapping("/{taskId}")
   public ResponseEntity<StandardResponse<Task>> updateTask(
-    @PathVariable UUID taskId, @RequestBody Task task, HttpServletRequest request) {
+      @PathVariable UUID taskId, @RequestBody Task task, HttpServletRequest request) {
     return taskService.updateTask(taskId, task, request);
   }
-  
+
   @DeleteMapping("/{taskId}")
   public ResponseEntity<StandardResponse<Void>> deleteTask(
-    @PathVariable UUID taskId, HttpServletRequest request) {
+      @PathVariable UUID taskId, HttpServletRequest request) {
     return taskService.deleteTask(taskId, request);
   }
-  
+
   @GetMapping("/{taskId}")
   public ResponseEntity<StandardResponse<Task>> getTaskById(
-    @PathVariable UUID taskId, HttpServletRequest request) {
+      @PathVariable UUID taskId, HttpServletRequest request) {
     return taskService.getTaskById(taskId, request);
   }
-  
+
   @GetMapping("user/{userId}")
   public ResponseEntity<StandardResponse<List<Task>>> getTasksByUserId(
-    @PathVariable UUID userId, HttpServletRequest request) {
+      @PathVariable UUID userId, HttpServletRequest request) {
     return taskService.getTaskByUserId(userId, request);
   }
-  
+
   @GetMapping("team/{teamId}")
   public ResponseEntity<StandardResponse<List<Task>>> getTasksByTeamId(
-    @PathVariable UUID teamId, HttpServletRequest request) {
+      @PathVariable UUID teamId, HttpServletRequest request) {
     return taskService.getTaskByTeamId(teamId, request);
   }
-  
+
   @GetMapping("project/{projectId}")
   public ResponseEntity<StandardResponse<List<Task>>> getTasksByProjectId(
-    @PathVariable UUID projectId, HttpServletRequest request) {
+      @PathVariable UUID projectId, HttpServletRequest request) {
     return taskService.getTaskByProjectId(projectId, request);
   }
 }

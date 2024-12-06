@@ -38,6 +38,7 @@ export class SignInComponent {
         if (response.data.token) {
           this.cookieService.set('syncTeam.token', response.data.token);
           this.cookieService.set("syncTeam.userId", response.data.userId);
+          this.cookieService.set("syncTeam.isOnboarded", response.data.onboarded.toString());
           this.router.navigate(['/dashboard']).then();
         } else {
           toast.error("Token not found")
