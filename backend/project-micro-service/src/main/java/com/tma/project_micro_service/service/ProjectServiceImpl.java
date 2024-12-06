@@ -50,39 +50,33 @@ public class ProjectServiceImpl implements ProjectService {
     if (project.getTeamId() == null) {
       project.setTeamId(teamId);
     }
-    if (project.getUserIds() == null) {
-      Set<UUID> userIds = new HashSet<>();
-    if (project.getUserIds() == null) {
-      Set<UUID> userIds = new HashSet<>();
-      userIds.add(userId);
-      project.setUserIds(userIds);
-    } else {
-      Set<UUID> userIds = project.getUserIds();
-    } else {
-      Set<UUID> userIds = project.getUserIds();
-      userIds.add(userId);
-      project.setUserIds(userIds);
+		Set<UUID> userIds;
+		if (project.getUserIds() == null) {
+			userIds = new HashSet<>();
+		} else{
+			userIds = project.getUserIds();
+		}
+		userIds.add(userId);
+		project.setUserIds(userIds);
+		
+		try {
+        Project savedProject = projectRepository.save(project);
+        
+        // Assign the project to the team and user via the Feign clients
+        teamFeignClient.assignProjectToTeam(
+          new AssignProjectToTeamRequest(savedProject.getProjectId(), teamId), bearerToken);
+        userFeignClient.assignProjectToUser(
+          new AssignProjectToUserRequest(savedProject.getProjectId(), userId), bearerToken);
+        
+        return ResponseUtil.buildSuccessMessage(
+          HttpStatus.CREATED, "Project created successfully", savedProject, request, LocalDateTime.now());
+        
+      } catch (Exception e) {
+        log.error("Error while creating project: {}", e.getMessage());
+        return ResponseUtil.buildErrorMessage(
+          HttpStatus.INTERNAL_SERVER_ERROR, "An error occurred while creating the project", request, LocalDateTime.now());
+      }
     }
-    
-    try {
-      Project savedProject = projectRepository.save(project);
-      
-      // Assign the project to the team and user via the Feign clients
-      teamFeignClient.assignProjectToTeam(
-        new AssignProjectToTeamRequest(savedProject.getProjectId(), teamId), bearerToken);
-      userFeignClient.assignProjectToUser(
-        new AssignProjectToUserRequest(savedProject.getProjectId(), userId), bearerToken);
-      
-      return ResponseUtil.buildSuccessMessage(
-        HttpStatus.CREATED, "Project created successfully", savedProject, request, LocalDateTime.now());
-      
-    } catch (Exception e) {
-      log.error("Error while creating project: {}", e.getMessage());
-      return ResponseUtil.buildErrorMessage(
-        HttpStatus.INTERNAL_SERVER_ERROR, "An error occurred while creating the project", request, LocalDateTime.now());
-    }
-  }
-  
   @Override
   public ResponseEntity<StandardResponse<Project>> getProjectById(
     UUID projectId, HttpServletRequest request) {
@@ -95,6 +89,7 @@ public class ProjectServiceImpl implements ProjectService {
       return ResponseUtil.buildErrorMessage(
         HttpStatus.NOT_FOUND, "Project not found with ID: " + projectId, request, LocalDateTime.now());
     }
+  
   }
   
   @Override
