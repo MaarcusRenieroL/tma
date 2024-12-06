@@ -206,7 +206,6 @@ return ResponseUtil.buildSuccessMessage(
     UUID token = UUID.randomUUID();
     PasswordResetToken passwordResetToken =
         new PasswordResetToken(optionalUser.get(), token, LocalDateTime.now().plusHours(1), false);
-
     passwordResetTokenRepository.save(passwordResetToken);
 
     log.info("Email service called");
