@@ -65,4 +65,12 @@ export class OrganizationService {
       }
     );
   }
+
+  getOrganizationByOrganizationId(
+    organizationId: string
+  ): Observable<StandardResponse<Organization>> {
+    return this.http.get<StandardResponse<Organization>>(
+      environment.backendAPI + 'organizations/' + organizationId
+    );
+  }
 }

@@ -323,6 +323,7 @@ public class UserServiceImplementation implements UserService {
 
       // Update organization ID and save the user
       user.setOrganizationId(organizationId);
+      user.setOnboarded(true);
       User updatedUser = userRepository.save(user);
 
       // Return success response

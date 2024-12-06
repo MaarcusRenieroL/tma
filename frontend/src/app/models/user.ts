@@ -5,6 +5,7 @@ export interface User {
   password: string;
   role: string;
   name: string;
+  organizationId: string;
   location?: string;
   teamIds?: string[];
   taskIds?: string[];

@@ -51,8 +51,13 @@ export class OnboardingComponent {
               this.cookieService.set('syncTeam.isOnboarded', 'true');
               this.router.navigate(['/dashboard']).then();
             } else if (
-              [401, 402, 403, 404, 405, 500].includes(response.statusCode)
+              [400, 401, 402, 403, 404, 405, 500].includes(response.statusCode)
             ) {
+              console.log(
+                [400, 401, 402, 403, 404, 405, 500].includes(
+                  response.statusCode
+                )
+              );
               toast.error(response.message);
             }
           } else {
