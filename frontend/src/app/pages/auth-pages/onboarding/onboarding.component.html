@@ -1,177 +1,169 @@
 <div
-	class="fixed inset-0 z-50 flex items-center justify-center data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0">
-	<div
-		class="grid w-full max-w-5xl gap-6 border p-8 shadow-lg duration-200 sm:rounded-lg data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95">
-		<div class="flex flex-col space-y-2 text-center sm:text-left">
-			<h3 class="text-2xl font-semibold leading-tight">Onboarding Form</h3>
-			<p class="text-sm text-gray-500">Fill in the organization details below.</p>
-		</div>
-		<form [formGroup]="organizationForm" (ngSubmit)="onSubmit()" class="grid gap-5">
-			<div class="grid grid-cols-1 lg:grid-cols-4 gap-5">
-				<div class="flex flex-col gap-2">
-					<label class="block text-sm font-medium" for="organizationName">Organization Name</label>
-					<input
-						hlmInput
-						id="organizationName"
-						type="text"
-						formControlName="organizationName"
-						class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-						placeholder="Enter organization name"
-					/>
-					<div
-						*ngIf="organizationForm.get('organizationName')?.invalid && organizationForm.get('organizationName')?.touched"
-						class="text-sm text-red-500">
-						Organization name is required.
-					</div>
-				</div>
-				<div class="flex flex-col gap-2">
-					<label class="block text-sm font-medium" for="email">Email</label>
-					<input
-						hlmInput
-						id="email"
-						type="email"
-						formControlName="email"
-						class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-						placeholder="Enter email"
-					/>
-					<div *ngIf="organizationForm.get('email')?.invalid && organizationForm.get('email')?.touched"
-					     class="text-sm text-red-500">
-						A valid email is required.
-					</div>
-				</div>
-				<div class="flex flex-col gap-2">
-					<label class="block text-sm font-medium" for="website">Website</label>
-					<input
-						hlmInput
-						id="website"
-						type="url"
-						formControlName="website"
-						class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-						placeholder="Enter website URL"
-					/>
-					<div *ngIf="organizationForm.get('website')?.invalid && organizationForm.get('website')?.touched"
-					     class="text-sm text-red-500">
-						A valid website URL is required.
-					</div>
-				</div>
-				<div class="flex flex-col gap-2">
-					<label class="block text-sm font-medium" for="phoneNumber">Phone Number</label>
-					<input
-						hlmInput
-						id="phoneNumber"
-						type="tel"
-						formControlName="phoneNumber"
-						class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-						placeholder="Enter phone number"
-					/>
-					<div *ngIf="organizationForm.get('phoneNumber')?.invalid && organizationForm.get('phoneNumber')?.touched"
-					     class="text-sm text-red-500">
-						A valid phone number is required.
-					</div>
-				</div>
-				<div class="flex flex-col gap-2 w-full col-span-2">
-					<label class="block text-sm font-medium" for="address">Address</label>
-					<textarea
-						hlmInput
-						id="address"
-						[attr.rows]="20"
-						formControlName="address"
-						class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-						placeholder="Enter address"
-					></textarea>
-					<div *ngIf="organizationForm.get('address')?.invalid && organizationForm.get('address')?.touched"
-					     class="text-sm text-red-500">
-						Address is required.
-					</div>
-				</div>
-				<div class="hidden">
-					<label class="block text-sm font-medium" for="logoUrl">Logo URL</label>
-					<input
-						id="logoUrl"
-						type="url"
-						formControlName="logoUrl"
-						class="w-full px-4 py-2 border rounded-md bg-gray-100 text-gray-500 cursor-not-allowed"
-						placeholder="Logo URL will be auto-generated"
-						[disabled]="true"
-						[hidden]="true"
-					/>
-				</div>
-				<div class="flex flex-col gap-2 w-full col-span-2">
-					<label hlmLabel>Company Logo</label>
-					<div
-						class="p-8 border-2 border-dashed rounded-lg text-center cursor-pointer transition-colors"
-						[ngClass]="{
-      'border-primary bg-primary/10': false,
-      'border-gray-300 hover:border-primary': true
-    }"
-						(click)="fileInput.click()"
-					>
-						<input
-							#fileInput
-							type="file"
-							accept="image/*"
-							(change)="handleFileSelect($event)"
-							class="hidden"
-						/>
-						<div *ngIf="!file">
-							<p class="text-lg font-semibold">Drag & Drop your file here</p>
-							<p class="text-sm text-gray-500 mt-2">or click to select a file</p>
-						</div>
-						<div *ngIf="file">
-							<img
-								*ngIf="preview"
-								[src]="preview"
-								alt="Preview"
-								class="mx-auto max-h-48 rounded-lg"
-							/>
-							<p class="text-sm text-gray-500 mt-4">{{ file.name }}</p>
-							<div class="w-full">
-								<div class="w-full h-2 bg-gray-200 rounded-lg overflow-hidden mt-2">
-									<div
-										class="h-2 bg-blue-500 rounded-lg transition-width"
-										[style.width.%]="uploadProgress"
-									></div>
-								</div>
-							</div>
-						</div>
-					</div>
-					
-					<div
-						*ngIf="organizationForm.get('file')?.invalid && organizationForm.get('file')?.touched"
-						class="text-sm text-red-500"
-					>
-						File is required.
-					</div>
-					
-					<div *ngIf="file" class="mt-4 flex justify-between items-center">
-						<p class="text-sm text-gray-500">{{ (file.size / 1024 / 1024).toFixed(2) }}MB</p>
-						<button
-							hlmBtn
-							variant="outline"
-							size="sm"
-							(click)="removeFile()"
-							class="text-red-500 hover:text-red-700"
-						>
-							Remove
-						</button>
-					</div>
-					
-					<p class="mt-2 text-xs text-gray-500">
-						Accepted file types: {{ acceptedFileTypes.join(', ') }}. Max size:
-						{{ maxSize / 1024 / 1024 }}MB
-					</p>
-				</div>
-			
-			</div>
-			<div class="flex justify-end space-x-4 mt-6">
-				<button
-					hlmBtn
-					type="submit"
-					[disabled]="organizationForm.invalid"
-				>
-					Submit
-				</button>
-			</div>
-		</form>
-	</div>
+  class="fixed inset-0 z-50 flex items-center justify-center data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0">
+  <div
+    class="grid w-full max-h-4xl max-w-5xl gap-6 border p-8 shadow-lg duration-200 sm:rounded-lg data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95">
+    <div class="flex flex-col space-y-2 text-center sm:text-left">
+      <h3 class="text-2xl font-semibold leading-tight">Onboarding Form</h3>
+      <p class="text-sm text-gray-500">Fill in the organization details below.</p>
+    </div>
+    <form [formGroup]="organizationForm" (ngSubmit)="onSubmit()" class="grid gap-6">
+      <div class="grid grid-cols-1 gap-5 md:grid-cols-2">
+        <!-- Organization Name -->
+        <div class="flex flex-col gap-2">
+          <label class="block text-sm font-medium" for="organizationName">Organization Name</label>
+          <input
+            hlmInput
+            id="organizationName"
+            type="text"
+            formControlName="organizationName"
+            class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            placeholder="Enter organization name"
+          />
+          <div
+            *ngIf="organizationForm.get('organizationName')?.invalid && organizationForm.get('organizationName')?.touched"
+            class="text-sm text-red-500">
+            Organization name is required.
+          </div>
+        </div>
+        <!-- Email -->
+        <div class="flex flex-col gap-2">
+          <label class="block text-sm font-medium" for="email">Email</label>
+          <input
+            hlmInput
+            id="email"
+            type="email"
+            formControlName="email"
+            class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            placeholder="Enter email"
+          />
+          <div *ngIf="organizationForm.get('email')?.invalid && organizationForm.get('email')?.touched"
+               class="text-sm text-red-500">
+            A valid email is required.
+          </div>
+        </div>
+      </div>
+      <div class="grid grid-cols-1 gap-5 md:grid-cols-2">
+        <!-- Website -->
+        <div class="flex flex-col gap-2">
+          <label class="block text-sm font-medium" for="website">Website</label>
+          <input
+            hlmInput
+            id="website"
+            type="url"
+            formControlName="website"
+            class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            placeholder="Enter website URL"
+          />
+          <div *ngIf="organizationForm.get('website')?.invalid && organizationForm.get('website')?.touched"
+               class="text-sm text-red-500">
+            A valid website URL is required.
+          </div>
+        </div>
+        <!-- Phone Number -->
+        <div class="flex flex-col gap-2">
+          <label class="block text-sm font-medium" for="phoneNumber">Phone Number</label>
+          <input
+            hlmInput
+            id="phoneNumber"
+            type="tel"
+            formControlName="phoneNumber"
+            class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            placeholder="Enter phone number"
+          />
+          <div *ngIf="organizationForm.get('phoneNumber')?.invalid && organizationForm.get('phoneNumber')?.touched"
+               class="text-sm text-red-500">
+            A valid phone number is required.
+          </div>
+        </div>
+      </div>
+      <div class="grid grid-cols-1 gap-5">
+        <!-- Address -->
+        <div class="flex flex-col gap-2">
+          <label class="block text-sm font-medium" for="address">Address</label>
+          <textarea
+            hlmInput
+            id="address"
+            rows="4"
+            formControlName="address"
+            class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            placeholder="Enter address"
+          ></textarea>
+          <div *ngIf="organizationForm.get('address')?.invalid && organizationForm.get('address')?.touched"
+               class="text-sm text-red-500">
+            Address is required.
+          </div>
+        </div>
+      </div>
+      <div class="grid grid-cols-1 gap-5">
+        <!-- Company Logo -->
+        <div class="flex flex-col gap-2">
+          <label class="block text-sm font-medium">Company Logo</label>
+          <div
+            class="relative p-8 border-2 border-dashed rounded-lg text-center cursor-pointer transition-all hover:border-blue-500"
+            [ngClass]="{
+        'border-primary bg-primary/10': false,
+        'border-gray-300 hover:border-primary': true
+      }"
+            (click)="fileInput.click()">
+            <input
+                #fileInput
+                type="file"
+                accept="image/*"
+                (change)="handleFileSelect($event)"
+                class="hidden"
+            />
+            <div *ngIf="!file">
+              <p class="text-lg font-semibold">Drag & Drop your file here</p>
+              <p class="text-sm text-gray-500 mt-2">or click to select a file</p>
+            </div>
+            <div *ngIf="file" class="flex items-center justify-center gap-4">
+              <img
+                *ngIf="preview"
+                [src]="preview"
+                alt="Preview"
+                class="w-20 h-20 object-cover rounded-lg border"
+              />
+              <div class="w-full">
+
+                <p class="text-sm text-gray-500 truncate w-full">{{ file.name }}</p>
+                <div class="w-full">
+                  <div class="w-full h-2 bg-gray-200 rounded-lg overflow-hidden mt-2">
+                    <div
+                      class="h-2 bg-blue-500 rounded-lg transition-width"
+                      [style.width.%]="uploadProgress">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div *ngIf="file" class="mt-4 flex justify-between items-center">
+            <p class="text-sm text-gray-500">{{ (file.size / 1024 / 1024).toFixed(2) }}MB</p>
+            <button
+              hlmBtn
+              variant="outline"
+              size="sm"
+              (click)="removeFile()"
+              class="text-red-500 hover:text-red-700">
+              Remove
+            </button>
+          </div>
+          <p class="mt-2 text-xs text-gray-500">
+            Accepted file types: {{ acceptedFileTypes.join(', ') }}. Max size:
+            {{ maxSize / 1024 / 1024 }}MB
+          </p>
+        </div>
+      </div>
+
+      <!-- Submit Button -->
+      <div class="flex justify-end mt-6">
+        <button
+          hlmBtn
+          type="submit"
+          [disabled]="organizationForm.invalid">
+          Submit
+        </button>
+      </div>
+    </form>
+  </div>
 </div>
