@@ -60,6 +60,7 @@ export class AuthService {
     this.cookieService.delete('syncTeam.userId');
     this.cookieService.delete('syncTeam.isOnboarded');
     this.cookieService.delete('syncTeam.isVerified');
+    this.cookieService.delete('syncTeam.email');
   }
 
   forgotPassword(

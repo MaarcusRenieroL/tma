@@ -1,11 +1,12 @@
 import { Component, Input } from '@angular/core';
+import { Task } from "../../../../app/models/task";
 
 @Component({
   selector: 'task-card',
   templateUrl: './task-card.component.html',
 })
 export class TaskCardComponent {
-  @Input() task: any;
+  @Input() task: Task | null = null;
   
   files = [
     {

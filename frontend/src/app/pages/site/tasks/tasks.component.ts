@@ -14,71 +14,7 @@ import {
 } from "@spartan-ng/ui-table-brain";
 import { Task } from "../../../models/task";
 
-export const TASKS_DATA: Task[] = [
-  {
-    id: 1,
-    title: "Complete Angular Project",
-    description: "Finish implementing the task management feature in the Angular app.",
-    dueDate: new Date("2024-12-15T18:00:00Z"),
-    dateAllocated: new Date("2024-11-20T09:00:00Z"),
-    priority: "High",
-    status: "In Progress",
-  },
-  {
-    id: 2,
-    title: "Write Unit Tests for API",
-    description: "Write unit tests for the new API endpoints to ensure proper functionality.",
-    dueDate: new Date("2024-11-25T12:00:00Z"),
-    dateAllocated: new Date("2024-11-18T10:00:00Z"),
-    priority: "Medium",
-    status: "Pending",
-  },
-  {
-    id: 3,
-    title: "Design Homepage UI",
-    description: "Design the layout for the homepage, including header, footer, and navigation.",
-    dueDate: new Date("2024-12-05T15:00:00Z"),
-    dateAllocated: new Date("2024-11-15T08:30:00Z"),
-    priority: "Low",
-    status: "Completed",
-  },
-  {
-    id: 4,
-    title: "Fix Bugs in Dashboard",
-    description: "Resolve the issues related to dashboard data rendering and responsiveness.",
-    dueDate: new Date("2024-11-28T10:00:00Z"),
-    dateAllocated: new Date("2024-11-20T11:00:00Z"),
-    priority: "High",
-    status: "In Progress",
-  },
-  {
-    id: 5,
-    title: "Update Project Documentation",
-    description: "Update the documentation to reflect recent changes in the project's architecture.",
-    dueDate: new Date("2024-12-10T17:00:00Z"),
-    dateAllocated: new Date("2024-11-21T14:00:00Z"),
-    priority: "Medium",
-    status: "Pending",
-  },
-  {
-    id: 6,
-    title: "Refactor User Service",
-    description: "Refactor the user service to improve performance and readability.",
-    dueDate: new Date("2024-12-20T13:00:00Z"),
-    dateAllocated: new Date("2024-11-22T09:30:00Z"),
-    priority: "Low",
-    status: "Pending",
-  },
-  {
-    id: 7,
-    title: "Implement Search Feature",
-    description: "Implement a search feature on the app to allow users to find tasks easily.",
-    dueDate: new Date("2024-12-01T12:00:00Z"),
-    dateAllocated: new Date("2024-11-19T10:45:00Z"),
-    priority: "High",
-    status: "In Progress",
-  },
-];
+export const TASKS_DATA: Task[] = [];
 
 
 @Component({
@@ -161,7 +97,7 @@ export class TasksComponent {
     return noneSelected ? false : allSelectedOrIndeterminate;
   });
 
-  protected readonly _trackBy: TrackByFunction<Task> = (_: number, p: Task) => p.id;
+  protected readonly _trackBy: TrackByFunction<Task> = (_: number, p: Task) => p.taskId;
   protected readonly _totalElements = computed(() => this._filteredTasks().length);
   protected readonly _onStateChange = ({ startIndex, endIndex }: PaginatorState) =>
     this._displayedIndices.set({ start: startIndex, end: endIndex });

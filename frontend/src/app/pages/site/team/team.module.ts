@@ -27,6 +27,7 @@ import { bootstrapPlus } from "@ng-icons/bootstrap-icons";
 import { ionAttachOutline } from "@ng-icons/ionicons";
 import { HlmHoverCardModule } from "@spartan-ng/ui-hovercard-helm";
 import { BrnHoverCardModule } from "@spartan-ng/ui-hovercard-brain";
+import { OverviewTabModule } from "../project/overview-tab/overview-tab.module";
 
 const components = [
 	BoardTabComponent,
@@ -39,29 +40,30 @@ const components = [
 
 @NgModule({
 	imports: [
-    CommonModule,
-    FormsModule,
-    DragDropModule,
-    SharedModule,
-    HlmButtonDirective,
-    HlmCardModule,
-    HlmMenuModule,
-    BrnMenuModule,
-    HlmInputModule,
-    HlmBadgeModule,
-    HlmAvatarModule,
-    HlmDialogModule,
-    BrnDialogModule,
-    HlmTabsModule,
-    BrnTabsModule,
-    NgIconsModule.withIcons({
+		CommonModule,
+		FormsModule,
+		DragDropModule,
+		SharedModule,
+		HlmButtonDirective,
+		HlmCardModule,
+		HlmMenuModule,
+		BrnMenuModule,
+		HlmInputModule,
+		HlmBadgeModule,
+		HlmAvatarModule,
+		HlmDialogModule,
+		BrnDialogModule,
+		HlmTabsModule,
+		BrnTabsModule,
+		NgIconsModule.withIcons({
 			bootstrapPlus, ionAttachOutline, lucideMessageSquare,
 		}),
-    CardsModule,
+		CardsModule,
 		CommonModule,
 		HlmHoverCardModule,
-		BrnHoverCardModule
-],
+		BrnHoverCardModule,
+		OverviewTabModule
+	],
 	declarations: [...components],
 	exports: [...components],
 })

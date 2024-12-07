@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { Project } from "../../../../models/project";
 
 @Component({
-  selector: 'projects-tab',
+  selector: 'team-projects-tab',
   templateUrl: './projects-tab.component.html',
 })
 export class ProjectsTabComponent {

@@ -5,7 +5,7 @@
     <hr />
   </div>
   <div class="space-y-5 w-full h-full mt-5">
-    <stats [activeEmployees]="organization.userIds?.length ?? 0" [projectCount]="organization.projectIds?.length ?? 0" [overdueTasks]="organization.taskIds?.length ?? 0" [pendingTasks]="organization.taskIds?.length ?? 0" />
+    <stats [activeEmployees]="organization?.userIds?.length ?? 0" [projectCount]="organization?.projectIds?.length ?? 0" [overdueTasks]="organization?.taskIds?.length ?? 0" [pendingTasks]="organization?.taskIds?.length ?? 0" />
     <div class="w-full grid grid-cols-1 lg:grid-cols-2 gap-5 h-full">
       <ongoing-tasks />
       <top-performers />

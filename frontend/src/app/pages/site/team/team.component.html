@@ -13,8 +13,8 @@
 						
 						
 						<!-- Display 'More' if there are additional members -->
-						<span *ngIf="team.userIds.length > 3" class="ml-1 text-xs text-gray-500 bg-gray-200 rounded-full p-1">
-					    +{{ team.userIds.length - 3 }}
+						<span *ngIf="teamMembers.length > 3" class="ml-1 text-xs text-gray-500 bg-gray-200 rounded-full p-1">
+					    +{{ teamMembers.length - 3 }}
 					  </span>
 					</div>
 					<button hlmBtn size="icon" variant="outline" class="rounded-full h-8 w-8">
@@ -49,19 +49,19 @@
 				<button hlmTabsTrigger="files" class="w-full">Files</button>
 			</hlm-tabs-list>
 			<div hlmTabsContent="overview" class="mt-5 w-full">
-				<overview-tab/>
+				<team-overview-tab [unassignedTasksCount]="unassignedTasksCount" [inProgressTasksCount]="inProgressTasksCount" [completedTasksCount]="completedTasksCount" />
 			</div>
 			<div hlmTabsContent="projects" class="w-full mt-5">
-				<projects-tab/>
+				<team-projects-tab/>
 			</div>
 			<div hlmTabsContent="board" class="mt-5 w-full">
-				<board-tab/>
+				<team-board-tab [tasks]="tasks" />
 			</div>
 			<div hlmTabsContent="calendar">
-				<calendar-tab/>
+				<team-calendar-tab/>
 			</div>
 			<div hlmTabsContent="files" class="mt-5">
-				<files-tab/>
+				<team-files-tab/>
 			</div>
 		</hlm-tabs>
 	</div>

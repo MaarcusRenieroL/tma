@@ -5,13 +5,15 @@ import { UserService } from '../../../services/user/user.service';
 import { toast } from 'ngx-sonner';
 import { OrganizationService } from '../../../services/organization/organization.service';
 import { Organization } from '../../../models/organization';
+import { Task } from "../../../models/task";
 
 @Component({
   selector: 'dashboard',
   templateUrl: './dashboard.component.html',
 })
 export class DashboardComponent implements OnInit {
-  organization!: Organization;
+  organization: Organization | null = null;
+  tasks: Task[] | null = null;
 
   constructor(
     private router: Router,
@@ -61,5 +63,7 @@ export class DashboardComponent implements OnInit {
         toast.error('Something went wrong');
       }
     });
+    
+    
   }
 }

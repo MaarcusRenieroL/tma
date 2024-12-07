@@ -35,9 +35,8 @@ export class AccountNavComponent implements OnInit {
 	
 	logout() {
 		this.authService.logout();
-		this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
-			this.router.navigate([this.router.url]).then();
-		});
+		
+		this.router.navigate(["/"]).then();
 		toast.success("Successfully logged out");
 	}
 }

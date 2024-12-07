@@ -1,43 +1,40 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from "@angular/cdk/drag-drop";
+import { Task } from "../../../../models/task";
 
 @Component({
-  selector: 'board-tab',
+  selector: 'team-board-tab',
   templateUrl: './board-tab.component.html',
 })
 export class BoardTabComponent {
+  
+  @Input() tasks: Task[] = [];
+  
+  backLogTasks: Task[] = this.tasks.filter((task) => task.status === null);
+  todoTasks: Task[] = this.tasks.filter((task) => task.status === "TODO");
+  inProgressTasks: Task[] = this.tasks.filter((task) => task.status === "IN_PROGRESS");
+  completedTasks: Task[] = this.tasks.filter((task) => task.status === "DONE");
   
   columns = [
     {
       name: 'Backlog',
       color: 'bg-secondary',
-      tasks: [
-        { id: 1, title: 'Task 1', description: 'Description 1', priority: 'Low' },
-        { id: 2, title: 'Task 2', description: 'Description 2', priority: 'Medium' },
-      ],
+      tasks: this.backLogTasks
     },
     {
       name: 'Todo',
       color: 'bg-blue-400',
-      tasks: [
-        { id: 4, title: 'Task 4', description: 'Description 4', priority: 'Low' },
-        { id: 5, title: 'Task 5', description: 'Description 5', priority: 'High' },
-      ],
+      tasks: this.todoTasks
     },
     {
       name: 'In Progress',
       color: 'bg-orange-400',
-      tasks: [
-        { id: 6, title: 'Task 6', description: 'Description 6', priority: 'Medium' },
-      ],
+      tasks: this.inProgressTasks
     },
     {
       name: 'Completed',
       color: 'bg-green-400',
-      tasks: [
-        { id: 7, title: 'Task 7', description: 'Description 7', priority: 'Low' },
-        { id: 8, title: 'Task 8', description: 'Description 8', priority: 'Medium' },
-      ],
+      tasks: this.completedTasks
     },
   ];
   

@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { File } from "../../../../models/file";
 
 @Component({
-  selector: 'files-tab',
+  selector: 'team-files-tab',
   templateUrl: './files-tab.component.html',
 })
 export class FilesTabComponent {

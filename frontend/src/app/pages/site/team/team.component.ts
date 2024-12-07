@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { TeamService } from "../../../services/team/team.service";
 import { toast } from "ngx-sonner";
 import { Team } from "../../../models/team";
 import { User } from "../../../models/user";
 import { UserService } from "../../../services/user/user.service";
+import { TaskService } from "../../../services/task/task.service";
+import { Task } from "../../../models/task";
 
 @Component({
 	selector: 'team', templateUrl: './team.component.html',
@@ -14,8 +16,13 @@ export class TeamComponent implements OnInit {
 	teamId: string = "";
 	team!: Team;
 	teamMembers: User[] = [];
+	tasks: Task[] = [];
 	
-	constructor(private activatedRoute: ActivatedRoute, private teamService: TeamService, private userService: UserService) {
+	unassignedTasksCount = 0;
+	inProgressTasksCount = 0;
+	completedTasksCount = 0;
+	
+	constructor(private activatedRoute: ActivatedRoute, private teamService: TeamService, private userService: UserService, private router: Router, private taskService: TaskService) {
 	}
 	
 	ngOnInit() {
@@ -46,5 +53,27 @@ export class TeamComponent implements OnInit {
 				toast.error("Something went wrong")
 			}
 		});
+		
+		this.teamService.getTeamByTeamId({
+			teamId: this.router.url.split('/')[2],
+		}).subscribe((response) => {
+			if (response && response.statusCode === 200) {
+				this.taskService.getTasksByTeamId(this.router.url.split('/')[2]).subscribe((response) => {
+					if (response && response.statusCode === 200) {
+						this.tasks = response.data;
+						this.updateTaskCounts();
+						toast.success(response.message);
+					} else {
+						toast.error(response?.message || "Something went wrong");
+					}
+				});
+			}
+		});
+	}
+	
+	private updateTaskCounts() {
+		this.unassignedTasksCount = this.tasks.filter(task => task.status === null).length;
+		this.inProgressTasksCount = this.tasks.filter(task => task.status === "IN_PROGRESS").length;
+		this.completedTasksCount = this.tasks.filter(task => task.status === "DONE").length;
 	}
 }
