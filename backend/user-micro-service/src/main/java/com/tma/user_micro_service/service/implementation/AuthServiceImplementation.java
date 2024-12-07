@@ -1,18 +1,14 @@
 package com.tma.user_micro_service.service.implementation;
 
-import com.tma.user_micro_service.model.AppRole;
-import com.tma.user_micro_service.model.PasswordResetToken;
-import com.tma.user_micro_service.model.Role;
-import com.tma.user_micro_service.model.User;
-import com.tma.user_micro_service.payload.request.ForgotPasswordRequest;
-import com.tma.user_micro_service.payload.request.SignInRequest;
-import com.tma.user_micro_service.payload.request.SignUpRequest;
+import com.tma.user_micro_service.model.*;
+import com.tma.user_micro_service.payload.request.*;
 import com.tma.user_micro_service.payload.response.SignInResponse;
 import com.tma.user_micro_service.payload.response.StandardResponse;
 import com.tma.user_micro_service.payload.response.UserResponse;
 import com.tma.user_micro_service.repository.PasswordResetTokenRepository;
 import com.tma.user_micro_service.repository.RoleRepository;
 import com.tma.user_micro_service.repository.UserRepository;
+import com.tma.user_micro_service.repository.VerifyEmailTokenRepository;
 import com.tma.user_micro_service.service.AuthService;
 import com.tma.user_micro_service.util.JwtUtils;
 import com.tma.user_micro_service.util.ResponseUtil;
@@ -22,7 +18,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
+import java.util.Random;
 import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -34,7 +30,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.stereotype.Service;
 import software.amazon.awssdk.services.ses.SesClient;
 import software.amazon.awssdk.services.ses.model.*;
@@ -48,8 +43,10 @@ public class AuthServiceImplementation implements AuthService {
   private final UserRepository userRepository;
   private final RoleRepository roleRepository;
   private final PasswordResetTokenRepository passwordResetTokenRepository;
+  private final VerifyEmailTokenRepository verifyEmailTokenRepository;
   private final PasswordEncoder passwordEncoder;
   private final SesClient sesClient;
+  Dotenv dotenv = Dotenv.configure().load();
 
   public AuthServiceImplementation(
       AuthenticationManager authenticationManager,
@@ -58,17 +55,17 @@ public class AuthServiceImplementation implements AuthService {
       RoleRepository roleRepository,
       PasswordEncoder passwordEncoder,
       SesClient sesClient,
-      PasswordResetTokenRepository passwordResetTokenRepository) {
+      PasswordResetTokenRepository passwordResetTokenRepository,
+      VerifyEmailTokenRepository verifyEmailTokenRepository) {
     this.authenticationManager = authenticationManager;
     this.jwtUtils = jwtUtils;
     this.userRepository = userRepository;
     this.roleRepository = roleRepository;
     this.passwordEncoder = passwordEncoder;
     this.passwordResetTokenRepository = passwordResetTokenRepository;
+    this.verifyEmailTokenRepository = verifyEmailTokenRepository;
     this.sesClient = sesClient;
   }
-
-  Dotenv dotenv = Dotenv.configure().load();
 
   public ResponseEntity<StandardResponse<SignInResponse>> signIn(
       SignInRequest signInRequest, HttpServletRequest request) {
@@ -101,14 +98,18 @@ public class AuthServiceImplementation implements AuthService {
       Optional<User> optionalUser = userRepository.findByUserName(userDetails.getUsername());
       if (optionalUser.isPresent()) {
         User user = optionalUser.get();
-        SignInResponse signInResponse =
-            new SignInResponse(
-                user.getUserId(), userDetails.getUsername(), jwtToken, roles, user.isOnboarded());
 
         return ResponseUtil.buildSuccessMessage(
             HttpStatus.OK,
             "Successfully authenticated",
-            signInResponse,
+            new SignInResponse(
+                user.getUserId(),
+                userDetails.getUsername(),
+                user.getEmail(),
+                jwtToken,
+                roles,
+                user.isOnboarded(),
+                user.isVerified()),
             request,
             LocalDateTime.now());
       } else {
@@ -164,25 +165,17 @@ public class AuthServiceImplementation implements AuthService {
             user.getName(),
             user.getEmail(),
             user.getLocation(),
-            user.getRole().getRoleName().toString(),
-            user.getTeamIds()),
+            user.getRole().getRoleName().toString()),
         request,
         LocalDateTime.now());
   }
 
-  public ResponseEntity<StandardResponse<CsrfToken>> generateCsrfToken(HttpServletRequest request) {
-    CsrfToken token = (CsrfToken) request.getAttribute(CsrfToken.class.getName());
+  public ResponseEntity<StandardResponse<String>> sendEmailVerificationToken(
+      SendEmailVerificationTokenRequest sendEmailVerificationTokenRequest,
+      HttpServletRequest request) {
 
-    return ResponseUtil.buildSuccessMessage(
-        HttpStatus.CREATED, "Token generated successfully", token, request, LocalDateTime.now());
-  }
-
-  public ResponseEntity<StandardResponse<Void>> forgotPassword(
-      ForgotPasswordRequest forgotPasswordRequest, HttpServletRequest request) {
-
-    // Check if the email is null or empty
-    if (forgotPasswordRequest.getEmail() == null
-        || forgotPasswordRequest.getEmail().trim().isEmpty()) {
+    if (sendEmailVerificationTokenRequest.getEmail() == null
+        || sendEmailVerificationTokenRequest.getEmail().trim().isEmpty()) {
       return ResponseUtil.buildErrorMessage(
           HttpStatus.BAD_REQUEST,
           "Email address is required. Please provide a valid email address.",
@@ -190,10 +183,9 @@ public class AuthServiceImplementation implements AuthService {
           LocalDateTime.now());
     }
 
-    // Retrieve the user by email
-    Optional<User> optionalUser = userRepository.findByEmail(forgotPasswordRequest.getEmail());
+    Optional<User> optionalUser =
+        userRepository.findByEmail(sendEmailVerificationTokenRequest.getEmail());
 
-    // If user not found, return error
     if (optionalUser.isEmpty()) {
       return ResponseUtil.buildErrorMessage(
           HttpStatus.NOT_FOUND, "User Not Found", request, LocalDateTime.now());
@@ -201,15 +193,12 @@ public class AuthServiceImplementation implements AuthService {
 
     User existingUser = optionalUser.get();
 
-    // Check if there's already a valid token for the user
-    Optional<PasswordResetToken> existingTokenOpt =
-        passwordResetTokenRepository.findByUser_UserId(existingUser.getUserId());
+    Optional<VerifyEmailToken> existingTokenOpt =
+        verifyEmailTokenRepository.findByUser_UserId(existingUser.getUserId());
 
-    // If there's an existing token, check if it's still valid
     if (existingTokenOpt.isPresent()) {
-      PasswordResetToken existingToken = existingTokenOpt.get();
+      VerifyEmailToken existingToken = existingTokenOpt.get();
       if (!existingToken.isTokenUsed()) {
-        // Token exists and is not expired, reject the request
         return ResponseUtil.buildErrorMessage(
             HttpStatus.BAD_REQUEST,
             "A password reset request is already pending for this account.",
@@ -218,40 +207,14 @@ public class AuthServiceImplementation implements AuthService {
       }
     }
 
-    // Generate a new token if no valid token exists
-    UUID token = UUID.randomUUID();
-    PasswordResetToken passwordResetToken =
-        new PasswordResetToken(existingUser, token, LocalDateTime.now().plusHours(1), false);
-    passwordResetTokenRepository.save(passwordResetToken);
+    Random random = new Random();
+    int token = 100000 + random.nextInt(900000);
+    VerifyEmailToken verifyEmailToken =
+        new VerifyEmailToken(existingUser, token, LocalDateTime.now().plusHours(1), false);
 
-    log.info("Email service called");
+    verifyEmailTokenRepository.save(verifyEmailToken);
 
-    // Get email body content
-    String emailBodyContent = getEmailBodyContent(token, existingUser);
-
-    // Setup email parameters
-    Destination destination =
-        Destination.builder().toAddresses(forgotPasswordRequest.getEmail()).build();
-
-    Content subjectContent = Content.builder().data("Password Reset Request").build();
-
-    Content bodyContent = Content.builder().data(emailBodyContent).build();
-
-    Body emailBody = Body.builder().text(bodyContent).build();
-
-    Message message = Message.builder().subject(subjectContent).body(emailBody).build();
-
-    SendEmailRequest sendEmailRequest =
-        SendEmailRequest.builder()
-            .source(dotenv.get("AWS_SES_VERIFIED_EMAIL")) // Replace with your verified email
-            .destination(destination)
-            .message(message)
-            .build();
-
-    // Send email
-    sesClient.sendEmail(sendEmailRequest);
-
-    System.out.println("Email sent successfully!");
+    sendEmail(sendEmailVerificationTokenRequest.getEmail(), token, existingUser, true, false);
 
     return ResponseUtil.buildSuccessMessage(
         HttpStatus.OK,
@@ -261,20 +224,165 @@ public class AuthServiceImplementation implements AuthService {
         LocalDateTime.now());
   }
 
-  private String getEmailBodyContent(UUID token, User user) {
-    String resetLink = "https://www.yourdomain.com/reset-password?token=" + token.toString();
+  public ResponseEntity<StandardResponse<Void>> forgotPassword(
+      ForgotPasswordRequest forgotPasswordRequest, HttpServletRequest request) {
 
+    if (forgotPasswordRequest.getEmail() == null
+        || forgotPasswordRequest.getEmail().trim().isEmpty()) {
+      return ResponseUtil.buildErrorMessage(
+          HttpStatus.BAD_REQUEST,
+          "Email address is required. Please provide a valid email address.",
+          request,
+          LocalDateTime.now());
+    }
+
+    Optional<User> optionalUser = userRepository.findByEmail(forgotPasswordRequest.getEmail());
+
+    if (optionalUser.isEmpty()) {
+      return ResponseUtil.buildErrorMessage(
+          HttpStatus.NOT_FOUND, "User Not Found", request, LocalDateTime.now());
+    }
+
+    User existingUser = optionalUser.get();
+
+    Optional<PasswordResetToken> existingTokenOpt =
+        passwordResetTokenRepository.findByUser_UserId(existingUser.getUserId());
+
+    if (existingTokenOpt.isPresent()) {
+      PasswordResetToken existingToken = existingTokenOpt.get();
+      if (!existingToken.isTokenUsed()) {
+        return ResponseUtil.buildErrorMessage(
+            HttpStatus.BAD_REQUEST,
+            "A password reset request is already pending for this account.",
+            request,
+            LocalDateTime.now());
+      }
+    }
+
+    Random random = new Random();
+    int token = 100000 + random.nextInt(900000);
+    PasswordResetToken passwordResetToken =
+        new PasswordResetToken(existingUser, token, LocalDateTime.now().plusHours(1), false);
+    passwordResetTokenRepository.save(passwordResetToken);
+
+    log.info("Email service called");
+
+    sendEmail(forgotPasswordRequest.getEmail(), token, existingUser, false, true);
+
+    return ResponseUtil.buildSuccessMessage(
+        HttpStatus.OK,
+        "If the provided email address is associated with an account, a reset password link has been sent.",
+        null,
+        request,
+        LocalDateTime.now());
+  }
+
+  public ResponseEntity<StandardResponse<Boolean>> verifyEmail(
+      VerifyTokenRequest verifyTokenRequest, HttpServletRequest request) {
+    if (verifyTokenRequest.getToken() <= 0 || verifyTokenRequest.getUserId() == null) {
+      return ResponseUtil.buildErrorMessage(
+          HttpStatus.BAD_REQUEST,
+          "Missing or invalid required fields",
+          request,
+          LocalDateTime.now());
+    }
+
+    Optional<User> optionalUser = userRepository.findById(verifyTokenRequest.getUserId());
+
+    if (optionalUser.isEmpty()) {
+      return ResponseUtil.buildErrorMessage(
+          HttpStatus.NOT_FOUND, "User Not Found", request, LocalDateTime.now());
+    }
+
+    Optional<VerifyEmailToken> existingTokenOpt =
+        verifyEmailTokenRepository.findByUser_UserId(verifyTokenRequest.getUserId());
+
+    if (existingTokenOpt.isEmpty()) {
+      return ResponseUtil.buildErrorMessage(
+          HttpStatus.NOT_FOUND, "Token or user not found", request, LocalDateTime.now());
+    }
+
+    VerifyEmailToken existingToken = existingTokenOpt.get();
+
+    if (existingToken.isTokenUsed()) {
+      return ResponseUtil.buildErrorMessage(
+          HttpStatus.BAD_REQUEST, "This token is already used", request, LocalDateTime.now());
+    }
+
+    if (existingToken.getExpiryDate().isBefore(LocalDateTime.now())) {
+      verifyEmailTokenRepository.delete(existingToken);
+      return ResponseUtil.buildErrorMessage(
+          HttpStatus.BAD_REQUEST, "This token has expired", request, LocalDateTime.now());
+    }
+
+    if (existingToken.getToken() != verifyTokenRequest.getToken()) {
+      return ResponseUtil.buildErrorMessage(
+          HttpStatus.BAD_REQUEST, "Invalid token", request, LocalDateTime.now());
+    }
+
+    existingToken.setTokenUsed(true);
+    optionalUser.get().setVerified(true);
+    userRepository.save(optionalUser.get());
+    verifyEmailTokenRepository.save(existingToken);
+
+    return ResponseUtil.buildSuccessMessage(
+        HttpStatus.OK, "User verified successfully", true, request, LocalDateTime.now());
+  }
+
+  private String getEmailBodyContentForResetPassword(int token, User user) {
     return "Hi "
         + user.getName()
         + ",\n\n"
-        + // Personalize greeting
-        "We received a request to reset your password. Click the link below to reset your password:\n\n"
-        + resetLink
+        + "We received a request to reset your password. Use the code below to reset your password:\n\n"
+        + token
         + "\n\n"
-        + "Please note that the link will expire in 1 hour.\n\n"
+        + "Please note that the code will expire in 1 hour.\n\n"
         + "If you didn't request a password reset, please ignore this email.\n\n"
         + "Best regards,\n"
-        + "The YourApp Team\n"
+        + "The SyncTeam\n"
         + "Contact us at support@maarcus.dev if you have any questions.";
+  }
+
+  private String getEmailBodyContentForVerifyEmail(int token, User user) {
+    return "Hi "
+        + user.getName()
+        + ",\n\n"
+        + "We received a request to verify your email. Use the code below to verify your email:\n\n"
+        + token
+        + "\n\n"
+        + "Please note that the code will expire in 1 hour.\n\n"
+        + "If you didn't request a verification email, please ignore this email.\n\n"
+        + "Best regards,\n"
+        + "The SyncTeam\n"
+        + "Contact us at support@maarcus.dev if you have any questions.";
+  }
+
+  private void sendEmail(
+      String destinationEmail, int token, User user, boolean verifyEmail, boolean passwordReset) {
+    String emailBodyContent =
+        verifyEmail
+            ? getEmailBodyContentForVerifyEmail(token, user)
+            : getEmailBodyContentForResetPassword(token, user);
+
+    String subject = verifyEmail ? "Verify Your Email" : "Reset Your Password";
+
+    Destination destination = Destination.builder().toAddresses(destinationEmail).build();
+
+    Content subjectContent = Content.builder().data(subject).build();
+    Content bodyContent = Content.builder().data(emailBodyContent).build();
+    Body emailBody = Body.builder().text(bodyContent).build();
+
+    Message message = Message.builder().subject(subjectContent).body(emailBody).build();
+
+    SendEmailRequest sendEmailRequest =
+        SendEmailRequest.builder()
+            .source(dotenv.get("AWS_SES_VERIFIED_EMAIL"))
+            .destination(destination)
+            .message(message)
+            .build();
+
+    sesClient.sendEmail(sendEmailRequest);
+
+    log.info("Email sent successfully to {}", destinationEmail);
   }
 }

@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../../../services/auth/auth.service';
 import { toast } from 'ngx-sonner';
 import { Router } from '@angular/router';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'auth-sign-up',
@@ -14,7 +15,8 @@ export class SignUpComponent {
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private cookieService: CookieService
   ) {
     // Initialize the form group
     this.signUpForm = this.fb.group(
@@ -47,7 +49,11 @@ export class SignUpComponent {
           if (response.statusCode === 201) {
             toast.success(response.message);
 
-            this.router.navigate(['auth/sign-in']).then();
+            this.cookieService.set('syncTeam.email', response.data.email);
+            this.cookieService.set('syncTeam.userId', response.data.userId);
+            this.cookieService.set('syncTeam.isVerified', 'false');
+
+            this.router.navigate(['auth/verify-email']).then();
           } else if (
             [401, 402, 403, 404, 405, 500].includes(response.statusCode)
           ) {

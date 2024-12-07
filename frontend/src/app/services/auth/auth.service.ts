@@ -9,6 +9,8 @@ import { CookieService } from 'ngx-cookie-service';
 import { ForgotPasswordRequest } from '../../payload/requests/auth/forgot-password-request';
 import { SignUpRequest } from '../../payload/requests/auth/sign-up-request';
 import { User } from '../../models/user';
+import { VerifyEmailRequest } from '../../payload/requests/auth/verify-email-request';
+import { SendVerificationCodeRequest } from '../../payload/requests/auth/send-verification-code-request';
 
 @Injectable({
   providedIn: 'root',
@@ -35,10 +37,29 @@ export class AuthService {
     );
   }
 
+  sendVerificationCode(
+    sendVerificationCodeRequest: SendVerificationCodeRequest
+  ): Observable<StandardResponse<string>> {
+    return this.http.post<StandardResponse<string>>(
+      environment.backendAPI + 'auth/send-email-verification-code',
+      sendVerificationCodeRequest
+    );
+  }
+
+  verifyEmail(
+    verifyEmailRequest: VerifyEmailRequest
+  ): Observable<StandardResponse<string>> {
+    return this.http.post<StandardResponse<string>>(
+      environment.backendAPI + 'auth/verify-email',
+      verifyEmailRequest
+    );
+  }
+
   logout() {
     this.cookieService.delete('syncTeam.token');
     this.cookieService.delete('syncTeam.userId');
     this.cookieService.delete('syncTeam.isOnboarded');
+    this.cookieService.delete('syncTeam.isVerified');
   }
 
   forgotPassword(

@@ -1,8 +1,6 @@
 package com.tma.user_micro_service.controller;
 
-import com.tma.user_micro_service.payload.request.ForgotPasswordRequest;
-import com.tma.user_micro_service.payload.request.SignInRequest;
-import com.tma.user_micro_service.payload.request.SignUpRequest;
+import com.tma.user_micro_service.payload.request.*;
 import com.tma.user_micro_service.payload.response.SignInResponse;
 import com.tma.user_micro_service.payload.response.StandardResponse;
 import com.tma.user_micro_service.payload.response.UserResponse;
@@ -56,5 +54,18 @@ public class AuthController {
       @RequestBody ForgotPasswordRequest forgotPasswordRequest, HttpServletRequest request) {
 
     return authService.forgotPassword(forgotPasswordRequest, request);
+  }
+
+  @PostMapping("/send-email-verification-code")
+  public ResponseEntity<StandardResponse<String>> sendEmailVerificationCode(
+      @RequestBody SendEmailVerificationTokenRequest sendEmailVerificationTokenRequest,
+      HttpServletRequest request) {
+    return authService.sendEmailVerificationToken(sendEmailVerificationTokenRequest, request);
+  }
+
+  @PostMapping("/verify-email")
+  public ResponseEntity<StandardResponse<Boolean>> verifyEmail(
+      @RequestBody VerifyTokenRequest verifyTokenRequest, HttpServletRequest request) {
+    return authService.verifyEmail(verifyTokenRequest, request);
   }
 }

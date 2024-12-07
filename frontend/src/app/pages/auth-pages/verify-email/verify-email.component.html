@@ -13,6 +13,7 @@
 						hlmInput
 						placeholder="Enter your verification code"
 						class="w-full"
+						type="number"
 						formControlName="verificationCode"
 					/>
 					<p *ngIf="verifyEmailForm.get('verificationCode')?.invalid && verifyEmailForm.get('verificationCode')?.touched" class="text-red-500 text-sm">

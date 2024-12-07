@@ -1,8 +1,6 @@
 package com.tma.user_micro_service.service;
 
-import com.tma.user_micro_service.payload.request.ForgotPasswordRequest;
-import com.tma.user_micro_service.payload.request.SignInRequest;
-import com.tma.user_micro_service.payload.request.SignUpRequest;
+import com.tma.user_micro_service.payload.request.*;
 import com.tma.user_micro_service.payload.response.SignInResponse;
 import com.tma.user_micro_service.payload.response.StandardResponse;
 import com.tma.user_micro_service.payload.response.UserResponse;
@@ -17,6 +15,13 @@ public interface AuthService {
   ResponseEntity<StandardResponse<UserResponse>> signUp(
       SignUpRequest signUpRequest, HttpServletRequest request);
 
+  ResponseEntity<StandardResponse<String>> sendEmailVerificationToken(
+      SendEmailVerificationTokenRequest sendEmailVerificationTokenRequest,
+      HttpServletRequest request);
+
   ResponseEntity<StandardResponse<Void>> forgotPassword(
       ForgotPasswordRequest forgotPasswordRequest, HttpServletRequest request);
+
+  ResponseEntity<StandardResponse<Boolean>> verifyEmail(
+      VerifyTokenRequest verifyTokenRequest, HttpServletRequest request);
 }

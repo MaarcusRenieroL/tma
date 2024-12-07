@@ -41,6 +41,8 @@ public class User {
 
   private boolean isOnboarded;
 
+  private boolean isVerified;
+
   @NotBlank(message = "Sign-up method cannot be blank")
   @Pattern(
       regexp = "^(LOCAL|GOOGLE|FACEBOOK|APPLE|EMAIL)$",

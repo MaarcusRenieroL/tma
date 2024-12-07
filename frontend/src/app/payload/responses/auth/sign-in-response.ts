@@ -1,7 +1,9 @@
 export interface SignInResponse {
-	userId: string;
-	username: string;
-	token: string;
-	roles: string[];
-	onboarded: boolean;
+  userId: string;
+  username: string;
+  email: string;
+  token: string;
+  roles: string[];
+  onboarded: boolean;
+  verified: boolean;
 }

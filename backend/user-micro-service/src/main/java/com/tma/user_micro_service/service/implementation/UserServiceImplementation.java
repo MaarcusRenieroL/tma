@@ -156,8 +156,7 @@ public class UserServiceImplementation implements UserService {
               existingUser.getName(),
               existingUser.getEmail(),
               existingUser.getLocation(),
-              existingUser.getRole().getRoleName().toString(),
-              existingUser.getTeamIds());
+              existingUser.getRole().getRoleName().toString());
 
       users.add(userResponse);
     }

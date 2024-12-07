@@ -11,12 +11,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "password_reset_tokens")
-public class PasswordResetToken {
+public class VerifyEmailToken {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
-  private UUID passwordResetTokenId;
+  @GeneratedValue(strategy = GenerationType.UUID)
+  private UUID verifyEmailTokenId;
 
   private int token;
 
@@ -26,7 +25,7 @@ public class PasswordResetToken {
 
   private boolean isTokenUsed;
 
-  public PasswordResetToken(User user, int token, LocalDateTime expiryDate, boolean isTokenUsed) {
+  public VerifyEmailToken(User user, int token, LocalDateTime expiryDate, boolean isTokenUsed) {
     this.user = user;
     this.token = token;
     this.expiryDate = expiryDate;

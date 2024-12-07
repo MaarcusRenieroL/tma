@@ -1,6 +1,5 @@
 package com.tma.user_micro_service.payload.response;
 
-import java.util.Set;
 import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -16,6 +15,4 @@ public class UserResponse {
   private String email;
   private String location;
   private String role;
-
-  private Set<UUID> teamIds;
 }
