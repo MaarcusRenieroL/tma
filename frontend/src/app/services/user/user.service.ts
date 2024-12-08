@@ -6,6 +6,7 @@ import { StandardResponse } from '../../payload/responses/standard-response';
 import { User } from '../../models/user';
 import { environment } from '../../../environments/environment.development';
 import { CookieService } from 'ngx-cookie-service';
+import { AddUsersToOrganization } from '../../payload/requests/organization/add-users-to-organization';
 
 @Injectable({
   providedIn: 'root',
@@ -46,6 +47,22 @@ export class UserService {
   ): Observable<StandardResponse<User[]>> {
     return this.http.get<StandardResponse<User[]>>(
       environment.backendAPI + 'users/organization/' + organizationId,
+      {
+        headers: {
+          Authorization: 'Bearer ' + this.cookieService.get('syncTeam.token'),
+        },
+      }
+    );
+  }
+
+  addUsersToOrganization(
+    addUsersToOrganization: AddUsersToOrganization
+  ): Observable<StandardResponse<null>> {
+    return this.http.post<StandardResponse<null>>(
+      environment.backendAPI +
+        'users/organization/' +
+        addUsersToOrganization.organizationId,
+      addUsersToOrganization,
       {
         headers: {
           Authorization: 'Bearer ' + this.cookieService.get('syncTeam.token'),

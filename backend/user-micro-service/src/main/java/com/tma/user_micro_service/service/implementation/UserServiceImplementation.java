@@ -1,13 +1,22 @@
 package com.tma.user_micro_service.service.implementation;
 
 import com.tma.user_micro_service.dto.TeamDto;
+import com.tma.user_micro_service.feign.OrganizationFeignClient;
 import com.tma.user_micro_service.feign.TeamFeignClient;
+import com.tma.user_micro_service.model.AppRole;
+import com.tma.user_micro_service.model.Role;
+import com.tma.user_micro_service.model.SetupAccountToken;
 import com.tma.user_micro_service.model.User;
+import com.tma.user_micro_service.payload.request.AddUserToOrganization;
+import com.tma.user_micro_service.payload.request.InviteUsersToOrganizationRequest;
 import com.tma.user_micro_service.payload.response.StandardResponse;
 import com.tma.user_micro_service.payload.response.UserResponse;
+import com.tma.user_micro_service.repository.RoleRepository;
+import com.tma.user_micro_service.repository.SetupAccountTokenRepository;
 import com.tma.user_micro_service.repository.UserRepository;
 import com.tma.user_micro_service.service.UserService;
 import com.tma.user_micro_service.util.ResponseUtil;
+import io.github.cdimascio.dotenv.Dotenv;
 import jakarta.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
 import java.util.*;
@@ -15,6 +24,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import software.amazon.awssdk.services.ses.SesClient;
+import software.amazon.awssdk.services.ses.model.*;
 
 @Slf4j
 @Service
@@ -22,10 +33,26 @@ public class UserServiceImplementation implements UserService {
 
   private final UserRepository userRepository;
   private final TeamFeignClient teamFeignClient;
+  private final RoleRepository roleRepository;
+  private final SesClient sesClient;
+  private final OrganizationFeignClient organizationFeignClient;
+  private final SetupAccountTokenRepository setupAccountTokenRepository;
 
-  public UserServiceImplementation(UserRepository userRepository, TeamFeignClient teamFeignClient) {
+  Dotenv dotenv = Dotenv.load();
+
+  public UserServiceImplementation(
+      UserRepository userRepository,
+      TeamFeignClient teamFeignClient,
+      RoleRepository roleRepository,
+      SesClient sesClient,
+      OrganizationFeignClient organizationFeignClient,
+      SetupAccountTokenRepository setupAccountTokenRepository) {
     this.teamFeignClient = teamFeignClient;
     this.userRepository = userRepository;
+    this.roleRepository = roleRepository;
+    this.sesClient = sesClient;
+    this.organizationFeignClient = organizationFeignClient;
+    this.setupAccountTokenRepository = setupAccountTokenRepository;
   }
 
   @Override
@@ -371,13 +398,144 @@ public class UserServiceImplementation implements UserService {
         LocalDateTime.now());
   }
 
-  public ResponseEntity<StandardResponse<List<User>>> getUsersByOrganizationId(
+  public ResponseEntity<StandardResponse<List<UserResponse>>> getUsersByOrganizationId(
       UUID organizationId, HttpServletRequest request) {
+
+    List<UserResponse> users = new ArrayList<>();
+
+    List<User> organizationUsers = userRepository.findUsersByOrganizationId(organizationId);
+
+    for (User user : organizationUsers) {
+      users.add(
+          new UserResponse(
+              user.getUserId(),
+              user.getUserName(),
+              user.getName(),
+              user.getEmail(),
+              user.getLocation(),
+              user.getRole().getRoleName().toString()));
+    }
+
     return ResponseUtil.buildSuccessMessage(
         HttpStatus.OK,
         "Users fetched based on Organization ID",
-        userRepository.findUsersByOrganizationId(organizationId),
+        users,
         request,
         LocalDateTime.now());
+  }
+
+  public ResponseEntity<StandardResponse<Object>> inviteUsersToOrganization(
+      InviteUsersToOrganizationRequest inviteUsersToOrganizationRequest,
+      HttpServletRequest request) {
+
+    if (inviteUsersToOrganizationRequest.getOrganizationId() == null
+        || inviteUsersToOrganizationRequest.getAddUsersToOrganization().isEmpty()) {
+      return ResponseUtil.buildErrorMessage(
+          HttpStatus.BAD_REQUEST, "Missing required fields", request, LocalDateTime.now());
+    }
+
+    for (AddUserToOrganization user :
+        inviteUsersToOrganizationRequest.getAddUsersToOrganization()) {
+
+      Optional<User> optionalUser = userRepository.findByEmail(user.getEmail());
+      User existingOrNewUser;
+      AppRole appRole;
+
+      switch (user.getRole()) {
+        case "ADMIN":
+          appRole = AppRole.ROLE_ADMIN;
+          break;
+        case "TEAM_LEADER":
+          appRole = AppRole.ROLE_TEAM_LEAD;
+          break;
+        case "PROJECT_MANAGER":
+          appRole = AppRole.ROLE_PROJECT_MANAGER;
+          break;
+        case "DEVELOPER":
+          appRole = AppRole.ROLE_DEVELOPER;
+          break;
+        default:
+          return ResponseUtil.buildErrorMessage(
+              HttpStatus.BAD_REQUEST, "Invalid role", request, LocalDateTime.now());
+      }
+
+      Optional<Role> optionalRole = roleRepository.findByRoleName(appRole);
+      if (optionalRole.isEmpty()) {
+        return ResponseUtil.buildErrorMessage(
+            HttpStatus.BAD_REQUEST, "Invalid role", request, LocalDateTime.now());
+      }
+
+      if (optionalUser.isPresent()) {
+        existingOrNewUser = optionalUser.get();
+
+        Optional<SetupAccountToken> optionalSetupAccountToken =
+            setupAccountTokenRepository.findSetupAccountTokenByUser_UserId(
+                existingOrNewUser.getUserId());
+
+        optionalSetupAccountToken.ifPresent(setupAccountTokenRepository::delete);
+        log.info("User {} already exists. Sending invite email.", existingOrNewUser.getEmail());
+      } else {
+        User newUser = new User();
+        newUser.setSignUpMethod("EMAIL");
+        newUser.setEmail(user.getEmail());
+        newUser.setRole(optionalRole.get());
+        newUser.setUserSetupByOrganization(true);
+        newUser.setOrganizationId(inviteUsersToOrganizationRequest.getOrganizationId());
+        newUser.setOnboarded(false); // Not onboarded yet
+
+        existingOrNewUser = userRepository.save(newUser);
+        log.info("New user created with email: {}", existingOrNewUser.getEmail());
+      }
+
+      Random random = new Random();
+      int token = 100000 + random.nextInt(900000);
+
+      setupAccountTokenRepository.save(
+          new SetupAccountToken(existingOrNewUser, token, LocalDateTime.now().plusHours(1), false));
+
+      String organizationName =
+          organizationFeignClient
+              .getOrganizationByOrganizationId(inviteUsersToOrganizationRequest.getOrganizationId())
+              .getBody()
+              .getData()
+              .getOrganizationName();
+
+      String subject = "Your Invite to Join " + organizationName;
+      String emailBodyContent =
+          String.format(
+              "Hello,\n\n"
+                  + "You have been invited to join "
+                  + organizationName
+                  + " on [Your Platform Name].\n\n"
+                  + "Please use the following code to set up your account:\n\n"
+                  + "Invite Code: %d\n\n"
+                  + "To complete your registration, visit the platform and enter this code in the account setup process.\n\n"
+                  + "If you have any questions, please contact support.\n\n"
+                  + "Thank you,\n"
+                  + "The SyncTeam",
+              token);
+
+      Destination destination =
+          Destination.builder().toAddresses(existingOrNewUser.getEmail()).build();
+
+      Content subjectContent = Content.builder().data(subject).build();
+      Content bodyContent = Content.builder().data(emailBodyContent).build();
+      Body emailBody = Body.builder().text(bodyContent).build();
+
+      Message message = Message.builder().subject(subjectContent).body(emailBody).build();
+
+      SendEmailRequest sendEmailRequest =
+          SendEmailRequest.builder()
+              .source(dotenv.get("AWS_SES_VERIFIED_EMAIL"))
+              .destination(destination)
+              .message(message)
+              .build();
+
+      sesClient.sendEmail(sendEmailRequest);
+      log.info("Email sent successfully to {}", existingOrNewUser.getEmail());
+    }
+
+    return ResponseUtil.buildSuccessMessage(
+        HttpStatus.OK, "Invite mail sent successfully", null, request, LocalDateTime.now());
   }
 }

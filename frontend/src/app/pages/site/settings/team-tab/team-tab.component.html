@@ -1,78 +1,87 @@
 <hlm-toaster />
 <div>
   <div class="flex flex-col gap-5">
-    <h1 class="text-xl font-bold">Team Management</h1>
-    <p>Manage your team members and their account permissions</p>
+    <h1 class="text-xl font-bold">Organization Management</h1>
+    <p>Manage your organization members and their account permissions</p>
 
     <hr />
   </div>
 
   <div class="flex flex-col gap-5 w-full">
     <div class="w-full flex flex-col gap-5 py-5">
-      <div class="flex flex-col xl:flex-row items-start justify-between w-full gap-5">
-        <label hlmLabel class="flex flex-col items-start gap-2">
-          <p class="text-xl font-semibold">Invite Team Members</p>
-          <p>
-            Get your project up and running faster by inviting your team to
-            collaborate
-          </p>
-        </label>
-        <div
-          class="xl:w-3/4 w-full flex flex-col items-start gap-5 lg:mt-0 mt-5"
-        >
-          <div class="w-full flex items-center gap-5">
-            <input
-              hlmInput
-              type="email"
-              required
-              placeholder="you@example.com"
-              class="w-full"
-            />
-            <brn-select
-              class="inline-block w-2/5"
-              placeholder="Select an option"
-              [(ngModel)]="selectedValueForRole"
+      <form [formGroup]="inviteForm" (ngSubmit)="submitInvites()">
+        <div class="flex flex-col xl:flex-row items-start justify-between w-full gap-5">
+          <label hlmLabel class="flex flex-col items-start gap-2">
+            <p class="text-xl font-semibold">Invite Organization Members</p>
+            <p>
+              Get your organization up and running faster by inviting your team to collaborate.
+            </p>
+          </label>
+          <div class="xl:w-3/4 w-full flex flex-col items-start gap-5 lg:mt-0 mt-5">
+            <div
+              class="w-full flex flex-col gap-5"
+              formArrayName="members"
             >
-              <hlm-select-trigger class="w-full">
-                <hlm-select-value>
-                  {{
-                    selectedValueForRole
-                      ? selectedValueForRole
-                      : "Select an option"
-                  }}
-                </hlm-select-value>
-              </hlm-select-trigger>
-              <hlm-select-content class="w-full">
-                <div>
-                  <hlm-option
-                    *ngFor="let role of roles"
-                    [value]="role.value"
-                    (click)="onOptionSelectForRole(role.value)"
-                    class="pl-2"
-                  >
-                    {{ role.name }}
-                  </hlm-option>
+              <div *ngFor="let member of members.controls; let i = index" [formGroupName]="i" class="w-full flex items-center gap-5">
+                <div class="flex flex-col items-start gap-3 w-full">
+                  <input
+                    hlmInput
+                    type="email"
+                    required
+                    placeholder="you@example.com"
+                    formControlName="email"
+                    class="w-full"
+                  />
+                  <div *ngIf="member.get('email')?.invalid && member.get('email')?.touched" class="text-red-500 text-sm">
+                    <span *ngIf="member.get('email')?.errors?.['required']">Email is required</span>
+                    <span *ngIf="member.get('email')?.errors?.['email']">Please enter a valid email address</span>
+                  </div>
                 </div>
-              </hlm-select-content>
-            </brn-select>
-          </div>
-          <div class="w-full flex items-center justify-between">
-            <button hlmBtn variant="outline">Add another user</button>
-            <button hlmBtn type="submit">Send Invites</button>
+                <div class="flex flex-col items-start gap-3">
+                  <brn-select class="inline-block" placeholder="Select an option" formControlName="role">
+                    <hlm-select-trigger class="w-full">
+                      <hlm-select-value>{{ roles[0]?.value || 'Select an option' }}</hlm-select-value>
+                    </hlm-select-trigger>
+                    <hlm-select-content class="w-full">
+                      <div>
+                        <hlm-option *ngFor="let role of roles" [value]="role.value" class="pl-2">
+                          {{ role.name }}
+                        </hlm-option>
+                      </div>
+                    </hlm-select-content>
+                  </brn-select>
+                  <div *ngIf="member.get('role')?.invalid && member.get('role')?.touched" class="text-red-500 text-sm">
+                    <span *ngIf="member.get('role')?.errors?.['required']">Role is required</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="w-full flex items-center justify-between">
+              <button
+                hlmBtn
+                variant="outline"
+                type="button"
+                (click)="addMember()"
+              >
+                Add another user
+              </button>
+              <button hlmBtn type="submit">Send Invites</button>
+            </div>
           </div>
         </div>
-      </div>
+      </form>
       <hr />
     </div>
   </div>
+
 
   <div class="flex flex-col gap-5 w-full">
     <div class="w-full flex flex-col gap-5 py-5">
       <div class="flex flex-col xl:flex-row items-start justify-between w-full gap-5">
         <label hlmLabel class="flex flex-col items-start gap-2">
-          <p class="text-xl font-semibold">Invite Team Members</p>
+          <p class="text-xl font-semibold">Invite Organization Members</p>
           <p>
-            Get your project up and running faster by inviting your team to
+            Get your organization up and running faster by inviting your team to
             collaborate
           </p>
         </label>
@@ -101,9 +110,9 @@
               <ng-template #menu>
                 <hlm-menu class="w-32">
                   @for (
-                    column of _brnColumnManager.allColumns;
-                    track column.name
-                  ) {
+                          column of _brnColumnManager.allColumns;
+                      track column.name
+                    ) {
                     <button
                       hlmMenuItemCheckbox
                       [disabled]="
@@ -172,7 +181,7 @@
                   class="font-medium tabular-nums"
                   *brnCellDef="let element"
                 >
-                  {{ element.role }}
+                  {{ element.role.split("_")[1] }}
                 </hlm-td>
               </brn-column-def>
               <brn-column-def name="actions">
@@ -218,7 +227,7 @@
               "
             >
               <span class="text-sm text-muted-foreground"
-                >{{ _selected().length }} of {{ _totalElements() }} row(s)
+              >{{ _selected().length }} of {{ _totalElements() }} row(s)
                 selected</span
               >
               <div class="flex mt-2 sm:mt-0">

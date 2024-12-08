@@ -4,6 +4,7 @@ import com.tma.user_micro_service.dto.TeamDto;
 import com.tma.user_micro_service.model.User;
 import com.tma.user_micro_service.payload.request.AssignProjectToUserRequest;
 import com.tma.user_micro_service.payload.request.GetAllUsersByUserIdsRequest;
+import com.tma.user_micro_service.payload.request.InviteUsersToOrganizationRequest;
 import com.tma.user_micro_service.payload.request.UpdateUserOrganizationRequest;
 import com.tma.user_micro_service.payload.response.StandardResponse;
 import com.tma.user_micro_service.payload.response.UserResponse;
@@ -131,8 +132,16 @@ public class UserController {
   }
 
   @GetMapping("/organization/{organizationId}")
-  ResponseEntity<StandardResponse<List<User>>> getUsersByOrganizationId(
+  ResponseEntity<StandardResponse<List<UserResponse>>> getUsersByOrganizationId(
       @PathVariable UUID organizationId, HttpServletRequest request) {
     return userService.getUsersByOrganizationId(organizationId, request);
+  }
+
+  @PostMapping("/organization/{organizationId}")
+  ResponseEntity<StandardResponse<Object>> inviteUsersToOrganization(
+      @PathVariable UUID organizationId,
+      @RequestBody InviteUsersToOrganizationRequest inviteUsersToOrganizationRequest,
+      HttpServletRequest request) {
+    return userService.inviteUsersToOrganization(inviteUsersToOrganizationRequest, request);
   }
 }

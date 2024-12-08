@@ -39,9 +39,11 @@ public class User {
 
   private String location;
 
-  private boolean isOnboarded;
+  private boolean isOnboarded = false;
 
-  private boolean isVerified;
+  private boolean isVerified = false;
+
+  private boolean isUserSetupByOrganization = false;
 
   @NotBlank(message = "Sign-up method cannot be blank")
   @Pattern(
