@@ -15,4 +15,5 @@ public class UserResponse {
   private String email;
   private String location;
   private String role;
+  private UUID organizationId;
 }

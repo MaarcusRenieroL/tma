@@ -10,6 +10,7 @@ import com.tma.user_micro_service.model.User;
 import com.tma.user_micro_service.payload.request.AddUserToOrganization;
 import com.tma.user_micro_service.payload.request.ChangePasswordRequest;
 import com.tma.user_micro_service.payload.request.InviteUsersToOrganizationRequest;
+import com.tma.user_micro_service.payload.request.UpdateUserRequest;
 import com.tma.user_micro_service.payload.response.StandardResponse;
 import com.tma.user_micro_service.payload.response.UserResponse;
 import com.tma.user_micro_service.repository.RoleRepository;
@@ -102,7 +103,7 @@ public class UserServiceImplementation implements UserService {
 
   @Override
   public ResponseEntity<StandardResponse<User>> updateUser(
-      UUID userId, User user, HttpServletRequest request) {
+      UUID userId, UpdateUserRequest user, HttpServletRequest request) {
     if (user == null || userId == null) {
       return ResponseUtil.buildErrorMessage(
           HttpStatus.BAD_REQUEST, "Missing required fields", request, LocalDateTime.now());
@@ -115,10 +116,8 @@ public class UserServiceImplementation implements UserService {
     }
     User existingUser = optionalUser.get();
     existingUser.setName(user.getName());
-    existingUser.setRole(user.getRole());
     existingUser.setEmail(user.getEmail());
-    existingUser.setLocation(user.getLocation());
-    existingUser.setPassword(user.getPassword());
+    existingUser.setUserName(user.getUsername());
 
     userRepository.save(existingUser);
 
@@ -148,7 +147,7 @@ public class UserServiceImplementation implements UserService {
   }
 
   @Override
-  public ResponseEntity<StandardResponse<User>> getUserById(
+  public ResponseEntity<StandardResponse<UserResponse>> getUserById(
       UUID userId, HttpServletRequest request) {
     if (userId == null) {
       return ResponseUtil.buildErrorMessage(
@@ -163,7 +162,18 @@ public class UserServiceImplementation implements UserService {
     }
 
     return ResponseUtil.buildSuccessMessage(
-        HttpStatus.OK, "User retrieved successfully", user, request, LocalDateTime.now());
+        HttpStatus.OK,
+        "User retrieved successfully",
+        new UserResponse(
+            user.getUserId(),
+            user.getUserName(),
+            user.getName(),
+            user.getEmail(),
+            user.getLocation(),
+            user.getRole().getRoleName().toString(),
+            user.getOrganizationId()),
+        request,
+        LocalDateTime.now());
   }
 
   @Override
@@ -188,7 +198,8 @@ public class UserServiceImplementation implements UserService {
               existingUser.getName(),
               existingUser.getEmail(),
               existingUser.getLocation(),
-              existingUser.getRole().getRoleName().toString());
+              existingUser.getRole().getRoleName().toString(),
+              existingUser.getOrganizationId());
 
       users.add(userResponse);
     }
@@ -418,7 +429,8 @@ public class UserServiceImplementation implements UserService {
               user.getName(),
               user.getEmail(),
               user.getLocation(),
-              user.getRole().getRoleName().toString()));
+              user.getRole().getRoleName().toString(),
+              user.getOrganizationId()));
     }
 
     return ResponseUtil.buildSuccessMessage(

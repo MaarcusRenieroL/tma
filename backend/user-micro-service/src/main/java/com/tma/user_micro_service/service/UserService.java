@@ -4,6 +4,7 @@ import com.tma.user_micro_service.dto.TeamDto;
 import com.tma.user_micro_service.model.User;
 import com.tma.user_micro_service.payload.request.ChangePasswordRequest;
 import com.tma.user_micro_service.payload.request.InviteUsersToOrganizationRequest;
+import com.tma.user_micro_service.payload.request.UpdateUserRequest;
 import com.tma.user_micro_service.payload.response.StandardResponse;
 import com.tma.user_micro_service.payload.response.UserResponse;
 import jakarta.servlet.http.HttpServletRequest;
@@ -19,11 +20,12 @@ public interface UserService {
   ResponseEntity<StandardResponse<User>> createUser(User user, HttpServletRequest request);
 
   ResponseEntity<StandardResponse<User>> updateUser(
-      UUID userId, User user, HttpServletRequest request);
+      UUID userId, UpdateUserRequest user, HttpServletRequest request);
 
   ResponseEntity<StandardResponse<User>> deleteUser(UUID userId, HttpServletRequest request);
 
-  ResponseEntity<StandardResponse<User>> getUserById(UUID userId, HttpServletRequest request);
+  ResponseEntity<StandardResponse<UserResponse>> getUserById(
+      UUID userId, HttpServletRequest request);
 
   ResponseEntity<StandardResponse<List<UserResponse>>> getAllUsersByIds(
       List<UUID> userIds, HttpServletRequest request);

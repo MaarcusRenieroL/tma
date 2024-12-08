@@ -8,6 +8,7 @@ import { environment } from '../../../environments/environment.development';
 import { CookieService } from 'ngx-cookie-service';
 import { AddUsersToOrganization } from '../../payload/requests/organization/add-users-to-organization';
 import { ChangePasswordRequest } from '../../payload/requests/user/change-password-request';
+import { UpdateUserRequest } from '../../payload/requests/user/update-user-request';
 
 @Injectable({
   providedIn: 'root',
@@ -78,6 +79,22 @@ export class UserService {
     return this.http.put<StandardResponse<boolean>>(
       environment.backendAPI + 'users/change-password',
       changePasswordRequest,
+      {
+        headers: {
+          Authorization: 'Bearer ' + this.cookieService.get('syncTeam.token'),
+        },
+      }
+    );
+  }
+
+  updateUserByUserId(
+    updateUserRequest: UpdateUserRequest
+  ): Observable<StandardResponse<User>> {
+    return this.http.put<StandardResponse<User>>(
+      environment.backendAPI +
+        'users/' +
+        this.cookieService.get('syncTeam.userId'),
+      updateUserRequest,
       {
         headers: {
           Authorization: 'Bearer ' + this.cookieService.get('syncTeam.token'),

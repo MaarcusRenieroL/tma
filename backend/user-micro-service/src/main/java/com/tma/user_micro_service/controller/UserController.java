@@ -37,7 +37,7 @@ public class UserController {
 
   @PutMapping("/{userId}")
   public ResponseEntity<StandardResponse<User>> updateUser(
-      @PathVariable UUID userId, @RequestBody User user, HttpServletRequest request) {
+      @PathVariable UUID userId, @RequestBody UpdateUserRequest user, HttpServletRequest request) {
     return userService.updateUser(userId, user, request);
   }
 
@@ -48,7 +48,7 @@ public class UserController {
   }
 
   @GetMapping("/{userId}")
-  public ResponseEntity<StandardResponse<User>> getUserById(
+  public ResponseEntity<StandardResponse<UserResponse>> getUserById(
       @PathVariable UUID userId, HttpServletRequest request) {
     return userService.getUserById(userId, request);
   }

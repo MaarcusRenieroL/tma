@@ -165,7 +165,8 @@ public class AuthServiceImplementation implements AuthService {
             user.getName(),
             user.getEmail(),
             user.getLocation(),
-            user.getRole().getRoleName().toString()),
+            user.getRole().getRoleName().toString(),
+            user.getOrganizationId()),
         request,
         LocalDateTime.now());
   }
