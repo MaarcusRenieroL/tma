@@ -390,28 +390,69 @@ public class UserServiceImplementation implements UserService {
   @Override
   public ResponseEntity<StandardResponse<Object>> assignProjectToUser(
       UUID projectId, UUID userId, HttpServletRequest request) {
-    // Fetch the user and handle the case where the user is not found
-    User user =
-        userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User Not Found"));
+    log.info(
+        "Starting assignProjectToUser service method. ProjectId: {}, UserId: {}",
+        projectId,
+        userId);
 
-    // Check if the user has projectIds and assign the projectId
-    if (user.getProjectIds() == null) {
-      List<UUID> projectIds = new ArrayList<>();
-      projectIds.add(projectId);
-      user.setProjectIds(projectIds);
-    } else {
-      user.getProjectIds().add(projectId);
+    try {
+      // Validate input parameters
+      if (projectId == null || userId == null) {
+        log.error("Invalid input parameters. ProjectId: {}, UserId: {}", projectId, userId);
+        return ResponseUtil.buildErrorMessage(
+            HttpStatus.BAD_REQUEST,
+            "Project ID and User ID are required",
+            request,
+            LocalDateTime.now());
+      }
+
+      // Fetch the user
+      User user =
+          userRepository
+              .findById(userId)
+              .orElseThrow(
+                  () -> {
+                    log.error("User not found with ID: {}", userId);
+                    return new RuntimeException("User Not Found");
+                  });
+      log.info("Found user: {}", user.getEmail());
+
+      // Initialize or update project IDs
+      if (user.getProjectIds() == null) {
+        log.info("Initializing new project IDs list for user");
+        List<UUID> projectIds = new ArrayList<>();
+        projectIds.add(projectId);
+        user.setProjectIds(projectIds);
+      } else {
+        log.info("Adding project to existing project IDs list");
+        user.getProjectIds().add(projectId);
+      }
+
+      // Save the updated user
+      User savedUser = userRepository.save(user);
+      log.info(
+          "Successfully saved user with updated project IDs. User ID: {}", savedUser.getUserId());
+
+      return ResponseUtil.buildSuccessMessage(
+          HttpStatus.OK,
+          "Project assigned to the User",
+          "Project assigned successfully",
+          request,
+          LocalDateTime.now());
+
+    } catch (Exception e) {
+      log.error(
+          "Error in assignProjectToUser. Error type: {}, Message: {}, Stack trace: {}",
+          e.getClass().getName(),
+          e.getMessage(),
+          Arrays.toString(e.getStackTrace()));
+      e.printStackTrace();
+      return ResponseUtil.buildErrorMessage(
+          HttpStatus.INTERNAL_SERVER_ERROR,
+          "An error occurred while assigning project to user: " + e.getMessage(),
+          request,
+          LocalDateTime.now());
     }
-
-    // Save the updated user and return success message
-    userRepository.save(user);
-
-    return ResponseUtil.buildSuccessMessage(
-        HttpStatus.OK,
-        "Project assigned to the User",
-        "Project assigned successfully",
-        request,
-        LocalDateTime.now());
   }
 
   public ResponseEntity<StandardResponse<List<UserResponse>>> getUsersByOrganizationId(

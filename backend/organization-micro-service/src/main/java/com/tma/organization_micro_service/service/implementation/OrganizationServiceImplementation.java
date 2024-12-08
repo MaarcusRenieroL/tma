@@ -11,6 +11,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -170,5 +171,34 @@ public class OrganizationServiceImplementation implements OrganizationService {
 
     return ResponseUtil.buildSuccessMessage(
         HttpStatus.OK, "Organization deleted successfully", null, request, LocalDateTime.now());
+  }
+
+  @Override
+  public ResponseEntity<StandardResponse<Organization>> assignProjectToOrganization(
+      UUID organizationId, UUID projectId, HttpServletRequest request) {
+
+    Optional<Organization> optionalOrganization = organizationRepository.findById(organizationId);
+
+    if (optionalOrganization.isEmpty()) {
+      return ResponseUtil.buildErrorMessage(
+          HttpStatus.NOT_FOUND, "Organization not found", request, LocalDateTime.now());
+    }
+
+    Organization organization = optionalOrganization.get();
+
+    if (organization.getProjectIds() == null) {
+      organization.setProjectIds(new HashSet<>());
+    }
+
+    organization.getProjectIds().add(projectId);
+
+    Organization savedOrganization = organizationRepository.save(organization);
+
+    return ResponseUtil.buildSuccessMessage(
+        HttpStatus.OK,
+        "Project assigned to organization successfully",
+        savedOrganization,
+        request,
+        LocalDateTime.now());
   }
 }

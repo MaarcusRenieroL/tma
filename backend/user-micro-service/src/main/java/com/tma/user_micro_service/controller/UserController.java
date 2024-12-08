@@ -120,12 +120,29 @@ public class UserController {
         userId, updateUserOrganizationIdRequest.getOrganizationId(), request);
   }
 
-  @PostMapping("/project")
+  @PutMapping("/project")
   ResponseEntity<StandardResponse<Object>> assignProjectToUser(
       @RequestBody AssignProjectToUserRequest projectToUserRequest, HttpServletRequest request) {
+    try {
+      log.info(
+          "Received request to assign project {} to user {}",
+          projectToUserRequest.getProjectId(),
+          projectToUserRequest.getUserId());
 
-    return userService.assignProjectToUser(
-        projectToUserRequest.getProjectId(), projectToUserRequest.getUserId(), request);
+      return userService.assignProjectToUser(
+          projectToUserRequest.getProjectId(), projectToUserRequest.getUserId(), request);
+    } catch (Exception e) {
+      log.error(
+          "Error in assignProjectToUser. Error type: {}, Message: {}",
+          e.getClass().getName(),
+          e.getMessage());
+      e.printStackTrace();
+      return ResponseUtil.buildErrorMessage(
+          HttpStatus.INTERNAL_SERVER_ERROR,
+          "An error occurred while assigning project to user: " + e.getMessage(),
+          request,
+          LocalDateTime.now());
+    }
   }
 
   @GetMapping("/organization/{organizationId}")

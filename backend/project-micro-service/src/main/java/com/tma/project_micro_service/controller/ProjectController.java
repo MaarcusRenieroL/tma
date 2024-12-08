@@ -36,6 +36,7 @@ public class ProjectController {
         createProjectRequest.getProject(),
         createProjectRequest.getTeamId(),
         createProjectRequest.getUserId(),
+        createProjectRequest.getOrganizationId(),
         request);
   }
 

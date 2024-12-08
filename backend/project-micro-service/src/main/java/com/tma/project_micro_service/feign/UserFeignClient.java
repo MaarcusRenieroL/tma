@@ -14,7 +14,7 @@ public interface UserFeignClient {
   @GetMapping("project/{projectId}")
   List<User> getUsersByProjectId(@PathVariable UUID projectId);
 
-  @PostMapping("/project")
+  @PutMapping("/project")
   ResponseEntity<StandardResponse<Object>> assignProjectToUser(
       @RequestBody AssignProjectToUserRequest assignProjectToUserRequest,
       @RequestHeader("Authorization") String authToken);

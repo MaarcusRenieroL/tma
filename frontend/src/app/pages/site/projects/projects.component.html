@@ -3,7 +3,7 @@
 	<div class="flex flex-col gap-5">
 		<div class="flex items-center justify-between w-full">
 			<h1 class="text-2xl font-bold">Projects</h1>
-			<add-project-modal [categories]="categories"/>
+			<add-project-modal />
 		</div>
 		<hr/>
 	</div>
@@ -20,20 +20,6 @@
 			
 			<!-- Desktop Filters -->
 			<div class="xl:flex hidden items-center gap-5">
-				<button hlmBtn [brnMenuTriggerFor]="categoryMenu" variant="outline">
-					{{ selectedCategoryName }}
-				</button>
-				<ng-template #categoryMenu>
-					<hlm-menu class="h-48 overflow-y-scroll custom-scrollbar">
-						<hlm-menu-label>Select Category</hlm-menu-label>
-						<hlm-menu-separator/>
-						<button hlmMenuItem (click)="setCategory('')">All</button>
-						<button hlmMenuItem *ngFor="let category of categories" (click)="setCategory(category.value)">
-							{{ category.name }}
-						</button>
-					</hlm-menu>
-				</ng-template>
-				
 				<button hlmBtn [brnMenuTriggerFor]="statusMenu" variant="outline">
 					{{ selectedStatusName }}
 				</button>
@@ -75,9 +61,6 @@
 						<p brnDialogDescription>Adjust filters to refine results.</p>
 					</hlm-dialog-header>
 					<div class="flex flex-col items-start gap-5">
-						<button hlmBtn [brnMenuTriggerFor]="categoryMenu" variant="outline">
-							{{ selectedCategoryName }}
-						</button>
 						<button hlmBtn [brnMenuTriggerFor]="statusMenu" variant="outline">
 							{{ selectedStatusName }}
 						</button>

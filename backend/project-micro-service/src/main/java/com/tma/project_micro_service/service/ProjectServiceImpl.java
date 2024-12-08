@@ -1,6 +1,7 @@
 package com.tma.project_micro_service.service;
 
 import com.tma.project_micro_service.dto.User;
+import com.tma.project_micro_service.feign.OrganizationFeignClient;
 import com.tma.project_micro_service.feign.TeamFeignClient;
 import com.tma.project_micro_service.feign.UserFeignClient;
 import com.tma.project_micro_service.model.Project;
@@ -24,19 +25,22 @@ public class ProjectServiceImpl implements ProjectService {
   private final ProjectRepository projectRepository;
   private final TeamFeignClient teamFeignClient;
   private final UserFeignClient userFeignClient;
+  private final OrganizationFeignClient organizationFeignClient;
 
   public ProjectServiceImpl(
       ProjectRepository projectRepository,
       TeamFeignClient teamFeignClient,
-      UserFeignClient userFeignClient) {
+      UserFeignClient userFeignClient,
+      OrganizationFeignClient organizationFeignClient) {
     this.projectRepository = projectRepository;
     this.teamFeignClient = teamFeignClient;
     this.userFeignClient = userFeignClient;
+    this.organizationFeignClient = organizationFeignClient;
   }
 
   @Override
   public ResponseEntity<StandardResponse<Project>> createProject(
-      Project project, UUID teamId, UUID userId, HttpServletRequest request) {
+      Project project, UUID teamId, UUID userId, UUID organizationId, HttpServletRequest request) {
 
     String bearerToken = request.getHeader("Authorization");
     log.info("JWT: {}", bearerToken);
@@ -61,11 +65,16 @@ public class ProjectServiceImpl implements ProjectService {
     try {
       Project savedProject = projectRepository.save(project);
 
-      // Assign the project to the team and user via the Feign clients
+      log.info("Token being sent to assignProjectToUser: Bearer {}", bearerToken.substring(7));
+
       teamFeignClient.assignProjectToTeam(
-          new AssignProjectToTeamRequest(savedProject.getProjectId(), teamId), bearerToken);
+          new AssignProjectToTeamRequest(savedProject.getProjectId(), teamId),
+          bearerToken.substring(7));
       userFeignClient.assignProjectToUser(
-          new AssignProjectToUserRequest(savedProject.getProjectId(), userId), bearerToken);
+          new AssignProjectToUserRequest(savedProject.getProjectId(), userId),
+          bearerToken.substring(7));
+      organizationFeignClient.assignProjectToOrganization(
+          organizationId, savedProject.getProjectId(), bearerToken.substring(7));
 
       return ResponseUtil.buildSuccessMessage(
           HttpStatus.CREATED,
@@ -75,10 +84,14 @@ public class ProjectServiceImpl implements ProjectService {
           LocalDateTime.now());
 
     } catch (Exception e) {
-      log.error("Error while creating project: {}", e.getMessage());
+      log.error(
+          "Error while creating project. Error type: {}, Message: {}",
+          e.getClass().getName(),
+          e.getMessage());
+      e.printStackTrace();
       return ResponseUtil.buildErrorMessage(
           HttpStatus.INTERNAL_SERVER_ERROR,
-          "An error occurred while creating the project",
+          "An error occurred while creating the project: " + e.getMessage(),
           request,
           LocalDateTime.now());
     }
@@ -197,13 +210,6 @@ public class ProjectServiceImpl implements ProjectService {
       UUID teamId, HttpServletRequest request) {
 
     List<Project> projects = projectRepository.findProjectsByTeamId(teamId);
-    if (projects.isEmpty()) {
-      return ResponseUtil.buildErrorMessage(
-          HttpStatus.NOT_FOUND,
-          "No projects found for team with ID: " + teamId,
-          request,
-          LocalDateTime.now());
-    }
 
     return ResponseUtil.buildSuccessMessage(
         HttpStatus.OK,

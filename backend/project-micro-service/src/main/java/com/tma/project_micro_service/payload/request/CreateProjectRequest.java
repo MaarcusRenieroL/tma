@@ -13,4 +13,5 @@ public class CreateProjectRequest {
   private Project project;
   private UUID teamId;
   private UUID userId;
+  private UUID organizationId;
 }

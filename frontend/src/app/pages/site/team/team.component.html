@@ -40,6 +40,9 @@
 		<hr/>
 	</div>
 	<div class="w-full mt-5">
+		<add-project-modal [organizationId]="organizationId" />
+	</div>
+	<div class="w-full mt-5">
 		<hlm-tabs tab="overview" class="w-full">
 			<hlm-tabs-list class="w-full">
 				<button hlmTabsTrigger="overview" class="w-full">Overview</button>
@@ -52,7 +55,7 @@
 				<team-overview-tab [unassignedTasksCount]="unassignedTasksCount" [inProgressTasksCount]="inProgressTasksCount" [completedTasksCount]="completedTasksCount" />
 			</div>
 			<div hlmTabsContent="projects" class="w-full mt-5">
-				<team-projects-tab/>
+				<team-projects-tab />
 			</div>
 			<div hlmTabsContent="board" class="mt-5 w-full">
 				<team-board-tab [tasks]="tasks" />

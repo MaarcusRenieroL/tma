@@ -35,7 +35,7 @@ public class Organization {
 
   @ElementCollection private Set<UUID> teamIds;
 
-  @ElementCollection private Set<UUID> projectsIds;
+  @ElementCollection private Set<UUID> projectIds;
 
   @ElementCollection private Set<UUID> tasksIds;
 

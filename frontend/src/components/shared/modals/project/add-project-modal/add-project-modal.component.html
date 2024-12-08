@@ -28,30 +28,10 @@
 						class="w-full h-48"
 						formControlName="projectDescription">
           </textarea>
-				</div>
-				
-				<div class="w-full flex flex-col gap-3">
-					<label hlmLabel for="projectCategory">Project Category</label>
-					<brn-select
-						class="inline-block w-full"
-						id="projectCategory"
-						placeholder="Select project category"
-						[multiple]="true"
-						formControlName="projectCategory">
-						<hlm-select-trigger class="w-full">
-							<hlm-select-value />
-						</hlm-select-trigger>
-						<hlm-select-content class="h-32 overflow-y-scroll custom-scrollbar">
-							<hlm-option *ngFor="let category of categories" [value]="category.value">
-								{{ category.name }}
-							</hlm-option>
-						</hlm-select-content>
-					</brn-select>
-				</div>
-			
+				</div>			
 			</div>
 			
-			<hlm-dialog-footer>
+			<hlm-dialog-footer class="mt-5">
 				<button hlmBtn variant="outline" (click)="ctx.close()">Cancel</button>
 				<button hlmBtn type="submit" [disabled]="projectForm.invalid">Add Project</button>
 			</hlm-dialog-footer>

@@ -55,4 +55,10 @@ public class OrganizationController {
       @PathVariable UUID organizationId, HttpServletRequest request) {
     return organizationService.deleteOrganization(organizationId, request);
   }
+
+  @PutMapping("/{organizationId}/projects/{projectId}")
+  ResponseEntity<StandardResponse<Organization>> assignProjectToOrganization(
+      @PathVariable UUID organizationId, @PathVariable UUID projectId, HttpServletRequest request) {
+    return organizationService.assignProjectToOrganization(organizationId, projectId, request);
+  }
 }
