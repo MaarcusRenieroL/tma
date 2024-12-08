@@ -7,6 +7,7 @@ import { User } from '../../models/user';
 import { environment } from '../../../environments/environment.development';
 import { CookieService } from 'ngx-cookie-service';
 import { AddUsersToOrganization } from '../../payload/requests/organization/add-users-to-organization';
+import { ChangePasswordRequest } from '../../payload/requests/user/change-password-request';
 
 @Injectable({
   providedIn: 'root',
@@ -63,6 +64,20 @@ export class UserService {
         'users/organization/' +
         addUsersToOrganization.organizationId,
       addUsersToOrganization,
+      {
+        headers: {
+          Authorization: 'Bearer ' + this.cookieService.get('syncTeam.token'),
+        },
+      }
+    );
+  }
+
+  changePassword(
+    changePasswordRequest: ChangePasswordRequest
+  ): Observable<StandardResponse<boolean>> {
+    return this.http.put<StandardResponse<boolean>>(
+      environment.backendAPI + 'users/change-password',
+      changePasswordRequest,
       {
         headers: {
           Authorization: 'Bearer ' + this.cookieService.get('syncTeam.token'),

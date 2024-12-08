@@ -8,6 +8,7 @@ import com.tma.user_micro_service.model.Role;
 import com.tma.user_micro_service.model.SetupAccountToken;
 import com.tma.user_micro_service.model.User;
 import com.tma.user_micro_service.payload.request.AddUserToOrganization;
+import com.tma.user_micro_service.payload.request.ChangePasswordRequest;
 import com.tma.user_micro_service.payload.request.InviteUsersToOrganizationRequest;
 import com.tma.user_micro_service.payload.response.StandardResponse;
 import com.tma.user_micro_service.payload.response.UserResponse;
@@ -23,6 +24,7 @@ import java.util.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import software.amazon.awssdk.services.ses.SesClient;
 import software.amazon.awssdk.services.ses.model.*;
@@ -37,6 +39,7 @@ public class UserServiceImplementation implements UserService {
   private final SesClient sesClient;
   private final OrganizationFeignClient organizationFeignClient;
   private final SetupAccountTokenRepository setupAccountTokenRepository;
+  private final PasswordEncoder passwordEncoder;
 
   Dotenv dotenv = Dotenv.load();
 
@@ -46,6 +49,7 @@ public class UserServiceImplementation implements UserService {
       RoleRepository roleRepository,
       SesClient sesClient,
       OrganizationFeignClient organizationFeignClient,
+      PasswordEncoder passwordEncoder,
       SetupAccountTokenRepository setupAccountTokenRepository) {
     this.teamFeignClient = teamFeignClient;
     this.userRepository = userRepository;
@@ -53,6 +57,7 @@ public class UserServiceImplementation implements UserService {
     this.sesClient = sesClient;
     this.organizationFeignClient = organizationFeignClient;
     this.setupAccountTokenRepository = setupAccountTokenRepository;
+    this.passwordEncoder = passwordEncoder;
   }
 
   @Override
@@ -537,5 +542,44 @@ public class UserServiceImplementation implements UserService {
 
     return ResponseUtil.buildSuccessMessage(
         HttpStatus.OK, "Invite mail sent successfully", null, request, LocalDateTime.now());
+  }
+
+  public ResponseEntity<StandardResponse<Boolean>> changePassword(
+      ChangePasswordRequest changePasswordRequest, HttpServletRequest request) {
+    if (changePasswordRequest.getCurrentPassword() == null
+        || changePasswordRequest.getNewPassword() == null
+        || changePasswordRequest.getConfirmNewPassword() == null
+        || changePasswordRequest.getUserId() == null) {
+      return ResponseUtil.buildErrorMessage(
+          HttpStatus.BAD_REQUEST, "Missing required fields", request, LocalDateTime.now());
+    }
+
+    if (!changePasswordRequest
+        .getNewPassword()
+        .equals(changePasswordRequest.getConfirmNewPassword())) {
+      return ResponseUtil.buildErrorMessage(
+          HttpStatus.BAD_REQUEST, "New passwords do not match", request, LocalDateTime.now());
+    }
+
+    Optional<User> optionalUser = userRepository.findById(changePasswordRequest.getUserId());
+    if (optionalUser.isEmpty()) {
+      return ResponseUtil.buildErrorMessage(
+          HttpStatus.BAD_REQUEST, "User not found", request, LocalDateTime.now());
+    }
+
+    User existingUser = optionalUser.get();
+
+    if (!passwordEncoder.matches(
+        changePasswordRequest.getCurrentPassword(), existingUser.getPassword())) {
+      return ResponseUtil.buildErrorMessage(
+          HttpStatus.BAD_REQUEST, "Current password is incorrect", request, LocalDateTime.now());
+    }
+
+    String hashedNewPassword = passwordEncoder.encode(changePasswordRequest.getNewPassword());
+    existingUser.setPassword(hashedNewPassword);
+    userRepository.save(existingUser);
+
+    return ResponseUtil.buildSuccessMessage(
+        HttpStatus.OK, "Password changed successfully", true, request, LocalDateTime.now());
   }
 }

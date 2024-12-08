@@ -2,6 +2,7 @@ package com.tma.user_micro_service.service;
 
 import com.tma.user_micro_service.dto.TeamDto;
 import com.tma.user_micro_service.model.User;
+import com.tma.user_micro_service.payload.request.ChangePasswordRequest;
 import com.tma.user_micro_service.payload.request.InviteUsersToOrganizationRequest;
 import com.tma.user_micro_service.payload.response.StandardResponse;
 import com.tma.user_micro_service.payload.response.UserResponse;
@@ -57,4 +58,7 @@ public interface UserService {
   ResponseEntity<StandardResponse<Object>> inviteUsersToOrganization(
       InviteUsersToOrganizationRequest inviteUsersToOrganizationRequest,
       HttpServletRequest request);
+
+  ResponseEntity<StandardResponse<Boolean>> changePassword(
+      ChangePasswordRequest changePasswordRequest, HttpServletRequest request);
 }

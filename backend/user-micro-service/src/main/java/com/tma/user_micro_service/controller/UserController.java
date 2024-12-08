@@ -2,10 +2,7 @@ package com.tma.user_micro_service.controller;
 
 import com.tma.user_micro_service.dto.TeamDto;
 import com.tma.user_micro_service.model.User;
-import com.tma.user_micro_service.payload.request.AssignProjectToUserRequest;
-import com.tma.user_micro_service.payload.request.GetAllUsersByUserIdsRequest;
-import com.tma.user_micro_service.payload.request.InviteUsersToOrganizationRequest;
-import com.tma.user_micro_service.payload.request.UpdateUserOrganizationRequest;
+import com.tma.user_micro_service.payload.request.*;
 import com.tma.user_micro_service.payload.response.StandardResponse;
 import com.tma.user_micro_service.payload.response.UserResponse;
 import com.tma.user_micro_service.service.UserService;
@@ -143,5 +140,11 @@ public class UserController {
       @RequestBody InviteUsersToOrganizationRequest inviteUsersToOrganizationRequest,
       HttpServletRequest request) {
     return userService.inviteUsersToOrganization(inviteUsersToOrganizationRequest, request);
+  }
+
+  @PutMapping("/change-password")
+  ResponseEntity<StandardResponse<Boolean>> changePassword(
+      @RequestBody ChangePasswordRequest changePasswordRequest, HttpServletRequest request) {
+    return userService.changePassword(changePasswordRequest, request);
   }
 }
