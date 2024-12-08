@@ -1,5 +1,5 @@
 @import '@angular/cdk/overlay-prebuilt.css';
-@import url('https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Geist+Mono:wght@100..900&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -9,7 +9,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Geist', sans-serif;
+  font-family: 'Geist Mono', sans-serif;
 }
 
 html,
@@ -25,7 +25,7 @@ body {
 }
 
 :root {
-  --font-sans: 'Geist';
+  --font-sans: 'Geist Mono';
 }
 
 :root {

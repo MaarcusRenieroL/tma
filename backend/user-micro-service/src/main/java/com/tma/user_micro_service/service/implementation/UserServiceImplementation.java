@@ -370,4 +370,14 @@ public class UserServiceImplementation implements UserService {
         request,
         LocalDateTime.now());
   }
+
+  public ResponseEntity<StandardResponse<List<User>>> getUsersByOrganizationId(
+      UUID organizationId, HttpServletRequest request) {
+    return ResponseUtil.buildSuccessMessage(
+        HttpStatus.OK,
+        "Users fetched based on Organization ID",
+        userRepository.findUsersByOrganizationId(organizationId),
+        request,
+        LocalDateTime.now());
+  }
 }

@@ -125,7 +125,7 @@ public class TaskServiceImpl implements TaskService {
   public ResponseEntity<StandardResponse<List<Task>>> getTaskByTeamId(
       UUID teamId, HttpServletRequest request) {
     List<Task> tasks = taskRepo.findByTeamId(teamId);
-    
+
     return ResponseUtil.buildSuccessMessage(
         HttpStatus.OK, "Tasks fetched successfully", tasks, request, LocalDateTime.now());
   }

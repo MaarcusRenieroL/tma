@@ -49,4 +49,7 @@ public interface UserService {
 
   ResponseEntity<StandardResponse<Object>> assignProjectToUser(
       UUID projectId, UUID userId, HttpServletRequest request);
+
+  ResponseEntity<StandardResponse<List<User>>> getUsersByOrganizationId(
+      UUID organizationId, HttpServletRequest request);
 }

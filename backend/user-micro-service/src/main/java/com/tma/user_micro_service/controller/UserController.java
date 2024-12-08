@@ -129,4 +129,10 @@ public class UserController {
     return userService.assignProjectToUser(
         projectToUserRequest.getProjectId(), projectToUserRequest.getUserId(), request);
   }
+
+  @GetMapping("/organization/{organizationId}")
+  ResponseEntity<StandardResponse<List<User>>> getUsersByOrganizationId(
+      @PathVariable UUID organizationId, HttpServletRequest request) {
+    return userService.getUsersByOrganizationId(organizationId, request);
+  }
 }

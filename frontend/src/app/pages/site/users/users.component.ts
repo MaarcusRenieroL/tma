@@ -2,26 +2,31 @@ import {
   Component,
   computed,
   effect,
+  OnInit,
+  Signal,
   signal,
   TrackByFunction,
-} from "@angular/core";
-import { toObservable, toSignal } from "@angular/core/rxjs-interop";
-import { debounceTime, map } from "rxjs";
-import { SelectionModel } from "@angular/cdk/collections";
+  WritableSignal,
+} from '@angular/core';
+import { toObservable, toSignal } from '@angular/core/rxjs-interop';
+import { debounceTime, map } from 'rxjs';
+import { SelectionModel } from '@angular/cdk/collections';
 import {
   PaginatorState,
   useBrnColumnManager,
-} from "@spartan-ng/ui-table-brain";
-import { User } from "../../../models/user";
-
-export const USER_DATA: User[] = []
-
+} from '@spartan-ng/ui-table-brain';
+import { User } from '../../../models/user';
+import { UserService } from '../../../services/user/user.service';
+import { CookieService } from 'ngx-cookie-service';
+import { toast } from 'ngx-sonner';
 
 @Component({
   selector: 'users',
   templateUrl: './users.component.html',
 })
-export class UsersComponent {
+export class UsersComponent implements OnInit {
+  users: User[] = [];
+
   protected readonly _rawFilterInput = signal('');
   protected readonly _logFilter = signal('');
   private readonly _debouncedFilter = toSignal(
@@ -33,16 +38,18 @@ export class UsersComponent {
   protected _pageSize = signal(this._availablePageSizes[0]);
 
   private readonly _selectionModel = new SelectionModel<User>(true);
-  protected readonly _isUserSelected = (log: User) => this._selectionModel.isSelected(log);
+  protected readonly _isUserSelected = (log: User) =>
+    this._selectionModel.isSelected(log);
   protected readonly _selected = toSignal(
     this._selectionModel.changed.pipe(map((change) => change.source.selected)),
     { initialValue: [] }
   );
 
   protected readonly _brnColumnManager = useBrnColumnManager({
-    name: { visible: true, label: "Name" },
-    user: { visible: true, label: "User" },
-    role: { visible: true, label: "Role" },
+    name: { visible: true, label: 'Name' },
+    email: { visible: true, label: 'Email' },
+    userName: { visible: true, label: 'Username' },
+    signUpMethod: { visible: true, label: 'Signup Method' },
   });
 
   protected readonly _allDisplayedColumns = computed(() => [
@@ -51,9 +58,8 @@ export class UsersComponent {
     'actions',
   ]);
 
-  private readonly _logs = signal(USER_DATA);
-  private readonly _filteredUsers = computed(() => {
-    
+  private readonly _logs: WritableSignal<User[]> = signal([]);
+  private readonly _filteredUsers: Signal<User[]> = computed(() => {
     const logFilter = this._logFilter()?.trim()?.toLowerCase();
     if (logFilter && logFilter.length > 0) {
       return this._logs().filter(
@@ -66,40 +72,55 @@ export class UsersComponent {
   });
 
   private readonly _nameSort = signal<'ASC' | 'DESC' | null>(null);
-  protected readonly _filteredSortedPaginatedUsers = computed(() => {
-    const sort = this._nameSort();
-    const start = this._displayedIndices().start;
-    const logs = this._filteredUsers();
-    const pageSize = this._pageSize();
-    const slicedUsers = logs.slice(start, start + pageSize);
+  protected readonly _filteredSortedPaginatedUsers: Signal<User[]> = computed(
+    () => {
+      const sort = this._nameSort();
+      const start = this._displayedIndices().start;
+      const logs: User[] = this._filteredUsers();
+      const pageSize = this._pageSize();
+      const slicedUsers: User[] = logs.slice(start, start + pageSize);
 
-    if (!sort) {
-      return slicedUsers;
+      if (!sort) {
+        return slicedUsers;
+      }
+
+      return [...slicedUsers].sort((p1: User, p2: User) =>
+        sort === 'ASC'
+          ? p1.name.localeCompare(p2.name)
+          : -1 * p1.name.localeCompare(p2.name)
+      );
     }
-
-    return [...slicedUsers].sort((p1, p2) =>
-      sort === 'ASC'
-        ? p1.name.localeCompare(p2.name)
-        : -1 * p1.name.localeCompare(p2.name)
-    );
-  });
+  );
 
   protected readonly _allFilteredPaginatedUsersSelected = computed(() =>
-    this._filteredSortedPaginatedUsers().every((log) => this._selected().includes(log))
+    this._filteredSortedPaginatedUsers().every((log: User) =>
+      this._selected().includes(log)
+    )
   );
 
   protected readonly _checkboxState = computed(() => {
     const noneSelected = this._selected().length === 0;
-    const allSelectedOrIndeterminate = this._allFilteredPaginatedUsersSelected() ? true : 'indeterminate';
+    const allSelectedOrIndeterminate = this._allFilteredPaginatedUsersSelected()
+      ? true
+      : 'indeterminate';
     return noneSelected ? false : allSelectedOrIndeterminate;
   });
 
-  protected readonly _trackBy: TrackByFunction<User> = (_: number, p: User) => p.userId;
-  protected readonly _totalElements = computed(() => this._filteredUsers().length);
-  protected readonly _onStateChange = ({ startIndex, endIndex }: PaginatorState) =>
+  protected readonly _trackBy: TrackByFunction<User> = (_: number, p: User) =>
+    p.userId;
+  protected readonly _totalElements = computed(
+    () => this._filteredUsers().length
+  );
+  protected readonly _onStateChange = ({
+    startIndex,
+    endIndex,
+  }: PaginatorState) =>
     this._displayedIndices.set({ start: startIndex, end: endIndex });
 
-  constructor() {
+  constructor(
+    private userService: UserService,
+    private cookieService: CookieService
+  ) {
     effect(() => this._logFilter.set(this._debouncedFilter() ?? ''), {
       allowSignalWrites: true,
     });
@@ -133,4 +154,35 @@ export class UsersComponent {
     this._pageSize = signal(value);
   }
 
+  ngOnInit() {
+    this.userService
+      .getUserByUserId(this.cookieService.get('syncTeam.userId'))
+      .subscribe((response) => {
+        if (response) {
+          if (response.statusCode === 200) {
+            this.userService
+              .getUsersByOrganizationId(response.data.organizationId)
+              .subscribe((response) => {
+                if (response) {
+                  if (response.statusCode === 200) {
+                    if (response.data.length > 0) {
+                      this._logs.set(response.data);
+                    }
+
+                    toast.success(response.message);
+                  } else if (
+                    [400, 401, 402, 403, 404, 405, 500].includes(
+                      response.statusCode
+                    )
+                  ) {
+                    toast.error(response.message);
+                  }
+                } else {
+                  toast.error('Something went wrong');
+                }
+              });
+          }
+        }
+      });
+  }
 }
