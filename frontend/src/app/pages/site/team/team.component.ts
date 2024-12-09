@@ -21,6 +21,7 @@ export class TeamComponent implements OnInit {
   teamMembers: User[] = [];
   tasks: Task[] = [];
   projects: Project[] = [];
+  organizationMembers: User[] = [];
 
   unassignedTasksCount = 0;
   inProgressTasksCount = 0;
@@ -92,6 +93,22 @@ export class TeamComponent implements OnInit {
         if (response) {
           if (response.statusCode === 200) {
             this.organizationId = response.data.organizationId;
+
+            this.userService
+              .getUsersByOrganizationId(this.organizationId)
+              .subscribe((response) => {
+                if (response) {
+                  if (response.statusCode === 200) {
+                    this.organizationMembers = response.data;
+                  } else if (
+                    [400, 401, 402, 403, 404, 500].includes(response.statusCode)
+                  ) {
+                    toast.error(response.message);
+                  }
+                } else {
+                  toast.error('Something went wrong');
+                }
+              });
           }
         }
       });

@@ -2,6 +2,7 @@ package com.tma.team_micro_service.service;
 
 import com.tma.team_micro_service.dto.User;
 import com.tma.team_micro_service.model.Team;
+import com.tma.team_micro_service.payload.request.AddUsersToTeamRequest;
 import com.tma.team_micro_service.payload.request.AssignProjectToTeamRequest;
 import com.tma.team_micro_service.payload.response.StandardResponse;
 import jakarta.servlet.http.HttpServletRequest;
@@ -33,4 +34,7 @@ public interface TeamService {
 
   ResponseEntity<StandardResponse<Object>> assignProjectToTeam(
       AssignProjectToTeamRequest assignProjectToTeamRequest, HttpServletRequest request);
+
+  ResponseEntity<StandardResponse<Object>> addUsersToTeam(
+      AddUsersToTeamRequest addUserToTeamRequest, HttpServletRequest request);
 }

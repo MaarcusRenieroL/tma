@@ -1,6 +1,7 @@
 package com.tma.team_micro_service.controller;
 
 import com.tma.team_micro_service.model.Team;
+import com.tma.team_micro_service.payload.request.AddUsersToTeamRequest;
 import com.tma.team_micro_service.payload.request.AssignProjectToTeamRequest;
 import com.tma.team_micro_service.payload.request.CreateTeamRequest;
 import com.tma.team_micro_service.payload.request.DeleteTeamRequest;
@@ -69,5 +70,11 @@ public class TeamController {
       @RequestBody AssignProjectToTeamRequest assignProjectToTeamRequest,
       HttpServletRequest request) {
     teamService.assignProjectToTeam(assignProjectToTeamRequest, request);
+  }
+
+  @PutMapping("/users")
+  public ResponseEntity<StandardResponse<Object>> addUsersToTeam(
+      @RequestBody AddUsersToTeamRequest addUserToTeamRequest, HttpServletRequest request) {
+    return teamService.addUsersToTeam(addUserToTeamRequest, request);
   }
 }

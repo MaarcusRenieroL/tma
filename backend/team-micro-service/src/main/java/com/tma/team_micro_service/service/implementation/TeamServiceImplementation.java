@@ -3,6 +3,7 @@ package com.tma.team_micro_service.service.implementation;
 import com.tma.team_micro_service.dto.User;
 import com.tma.team_micro_service.feign.UserFeignClient;
 import com.tma.team_micro_service.model.Team;
+import com.tma.team_micro_service.payload.request.AddUsersToTeamRequest;
 import com.tma.team_micro_service.payload.request.AssignProjectToTeamRequest;
 import com.tma.team_micro_service.payload.response.StandardResponse;
 import com.tma.team_micro_service.repository.TeamRepository;
@@ -261,5 +262,48 @@ public class TeamServiceImplementation implements TeamService {
           request,
           LocalDateTime.now());
     }
+  }
+
+  public ResponseEntity<StandardResponse<Object>> addUsersToTeam(
+      AddUsersToTeamRequest addUserToTeamRequest, HttpServletRequest request) {
+    if (addUserToTeamRequest == null
+        || addUserToTeamRequest.getTeamId() == null
+        || addUserToTeamRequest.getUserIds() == null) {
+      return ResponseUtil.buildErrorMessage(
+          HttpStatus.BAD_REQUEST, "Missing required fields", request, LocalDateTime.now());
+    }
+
+    System.out.println(addUserToTeamRequest.getUserIds().get(0));
+    System.out.println(addUserToTeamRequest.getTeamId());
+
+    String bearerToken = request.getHeader("Authorization");
+
+    if (bearerToken == null || !bearerToken.startsWith("Bearer ")) {
+      return ResponseUtil.buildErrorMessage(
+          HttpStatus.UNAUTHORIZED,
+          "Authorization token is missing or invalid",
+          request,
+          LocalDateTime.now());
+    }
+
+    Team existingTeam =
+        teamRepository
+            .findById(addUserToTeamRequest.getTeamId())
+            .orElseThrow(() -> new RuntimeException("Team not found"));
+
+    for (UUID userId : addUserToTeamRequest.getUserIds()) {
+
+      System.out.println("existingTeam.getTeamId(): " + existingTeam.getTeamId());
+      System.out.println("userId: " + userId);
+
+      userFeignClient.addTeamToUser(existingTeam.getTeamId(), userId, bearerToken);
+
+      existingTeam.getUserIds().add(userId);
+    }
+
+    teamRepository.save(existingTeam);
+
+    return ResponseUtil.buildSuccessMessage(
+        HttpStatus.OK, "Users added to the team successfully", null, request, LocalDateTime.now());
   }
 }

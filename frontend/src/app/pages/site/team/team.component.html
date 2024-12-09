@@ -1,14 +1,14 @@
 <site-navbar/>
 <main class="p-10">
 	<div class="flex flex-col gap-5">
-		<h1 class="text-2xl font-bold">Team Name</h1>
+		<h1 class="text-2xl font-bold">{{ team.teamName }}</h1>
 		<div class="flex flex-col gap-5 w-fit text-sm">
 			<!-- Team Members Section -->
 			<div class="grid grid-cols-3 gap-5 items-center">
 				<h2 class="text-muted-foreground">Team Members:</h2>
 				<div class="col-span-2 flex items-center justify-start gap-2">
 					<div class="relative flex items-center">
-						<div class="flex -space-x-2" *ngFor="let teamMember of teamMembers.slice(0, 3)">
+						<div class="flex" *ngFor="let teamMember of teamMembers.slice(0, 3)">
 							<user-card [user]="teamMember" />
 						</div>
 						
@@ -17,9 +17,7 @@
           +{{ teamMembers.length - 3 }}
         </span>
 					</div>
-					<button hlmBtn size="icon" variant="outline" class="rounded-full h-8 w-8">
-						<ng-icon name="bootstrapPlus" />
-					</button>
+					<add-user-to-team-modal [organizationMembers]="organizationMembers" [teamId]="teamId" />
 				</div>
 			</div>
 			

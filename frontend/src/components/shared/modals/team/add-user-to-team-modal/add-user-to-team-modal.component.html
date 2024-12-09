@@ -1,0 +1,60 @@
+<hlm-dialog>
+  <button
+    brnDialogTrigger
+    hlmBtn
+    size="icon"
+    variant="outline"
+    class="rounded-full h-8 w-8"
+  >
+    <ng-icon name="bootstrapPlus" />
+  </button>
+  <hlm-dialog-content class="max-w-4xl w-full" *brnDialogContent="let ctx">
+    <hlm-dialog-header>
+      <h3 hlmDialogTitle>Add New Team</h3>
+      <p hlmDialogDescription>
+        Fill in the details below to create a new team.
+      </p>
+    </hlm-dialog-header>
+
+    <form [formGroup]="addUserForm" (ngSubmit)="onSubmit()">
+      <div class="flex flex-col gap-5">
+        <div class="w-full flex flex-col gap-3">
+          <label hlmLabel>Select Users</label>
+          <brn-select
+            class="inline-block"
+            placeholder="Select Users"
+            [multiple]="true"
+            formControlName="selectedUsers"
+          >
+            <hlm-select-trigger class="w-full">
+              <hlm-select-value />
+            </hlm-select-trigger>
+            <hlm-select-content class="w-full">
+              <div>
+                <hlm-option
+                  *ngFor="let user of organizationMembers"
+                  [value]="user.userId"
+                  class="pl-2"
+                >
+                  {{ user.name }}
+                </hlm-option>
+              </div>
+            </hlm-select-content>
+          </brn-select>
+          <div 
+            *ngIf="addUserForm.get('selectedUsers')?.invalid && addUserForm.get('selectedUsers')?.touched" 
+            class="text-red-500 text-sm"
+          >
+            Please select at least one user
+          </div>
+        </div>
+      </div>
+
+      <hlm-dialog-footer class="mt-5">
+        <button hlmBtn variant="outline" type="button" (click)="ctx.close()">Cancel</button>
+        <button hlmBtn type="submit">Add Team</button>
+      </hlm-dialog-footer>
+    </form>
+  </hlm-dialog-content>
+</hlm-dialog>
+<hlm-toaster />
