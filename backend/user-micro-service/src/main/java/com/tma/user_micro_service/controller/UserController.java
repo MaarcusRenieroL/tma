@@ -12,7 +12,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,7 +21,11 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("api/users")
 public class UserController {
 
-  @Autowired private UserService userService;
+  private final UserService userService;
+
+  public UserController(UserService userService) {
+    this.userService = userService;
+  }
 
   @GetMapping
   public ResponseEntity<StandardResponse<List<User>>> getAllUsers(HttpServletRequest request) {
@@ -48,7 +51,7 @@ public class UserController {
   }
 
   @GetMapping("/{userId}")
-  public ResponseEntity<StandardResponse<UserResponse>> getUserById(
+  public ResponseEntity<StandardResponse<User>> getUserById(
       @PathVariable UUID userId, HttpServletRequest request) {
     return userService.getUserById(userId, request);
   }
@@ -121,16 +124,12 @@ public class UserController {
   }
 
   @PutMapping("/project")
-  ResponseEntity<StandardResponse<Object>> assignProjectToUser(
-      @RequestBody AssignProjectToUserRequest projectToUserRequest, HttpServletRequest request) {
+  ResponseEntity<StandardResponse<Object>> assignProjectToUsers(
+      @RequestBody AssignProjectToUsersRequest projectToUserRequest, HttpServletRequest request) {
     try {
-      log.info(
-          "Received request to assign project {} to user {}",
-          projectToUserRequest.getProjectId(),
-          projectToUserRequest.getUserId());
 
-      return userService.assignProjectToUser(
-          projectToUserRequest.getProjectId(), projectToUserRequest.getUserId(), request);
+      return userService.assignProjectToUsers(
+          projectToUserRequest.getProjectId(), projectToUserRequest.getUserIds(), request);
     } catch (Exception e) {
       log.error(
           "Error in assignProjectToUser. Error type: {}, Message: {}",

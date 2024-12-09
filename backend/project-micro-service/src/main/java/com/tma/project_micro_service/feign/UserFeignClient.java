@@ -1,7 +1,7 @@
 package com.tma.project_micro_service.feign;
 
 import com.tma.project_micro_service.dto.User;
-import com.tma.project_micro_service.payload.request.AssignProjectToUserRequest;
+import com.tma.project_micro_service.payload.request.AssignProjectToUsersRequest;
 import com.tma.project_micro_service.payload.response.StandardResponse;
 import java.util.List;
 import java.util.UUID;
@@ -15,7 +15,7 @@ public interface UserFeignClient {
   List<User> getUsersByProjectId(@PathVariable UUID projectId);
 
   @PutMapping("/project")
-  ResponseEntity<StandardResponse<Object>> assignProjectToUser(
-      @RequestBody AssignProjectToUserRequest assignProjectToUserRequest,
+  ResponseEntity<StandardResponse<Object>> assignProjectToUsers(
+      @RequestBody AssignProjectToUsersRequest assignProjectToUserRequest,
       @RequestHeader("Authorization") String authToken);
 }

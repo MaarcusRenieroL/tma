@@ -98,5 +98,5 @@ public class User {
 
   @ElementCollection private List<UUID> taskIds;
 
-  @ElementCollection private List<UUID> projectIds;
+  @ElementCollection private Set<UUID> projectIds;
 }

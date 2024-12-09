@@ -26,8 +26,7 @@ public interface UserService {
 
   ResponseEntity<StandardResponse<User>> deleteUser(UUID userId, HttpServletRequest request);
 
-  ResponseEntity<StandardResponse<UserResponse>> getUserById(
-      UUID userId, HttpServletRequest request);
+  ResponseEntity<StandardResponse<User>> getUserById(UUID userId, HttpServletRequest request);
 
   ResponseEntity<StandardResponse<List<UserResponse>>> getAllUsersByIds(
       List<UUID> userIds, HttpServletRequest request);
@@ -53,8 +52,8 @@ public interface UserService {
   ResponseEntity<StandardResponse<User>> updateUserOrganizationId(
       UUID userId, UUID updateUserOrganizationIdRequest, HttpServletRequest request);
 
-  ResponseEntity<StandardResponse<Object>> assignProjectToUser(
-      UUID projectId, UUID userId, HttpServletRequest request);
+  ResponseEntity<StandardResponse<Object>> assignProjectToUsers(
+      UUID projectId, List<UUID> userIds, HttpServletRequest request);
 
   ResponseEntity<StandardResponse<List<UserResponse>>> getUsersByOrganizationId(
       UUID organizationId, HttpServletRequest request);

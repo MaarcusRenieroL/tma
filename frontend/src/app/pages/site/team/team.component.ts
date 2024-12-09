@@ -119,7 +119,13 @@ export class TeamComponent implements OnInit {
         if (response) {
           if (response.statusCode === 200) {
             response.data.forEach((project) => {
-              this.projects.push(project);
+              if (
+                project.userIds.includes(
+                  this.cookieService.get('syncTeam.userId')
+                )
+              ) {
+                this.projects.push(project);
+              }
             });
             toast.success(response.message);
           } else if (

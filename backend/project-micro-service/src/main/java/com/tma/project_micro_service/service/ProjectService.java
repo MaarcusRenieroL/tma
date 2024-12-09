@@ -11,7 +11,11 @@ import org.springframework.http.ResponseEntity;
 public interface ProjectService {
 
   ResponseEntity<StandardResponse<Project>> createProject(
-      Project project, UUID teamId, UUID userId, UUID organizationId, HttpServletRequest request);
+      Project project,
+      UUID teamId,
+      List<UUID> userIds,
+      UUID organizationId,
+      HttpServletRequest request);
 
   ResponseEntity<StandardResponse<Project>> getProjectById(
       UUID projectId, HttpServletRequest request);

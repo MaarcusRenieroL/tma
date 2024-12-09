@@ -35,7 +35,7 @@ public class ProjectController {
     return projectService.createProject(
         createProjectRequest.getProject(),
         createProjectRequest.getTeamId(),
-        createProjectRequest.getUserId(),
+        createProjectRequest.getUserIds(),
         createProjectRequest.getOrganizationId(),
         request);
   }

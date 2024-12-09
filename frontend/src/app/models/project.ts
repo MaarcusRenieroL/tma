@@ -5,4 +5,5 @@ export interface Project {
   status: string;
   priority: string;
   deadline: Date;
+  userIds: string[];
 }

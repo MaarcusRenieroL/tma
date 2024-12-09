@@ -1,8 +1,10 @@
-import { Project } from '../../../models/project';
-
 export interface CreateNewProject {
-  project: Project;
+  project: {
+    projectTitle: string;
+    projectDescription: string;
+    deadline: Date;
+  };
   teamId: string;
-  userId: string;
+  userIds: string[];
   organizationId: string;
 }

@@ -6,7 +6,7 @@ import com.tma.project_micro_service.feign.TeamFeignClient;
 import com.tma.project_micro_service.feign.UserFeignClient;
 import com.tma.project_micro_service.model.Project;
 import com.tma.project_micro_service.payload.request.AssignProjectToTeamRequest;
-import com.tma.project_micro_service.payload.request.AssignProjectToUserRequest;
+import com.tma.project_micro_service.payload.request.AssignProjectToUsersRequest;
 import com.tma.project_micro_service.payload.response.StandardResponse;
 import com.tma.project_micro_service.repository.ProjectRepository;
 import com.tma.project_micro_service.util.ResponseUtil;
@@ -38,12 +38,14 @@ public class ProjectServiceImpl implements ProjectService {
     this.organizationFeignClient = organizationFeignClient;
   }
 
-  @Override
   public ResponseEntity<StandardResponse<Project>> createProject(
-      Project project, UUID teamId, UUID userId, UUID organizationId, HttpServletRequest request) {
+      Project project,
+      UUID teamId,
+      List<UUID> userIds,
+      UUID organizationId,
+      HttpServletRequest request) {
 
     String bearerToken = request.getHeader("Authorization");
-    log.info("JWT: {}", bearerToken);
 
     if (bearerToken == null) {
       return ResponseUtil.buildErrorMessage(
@@ -53,14 +55,16 @@ public class ProjectServiceImpl implements ProjectService {
     if (project.getTeamId() == null) {
       project.setTeamId(teamId);
     }
-    Set<UUID> userIds;
+
     if (project.getUserIds() == null) {
-      userIds = new HashSet<>();
-    } else {
-      userIds = project.getUserIds();
+      Set<UUID> userIdsSet = new HashSet<>();
+
+      for (UUID userId : userIds) {
+        userIdsSet.add(userId);
+      }
+
+      project.setUserIds(userIdsSet);
     }
-    userIds.add(userId);
-    project.setUserIds(userIds);
 
     try {
       Project savedProject = projectRepository.save(project);
@@ -69,8 +73,8 @@ public class ProjectServiceImpl implements ProjectService {
 
       teamFeignClient.assignProjectToTeam(
           new AssignProjectToTeamRequest(savedProject.getProjectId(), teamId), bearerToken);
-      userFeignClient.assignProjectToUser(
-          new AssignProjectToUserRequest(savedProject.getProjectId(), userId), bearerToken);
+      userFeignClient.assignProjectToUsers(
+          new AssignProjectToUsersRequest(savedProject.getProjectId(), userIds), bearerToken);
       organizationFeignClient.assignProjectToOrganization(
           organizationId, savedProject.getProjectId(), bearerToken);
 

@@ -2,6 +2,7 @@ package com.tma.user_micro_service.service.implementation;
 
 import com.tma.user_micro_service.dto.TeamDto;
 import com.tma.user_micro_service.feign.OrganizationFeignClient;
+import com.tma.user_micro_service.feign.ProjectFeignClient;
 import com.tma.user_micro_service.feign.TeamFeignClient;
 import com.tma.user_micro_service.model.AppRole;
 import com.tma.user_micro_service.model.Role;
@@ -13,6 +14,7 @@ import com.tma.user_micro_service.payload.request.InviteUsersToOrganizationReque
 import com.tma.user_micro_service.payload.request.SetupAccountRequest;
 import com.tma.user_micro_service.payload.request.UpdateAccountRequest;
 import com.tma.user_micro_service.payload.request.UpdateUserRequest;
+import com.tma.user_micro_service.payload.response.ProjectResponse;
 import com.tma.user_micro_service.payload.response.StandardResponse;
 import com.tma.user_micro_service.payload.response.UserResponse;
 import com.tma.user_micro_service.repository.RoleRepository;
@@ -41,6 +43,7 @@ public class UserServiceImplementation implements UserService {
   private final RoleRepository roleRepository;
   private final SesClient sesClient;
   private final OrganizationFeignClient organizationFeignClient;
+  private final ProjectFeignClient projectFeignClient;
   private final SetupAccountTokenRepository setupAccountTokenRepository;
   private final PasswordEncoder passwordEncoder;
 
@@ -52,6 +55,7 @@ public class UserServiceImplementation implements UserService {
       RoleRepository roleRepository,
       SesClient sesClient,
       OrganizationFeignClient organizationFeignClient,
+      ProjectFeignClient projectFeignClient,
       PasswordEncoder passwordEncoder,
       SetupAccountTokenRepository setupAccountTokenRepository) {
     this.teamFeignClient = teamFeignClient;
@@ -61,6 +65,7 @@ public class UserServiceImplementation implements UserService {
     this.organizationFeignClient = organizationFeignClient;
     this.setupAccountTokenRepository = setupAccountTokenRepository;
     this.passwordEncoder = passwordEncoder;
+    this.projectFeignClient = projectFeignClient;
   }
 
   @Override
@@ -149,7 +154,7 @@ public class UserServiceImplementation implements UserService {
   }
 
   @Override
-  public ResponseEntity<StandardResponse<UserResponse>> getUserById(
+  public ResponseEntity<StandardResponse<User>> getUserById(
       UUID userId, HttpServletRequest request) {
     if (userId == null) {
       return ResponseUtil.buildErrorMessage(
@@ -164,18 +169,7 @@ public class UserServiceImplementation implements UserService {
     }
 
     return ResponseUtil.buildSuccessMessage(
-        HttpStatus.OK,
-        "User retrieved successfully",
-        new UserResponse(
-            user.getUserId(),
-            user.getUserName(),
-            user.getName(),
-            user.getEmail(),
-            user.getLocation(),
-            user.getRole().getRoleName().toString(),
-            user.getOrganizationId()),
-        request,
-        LocalDateTime.now());
+        HttpStatus.OK, "User retrieved successfully", user, request, LocalDateTime.now());
   }
 
   @Override
@@ -419,6 +413,7 @@ public class UserServiceImplementation implements UserService {
       // Update organization ID and save the user
       user.setOrganizationId(organizationId);
       user.setOnboarded(true);
+      user.setRole(roleRepository.findByRoleName(AppRole.ROLE_ADMIN).get());
       User updatedUser = userRepository.save(user);
 
       // Return success response
@@ -441,17 +436,12 @@ public class UserServiceImplementation implements UserService {
   }
 
   @Override
-  public ResponseEntity<StandardResponse<Object>> assignProjectToUser(
-      UUID projectId, UUID userId, HttpServletRequest request) {
-    log.info(
-        "Starting assignProjectToUser service method. ProjectId: {}, UserId: {}",
-        projectId,
-        userId);
+  public ResponseEntity<StandardResponse<Object>> assignProjectToUsers(
+      UUID projectId, List<UUID> userIds, HttpServletRequest request) {
 
     try {
       // Validate input parameters
-      if (projectId == null || userId == null) {
-        log.error("Invalid input parameters. ProjectId: {}, UserId: {}", projectId, userId);
+      if (projectId == null || userIds == null) {
         return ResponseUtil.buildErrorMessage(
             HttpStatus.BAD_REQUEST,
             "Project ID and User ID are required",
@@ -459,32 +449,67 @@ public class UserServiceImplementation implements UserService {
             LocalDateTime.now());
       }
 
-      // Fetch the user
-      User user =
-          userRepository
-              .findById(userId)
-              .orElseThrow(
-                  () -> {
-                    log.error("User not found with ID: {}", userId);
-                    return new RuntimeException("User Not Found");
-                  });
-      log.info("Found user: {}", user.getEmail());
+      for (UUID userId : userIds) {
+        User user =
+            userRepository
+                .findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found"));
 
-      // Initialize or update project IDs
-      if (user.getProjectIds() == null) {
-        log.info("Initializing new project IDs list for user");
-        List<UUID> projectIds = new ArrayList<>();
-        projectIds.add(projectId);
-        user.setProjectIds(projectIds);
-      } else {
-        log.info("Adding project to existing project IDs list");
-        user.getProjectIds().add(projectId);
+        // Initialize or update project IDs
+        if (user.getProjectIds() == null) {
+          Set<UUID> projectIds = new HashSet<>();
+          projectIds.add(projectId);
+          user.setProjectIds(projectIds);
+        } else {
+          user.getProjectIds().add(projectId);
+        }
+
+        userRepository.save(user);
+
+        ProjectResponse projectResponse =
+            projectFeignClient.getProjectById(projectId).getBody().getData();
+        String organizationName =
+            organizationFeignClient
+                .getOrganizationById(user.getOrganizationId())
+                .getBody()
+                .getData()
+                .getOrganizationName();
+
+        String projectName = projectResponse.getProjectTitle();
+
+        String subject = "You have been assigned to a new project: " + projectName;
+
+        String emailBodyContent =
+            "Hi "
+                + user.getName()
+                + ",\n\n"
+                + "We are excited to inform you that you have been assigned to the project \""
+                + projectName
+                + "\" in \""
+                + organizationName
+                + "\".\n\n"
+                + "If you have any questions or need assistance getting started, please feel free to reach out to your team lead or the HR department.\n\n"
+                + "We look forward to working together!\n\n"
+                + "Best regards,\n"
+                + "The SyncTeam";
+
+        Destination destination = Destination.builder().toAddresses(user.getEmail()).build();
+
+        Content subjectContent = Content.builder().data(subject).build();
+        Content bodyContent = Content.builder().data(emailBodyContent).build();
+        Body emailBody = Body.builder().text(bodyContent).build();
+
+        Message message = Message.builder().subject(subjectContent).body(emailBody).build();
+
+        SendEmailRequest sendEmailRequest =
+            SendEmailRequest.builder()
+                .source(dotenv.get("AWS_SES_VERIFIED_EMAIL"))
+                .destination(destination)
+                .message(message)
+                .build();
+
+        sesClient.sendEmail(sendEmailRequest);
       }
-
-      // Save the updated user
-      User savedUser = userRepository.save(user);
-      log.info(
-          "Successfully saved user with updated project IDs. User ID: {}", savedUser.getUserId());
 
       return ResponseUtil.buildSuccessMessage(
           HttpStatus.OK,
