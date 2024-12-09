@@ -18,21 +18,20 @@ export class SignUpComponent {
     private router: Router,
     private cookieService: CookieService
   ) {
-    // Initialize the form group
     this.signUpForm = this.fb.group(
       {
         username: ['', Validators.required],
-        email: ['', [Validators.required, Validators.email]], // Email field with validation
-        password: ['', [Validators.required, Validators.minLength(6)]], // Password field with validation
-        confirmPassword: ['', [Validators.required, Validators.minLength(6)]], // Confirm Password
+        name: ['', Validators.required],
+        email: ['', [Validators.required, Validators.email]],
+        password: ['', [Validators.required, Validators.minLength(6)]],
+        confirmPassword: ['', [Validators.required, Validators.minLength(6)]],
       },
       {
-        validators: this.passwordsMatchValidator, // Custom validator to check if passwords match
+        validators: this.passwordsMatchValidator,
       }
     );
   }
 
-  // Custom validator to check if password and confirm password match
   passwordsMatchValidator(group: FormGroup) {
     const password = group.get('password')?.value;
     const confirmPassword = group.get('confirmPassword')?.value;
@@ -40,10 +39,8 @@ export class SignUpComponent {
     return password === confirmPassword ? null : { passwordsMismatch: true };
   }
 
-  // Handle form submission
   onSubmit() {
     if (this.signUpForm.valid) {
-      console.log('Form Submitted', this.signUpForm.value);
       this.authService.signUp(this.signUpForm.value).subscribe((response) => {
         if (response) {
           if (response.statusCode === 201) {
@@ -64,7 +61,7 @@ export class SignUpComponent {
         }
       });
     } else {
-      this.signUpForm.markAllAsTouched(); // Mark all fields as touched to show validation errors
+      this.signUpForm.markAllAsTouched();
     }
   }
 }

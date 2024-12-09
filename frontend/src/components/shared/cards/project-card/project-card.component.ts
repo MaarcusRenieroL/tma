@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { Project } from "../../../../app/models/project";
+import { Project } from '../../../../app/models/project';
 
 @Component({
   selector: 'project-card',
@@ -7,14 +7,4 @@ import { Project } from "../../../../app/models/project";
 })
 export class ProjectCardComponent {
   @Input() project?: Project;
-  
-  getVariant(priority: string | undefined) {
-    if (priority === "high") {
-      return "destructive";
-    } else if (priority === "medium") {
-      return "secondary";
-    } else {
-      return "default";
-    }
-  }
 }

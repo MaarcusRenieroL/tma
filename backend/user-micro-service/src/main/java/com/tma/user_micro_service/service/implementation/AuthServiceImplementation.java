@@ -144,8 +144,9 @@ public class AuthServiceImplementation implements AuthService {
     User user =
         new User(
             signUpRequest.getUsername(),
+            passwordEncoder.encode(signUpRequest.getPassword()),
             signUpRequest.getEmail(),
-            passwordEncoder.encode(signUpRequest.getPassword()));
+            signUpRequest.getName());
 
     Role role =
         roleRepository

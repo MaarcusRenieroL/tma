@@ -68,11 +68,9 @@ public class ProjectServiceImpl implements ProjectService {
       log.info("Token being sent to assignProjectToUser: Bearer {}", bearerToken.substring(7));
 
       teamFeignClient.assignProjectToTeam(
-          new AssignProjectToTeamRequest(savedProject.getProjectId(), teamId),
-          bearerToken);
+          new AssignProjectToTeamRequest(savedProject.getProjectId(), teamId), bearerToken);
       userFeignClient.assignProjectToUser(
-          new AssignProjectToUserRequest(savedProject.getProjectId(), userId),
-          bearerToken);
+          new AssignProjectToUserRequest(savedProject.getProjectId(), userId), bearerToken);
       organizationFeignClient.assignProjectToOrganization(
           organizationId, savedProject.getProjectId(), bearerToken);
 

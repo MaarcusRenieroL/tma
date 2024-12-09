@@ -33,12 +33,6 @@ public class AuthController {
   public ResponseEntity<StandardResponse<UserResponse>> signUp(
       @RequestBody SignUpRequest signUpRequest, HttpServletRequest request) {
     try {
-
-      System.out.println("Username: " + signUpRequest.getUsername());
-      System.out.println("Password: " + signUpRequest.getPassword());
-      System.out.println("Email: " + signUpRequest.getEmail());
-      System.out.println("Confirm Password: " + signUpRequest.getConfirmPassword());
-
       return authService.signUp(signUpRequest, request);
     } catch (IllegalArgumentException ex) {
       return ResponseUtil.buildErrorMessage(

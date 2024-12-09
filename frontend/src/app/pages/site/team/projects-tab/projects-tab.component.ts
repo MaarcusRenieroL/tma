@@ -1,20 +1,20 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnInit,
+  OnChanges,
+  SimpleChanges,
+} from '@angular/core';
 import { Project } from '../../../../models/project';
-import { ProjectService } from '../../../../services/projects/project.service';
-import { toast } from 'ngx-sonner';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'team-projects-tab',
   templateUrl: './projects-tab.component.html',
 })
-export class ProjectsTabComponent implements OnInit {
-  constructor(
-    private projectService: ProjectService,
-    private router: Router
-  ) {}
+export class ProjectsTabComponent implements OnInit, OnChanges {
+  @Input() projects: Project[] = [];
 
-  projects: Project[] = [];
+  filteredProjects: Project[] = [];
 
   statusOptions = [
     { name: 'Not Started', value: 'not-started' },
@@ -26,23 +26,11 @@ export class ProjectsTabComponent implements OnInit {
   sortByOptions = [
     { name: 'Name (A to Z)', value: 'name_asc' },
     { name: 'Name (Z to A)', value: 'name_desc' },
-    { name: 'Priority (High to Low)', value: 'priority_desc' },
-    { name: 'Priority (Low to High)', value: 'priority_asc' },
   ];
 
   searchQuery: string = '';
   selectedCategory!: string;
-  selectedStatus!: string;
   selectedSortBy!: string;
-
-  filteredProjects: Project[] = [...this.projects];
-
-  get selectedStatusName(): string {
-    return (
-      this.statusOptions.find((status) => status.value === this.selectedStatus)
-        ?.name || 'Status: All'
-    );
-  }
 
   get selectedSortByName(): string {
     return (
@@ -50,48 +38,48 @@ export class ProjectsTabComponent implements OnInit {
         ?.name || 'Sort By: Default'
     );
   }
-  
+
+  ngOnInit(): void {
+    this.filteredProjects = [...this.projects];
+    this.applyFilters();
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['projects'] && changes['projects'].currentValue) {
+      this.filteredProjects = [...this.projects];
+      this.applyFilters();
+    }
+  }
+
   applyFilters() {
     this.filteredProjects = [...this.projects];
-    
+
     if (this.searchQuery) {
       this.filteredProjects = this.filteredProjects.filter(
         (project) =>
-          project.projectTitle.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
-          project.priority.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
-          project.projectDescription.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
-          project.status.toLowerCase().includes(this.searchQuery.toLowerCase())
+          project.projectTitle
+            .toLowerCase()
+            .includes(this.searchQuery.toLowerCase()) ||
+          project.projectDescription
+            .toLowerCase()
+            .includes(this.searchQuery.toLowerCase())
       );
     }
-    
-    if (this.selectedStatus) {
-      this.filteredProjects = this.filteredProjects.filter(
-        (project) => project.status === this.selectedStatus
-      );
-    }
-    
+
     if (this.selectedSortBy) {
       switch (this.selectedSortBy) {
         case 'name_asc':
-          this.filteredProjects.sort((a, b) => a.projectTitle.localeCompare(b.projectTitle));
+          this.filteredProjects.sort((a, b) =>
+            a.projectTitle.localeCompare(b.projectTitle)
+          );
           break;
         case 'name_desc':
-          this.filteredProjects.sort((a, b) => b.projectTitle.localeCompare(a.projectTitle));
-          break;
-        case 'priority_desc':
-          this.filteredProjects.sort((a, b) => b.priority.localeCompare(a.priority));
-          break;
-        case 'priority_asc':
-          this.filteredProjects.sort((a, b) => a.priority.localeCompare(b.priority));
+          this.filteredProjects.sort((a, b) =>
+            b.projectTitle.localeCompare(a.projectTitle)
+          );
           break;
       }
     }
-  }
-  
-  
-  setStatus(status: string) {
-    this.selectedStatus = status;
-    this.applyFilters();
   }
 
   setSortBy(sortBy: string) {
@@ -102,31 +90,7 @@ export class ProjectsTabComponent implements OnInit {
   clearFilters() {
     this.searchQuery = '';
     this.selectedCategory = '';
-    this.selectedStatus = '';
     this.selectedSortBy = '';
     this.applyFilters();
   }
-  
-  ngOnInit(): void {
-    this.projectService
-      .getProjectsByTeamId(this.router.url.split('/').pop()!)
-      .subscribe((response) => {
-        if (response) {
-          if (response.statusCode === 200) {
-            this.projects = response.data;
-            toast.success(response.message);
-            
-            // Apply filters after fetching the projects
-            this.applyFilters();  // This will populate filteredProjects based on default conditions
-            
-            console.log(this.projects);  // Optionally log the projects to see the data
-          } else {
-            toast.error(response.message);
-          }
-        } else {
-          toast.error('Something went wrong');
-        }
-      });
-  }
-  
 }
