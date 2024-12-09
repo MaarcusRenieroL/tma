@@ -56,10 +56,6 @@ public class UserController {
   @PostMapping("/team/{teamId}")
   ResponseEntity<StandardResponse<Object>> addTeamToUser(
       @PathVariable UUID teamId, @RequestBody UUID userId, HttpServletRequest request) {
-
-    System.out.println("teamId: " + teamId);
-    System.out.println("userId: " + userId);
-
     if (teamId == null || userId == null) {
       return ResponseUtil.buildErrorMessage(
           HttpStatus.BAD_REQUEST, "Missing Required Fields", request, LocalDateTime.now());

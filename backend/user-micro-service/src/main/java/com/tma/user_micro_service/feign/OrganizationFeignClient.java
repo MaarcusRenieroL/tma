@@ -19,4 +19,8 @@ public interface OrganizationFeignClient {
   @PutMapping("/{organizationId}/users/{userId}")
   ResponseEntity<StandardResponse<Object>> updateOrganizationUserList(
       @PathVariable UUID organizationId, @PathVariable UUID userId);
+
+  @GetMapping("/{organizationId}")
+  ResponseEntity<StandardResponse<OrganizationResponse>> getOrganizationById(
+      @PathVariable UUID organizationId);
 }

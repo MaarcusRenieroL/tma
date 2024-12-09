@@ -249,6 +249,56 @@ public class UserServiceImplementation implements UserService {
 
     userRepository.save(existingUser);
 
+    String organizationName =
+        organizationFeignClient
+            .getOrganizationById(existingUser.getOrganizationId())
+            .getBody()
+            .getData()
+            .getOrganizationName();
+    String teamName = teamFeignClient.getTeamById(teamId).getBody().getData().getTeamName();
+
+    String subject = "Welcome to the team " + teamName + " at " + organizationName + "!";
+
+    String emailBodyContent =
+        "Hi "
+            + existingUser.getName()
+            + ",\n\n"
+            + "We are excited to inform you that you have been added to the team \""
+            + teamName
+            + "\" in \""
+            + organizationName
+            + "\".\n\n"
+            + "As a valuable member of our organization, your contributions to this team will help drive success and collaboration. Here's a quick summary:\n\n"
+            + "- Team Name: "
+            + teamName
+            + "\n"
+            + "- Organization: "
+            + organizationName
+            + "\n\n"
+            + "If you have any questions or need assistance getting started, please feel free to reach out to your team lead or the HR department.\n\n"
+            + "We look forward to working together!\n\n"
+            + "Best regards,\n"
+            + "The "
+            + organizationName
+            + " Team";
+
+    Destination destination = Destination.builder().toAddresses(existingUser.getEmail()).build();
+
+    Content subjectContent = Content.builder().data(subject).build();
+    Content bodyContent = Content.builder().data(emailBodyContent).build();
+    Body emailBody = Body.builder().text(bodyContent).build();
+
+    Message message = Message.builder().subject(subjectContent).body(emailBody).build();
+
+    SendEmailRequest sendEmailRequest =
+        SendEmailRequest.builder()
+            .source(dotenv.get("AWS_SES_VERIFIED_EMAIL"))
+            .destination(destination)
+            .message(message)
+            .build();
+
+    sesClient.sendEmail(sendEmailRequest);
+
     return ResponseUtil.buildSuccessMessage(
         HttpStatus.OK,
         "User has been added to the team successfully",
@@ -271,7 +321,8 @@ public class UserServiceImplementation implements UserService {
     List<TeamDto> teams = new ArrayList<>();
 
     for (UUID teamId : userTeams) {
-      TeamDto teamDto = Objects.requireNonNull(teamFeignClient.getTeamById(teamId)).getData();
+      TeamDto teamDto =
+          Objects.requireNonNull(teamFeignClient.getTeamById(teamId)).getBody().getData();
       if (teamDto != null) {
         teams.add(teamDto);
       }

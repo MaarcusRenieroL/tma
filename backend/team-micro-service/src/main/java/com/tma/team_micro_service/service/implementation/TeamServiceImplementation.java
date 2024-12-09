@@ -273,9 +273,6 @@ public class TeamServiceImplementation implements TeamService {
           HttpStatus.BAD_REQUEST, "Missing required fields", request, LocalDateTime.now());
     }
 
-    System.out.println(addUserToTeamRequest.getUserIds().get(0));
-    System.out.println(addUserToTeamRequest.getTeamId());
-
     String bearerToken = request.getHeader("Authorization");
 
     if (bearerToken == null || !bearerToken.startsWith("Bearer ")) {
@@ -292,9 +289,6 @@ public class TeamServiceImplementation implements TeamService {
             .orElseThrow(() -> new RuntimeException("Team not found"));
 
     for (UUID userId : addUserToTeamRequest.getUserIds()) {
-
-      System.out.println("existingTeam.getTeamId(): " + existingTeam.getTeamId());
-      System.out.println("userId: " + userId);
 
       userFeignClient.addTeamToUser(existingTeam.getTeamId(), userId, bearerToken);
 
