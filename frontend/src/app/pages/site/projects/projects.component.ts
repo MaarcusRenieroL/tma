@@ -58,14 +58,11 @@ export class ProjectsComponent {
     if (this.searchQuery) {
       this.filteredProjects = this.filteredProjects.filter(
         (project) =>
-          project.name.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
+          project.projectTitle.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
           project.priority
             .toLowerCase()
             .includes(this.searchQuery.toLowerCase()) ||
-          project.description
-            .toLowerCase()
-            .includes(this.searchQuery.toLowerCase()) ||
-          project.domain
+          project.projectDescription
             .toLowerCase()
             .includes(this.searchQuery.toLowerCase()) ||
           project.status.toLowerCase().includes(this.searchQuery.toLowerCase())
@@ -81,10 +78,10 @@ export class ProjectsComponent {
     if (this.selectedSortBy) {
       switch (this.selectedSortBy) {
         case 'name_asc':
-          this.filteredProjects.sort((a, b) => a.name.localeCompare(b.name));
+          this.filteredProjects.sort((a, b) => a.projectTitle.localeCompare(b.projectTitle));
           break;
         case 'name_desc':
-          this.filteredProjects.sort((a, b) => b.name.localeCompare(a.name));
+          this.filteredProjects.sort((a, b) => b.projectTitle.localeCompare(a.projectTitle));
           break;
         case 'priority_desc':
           this.filteredProjects.sort((a, b) =>

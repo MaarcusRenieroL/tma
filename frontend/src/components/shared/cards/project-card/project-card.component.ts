@@ -6,7 +6,7 @@ import { Project } from "../../../../app/models/project";
   templateUrl: './project-card.component.html',
 })
 export class ProjectCardComponent {
-  @Input() project: Project | undefined;
+  @Input() project?: Project;
   
   getVariant(priority: string | undefined) {
     if (priority === "high") {

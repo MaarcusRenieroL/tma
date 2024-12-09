@@ -7,6 +7,9 @@ import { User } from '../../../models/user';
 import { UserService } from '../../../services/user/user.service';
 import { TaskService } from '../../../services/task/task.service';
 import { Task } from '../../../models/task';
+import { CookieService } from "ngx-cookie-service";
+import { Project } from "../../../models/project";
+import { ProjectService } from "../../../services/projects/project.service";
 
 @Component({
   selector: 'team',
@@ -21,18 +24,23 @@ export class TeamComponent implements OnInit {
   unassignedTasksCount = 0;
   inProgressTasksCount = 0;
   completedTasksCount = 0;
-  organizationId: string = '';
+  organizationId: string = "";
 
   constructor(
     private activatedRoute: ActivatedRoute,
     private teamService: TeamService,
     private userService: UserService,
     private router: Router,
-    private taskService: TaskService
-  ) {}
+    private taskService: TaskService,
+    private cookieService: CookieService,
+    private projectService: ProjectService,
+  ) {
+  
+  }
 
   ngOnInit() {
     this.teamId = this.activatedRoute.snapshot.paramMap.get('id')!;
+    
     this.teamService
       .getTeamByTeamId({ teamId: this.teamId })
       .subscribe((response) => {
@@ -40,6 +48,19 @@ export class TeamComponent implements OnInit {
           if (response.statusCode === 200) {
             toast.success(response.message);
             this.team = response.data;
+            
+            this.taskService
+              .getTasksByTeamId(this.router.url.split('/')[2])
+              .subscribe((response) => {
+                if (response && response.statusCode === 200) {
+                  this.tasks = response.data;
+                  this.updateTaskCounts();
+                  toast.success(response.message);
+                } else {
+                  toast.error(response?.message || 'Something went wrong');
+                }
+              });
+            
             this.userService
               .getUsersByUserIds({ userIds: response.data.userIds })
               .subscribe((response) => {
@@ -65,26 +86,14 @@ export class TeamComponent implements OnInit {
           toast.error('Something went wrong');
         }
       });
-
-    this.teamService
-      .getTeamByTeamId({
-        teamId: this.router.url.split('/')[2],
-      })
-      .subscribe((response) => {
-        if (response && response.statusCode === 200) {
-          this.taskService
-            .getTasksByTeamId(this.router.url.split('/')[2])
-            .subscribe((response) => {
-              if (response && response.statusCode === 200) {
-                this.tasks = response.data;
-                this.updateTaskCounts();
-                toast.success(response.message);
-              } else {
-                toast.error(response?.message || 'Something went wrong');
-              }
-            });
+    
+    this.userService.getUserByUserId(this.cookieService.get("syncTeam.userId")).subscribe((response) => {
+      if (response) {
+        if (response.statusCode === 200) {
+          this.organizationId = response.data.organizationId;
         }
-      });
+      }
+    });
   }
 
   private updateTaskCounts() {

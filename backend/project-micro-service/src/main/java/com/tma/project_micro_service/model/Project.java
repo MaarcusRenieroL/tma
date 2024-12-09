@@ -1,6 +1,8 @@
 package com.tma.project_micro_service.model;
 
 import jakarta.persistence.*;
+
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
@@ -18,11 +20,14 @@ public class Project {
   private UUID projectId;
 
   private String projectTitle;
+  
   private String projectDescription;
+  
+  private LocalDate deadline;
 
   private UUID teamId;
 
   @ElementCollection private List<UUID> taskIds;
 
-  @ElementCollection private Set<UUID> UserIds;
+  @ElementCollection private Set<UUID> userIds;
 }

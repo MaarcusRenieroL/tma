@@ -69,12 +69,12 @@ public class ProjectServiceImpl implements ProjectService {
 
       teamFeignClient.assignProjectToTeam(
           new AssignProjectToTeamRequest(savedProject.getProjectId(), teamId),
-          bearerToken.substring(7));
+          bearerToken);
       userFeignClient.assignProjectToUser(
           new AssignProjectToUserRequest(savedProject.getProjectId(), userId),
-          bearerToken.substring(7));
+          bearerToken);
       organizationFeignClient.assignProjectToOrganization(
-          organizationId, savedProject.getProjectId(), bearerToken.substring(7));
+          organizationId, savedProject.getProjectId(), bearerToken);
 
       return ResponseUtil.buildSuccessMessage(
           HttpStatus.CREATED,

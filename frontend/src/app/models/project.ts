@@ -1,7 +1,7 @@
 export interface Project {
-  name: string;
-  description: string;
+  projectTitle: string;
+  projectDescription: string;
   status: string;
   priority: string;
-  domain: string;
+  deadline: Date
 }

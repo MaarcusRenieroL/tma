@@ -50,55 +50,45 @@ export class ProjectsTabComponent implements OnInit {
         ?.name || 'Sort By: Default'
     );
   }
-
+  
   applyFilters() {
     this.filteredProjects = [...this.projects];
-
+    
     if (this.searchQuery) {
       this.filteredProjects = this.filteredProjects.filter(
         (project) =>
-          project.name.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
-          project.priority
-            .toLowerCase()
-            .includes(this.searchQuery.toLowerCase()) ||
-          project.description
-            .toLowerCase()
-            .includes(this.searchQuery.toLowerCase()) ||
-          project.domain
-            .toLowerCase()
-            .includes(this.searchQuery.toLowerCase()) ||
+          project.projectTitle.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
+          project.priority.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
+          project.projectDescription.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
           project.status.toLowerCase().includes(this.searchQuery.toLowerCase())
       );
     }
-
+    
     if (this.selectedStatus) {
       this.filteredProjects = this.filteredProjects.filter(
         (project) => project.status === this.selectedStatus
       );
     }
-
+    
     if (this.selectedSortBy) {
       switch (this.selectedSortBy) {
         case 'name_asc':
-          this.filteredProjects.sort((a, b) => a.name.localeCompare(b.name));
+          this.filteredProjects.sort((a, b) => a.projectTitle.localeCompare(b.projectTitle));
           break;
         case 'name_desc':
-          this.filteredProjects.sort((a, b) => b.name.localeCompare(a.name));
+          this.filteredProjects.sort((a, b) => b.projectTitle.localeCompare(a.projectTitle));
           break;
         case 'priority_desc':
-          this.filteredProjects.sort((a, b) =>
-            b.priority.localeCompare(a.priority)
-          );
+          this.filteredProjects.sort((a, b) => b.priority.localeCompare(a.priority));
           break;
         case 'priority_asc':
-          this.filteredProjects.sort((a, b) =>
-            a.priority.localeCompare(b.priority)
-          );
+          this.filteredProjects.sort((a, b) => a.priority.localeCompare(b.priority));
           break;
       }
     }
   }
-
+  
+  
   setStatus(status: string) {
     this.selectedStatus = status;
     this.applyFilters();
@@ -116,7 +106,7 @@ export class ProjectsTabComponent implements OnInit {
     this.selectedSortBy = '';
     this.applyFilters();
   }
-
+  
   ngOnInit(): void {
     this.projectService
       .getProjectsByTeamId(this.router.url.split('/').pop()!)
@@ -124,11 +114,13 @@ export class ProjectsTabComponent implements OnInit {
         if (response) {
           if (response.statusCode === 200) {
             this.projects = response.data;
-
             toast.success(response.message);
-          } else if (
-            [400, 401, 402, 403, 404, 405, 500].includes(response.statusCode)
-          ) {
+            
+            // Apply filters after fetching the projects
+            this.applyFilters();  // This will populate filteredProjects based on default conditions
+            
+            console.log(this.projects);  // Optionally log the projects to see the data
+          } else {
             toast.error(response.message);
           }
         } else {
@@ -136,4 +128,5 @@ export class ProjectsTabComponent implements OnInit {
         }
       });
   }
+  
 }

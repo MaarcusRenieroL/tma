@@ -1,34 +1,61 @@
 <hlm-dialog>
 	<button brnDialogTrigger hlmBtn>Add New Project</button>
-	<hlm-dialog-content class="max-w-4xl w-full" *brnDialogContent="let ctx">
+	<hlm-dialog-content class="!max-w-7xl !w-full" *brnDialogContent="let ctx">
 		<hlm-dialog-header>
 			<h3 hlmDialogTitle>Add New Project</h3>
 			<p hlmDialogDescription>Fill in the details below to create a new project.</p>
 		</hlm-dialog-header>
 		
 		<form [formGroup]="projectForm" (ngSubmit)="submitForm()">
-			<div class="flex flex-col gap-5">
-				<div class="w-full flex flex-col gap-3">
-					<label hlmLabel for="projectName">Project Name</label>
+			<div class="grid grid-cols-1 gap-5"> <!-- Changed from grid-cols-2 to grid-cols-1 -->
+				<!-- Project Name -->
+				<div class="flex flex-col gap-3">
+					<label hlmLabel for="projectTitle">Project Name</label>
 					<input
 						hlmInput
-						id="projectName"
+						id="projectTitle"
 						placeholder="Enter project name"
 						type="text"
 						class="w-full"
-						formControlName="projectName"
+						formControlName="projectTitle"
 					/>
+					<p *ngIf="projectForm.get('projectTitle')?.invalid && projectForm.get('projectTitle')?.touched"
+					   class="text-red-500 text-sm">
+						Project Name is required.
+					</p>
 				</div>
 				
-				<div class="flex flex-col gap-3 w-full">
+				<!-- Deadline -->
+				<div class="flex flex-col gap-3">
+					<label hlmLabel for="deadline">Deadline</label>
+					<input
+						hlmInput
+						id="deadline"
+						placeholder="Select deadline"
+						type="date"
+						class="w-full"
+						formControlName="deadline"
+					/>
+					<p *ngIf="projectForm.get('deadline')?.invalid && projectForm.get('deadline')?.touched"
+					   class="text-red-500 text-sm">
+						Deadline is required.
+					</p>
+				</div>
+				
+				<!-- Project Description -->
+				<div class="flex flex-col gap-3">
 					<label hlmLabel>Project Description</label>
 					<textarea
 						hlmInput
 						placeholder="Enter project description"
-						class="w-full h-48"
+						class="w-full h-full"
 						formControlName="projectDescription">
           </textarea>
-				</div>			
+					<p *ngIf="projectForm.get('projectDescription')?.invalid && projectForm.get('projectDescription')?.touched"
+					   class="text-red-500 text-sm">
+						Project Description is required.
+					</p>
+				</div>
 			</div>
 			
 			<hlm-dialog-footer class="mt-5">

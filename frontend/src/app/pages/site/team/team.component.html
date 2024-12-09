@@ -3,28 +3,29 @@
 	<div class="flex flex-col gap-5">
 		<h1 class="text-2xl font-bold">Team Name</h1>
 		<div class="flex flex-col gap-5 w-fit text-sm">
+			<!-- Team Members Section -->
 			<div class="grid grid-cols-3">
-				<h2 class="text-muted-foreground">Team Members: </h2>
+				<h2 class="text-muted-foreground">Team Members:</h2>
 				<div class="col-span-2 flex items-center justify-start gap-2">
 					<div class="relative flex items-center">
 						<div class="flex -space-x-2" *ngFor="let teamMember of teamMembers.slice(0, 3)">
 							<user-card [user]="teamMember" />
 						</div>
 						
-						
 						<!-- Display 'More' if there are additional members -->
 						<span *ngIf="teamMembers.length > 3" class="ml-1 text-xs text-gray-500 bg-gray-200 rounded-full p-1">
-					    +{{ teamMembers.length - 3 }}
-					  </span>
+          +{{ teamMembers.length - 3 }}
+        </span>
 					</div>
 					<button hlmBtn size="icon" variant="outline" class="rounded-full h-8 w-8">
-						<ng-icon name="bootstrapPlus"/>
+						<ng-icon name="bootstrapPlus" />
 					</button>
 				</div>
 			</div>
 			
+			<!-- Projects Section -->
 			<div class="grid grid-cols-3">
-				<h2 class="text-muted-foreground">Projects: </h2>
+				<h2 class="text-muted-foreground">Projects:</h2>
 				<div class="col-span-2 flex items-center justify-start gap-2">
 					<p hlmBadge variant="secondary">Project 1</p>
 					<p hlmBadge variant="secondary">Project 2</p>
@@ -32,15 +33,16 @@
 					<p hlmBadge variant="secondary">Project 4</p>
 					<p hlmBadge variant="secondary">Project 5</p>
 					<button hlmBtn size="icon" variant="outline" class="rounded-full h-8 w-8">
-						<ng-icon name="bootstrapPlus"/>
+						<ng-icon name="bootstrapPlus" />
 					</button>
 				</div>
 			</div>
 		</div>
+		
 		<hr/>
 	</div>
 	<div class="w-full mt-5">
-		<add-project-modal [organizationId]="organizationId" />
+		<add-project-modal [organizationId]="organizationId" [teamMembers]="teamMembers" />
 	</div>
 	<div class="w-full mt-5">
 		<hlm-tabs tab="overview" class="w-full">
