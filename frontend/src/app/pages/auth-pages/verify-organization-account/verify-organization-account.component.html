@@ -1,0 +1,21 @@
+<div class="flex items-center justify-center w-full h-full">
+  <div hlmCard class="w-full max-w-md mx-auto">
+    <div hlmCardHeader class="flex flex-col items-center justify-center gap-3 text-center">
+      <h3 hlmCardTitle>Account Verification</h3>
+      <p hlmCardDescription>Enter the 6-digit code sent to your email</p>
+    </div>
+    <div hlmCardContent>
+      <form [formGroup]="verifyAccountForm" class="flex flex-col items-start justify-evenly gap-5 w-full" (ngSubmit)="onSubmit()">
+        <div class="flex flex-col items-start w-full gap-3">
+          <input hlmInput placeholder="Enter your verification code" class="w-full" type="number" formControlName="verificationCode" />
+          <p *ngIf="verifyAccountForm.get('verificationCode')?.invalid && verifyAccountForm.get('verificationCode')?.touched" class="text-red-500 text-sm">
+            Please enter a valid 6-digit verification code.
+          </p>
+        </div>
+        <div class="w-full">
+          <button hlmBtn type="submit" class="w-full" [disabled]="verifyAccountForm.invalid">Verify Account</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

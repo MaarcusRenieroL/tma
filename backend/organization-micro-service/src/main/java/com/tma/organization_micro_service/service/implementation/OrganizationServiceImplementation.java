@@ -201,4 +201,33 @@ public class OrganizationServiceImplementation implements OrganizationService {
         request,
         LocalDateTime.now());
   }
+
+  @Override
+  public ResponseEntity<StandardResponse<Organization>> assignUserToOrganization(
+      UUID organizationId, UUID userId, HttpServletRequest request) {
+    if (organizationId == null || userId == null) {
+      return ResponseUtil.buildErrorMessage(
+          HttpStatus.BAD_REQUEST, "Missing required fields", request, LocalDateTime.now());
+    }
+
+    Optional<Organization> optionalOrganization = organizationRepository.findById(organizationId);
+
+    if (optionalOrganization.isEmpty()) {
+      return ResponseUtil.buildErrorMessage(
+          HttpStatus.NOT_FOUND, "Organization not found", request, LocalDateTime.now());
+    }
+
+    Organization organization = optionalOrganization.get();
+
+    organization.getUserIds().add(userId);
+
+    Organization savedOrganization = organizationRepository.save(organization);
+
+    return ResponseUtil.buildSuccessMessage(
+        HttpStatus.OK,
+        "User assigned to organization successfully",
+        savedOrganization,
+        request,
+        LocalDateTime.now());
+  }
 }

@@ -8,6 +8,8 @@ import { PasswordResetComponent } from './password-reset/password-reset.componen
 import { NoAuthGuard } from '../../../no-auth.guard';
 import { OnboardingComponent } from './onboarding/onboarding.component';
 import { AuthGuard } from '../../../auth.guard';
+import { VerifyOrganizationAccountComponent } from './verify-organization-account/verify-organization-account.component';
+import { SetupAccountComponent } from './setup-account/setup-account.component';
 
 const routes: Routes = [
   {
@@ -39,6 +41,16 @@ const routes: Routes = [
     path: 'auth/onboarding',
     component: OnboardingComponent,
     canActivate: [AuthGuard],
+  },
+  {
+    path: 'auth/verify-organization-account/:userId',
+    component: VerifyOrganizationAccountComponent,
+    canActivate: [NoAuthGuard],
+  },
+  {
+    path: 'auth/setup-account/:userId',
+    component: SetupAccountComponent,
+    canActivate: [NoAuthGuard],
   },
 ];
 

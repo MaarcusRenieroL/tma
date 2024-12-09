@@ -11,6 +11,7 @@ import { SignUpRequest } from '../../payload/requests/auth/sign-up-request';
 import { User } from '../../models/user';
 import { VerifyEmailRequest } from '../../payload/requests/auth/verify-email-request';
 import { SendVerificationCodeRequest } from '../../payload/requests/auth/send-verification-code-request';
+import { VerifyOrganizationAccountRequest } from '../../payload/requests/auth/verify-organization-account-request';
 
 @Injectable({
   providedIn: 'root',
@@ -74,5 +75,19 @@ export class AuthService {
 
   resetPassword() {
     return this.http.post(environment.backendAPI + 'auth/reset-password', {});
+  }
+
+  verifyAccount(
+    verifyOrganizationAccountRequest: VerifyOrganizationAccountRequest
+  ): Observable<StandardResponse<null>> {
+    return this.http.post<StandardResponse<null>>(
+      environment.backendAPI + 'users/verify-organization-account',
+      verifyOrganizationAccountRequest,
+      {
+        headers: {
+          Authorization: `Bearer ${this.cookieService.get('syncTeam.token')}`,
+        },
+      }
+    );
   }
 }

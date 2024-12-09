@@ -10,6 +10,8 @@ import com.tma.user_micro_service.model.User;
 import com.tma.user_micro_service.payload.request.AddUserToOrganization;
 import com.tma.user_micro_service.payload.request.ChangePasswordRequest;
 import com.tma.user_micro_service.payload.request.InviteUsersToOrganizationRequest;
+import com.tma.user_micro_service.payload.request.SetupAccountRequest;
+import com.tma.user_micro_service.payload.request.UpdateAccountRequest;
 import com.tma.user_micro_service.payload.request.UpdateUserRequest;
 import com.tma.user_micro_service.payload.response.StandardResponse;
 import com.tma.user_micro_service.payload.response.UserResponse;
@@ -567,7 +569,10 @@ public class UserServiceImplementation implements UserService {
                   + " on [Your Platform Name].\n\n"
                   + "Please use the following code to set up your account:\n\n"
                   + "Invite Code: %d\n\n"
-                  + "To complete your registration, visit the platform and enter this code in the account setup process.\n\n"
+                  + "To complete your registration, visit this link "
+                  + "http://localhost:4200/auth/verify-organization-account/"
+                  + existingOrNewUser.getUserId()
+                  + " and enter this code in the account setup process.\n\n"
                   + "If you have any questions, please contact support.\n\n"
                   + "Thank you,\n"
                   + "The SyncTeam",
@@ -590,6 +595,9 @@ public class UserServiceImplementation implements UserService {
               .build();
 
       sesClient.sendEmail(sendEmailRequest);
+
+      organizationFeignClient.updateOrganizationUserList(
+          inviteUsersToOrganizationRequest.getOrganizationId(), existingOrNewUser.getUserId());
       log.info("Email sent successfully to {}", existingOrNewUser.getEmail());
     }
 
@@ -634,5 +642,80 @@ public class UserServiceImplementation implements UserService {
 
     return ResponseUtil.buildSuccessMessage(
         HttpStatus.OK, "Password changed successfully", true, request, LocalDateTime.now());
+  }
+
+  @Override
+  public ResponseEntity<StandardResponse<Object>> verifyOrganizationAccount(
+      SetupAccountRequest setupAccountRequest, HttpServletRequest request) {
+    if (setupAccountRequest.getUserId() == null || setupAccountRequest.getVerificationCode() < 0) {
+      return ResponseUtil.buildErrorMessage(
+          HttpStatus.BAD_REQUEST, "Missing required fields", request, LocalDateTime.now());
+    }
+
+    Optional<User> optionalUser = userRepository.findById(setupAccountRequest.getUserId());
+    if (optionalUser.isEmpty()) {
+      return ResponseUtil.buildErrorMessage(
+          HttpStatus.BAD_REQUEST, "User not found", request, LocalDateTime.now());
+    }
+
+    User existingUser = optionalUser.get();
+
+    Optional<SetupAccountToken> optionalSetupAccountToken =
+        setupAccountTokenRepository.findSetupAccountTokenByUser_UserId(existingUser.getUserId());
+
+    if (optionalSetupAccountToken.isEmpty()) {
+      return ResponseUtil.buildErrorMessage(
+          HttpStatus.BAD_REQUEST, "Token not found", request, LocalDateTime.now());
+    }
+
+    SetupAccountToken setupAccountToken = optionalSetupAccountToken.get();
+
+    if (setupAccountToken.getExpiryDate().isBefore(LocalDateTime.now())) {
+      return ResponseUtil.buildErrorMessage(
+          HttpStatus.BAD_REQUEST, "Token expired", request, LocalDateTime.now());
+    }
+
+    if (setupAccountToken.getToken() != setupAccountRequest.getVerificationCode()) {
+      return ResponseUtil.buildErrorMessage(
+          HttpStatus.BAD_REQUEST, "Token is incorrect", request, LocalDateTime.now());
+    }
+
+    existingUser.setUserSetupByOrganization(true);
+    existingUser.setOnboarded(true);
+    existingUser.setVerified(true);
+
+    userRepository.save(existingUser);
+
+    setupAccountTokenRepository.delete(setupAccountToken);
+
+    return ResponseUtil.buildSuccessMessage(
+        HttpStatus.OK, "Account verified successfully", null, request, LocalDateTime.now());
+  }
+
+  @Override
+  public ResponseEntity<StandardResponse<Object>> setupAccount(
+      UUID userId, UpdateAccountRequest updateAccountRequest, HttpServletRequest request) {
+    if (updateAccountRequest.getUsername() == null
+        || updateAccountRequest.getName() == null
+        || updateAccountRequest.getLocation() == null
+        || updateAccountRequest.getPassword() == null
+        || updateAccountRequest.getConfirmPassword() == null
+        || userId == null) {
+      return ResponseUtil.buildErrorMessage(
+          HttpStatus.BAD_REQUEST, "Missing required fields", request, LocalDateTime.now());
+    }
+
+    User existingUser =
+        userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
+
+    existingUser.setUserName(updateAccountRequest.getUsername());
+    existingUser.setName(updateAccountRequest.getName());
+    existingUser.setLocation(updateAccountRequest.getLocation());
+    existingUser.setPassword(passwordEncoder.encode(updateAccountRequest.getPassword()));
+
+    userRepository.save(existingUser);
+
+    return ResponseUtil.buildSuccessMessage(
+        HttpStatus.OK, "Account setup successfully", null, request, LocalDateTime.now());
   }
 }

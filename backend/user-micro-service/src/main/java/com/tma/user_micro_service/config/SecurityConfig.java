@@ -48,7 +48,10 @@ public class SecurityConfig {
     http.authorizeHttpRequests(
         requests ->
             requests
-                .requestMatchers("/api/auth/**")
+                .requestMatchers(
+                    "/api/auth/**",
+                    "/api/users/verify-organization-account/**",
+                    "/api/users/setup-account/**")
                 .permitAll()
                 .requestMatchers("/error")
                 .permitAll()

@@ -26,4 +26,7 @@ public interface OrganizationService {
 
   ResponseEntity<StandardResponse<Organization>> assignProjectToOrganization(
       UUID organizationId, UUID projectId, HttpServletRequest request);
+
+  ResponseEntity<StandardResponse<Organization>> assignUserToOrganization(
+      UUID organizationId, UUID userId, HttpServletRequest request);
 }

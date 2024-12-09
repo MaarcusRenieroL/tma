@@ -164,4 +164,19 @@ public class UserController {
       @RequestBody ChangePasswordRequest changePasswordRequest, HttpServletRequest request) {
     return userService.changePassword(changePasswordRequest, request);
   }
+
+  @PostMapping("/verify-organization-account")
+  ResponseEntity<StandardResponse<Object>> verifyOrganizationAccount(
+      @RequestBody SetupAccountRequest verifyOrganizationAccountRequest,
+      HttpServletRequest request) {
+    return userService.verifyOrganizationAccount(verifyOrganizationAccountRequest, request);
+  }
+
+  @PostMapping("/setup-account/{userId}")
+  ResponseEntity<StandardResponse<Object>> setupAccount(
+      @PathVariable UUID userId,
+      @RequestBody UpdateAccountRequest updateAccountRequest,
+      HttpServletRequest request) {
+    return userService.setupAccount(userId, updateAccountRequest, request);
+  }
 }

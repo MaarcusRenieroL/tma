@@ -7,6 +7,7 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
 
 @FeignClient(name = "organization-micro-service", path = "/api/organizations")
 public interface OrganizationFeignClient {
@@ -14,4 +15,8 @@ public interface OrganizationFeignClient {
   @GetMapping("/{organizationId}")
   ResponseEntity<StandardResponse<OrganizationResponse>> getOrganizationByOrganizationId(
       @PathVariable("organizationId") UUID organizationId);
+
+  @PutMapping("/{organizationId}/users/{userId}")
+  ResponseEntity<StandardResponse<Object>> updateOrganizationUserList(
+      @PathVariable UUID organizationId, @PathVariable UUID userId);
 }

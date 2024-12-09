@@ -9,6 +9,7 @@ import { CookieService } from 'ngx-cookie-service';
 import { AddUsersToOrganization } from '../../payload/requests/organization/add-users-to-organization';
 import { ChangePasswordRequest } from '../../payload/requests/user/change-password-request';
 import { UpdateUserRequest } from '../../payload/requests/user/update-user-request';
+import { SetupAccountRequest } from '../../payload/requests/auth/setup-account-request';
 
 @Injectable({
   providedIn: 'root',
@@ -100,6 +101,17 @@ export class UserService {
           Authorization: 'Bearer ' + this.cookieService.get('syncTeam.token'),
         },
       }
+    );
+  }
+
+  setupAccountByUserId(
+    setupAccountRequest: SetupAccountRequest
+  ): Observable<StandardResponse<User>> {
+    return this.http.post<StandardResponse<User>>(
+      environment.backendAPI +
+        'users/setup-account/' +
+        setupAccountRequest.userId,
+      setupAccountRequest.user
     );
   }
 }

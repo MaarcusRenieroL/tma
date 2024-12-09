@@ -61,4 +61,10 @@ public class OrganizationController {
       @PathVariable UUID organizationId, @PathVariable UUID projectId, HttpServletRequest request) {
     return organizationService.assignProjectToOrganization(organizationId, projectId, request);
   }
+
+  @PutMapping("/{organizationId}/users/{userId}")
+  ResponseEntity<StandardResponse<Organization>> assignUserToOrganization(
+      @PathVariable UUID organizationId, @PathVariable UUID userId, HttpServletRequest request) {
+    return organizationService.assignUserToOrganization(organizationId, userId, request);
+  }
 }

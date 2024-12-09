@@ -4,6 +4,8 @@ import com.tma.user_micro_service.dto.TeamDto;
 import com.tma.user_micro_service.model.User;
 import com.tma.user_micro_service.payload.request.ChangePasswordRequest;
 import com.tma.user_micro_service.payload.request.InviteUsersToOrganizationRequest;
+import com.tma.user_micro_service.payload.request.SetupAccountRequest;
+import com.tma.user_micro_service.payload.request.UpdateAccountRequest;
 import com.tma.user_micro_service.payload.request.UpdateUserRequest;
 import com.tma.user_micro_service.payload.response.StandardResponse;
 import com.tma.user_micro_service.payload.response.UserResponse;
@@ -61,6 +63,12 @@ public interface UserService {
       InviteUsersToOrganizationRequest inviteUsersToOrganizationRequest,
       HttpServletRequest request);
 
+  ResponseEntity<StandardResponse<Object>> verifyOrganizationAccount(
+      SetupAccountRequest setupAccountRequest, HttpServletRequest request);
+
   ResponseEntity<StandardResponse<Boolean>> changePassword(
       ChangePasswordRequest changePasswordRequest, HttpServletRequest request);
+
+  ResponseEntity<StandardResponse<Object>> setupAccount(
+      UUID userId, UpdateAccountRequest updateAccountRequest, HttpServletRequest request);
 }
