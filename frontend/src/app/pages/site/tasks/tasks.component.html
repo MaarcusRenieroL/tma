@@ -1,6 +1,6 @@
 <site-navbar />
 <main class="p-10">
-  <div class="flex flex-col gap-5">
+  <div class="flex flex-col gap-10">
     <h1 class="text-2xl font-bold">Tasks</h1>
     <hr />
   </div>
@@ -98,29 +98,86 @@
           <hlm-td truncate *brnCellDef="let element">{{ element.dateAllocated | date: "short" }}</hlm-td>
         </brn-column-def>
         <brn-column-def name="actions">
-          <hlm-th *brnHeaderDef></hlm-th>
+          <hlm-th *brnHeaderDef>Actions</hlm-th>
           <hlm-td *brnCellDef="let element">
-            <button
-              hlmBtn
-              variant="ghost"
-              size="icon"
-              align="end"
-              [brnMenuTriggerFor]="menu"
-            >
-              <ng-icon name="heroEllipsisHorizontal" />
-            </button>
-
-            <ng-template #menu>
-              <hlm-menu>
-                <hlm-menu-label>Actions</hlm-menu-label>
-                <hlm-menu-separator />
-                <hlm-menu-group>
-                  <button hlmMenuItem>Copy Action</button>
-                </hlm-menu-group>
-                <hlm-menu-separator />
-                <button hlmMenuItem>View Task</button>
-              </hlm-menu>
-            </ng-template>
+	          <hlm-dialog>
+		          <button brnDialogTrigger hlmBtn variant="outline" size="icon">
+			          <ng-icon name="bootstrapEye" />
+		          </button>
+		          <hlm-dialog-content class="max-w-4xl" *brnDialogContent="let ctx">
+			          <div class="grid grid-cols-1 lg:grid-cols-3 gap-12 w-full mt-5">
+				          
+				          <!-- Left Section: Task Details -->
+				          <div class="col-span-2 flex flex-col gap-10">
+					          
+					          <!-- Title and Description -->
+					          <div class="flex flex-col items-start gap-3">
+						          <h3 class="text-2xl font-bold">{{ element?.title }}</h3>
+						          <p class="text-md text-muted-foreground">{{ element?.description }}</p>
+					          </div>
+					          
+					          <!-- Task Information -->
+					          <div class="flex flex-col gap-10 w-fit text-sm">
+						          <!-- Priority -->
+						          <div class="grid grid-cols-3 gap-10">
+							          <h2 class="text-muted-foreground">Priority: </h2>
+							          <div class="col-span-2 flex items-center justify-start">
+								          <p hlmBadge>{{ element?.priority }}</p>
+							          </div>
+						          </div>
+						          
+						          <!-- Assigned To -->
+						          <div class="grid grid-cols-3 gap-10">
+							          <h2 class="text-muted-foreground">Assigned To: </h2>
+							          <div class="col-span-2 flex items-center justify-start gap-2">
+								          <p *ngFor="let name of names" hlmBadge variant="secondary">{{ name }}</p>
+							          </div>
+						          </div>
+						          
+						          <!-- Deadline -->
+						          <div class="grid grid-cols-3 gap-10">
+							          <h2 class="text-muted-foreground">Deadline: </h2>
+							          <div class="col-span-2 flex items-center justify-start">
+								          <p>{{ element?.dueDate }}</p>
+							          </div>
+						          </div>
+					          </div>
+				          </div>
+				          
+				          <!-- Right Section: Project Stats -->
+				          <div class="flex flex-col gap-10">
+					          <h3 class="text-lg font-bold">Project Stats</h3>
+					          <div class="border border-border rounded-md px-4 py-2 text-xs">
+						          <div class="flex items-center justify-between w-full">
+							          <p>Remaining Time: </p>
+							          <p class="pl-3">4 days</p>
+						          </div>
+					          </div>
+				          </div>
+			          
+			          </div>
+			          
+			          <hlm-tabs tab="sub-tasks" class="w-full mt-5">
+				          <div class="relative rounded-sm overflow-x-scroll lg:overflow-x-hidden overflow-y-hidden custom-scrollbar h-10 bg-muted">
+					          <hlm-tabs-list class="w-full">
+						          <button class="w-full" hlmTabsTrigger="sub-tasks">Sub Tasks</button>
+						          <button class="w-full" hlmTabsTrigger="attachments">Attachments</button>
+						          <button class="w-full" hlmTabsTrigger="comments">Comments</button>
+					          </hlm-tabs-list>
+				          </div>
+				          
+				          <div hlmTabsContent="sub-tasks" class="mt-5">
+					          sub tasks
+				          </div>
+				          
+				          <div hlmTabsContent="comments" class="mt-5">
+					          comments
+				          </div>
+			          </hlm-tabs>
+		          
+		          </hlm-dialog-content>
+	          
+	          </hlm-dialog>
           </hlm-td>
         </brn-column-def>
         <div
@@ -144,7 +201,7 @@
           >{{ _selected().length }} of {{ _totalElements() }} row(s)
           selected</span
         >
-        <div class="mt-2 flex items-center gap-5 sm:mt-0">
+        <div class="mt-2 flex items-center gap-10 sm:mt-0">
 
           <button hlmBtn variant="outline" align="end" size="sm" [brnMenuTriggerFor]="pageSizeTrigger">
             <p>{{ _pageSize() === 10000 ? "All" : _pageSize() }}</p>

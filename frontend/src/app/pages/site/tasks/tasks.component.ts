@@ -1,9 +1,9 @@
 import {
   Component,
   computed,
-  effect,
+  effect, OnInit, Signal,
   signal,
-  TrackByFunction,
+  TrackByFunction, WritableSignal,
 } from "@angular/core";
 import { toObservable, toSignal } from "@angular/core/rxjs-interop";
 import { debounceTime, map } from "rxjs";
@@ -13,15 +13,21 @@ import {
   useBrnColumnManager,
 } from "@spartan-ng/ui-table-brain";
 import { Task } from "../../../models/task";
-
-export const TASKS_DATA: Task[] = [];
+import { CookieService } from "ngx-cookie-service";
+import { TaskService } from "../../../services/task/task.service";
+import { UserService } from "../../../services/user/user.service";
+import { toast } from "ngx-sonner";
 
 
 @Component({
   selector: 'tasks',
   templateUrl: './tasks.component.html',
 })
-export class TasksComponent {
+export class TasksComponent implements OnInit {
+  
+  userIds: string[] = [];
+  names: string[] = [];
+  
   protected readonly _rawFilterInput = signal('');
   protected readonly _taskFilter = signal('');
   private readonly _debouncedFilter = toSignal(
@@ -54,8 +60,8 @@ export class TasksComponent {
     'actions',
   ]);
 
-  private readonly _tasks = signal(TASKS_DATA);
-  private readonly _filteredTasks = computed(() => {
+  private readonly _tasks: WritableSignal<Task[]> = signal([]);
+  private readonly _filteredTasks: Signal<Task[]> = computed(() => {
     
     const taskFilter = this._taskFilter()?.trim()?.toLowerCase();
     if (taskFilter && taskFilter.length > 0) {
@@ -102,7 +108,7 @@ export class TasksComponent {
   protected readonly _onStateChange = ({ startIndex, endIndex }: PaginatorState) =>
     this._displayedIndices.set({ start: startIndex, end: endIndex });
 
-  constructor() {
+  constructor(private taskService: TaskService, private cookieService: CookieService, private userService: UserService) {
     effect(() => this._taskFilter.set(this._debouncedFilter() ?? ''), {
       allowSignalWrites: true,
     });
@@ -135,5 +141,48 @@ export class TasksComponent {
   onOptionForPageSize(value: number) {
     this._pageSize = signal(value);
   }
-
+  
+  ngOnInit() {
+    this.userService.getUserByUserId(this.cookieService.get("syncTeam.userId")).subscribe((response) => {
+      if (response) {
+        if (response.statusCode === 200) {
+          this.taskService.getTasksByOrganizationId(response.data.organizationId).subscribe((response) => {
+            if (response) {
+              if (response.statusCode === 200) {
+                const tasks = response.data;
+                const filteredTasks: Task[] = [];
+                
+                tasks.forEach((task) => {
+                  if (task.userIds.includes(this.cookieService.get("syncTeam.userId"))) {
+                    filteredTasks.push(task);
+                    
+                    this.userService.getUsersByUserIds({ userIds: task.userIds }).subscribe((response) => {
+                      if (response) {
+                        if (response.statusCode === 200) {
+                          response.data.forEach((user) => {
+                            this.names.push(user.name);
+                          })
+                        }
+                      }
+                    })
+                    
+                  }
+                })
+                
+                this._tasks.set(filteredTasks);
+                
+                toast.success(response.message);
+              } else if ([400, 401, 402, 403, 404, 405, 500].includes(response.statusCode)) {
+                toast.error(response.message);
+              }
+            } else {
+              toast.error("Something went wrong")
+            }
+          })
+        }
+      }
+    });
+    
+    
+  }
 }
