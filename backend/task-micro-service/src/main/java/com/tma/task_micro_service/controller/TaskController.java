@@ -25,7 +25,7 @@ public class TaskController {
   @PostMapping
   public ResponseEntity<StandardResponse<Task>> createTask(
       @RequestBody CreateTaskRequest taskRequest, HttpServletRequest request) {
-    return taskService.createTask(taskRequest.getTask(), taskRequest.getUserId(), request);
+    return taskService.createTask(taskRequest.getTask(), taskRequest.getUserIds(), request);
   }
 
   @PutMapping("/{taskId}")

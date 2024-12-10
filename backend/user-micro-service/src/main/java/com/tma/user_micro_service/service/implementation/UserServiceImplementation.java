@@ -3,6 +3,7 @@ package com.tma.user_micro_service.service.implementation;
 import com.tma.user_micro_service.dto.TeamDto;
 import com.tma.user_micro_service.feign.OrganizationFeignClient;
 import com.tma.user_micro_service.feign.ProjectFeignClient;
+import com.tma.user_micro_service.feign.TaskFeignClient;
 import com.tma.user_micro_service.feign.TeamFeignClient;
 import com.tma.user_micro_service.model.AppRole;
 import com.tma.user_micro_service.model.Role;
@@ -16,6 +17,7 @@ import com.tma.user_micro_service.payload.request.UpdateAccountRequest;
 import com.tma.user_micro_service.payload.request.UpdateUserRequest;
 import com.tma.user_micro_service.payload.response.ProjectResponse;
 import com.tma.user_micro_service.payload.response.StandardResponse;
+import com.tma.user_micro_service.payload.response.TaskResponse;
 import com.tma.user_micro_service.payload.response.UserResponse;
 import com.tma.user_micro_service.repository.RoleRepository;
 import com.tma.user_micro_service.repository.SetupAccountTokenRepository;
@@ -44,6 +46,7 @@ public class UserServiceImplementation implements UserService {
   private final SesClient sesClient;
   private final OrganizationFeignClient organizationFeignClient;
   private final ProjectFeignClient projectFeignClient;
+  private final TaskFeignClient taskFeignClient;
   private final SetupAccountTokenRepository setupAccountTokenRepository;
   private final PasswordEncoder passwordEncoder;
 
@@ -56,6 +59,7 @@ public class UserServiceImplementation implements UserService {
       SesClient sesClient,
       OrganizationFeignClient organizationFeignClient,
       ProjectFeignClient projectFeignClient,
+      TaskFeignClient taskFeignClient,
       PasswordEncoder passwordEncoder,
       SetupAccountTokenRepository setupAccountTokenRepository) {
     this.teamFeignClient = teamFeignClient;
@@ -66,6 +70,7 @@ public class UserServiceImplementation implements UserService {
     this.setupAccountTokenRepository = setupAccountTokenRepository;
     this.passwordEncoder = passwordEncoder;
     this.projectFeignClient = projectFeignClient;
+    this.taskFeignClient = taskFeignClient;
   }
 
   @Override
@@ -352,30 +357,99 @@ public class UserServiceImplementation implements UserService {
   }
 
   @Override
-  public ResponseEntity<StandardResponse<Object>> addTaskToUser(
-      UUID taskId, UUID userId, HttpServletRequest request) {
+  public ResponseEntity<StandardResponse<Object>> addTaskToUsers(
+      UUID taskId, List<UUID> userIds, HttpServletRequest request) {
     // Fetch the user and handle the case where the user is not found
-    User user =
-        userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User Not Found"));
 
-    // Check if the user has taskIds and add the taskId
-    if (user.getTaskIds() == null) {
-      List<UUID> taskIds = new ArrayList<>();
-      taskIds.add(taskId);
-      user.setTaskIds(taskIds);
-    } else {
-      user.getTaskIds().add(taskId);
+    if (taskId == null || userIds == null) {
+      return ResponseUtil.buildErrorMessage(
+          HttpStatus.BAD_REQUEST, "Missing required fields", request, LocalDateTime.now());
     }
 
-    // Save the updated user and return success message
-    userRepository.save(user);
+    for (UUID userId : userIds) {
+      User user = userRepository.findById(userId).orElse(null);
+      if (user == null) {
+        return ResponseUtil.buildErrorMessage(
+            HttpStatus.NOT_FOUND,
+            "User not found with ID: " + userId,
+            request,
+            LocalDateTime.now());
+      }
+
+      if (user.getTaskIds() == null) {
+        Set<UUID> taskIds = new HashSet<>();
+        taskIds.add(taskId);
+        user.setTaskIds(taskIds);
+      } else {
+        user.getTaskIds().add(taskId);
+      }
+
+      userRepository.save(user);
+
+      ResponseEntity<StandardResponse<TaskResponse>> taskResponse =
+          taskFeignClient.getTaskById(taskId, request);
+
+      if (taskResponse == null
+          || taskResponse.getBody() == null
+          || taskResponse.getBody().getData() == null) {
+        return ResponseUtil.buildErrorMessage(
+            HttpStatus.INTERNAL_SERVER_ERROR,
+            "Failed to fetch task details",
+            request,
+            LocalDateTime.now());
+      }
+
+      TaskResponse task = taskResponse.getBody().getData();
+
+      String subject = "New Task Assigned: " + task.getTitle();
+
+      String emailBodyContent =
+          "Hi "
+              + user.getName()
+              + ",\n\n"
+              + "You have been assigned a new task: "
+              + task.getTitle()
+              + ".\n\n"
+              + "Here are the details of the task:\n"
+              + "- Description: "
+              + task.getDescription()
+              + "\n"
+              + "- Status: "
+              + task.getStatus()
+              + "\n"
+              + "- Priority: "
+              + task.getPriority()
+              + "\n"
+              + "- Due Date: "
+              + task.getDueDate()
+              + "\n\n"
+              + "Please review the task and ensure timely progress. "
+              + "If you have any questions or require further clarification, "
+              + "do not hesitate to reach out to your team lead or project manager.\n\n"
+              + "We appreciate your dedication and look forward to seeing your great work on this task!\n\n"
+              + "Best regards,\n"
+              + "The SyncTeam Team";
+
+      Destination destination = Destination.builder().toAddresses(user.getEmail()).build();
+
+      Content subjectContent = Content.builder().data(subject).build();
+      Content bodyContent = Content.builder().data(emailBodyContent).build();
+      Body emailBody = Body.builder().text(bodyContent).build();
+
+      Message message = Message.builder().subject(subjectContent).body(emailBody).build();
+
+      SendEmailRequest sendEmailRequest =
+          SendEmailRequest.builder()
+              .source(dotenv.get("AWS_SES_VERIFIED_EMAIL"))
+              .destination(destination)
+              .message(message)
+              .build();
+
+      sesClient.sendEmail(sendEmailRequest);
+    }
 
     return ResponseUtil.buildSuccessMessage(
-        HttpStatus.OK,
-        "Task assigned to the User",
-        "Task assigned successfully",
-        request,
-        LocalDateTime.now());
+        HttpStatus.OK, "Task assigned to the Users", null, request, LocalDateTime.now());
   }
 
   @Override

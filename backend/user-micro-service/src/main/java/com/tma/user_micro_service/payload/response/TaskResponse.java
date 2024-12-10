@@ -1,40 +1,31 @@
-package com.tma.task_micro_service.model;
+package com.tma.user_micro_service.payload.response;
 
-import jakarta.persistence.*;
 import java.time.LocalDate;
-import java.util.Set;
 import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Task {
+public class TaskResponse {
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.UUID)
   private UUID taskId;
 
   private String title;
 
   private String description;
 
-  private Status status;
+  private LocalDate dueDate;
 
   private LocalDate dateAllocated;
 
-  private LocalDate dueDate;
+  private String priority;
 
-  private Priority priority;
+  private String status;
 
   private UUID projectId;
 
   private UUID teamId;
-
-  private UUID organizationId;
-
-  @ElementCollection private Set<UUID> userIds;
 }

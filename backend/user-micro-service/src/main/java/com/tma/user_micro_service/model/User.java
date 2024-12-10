@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 import lombok.AllArgsConstructor;
@@ -96,7 +95,7 @@ public class User {
 
   @ElementCollection private Set<UUID> teamIds;
 
-  @ElementCollection private List<UUID> taskIds;
+  @ElementCollection private Set<UUID> taskIds;
 
   @ElementCollection private Set<UUID> projectIds;
 }

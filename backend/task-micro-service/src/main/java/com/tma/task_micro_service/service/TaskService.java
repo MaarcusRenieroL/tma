@@ -12,7 +12,7 @@ public interface TaskService {
   ResponseEntity<StandardResponse<List<Task>>> getAllTasks(HttpServletRequest request);
 
   ResponseEntity<StandardResponse<Task>> createTask(
-      Task task, UUID userId, HttpServletRequest request);
+      Task task, List<UUID> userIds, HttpServletRequest request);
 
   ResponseEntity<StandardResponse<Task>> updateTask(
       UUID taskId, Task task, HttpServletRequest request);

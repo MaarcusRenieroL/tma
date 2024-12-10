@@ -43,8 +43,8 @@ public interface UserService {
   ResponseEntity<StandardResponse<Object>> removeUserFromTeam(
       UUID teamId, UUID userId, HttpServletRequest request);
 
-  ResponseEntity<StandardResponse<Object>> addTaskToUser(
-      UUID taskId, UUID userId, HttpServletRequest request);
+  ResponseEntity<StandardResponse<Object>> addTaskToUsers(
+      UUID taskId, List<UUID> userIds, HttpServletRequest request);
 
   ResponseEntity<StandardResponse<List<User>>> getUsersByProjectId(
       UUID projectId, HttpServletRequest request);

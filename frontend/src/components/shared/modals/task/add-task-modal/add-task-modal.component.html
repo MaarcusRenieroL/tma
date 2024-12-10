@@ -1,0 +1,142 @@
+<hlm-dialog>
+	<button brnDialogTrigger hlmBtn>Add New Task</button>
+	<hlm-dialog-content class="!max-w-7xl !w-full" *brnDialogContent="let ctx">
+		<hlm-dialog-header>
+			<h3 hlmDialogTitle>Add New Task</h3>
+			<p hlmDialogDescription>Fill in the details below to create a new task.</p>
+		</hlm-dialog-header>
+
+		<form [formGroup]="addTaskForm" (ngSubmit)="onSubmit(ctx)">
+			<div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+				<!-- Title -->
+				<div class="flex flex-col gap-3">
+					<label hlmLabel for="title">Task Title</label>
+					<input hlmInput
+							id="title"
+							placeholder="Enter task title"
+							type="text"
+							formControlName="title"
+							class="w-full" />
+					<p *ngIf="addTaskForm.get('title')?.invalid && addTaskForm.get('title')?.touched"
+						class="text-red-500 text-sm">
+						Title is required.
+					</p>
+				</div>
+
+				<!-- Status -->
+				<div class="flex flex-col gap-3">
+					<label hlmLabel>Status</label>
+					<brn-select formControlName="status">
+						<hlm-select-trigger class="w-full">
+							<hlm-select-value placeholder="Select status" />
+						</hlm-select-trigger>
+						<hlm-select-content>
+							<hlm-option *ngFor="let status of statusOptions" [value]="status.value">
+								{{ status.name }}
+							</hlm-option>
+						</hlm-select-content>
+					</brn-select>
+				</div>
+
+				<!-- Priority -->
+				<div class="flex flex-col gap-3">
+					<label hlmLabel>Priority</label>
+					<brn-select formControlName="priority">
+						<hlm-select-trigger class="w-full">
+							<hlm-select-value placeholder="Select priority" />
+						</hlm-select-trigger>
+						<hlm-select-content>
+							<hlm-option *ngFor="let priority of priorityOptions" [value]="priority.value">
+								{{ priority.name }}
+							</hlm-option>
+						</hlm-select-content>
+					</brn-select>
+				</div>
+
+				<!-- Due Date -->
+				<div class="flex flex-col gap-3">
+					<label hlmLabel for="dueDate">Due Date</label>
+					<input hlmInput
+							id="dueDate"
+							type="date"
+							formControlName="dueDate"
+							class="w-full" />
+					<p *ngIf="addTaskForm.get('dueDate')?.invalid && addTaskForm.get('dueDate')?.touched"
+						class="text-red-500 text-sm">
+						Due date is required.
+					</p>
+				</div>
+
+				<!-- Date Allocated -->
+				<div class="flex flex-col gap-3">
+					<label hlmLabel for="dateAllocated">Date Allocated</label>
+					<input hlmInput
+							id="dateAllocated"
+							type="date"
+							formControlName="dateAllocated"
+							class="w-full" />
+					<p *ngIf="addTaskForm.get('dateAllocated')?.invalid && addTaskForm.get('dateAllocated')?.touched"
+						class="text-red-500 text-sm">
+						Allocation date is required.
+					</p>
+				</div>
+
+				<!-- Project Selection -->
+				<div class="flex flex-col gap-3">
+					<label hlmLabel>Project</label>
+					<brn-select formControlName="projectId">
+						<hlm-select-trigger class="w-full">
+							<hlm-select-value placeholder="Select project" />
+						</hlm-select-trigger>
+						<hlm-select-content>
+							<hlm-option *ngFor="let project of projects" [value]="project.projectId">
+								{{ project.projectTitle }}
+							</hlm-option>
+						</hlm-select-content>
+					</brn-select>
+					<p *ngIf="addTaskForm.get('projectId')?.invalid && addTaskForm.get('projectId')?.touched"
+						class="text-red-500 text-sm">
+						Project selection is required.
+					</p>
+				</div>
+
+        <div class="flex flex-col gap-3">
+          <label hlmLabel>Assigned Users</label>
+          <brn-select formControlName="userIds" [multiple]="true">
+            <hlm-select-trigger class="w-full">
+              <hlm-select-value placeholder="Select users" />
+            </hlm-select-trigger>
+            <hlm-select-content>
+              <hlm-option *ngFor="let user of teamMembers" [value]="user.userId">
+                {{ user.name }}
+              </hlm-option>
+            </hlm-select-content>
+          </brn-select>
+          <p *ngIf="addTaskForm.get('userIds')?.invalid && addTaskForm.get('userIds')?.touched"
+             class="text-red-500 text-sm">
+            Project selection is required.
+          </p>
+        </div>
+
+        <div class="flex flex-col gap-3 col-span-2">
+          <label hlmLabel for="description">Description</label>
+          <textarea hlmInput
+                    id="description"
+                    placeholder="Enter task description"
+                    formControlName="description"
+                    class="w-full h-24"></textarea>
+          <p *ngIf="addTaskForm.get('description')?.invalid && addTaskForm.get('description')?.touched"
+             class="text-red-500 text-sm">
+            Description is required.
+          </p>
+        </div>
+			</div>
+
+			<hlm-dialog-footer class="mt-5">
+				<button hlmBtn variant="outline" (click)="ctx.close()">Cancel</button>
+				<button hlmBtn type="submit" [disabled]="addTaskForm.invalid">Create Task</button>
+			</hlm-dialog-footer>
+		</form>
+	</hlm-dialog-content>
+</hlm-dialog>
+<hlm-toaster />

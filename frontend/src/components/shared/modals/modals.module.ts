@@ -35,6 +35,7 @@ import { NgIcon } from '@ng-icons/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HlmToasterComponent } from '@spartan-ng/ui-sonner-helm';
 import { AddUserToTeamModalComponent } from './team/add-user-to-team-modal/add-user-to-team-modal.component';
+import { AddTaskModalComponent } from './task/add-task-modal/add-task-modal.component';
 
 const components = [
   AddProjectModalComponent,
@@ -42,6 +43,7 @@ const components = [
   AddTeamModalComponent,
   DeleteTeamModalComponent,
   AddUserToTeamModalComponent,
+  AddTaskModalComponent,
 ];
 
 @NgModule({

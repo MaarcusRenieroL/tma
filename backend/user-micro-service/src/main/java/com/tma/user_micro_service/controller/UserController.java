@@ -79,16 +79,16 @@ public class UserController {
   }
 
   @PostMapping("/task/{taskId}")
-  ResponseEntity<StandardResponse<Object>> addTaskToUser(
-      @PathVariable UUID taskId, @RequestBody UUID userId, HttpServletRequest request) {
-    if (taskId == null || userId == null) {
+  ResponseEntity<StandardResponse<Object>> addTaskToUsers(
+      @PathVariable UUID taskId, @RequestBody List<UUID> userIds, HttpServletRequest request) {
+    if (taskId == null || userIds == null) {
       return ResponseUtil.buildErrorMessage(
           HttpStatus.BAD_REQUEST, "Missing Required Fields", request, LocalDateTime.now());
     }
 
     return ResponseUtil.buildSuccessMessage(
         HttpStatus.OK,
-        userService.addTaskToUser(taskId, userId, request).toString(),
+        userService.addTaskToUsers(taskId, userIds, request).toString(),
         null,
         request,
         LocalDateTime.now());

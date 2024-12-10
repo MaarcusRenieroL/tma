@@ -35,8 +35,9 @@
 		
 		<hr/>
 	</div>
-	<div class="w-full mt-5">
+	<div class="w-full mt-5 flex gap-5">
 		<add-project-modal [organizationId]="organizationId" [teamMembers]="teamMembers" />
+		<add-task-modal [projects]="projects" [teamMembers]="teamMembers" [organizationId]="organizationId" />
 	</div>
 	<div class="w-full mt-5">
 		<hlm-tabs tab="overview" class="w-full">
