@@ -114,4 +114,15 @@ export class UserService {
       setupAccountRequest.user
     );
   }
+  
+  deleteUserByUserId(userId: string): Observable<StandardResponse<User>> {
+    return this.http.delete<StandardResponse<User>>(
+      environment.backendAPI + 'users/' + userId,
+      {
+        headers: {
+          Authorization: 'Bearer '+ this.cookieService.get('syncTeam.token'),
+        },
+      }
+    );
+  }
 }

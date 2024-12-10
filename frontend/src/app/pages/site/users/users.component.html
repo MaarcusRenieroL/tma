@@ -1,194 +1,226 @@
-<site-navbar />
+<site-navbar/>
 <main class="p-10">
-  <div class="flex flex-col gap-5">
-    <h1 class="text-2xl font-bold">Users</h1>
-    <hr />
-  </div>
-  <div class="mt-5 w-full">
-    <div class="w-full">
-      <div class="flex justify-between gap-4">
-        <input
-          hlmInput
-          class="w-full md:w-80"
-          placeholder="Filter logs..."
-          [ngModel]="_logFilter()"
-          (ngModelChange)="_rawFilterInput.set($event)"
-        />
-
-        <button hlmBtn variant="outline" align="end" [brnMenuTriggerFor]="menu">
-          <p>Columns</p>
-          <ng-icon name="lucideChevronDown" class="ml-2" />
-        </button>
-        <ng-template #menu>
-          <hlm-menu class="w-fit">
-            @for (column of _brnColumnManager.allColumns; track column.name) {
-              <button
-                hlmMenuItemCheckbox
-                [disabled]="_brnColumnManager.isColumnDisabled(column.name)"
-                [checked]="_brnColumnManager.isColumnVisible(column.name)"
-                (triggered)="_brnColumnManager.toggleVisibility(column.name)"
-              >
-                <hlm-menu-item-check />
-                <span>{{ column.label }}</span>
-              </button>
-            }
-          </hlm-menu>
-        </ng-template>
-      </div>
-
-      <brn-table
-        hlm
-        stickyHeader
-        class="border-border mt-4 block h-[51vh] overflow-auto custom-scrollbar rounded-md border w-full"
-        [dataSource]="_filteredSortedPaginatedUsers()"
-        [displayedColumns]="_allDisplayedColumns()"
-        [trackBy]="_trackBy"
-      >
-        <brn-column-def name="select" class="flex-none">
-          <hlm-th *brnHeaderDef>
-            <hlm-checkbox
-              [checked]="_checkboxState()"
-              (changed)="handleHeaderCheckboxChange()"
-            />
-          </hlm-th>
-          <hlm-td *brnCellDef="let element" class="w-auto">
-            <hlm-checkbox
-              [checked]="_isUserSelected(element)"
-              (changed)="toggleUser(element)"
-            />
-          </hlm-td>
-        </brn-column-def>
-
-        <!-- Columns from Name to SignUp Method: Flex-1 for even spacing -->
-        <brn-column-def name="name" class="flex-1">
-          <hlm-th truncate *brnHeaderDef class="pr-0">
-            <button
-              hlmBtn
-              size="sm"
-              variant="ghost"
-              (click)="handleNameSortChange()"
-              class="p-0"
-            >
-              Name
-              <ng-icon class="ml-3" name="lucideArrowUpDown" />
-            </button>
-          </hlm-th>
-          <hlm-td truncate *brnCellDef="let element" class="w-auto">
-            {{ element.name }}
-          </hlm-td>
-        </brn-column-def>
-
-        <brn-column-def name="email" class="flex-1">
-          <hlm-th *brnHeaderDef>Email</hlm-th>
-          <hlm-td truncate *brnCellDef="let element" class="w-auto">
-            {{ element.email }}
-          </hlm-td>
-        </brn-column-def>
-
-        <brn-column-def name="userName" class="flex-1">
-          <hlm-th *brnHeaderDef>Username</hlm-th>
-          <hlm-td truncate *brnCellDef="let element" class="w-auto">
-            {{ element.userName }}
-          </hlm-td>
-        </brn-column-def>
-
-        <brn-column-def name="signUpMethod" class="flex-1">
-          <hlm-th *brnHeaderDef>SignUp Method</hlm-th>
-          <hlm-td truncate *brnCellDef="let element" class="w-auto">
-            {{ element.signUpMethod }}
-          </hlm-td>
-        </brn-column-def>
-
-        <!-- Actions column with flex-none to keep it at the right -->
-        <brn-column-def name="actions" class="flex-none">
-          <hlm-th *brnHeaderDef></hlm-th>
-          <hlm-td *brnCellDef="let element" class="w-auto">
-            <button
-              hlmBtn
-              variant="ghost"
-              size="icon"
-              align="end"
-              [brnMenuTriggerFor]="menu"
-            >
-              <ng-icon name="heroEllipsisHorizontal" />
-            </button>
-
-            <ng-template #menu>
-              <hlm-menu>
-                <hlm-menu-label>Actions</hlm-menu-label>
-                <hlm-menu-separator />
-                <hlm-menu-group>
-                  <button hlmMenuItem>Copy Action</button>
-                </hlm-menu-group>
-                <hlm-menu-separator />
-                <button hlmMenuItem>View User</button>
-              </hlm-menu>
-            </ng-template>
-          </hlm-td>
-        </brn-column-def>
-
-        <div
-          class="flex items-center justify-center p-20 text-muted-foreground"
-          brnNoDataRow
-        >
-          No data
-        </div>
-      </brn-table>
-
-      <div
-        class="flex flex-col justify-between mt-4 sm:flex-row sm:items-center"
-        *brnPaginator="
+	<div class="flex flex-col gap-5">
+		<h1 class="text-2xl font-bold">Users</h1>
+		<hr/>
+	</div>
+	<div class="mt-5 w-full">
+		<div class="w-full">
+			<div class="flex justify-between gap-4">
+				<input
+					hlmInput
+					class="w-full md:w-80"
+					placeholder="Filter logs..."
+					[ngModel]="_logFilter()"
+					(ngModelChange)="_rawFilterInput.set($event)"
+				/>
+				
+				<button hlmBtn variant="outline" align="end" [brnMenuTriggerFor]="menu">
+					<p>Columns</p>
+					<ng-icon name="lucideChevronDown" class="ml-2"/>
+				</button>
+				<ng-template #menu>
+					<hlm-menu class="w-fit">
+						@for (column of _brnColumnManager.allColumns; track column.name) {
+							<button
+								hlmMenuItemCheckbox
+								[disabled]="_brnColumnManager.isColumnDisabled(column.name)"
+								[checked]="_brnColumnManager.isColumnVisible(column.name)"
+								(triggered)="_brnColumnManager.toggleVisibility(column.name)"
+							>
+								<hlm-menu-item-check/>
+								<span>{{ column.label }}</span>
+							</button>
+						}
+					</hlm-menu>
+				</ng-template>
+			</div>
+			
+			<brn-table
+				hlm
+				stickyHeader
+				class="border-border mt-4 block h-[51vh] overflow-auto custom-scrollbar rounded-md border w-full"
+				[dataSource]="_filteredSortedPaginatedUsers()"
+				[displayedColumns]="_allDisplayedColumns()"
+				[trackBy]="_trackBy"
+			>
+				<brn-column-def name="select" class="flex-none">
+					<hlm-th *brnHeaderDef>
+						<hlm-checkbox
+							[checked]="_checkboxState()"
+							(changed)="handleHeaderCheckboxChange()"
+						/>
+					</hlm-th>
+					<hlm-td *brnCellDef="let element" class="w-auto">
+						<hlm-checkbox
+							[checked]="_isUserSelected(element)"
+							(changed)="toggleUser(element)"
+						/>
+					</hlm-td>
+				</brn-column-def>
+				
+				<!-- Columns from Name to SignUp Method: Flex-1 for even spacing -->
+				<brn-column-def name="name" class="flex-1">
+					<hlm-th truncate *brnHeaderDef class="pr-0">
+						<button
+							hlmBtn
+							size="sm"
+							variant="ghost"
+							(click)="handleNameSortChange()"
+							class="p-0"
+						>
+							Name
+							<ng-icon class="ml-3" name="lucideArrowUpDown"/>
+						</button>
+					</hlm-th>
+					<hlm-td truncate *brnCellDef="let element" class="w-auto">
+						{{ element.name }}
+					</hlm-td>
+				</brn-column-def>
+				
+				<brn-column-def name="email" class="flex-1">
+					<hlm-th *brnHeaderDef>Email</hlm-th>
+					<hlm-td truncate *brnCellDef="let element" class="w-auto">
+						{{ element.email }}
+					</hlm-td>
+				</brn-column-def>
+				
+				<brn-column-def name="username" class="flex-1">
+					<hlm-th *brnHeaderDef>Username</hlm-th>
+					<hlm-td truncate *brnCellDef="let element" class="w-auto">
+						{{ element.username }}
+					</hlm-td>
+				</brn-column-def>
+				
+				<brn-column-def name="role" class="flex-1">
+					<hlm-th *brnHeaderDef>Role</hlm-th>
+					<hlm-td truncate *brnCellDef="let element" class="w-auto">
+						{{ element.role }}
+					</hlm-td>
+				</brn-column-def>
+				
+				<!-- Actions column with flex-none to keep it at the right -->
+				<brn-column-def name="actions" class="flex-none">
+					<hlm-th *brnHeaderDef>Actions</hlm-th>
+					<hlm-td *brnCellDef="let element" class="w-auto">
+						<hlm-dialog>
+							<button brnDialogTrigger hlmBtn variant="link" size="icon">
+								<ng-icon name="bootstrapEye"/>
+							</button>
+							<hlm-dialog-content *brnDialogContent="let ctx" class="max-w-7xl">
+								<hlm-dialog-header class="w-full">
+									<h3 class="text-2xl font-bold">{{ element.name }}</h3>
+									<p hlmDialogDescription>{{ "Role: " + element.role.split('_')[1] }}</p>
+								</hlm-dialog-header>
+								<div class="w-full flex flex-col gap-5">
+									<div hlmAlert class="w-full flex items-center">
+										<ng-icon hlmAlertIcon name="lucideAlertCircle"/>
+										<div>
+											<h4 hlmAlertTitle>Availability</h4>
+											<p hlmAlertDesc>
+												available
+											</p>
+										</div>
+									</div>
+									<h1 class="text-xl font-bold">Contact Information</h1>
+									<div class="grid grid-cols-1 lg:grid-cols-3 gap-5 w-full">
+										<div hlmCard class="w-full">
+											<div hlmCardHeader class="w-full">
+												<h3 hlmCardTitle>Email</h3>
+											</div>
+											<div hlmCardContent class="w-full">
+												<p>{{ element.email }}</p>
+											</div>
+										</div>
+										<div hlmCard class="w-full">
+											<div hlmCardHeader class="w-full">
+												<h3 hlmCardTitle>Chat</h3>
+											</div>
+											<div hlmCardContent class="w-full">
+												<p>{{ element.username }}</p>
+											</div>
+										</div>
+										<div hlmCard class="w-full">
+											<div hlmCardHeader class="w-full">
+												<h3 hlmCardTitle>Location</h3>
+											</div>
+											<div hlmCardContent class="w-full">
+												<p>{{ element.location }}</p>
+											</div>
+										</div>
+									</div>
+								</div>
+								<hlm-dialog-footer>
+									<button hlmBtn variant="secondary" (click)="ctx.close()">Cancel</button>
+                  <delete-user-modal *ngIf="cookieService.get('syncTeam.userId') !== element.userId" [userId]="element.userId" />
+								</hlm-dialog-footer>
+							</hlm-dialog-content>
+						</hlm-dialog>
+					</hlm-td>
+				</brn-column-def>
+				
+				<div
+					class="flex items-center justify-center p-20 text-muted-foreground"
+					brnNoDataRow
+				>
+					No data
+				</div>
+			</brn-table>
+			
+			<div
+				class="flex flex-col justify-between mt-4 sm:flex-row sm:items-center"
+				*brnPaginator="
           let ctx;
           totalElements: _totalElements();
           pageSize: _pageSize();
           onStateChange: _onStateChange
         "
-      >
+			>
         <span class="text-muted text-sm">
           {{ _selected().length }} of {{ _totalElements() }} row(s)
           selected
         </span>
-        <div class="mt-2 flex items-center gap-5 sm:mt-0">
-          <button hlmBtn variant="outline" align="end" size="sm" [brnMenuTriggerFor]="pageSizeTrigger">
-            <p>{{ _pageSize() === 10000 ? "All" : _pageSize() }}</p>
-            <ng-icon name="lucideChevronDown" class="ml-2" />
-          </button>
-          <ng-template #pageSizeTrigger>
-            <hlm-menu class="w-fit">
-              @for (size of _availablePageSizes; track size) {
-                <button
-                  hlmMenuItemCheckbox
-                  (click)="onOptionForPageSize(size)"
-                >
-                  <hlm-menu-item-check />
-                  <span>{{ size === 10000 ? "All" : size }}</span>
-                </button>
-              }
-            </hlm-menu>
-          </ng-template>
-
-          <div class="flex space-x-1">
-            <button
-              size="sm"
-              variant="outline"
-              hlmBtn
-              [disabled]="!ctx.decrementable()"
-              (click)="ctx.decrement()"
-            >
-              Previous
-            </button>
-            <button
-              size="sm"
-              variant="outline"
-              hlmBtn
-              [disabled]="!ctx.incrementable()"
-              (click)="ctx.increment()"
-            >
-              Next
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+				<div class="mt-2 flex items-center gap-5 sm:mt-0">
+					<button hlmBtn variant="outline" align="end" size="sm" [brnMenuTriggerFor]="pageSizeTrigger">
+						<p>{{ _pageSize() === 10000 ? "All" : _pageSize() }}</p>
+						<ng-icon name="lucideChevronDown" class="ml-2"/>
+					</button>
+					<ng-template #pageSizeTrigger>
+						<hlm-menu class="w-fit">
+							@for (size of _availablePageSizes; track size) {
+								<button
+									hlmMenuItemCheckbox
+									(click)="onOptionForPageSize(size)"
+								>
+									<hlm-menu-item-check/>
+									<span>{{ size === 10000 ? "All" : size }}</span>
+								</button>
+							}
+						</hlm-menu>
+					</ng-template>
+					
+					<div class="flex space-x-1">
+						<button
+							size="sm"
+							variant="outline"
+							hlmBtn
+							[disabled]="!ctx.decrementable()"
+							(click)="ctx.decrement()"
+						>
+							Previous
+						</button>
+						<button
+							size="sm"
+							variant="outline"
+							hlmBtn
+							[disabled]="!ctx.incrementable()"
+							(click)="ctx.increment()"
+						>
+							Next
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </main>

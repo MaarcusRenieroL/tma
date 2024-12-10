@@ -19,6 +19,7 @@ import { User } from '../../../models/user';
 import { UserService } from '../../../services/user/user.service';
 import { CookieService } from 'ngx-cookie-service';
 import { toast } from 'ngx-sonner';
+import { OrganizationService } from "../../../services/organization/organization.service";
 
 @Component({
   selector: 'users',
@@ -26,6 +27,7 @@ import { toast } from 'ngx-sonner';
 })
 export class UsersComponent implements OnInit {
   users: User[] = [];
+  organizationName?: string;
 
   protected readonly _rawFilterInput = signal('');
   protected readonly _logFilter = signal('');
@@ -48,8 +50,8 @@ export class UsersComponent implements OnInit {
   protected readonly _brnColumnManager = useBrnColumnManager({
     name: { visible: true, label: 'Name' },
     email: { visible: true, label: 'Email' },
-    userName: { visible: true, label: 'Username' },
-    signUpMethod: { visible: true, label: 'Signup Method' },
+    username: { visible: true, label: 'Username' },
+    role: { visible: true, label: "Role" }
   });
 
   protected readonly _allDisplayedColumns = computed(() => [
@@ -119,7 +121,8 @@ export class UsersComponent implements OnInit {
 
   constructor(
     private userService: UserService,
-    private cookieService: CookieService
+    protected cookieService: CookieService,
+    private organizationService: OrganizationService
   ) {
     effect(() => this._logFilter.set(this._debouncedFilter() ?? ''), {
       allowSignalWrites: true,
@@ -160,6 +163,13 @@ export class UsersComponent implements OnInit {
       .subscribe((response) => {
         if (response) {
           if (response.statusCode === 200) {
+            
+            this.organizationService.getOrganizationByOrganizationId(response.data.organizationId).subscribe((response) => {
+              this.organizationName = response.data.name;
+            })
+            
+            console.log([400, 401, 402, 403, 404, 405, 500].includes(response.statusCode)
+            )
             this.userService
               .getUsersByOrganizationId(response.data.organizationId)
               .subscribe((response) => {
@@ -184,5 +194,11 @@ export class UsersComponent implements OnInit {
           }
         }
       });
+    
+    console.log(this.organizationName)
+  }
+  
+  delete(userId: string) {
+    console.log(userId);
   }
 }

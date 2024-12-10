@@ -9,11 +9,18 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserResponse {
+  
   private UUID userId;
+  
   private String username;
+  
   private String name;
+  
   private String email;
+  
   private String location;
+  
   private String role;
+  
   private UUID organizationId;
 }

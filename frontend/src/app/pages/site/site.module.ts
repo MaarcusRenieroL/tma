@@ -32,6 +32,15 @@ import { lucideChevronDown } from "@ng-icons/lucide";
 import { HTTP_INTERCEPTORS } from "@angular/common/http";
 import { AuthInterceptor } from "../../../auth.interceptor";
 import { HlmToasterComponent } from "@spartan-ng/ui-sonner-helm";
+import { BrnHoverCardComponent, BrnHoverCardTriggerDirective } from "@spartan-ng/ui-hovercard-brain";
+import {
+	HlmAlertDescriptionDirective,
+	HlmAlertDirective,
+	HlmAlertIconDirective,
+	HlmAlertTitleDirective
+} from "@spartan-ng/ui-alert-helm";
+import { HlmAvatarComponent, HlmAvatarFallbackDirective, HlmAvatarImageDirective } from "@spartan-ng/ui-avatar-helm";
+import { HlmHoverCardContentComponent } from "@spartan-ng/ui-hovercard-helm";
 
 const components = [ ActivityLogsComponent, NotificationsComponent, ProjectsComponent, TasksComponent, TeamsComponent, UsersComponent ]
 
@@ -45,7 +54,7 @@ const components = [ ActivityLogsComponent, NotificationsComponent, ProjectsComp
 		HlmButtonDirective,
 		HlmInputModule, FormsModule, HlmMenuModule, BrnMenuModule, NgIconsModule.withIcons({
 			lucideChevronDown
-		}), HlmTableModule, BrnTableModule, HlmCheckboxModule, DatePipe, HlmTabsModule, BrnTabsModule, HlmCardModule, CommonModule, SharedModule, HlmDialogModule, BrnDialogModule, RouterLink, ModalsModule, CardsModule, HlmToasterComponent ],
+		}), HlmTableModule, BrnTableModule, HlmCheckboxModule, DatePipe, HlmTabsModule, BrnTabsModule, HlmCardModule, CommonModule, SharedModule, HlmDialogModule, BrnDialogModule, RouterLink, ModalsModule, CardsModule, HlmToasterComponent, BrnHoverCardComponent, BrnHoverCardTriggerDirective, HlmAlertDescriptionDirective, HlmAlertDirective, HlmAlertIconDirective, HlmAlertTitleDirective, HlmAvatarComponent, HlmAvatarFallbackDirective, HlmAvatarImageDirective, HlmHoverCardContentComponent ],
 	exports: [ ...components, ProjectModule, TeamModule, SettingsModule, DashboardModule ],
 	providers: [
 		{
