@@ -29,4 +29,6 @@ public interface TaskService {
 
   ResponseEntity<StandardResponse<List<Task>>> getTaskByProjectId(
       UUID projectId, HttpServletRequest request);
+	
+	ResponseEntity<StandardResponse<List<Task>>> getTasksByOrganizationId(UUID organizationId, HttpServletRequest request);
 }

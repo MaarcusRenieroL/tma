@@ -6,6 +6,7 @@ import { toast } from 'ngx-sonner';
 import { OrganizationService } from '../../../services/organization/organization.service';
 import { Organization } from '../../../models/organization';
 import { Task } from "../../../models/task";
+import { TaskService } from "../../../services/task/task.service";
 
 @Component({
   selector: 'dashboard',
@@ -13,13 +14,14 @@ import { Task } from "../../../models/task";
 })
 export class DashboardComponent implements OnInit {
   organization: Organization | null = null;
-  tasks: Task[] | null = null;
+  tasks: Task[] = [];
 
   constructor(
     private router: Router,
     private cookieService: CookieService,
     private userService: UserService,
-    private organizationService: OrganizationService
+    private organizationService: OrganizationService,
+    private taskService: TaskService
   ) {}
 
   ngOnInit() {
@@ -34,6 +36,20 @@ export class DashboardComponent implements OnInit {
       if (response) {
         if (response.statusCode === 200) {
           toast.success(response.message);
+          
+          this.taskService.getTasksByOrganizationId(response.data.organizationId).subscribe((response) => {
+            if (response) {
+              if (response.statusCode === 200) {
+                toast.success(response.message);
+                
+                this.tasks = response.data;
+              } else if ([400, 401, 402, 403, 404, 405, 500].includes(response.statusCode)) {
+                toast.error(response.message);
+              }
+            } else {
+              toast.error("Something went wrong")
+            }
+          })
 
           this.organizationService
             .getOrganizationByOrganizationId(response.data.organizationId)
@@ -64,6 +80,9 @@ export class DashboardComponent implements OnInit {
       }
     });
     
+    
+    
+    console.log(this.tasks)
     
   }
 }

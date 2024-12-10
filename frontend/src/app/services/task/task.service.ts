@@ -40,4 +40,15 @@ export class TaskService {
       }
     );
   }
+  
+  getTasksByOrganizationId(organizationId:string): Observable<StandardResponse<Task[]>> {
+    return this.http.get<StandardResponse<Task[]>>(
+      environment.backendAPI + 'tasks/organization/' + organizationId,
+      {
+        headers: {
+          Authorization: 'Bearer'+ this.cookieService.get('syncTeam.token'),
+        },
+      }
+    );
+  }
 }

@@ -153,4 +153,15 @@ public class TaskServiceImpl implements TaskService {
     return ResponseUtil.buildSuccessMessage(
         HttpStatus.OK, "Tasks fetched successfully", tasks, request, LocalDateTime.now());
   }
+  
+  public ResponseEntity<StandardResponse<List<Task>>> getTasksByOrganizationId(UUID organizationId, HttpServletRequest request) {
+    
+    if (organizationId == null) {
+      return ResponseUtil.buildErrorMessage(HttpStatus.BAD_REQUEST, "Missing required fields", request, LocalDateTime.now());
+    }
+    
+    List<Task> tasks = taskRepository.findByOrganizationId(organizationId);
+    
+    return ResponseUtil.buildSuccessMessage(HttpStatus.OK, "Tasks fetched successfully", tasks, request, LocalDateTime.now());
+  }
 }

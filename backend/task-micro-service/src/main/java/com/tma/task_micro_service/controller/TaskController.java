@@ -63,4 +63,9 @@ public class TaskController {
       @PathVariable UUID projectId, HttpServletRequest request) {
     return taskService.getTaskByProjectId(projectId, request);
   }
+  
+  @GetMapping("organization/{organizationId}")
+  public ResponseEntity<StandardResponse<List<Task>>> getTasksByOrganizationId(@PathVariable UUID organizationId, HttpServletRequest request) {
+    return taskService.getTasksByOrganizationId(organizationId, request);
+  }
 }
