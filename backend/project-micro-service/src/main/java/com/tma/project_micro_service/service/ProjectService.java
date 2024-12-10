@@ -32,4 +32,6 @@ public interface ProjectService {
 
   ResponseEntity<StandardResponse<List<User>>> getUsersForProject(
       UUID projectId, HttpServletRequest request);
+	
+	ResponseEntity<StandardResponse<List<Project>>> getProjectsByOrganizationId(UUID organizationId, HttpServletRequest request);
 }

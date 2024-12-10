@@ -57,4 +57,9 @@ public class ProjectController {
       @PathVariable UUID teamId, HttpServletRequest request) {
     return projectService.getProjectsByTeamId(teamId, request);
   }
+  
+  @GetMapping("/organization/{organizationId}")
+  public ResponseEntity<StandardResponse<List<Project>>> getProjectsByOrganizationId(@PathVariable UUID organizationId, HttpServletRequest request) {
+    return projectService.getProjectsByOrganizationId(organizationId, request);
+  }
 }

@@ -250,4 +250,12 @@ public class ProjectServiceImpl implements ProjectService {
           LocalDateTime.now());
     }
   }
+  
+  public ResponseEntity<StandardResponse<List<Project>>> getProjectsByOrganizationId(UUID organizationId, HttpServletRequest request) {
+    if (organizationId == null) {
+      return ResponseUtil.buildErrorMessage(HttpStatus.BAD_REQUEST, "Missing required fields", request, LocalDateTime.now());
+    }
+    
+    return ResponseUtil.buildSuccessMessage(HttpStatus.OK, "Projects fetched successfully", projectRepository.findProjectsByOrganizationId(organizationId), request, LocalDateTime.now());
+  }
 }

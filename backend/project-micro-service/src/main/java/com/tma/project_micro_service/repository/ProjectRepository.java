@@ -7,4 +7,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface ProjectRepository extends JpaRepository<Project, UUID> {
   List<Project> findProjectsByTeamId(UUID teamId);
+  
+  List<Project> findProjectsByOrganizationId(UUID organizationId);
 }

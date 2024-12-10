@@ -40,4 +40,14 @@ export class ProjectService {
       }
     );
   }
+  
+  getProjectsByOrganizationId(organizationId: string): Observable<StandardResponse<Project[]>> {
+    return this.http.get<StandardResponse<Project[]>>(
+      `${environment.backendAPI}projects/organization/${organizationId}`, {
+        headers: {
+          "Authorization": 'Bearer '+ this.cookieService.get('syncTeam.token'),
+        }
+      }
+    );
+  }
 }

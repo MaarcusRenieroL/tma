@@ -1,11 +1,19 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Project } from '../../../models/project';
+import { CookieService } from "ngx-cookie-service";
+import { ProjectService } from "../../../services/projects/project.service";
+import { UserService } from "../../../services/user/user.service";
+import { toast } from "ngx-sonner";
 
 @Component({
   selector: 'app-projects',
   templateUrl: './projects.component.html',
 })
-export class ProjectsComponent {
+export class ProjectsComponent implements OnInit {
+  
+  constructor(private cookieService: CookieService, private projectService: ProjectService, private userService: UserService) {
+  }
+  
   projects: Project[] = [];
 
   statusOptions = [
@@ -32,7 +40,6 @@ export class ProjectsComponent {
   ];
 
   searchQuery: string = '';
-  selectedCategory!: string;
   selectedStatus!: string;
   selectedSortBy!: string;
 
@@ -112,5 +119,33 @@ export class ProjectsComponent {
     this.selectedStatus = '';
     this.selectedSortBy = '';
     this.applyFilters();
+  }
+  
+  ngOnInit() {
+    this.userService.getUserByUserId(this.cookieService.get("syncTeam.userId")).subscribe((response) => {
+      if (response) {
+        if (response.statusCode === 200) {
+          this.projectService.getProjectsByOrganizationId(response.data.organizationId).subscribe((response) => {
+            if (response) {
+              if (response.statusCode === 200) {
+                this.projects = response.data;
+                
+                this.projects.forEach((project) => {
+                  if (project.userIds.includes(this.cookieService.get("syncTeam.userId"))) {
+                    this.filteredProjects.push(project);
+                  }
+                })
+                
+                toast.success(response.message);
+              } else if ([400, 401, 402, 403, 404, 405, 500].includes(response.statusCode)) {
+                toast.error(response.message);
+              }
+            } else {
+              toast.error("Something went wrong");
+            }
+          })
+        }
+      }
+    })
   }
 }

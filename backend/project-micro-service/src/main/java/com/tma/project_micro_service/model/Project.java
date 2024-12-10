@@ -25,6 +25,8 @@ public class Project {
   private LocalDate deadline;
 
   private UUID teamId;
+  
+  private UUID organizationId;
 
   @ElementCollection private List<UUID> taskIds;
 
